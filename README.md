@@ -5,6 +5,12 @@ sTandalone is a combination of different modifications for Terraria 1.4.0.5 by m
 
 **Note**: sTandalone is currently unreleased and likely won't be released for a while.
 
+## Contributing
+
+Want to contribute? Great!
+
+### [Just click **here**!](https://github.com/Steviegt6/sTandalone/wiki/Contributing)
+
 ## Get in touch
 
 If you would like to contact myself, it's best to join my [Discord server](https://discord.com/invite/qrZ4Bpz) or contact me through Discord directly (convicted tomatophile (Stevie)#9616). To use Discord you will need to register a new account on [their website](https://discordapp.com/).

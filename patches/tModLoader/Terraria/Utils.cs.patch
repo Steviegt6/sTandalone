@@ -1,55 +1,22 @@
---- src/Terraria/Terraria/Utils.cs
-+++ src/tModLoader/Terraria/Utils.cs
-@@ -22,7 +_,7 @@
- 
- namespace Terraria
- {
--	public static class Utils
-+	public static partial class Utils
- 	{
- 		public delegate bool TileActionAttempt(int x, int y);
- 
-@@ -251,6 +_,12 @@
- 								num2 -= 16;
- 
- 							int num3 = Math.Min(list3[l].Text.Length, num2 / 8);
-+							for (int i = 0; i < list3[l].Text.Length; i++) {
-+								// TODO: hypen?, more efficient, binary search?, use ChatManager.GetStringSize to support other tags better.
-+								if (font.MeasureString(list3[l].Text.Substring(0, i)).X * list3[l].Scale < num2)
-+									num3 = i;
-+							}
-+
- 							if (num3 < 0)
- 								num3 = 0;
- 
-@@ -258,7 +_,8 @@
- 							int num4 = num3;
- 							if (array3.Length > 1) {
- 								num4 = 0;
-+								// `num4 == 0 ||` solves the longworld + small word problem.
--								for (int m = 0; m < array3.Length && num4 + array3[m].Length <= num3; m++) {
-+								for (int m = 0; num4 == 0 || m < array3.Length && num4 + array3[m].Length <= num3; m++) {
- 									num4 += array3[m].Length + 1;
- 								}
- 
-@@ -1120,14 +_,17 @@
- 				text.Substring(0, maxCharactersDisplayed);
- 
- 			DynamicSpriteFont value = FontAssets.DeathText.Value;
-+			/*
- 			for (int i = -1; i < 2; i++) {
- 				for (int j = -1; j < 2; j++) {
--					spriteBatch.DrawString(value, text, pos + new Vector2(i, j), Color.Black, 0f, new Vector2(anchorx, anchory) * value.MeasureString(text), scale, SpriteEffects.None, 0f);
-+					spriteBatch.DrawString(value, text, pos + new Vector2((float)i, (float)j), Color.Black, 0f, new Vector2(anchorx, anchory) * value.MeasureString(text), scale, SpriteEffects.None, 0f);
- 				}
- 			}
--
- 			spriteBatch.DrawString(value, text, pos, color, 0f, new Vector2(anchorx, anchory) * value.MeasureString(text), scale, SpriteEffects.None, 0f);
--			return value.MeasureString(text) * scale;
-+			*/
-+			Vector2 vector = ChatManager.GetStringSize(value, text, Vector2.One);
-+			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, value, text, pos, color, 0f, new Vector2(anchorx, anchory) * vector, new Vector2(scale), -1f, 2f);
-+			return vector * scale;
+--- src/decompiled/Terraria/Utils.cs
++++ src/Terraria/Terraria/Utils.cs
+@@ -512,8 +_,18 @@
  		}
  
- 		public static void DrawInvBG(SpriteBatch sb, Rectangle R, Color c = default(Color)) {
+ 		public static void OpenFolder(string folderPath) {
+-			if (TryCreatingDirectory(folderPath))
++			if (TryCreatingDirectory(folderPath)) {
++#if !LINUX
+ 				Process.Start(folderPath);
++#else
++				Process.Start(new ProcessStartInfo(folderPath) {
++					FileName = "open-folder",
++					Arguments = folderPath,
++					UseShellExecute = true,
++					CreateNoWindow = true
++				});
++#endif
++			}
+ 		}
+ 
+ 		public static byte[] ToByteArray(this string str) {

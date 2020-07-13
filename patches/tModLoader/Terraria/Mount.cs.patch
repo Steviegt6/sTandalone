@@ -1,223 +1,26 @@
---- src/Terraria/Terraria/Mount.cs
-+++ src/tModLoader/Terraria/Mount.cs
-@@ -10,6 +_,7 @@
- using Terraria.GameContent.Drawing;
- using Terraria.Graphics.Shaders;
- using Terraria.ID;
-+using Terraria.ModLoader;
- 
- namespace Terraria
- {
-@@ -76,8 +_,9 @@
- 			}
- 		}
- 
--		private class MountData
-+		public class MountData
- 		{
-+			public ModMountData modMountData {get;set;}
- 			public Asset<Texture2D> backTexture = Asset<Texture2D>.Empty;
- 			public Asset<Texture2D> backTextureGlow = Asset<Texture2D>.Empty;
- 			public Asset<Texture2D> backTextureExtra = Asset<Texture2D>.Empty;
-@@ -154,7 +_,7 @@
- 		public const int DrawBackExtra = 1;
- 		public const int DrawFront = 2;
- 		public const int DrawFrontExtra = 3;
--		private static MountData[] mounts;
-+		public static MountData[] mounts;
- 		private static Vector2[] scutlixEyePositions;
- 		private static Vector2 scutlixTextureSize;
- 		public const int scutlixBaseDamage = 50;
-@@ -168,28 +_,28 @@
- 		public static int drillBeamCooldownMax = 1;
- 		public const float maxDrillLength = 48f;
- 		private static Vector2 santankTextureSize;
--		private MountData _data;
-+		public MountData _data;
--		private int _type;
-+		public int _type;
--		private bool _flipDraw;
-+		public bool _flipDraw;
--		private int _frame;
-+		public int _frame;
--		private float _frameCounter;
-+		public float _frameCounter;
--		private int _frameExtra;
-+		public int _frameExtra;
--		private float _frameExtraCounter;
-+		public float _frameExtraCounter;
--		private int _frameState;
-+		public int _frameState;
--		private int _flyTime;
-+		public int _flyTime;
--		private int _idleTime;
-+		public int _idleTime;
--		private int _idleTimeNext;
-+		public int _idleTimeNext;
--		private float _fatigue;
-+		public float _fatigue;
--		private float _fatigueMax;
-+		public float _fatigueMax;
--		private bool _abilityCharging;
-+		public bool _abilityCharging;
--		private int _abilityCharge;
-+		public int _abilityCharge;
--		private int _abilityCooldown;
-+		public int _abilityCooldown;
--		private int _abilityDuration;
-+		public int _abilityDuration;
--		private bool _abilityActive;
-+		public bool _abilityActive;
--		private bool _aiming;
-+		public bool _aiming;
- 		public List<DrillDebugDraw> _debugDraw;
--		private object _mountSpecificData;
-+		public object _mountSpecificData;
--		private bool _active;
-+		public bool _active;
- 		private MountDelegatesData _defaultDelegatesData = new MountDelegatesData();
- 
- 		public bool Active => _active;
-@@ -2000,13 +_,13 @@
- 		}
- 
- 		public static int GetHeightBoost(int MountType) {
--			if (MountType <= -1 || MountType >= MountID.Count)
-+			if (MountType <= -1 || MountType >= mounts.Length)
- 				return 0;
- 
- 			return mounts[MountType].heightBoost;
- 		}
- 
--		public int JumpHeight(float xVelocity) {
-+		public int JumpHeight(Player player, float xVelocity) {
- 			int num = _data.jumpHeight;
- 			switch (_type) {
- 				case 0:
-@@ -2022,10 +_,11 @@
- 					break;
+--- src/decompiled/Terraria/Mount.cs
++++ src/Terraria/Terraria/Mount.cs
+@@ -977,9 +_,11 @@
  			}
  
-+			MountLoader.JumpHeight(player, _data, ref num, xVelocity);
- 			return num;
- 		}
+ 			drillTextureSize = new Vector2(80f, 80f);
++#if CLIENT
+ 			Vector2 value = new Vector2(mountData.textureWidth, mountData.textureHeight / mountData.totalFrames);
+ 			if (drillTextureSize != value)
+ 				throw new Exception("Be sure to update the Drill texture origin to match the actual texture size of " + mountData.textureWidth + ", " + mountData.textureHeight + ".");
++#endif
  
--		public float JumpSpeed(float xVelocity) {
-+		public float JumpSpeed(Player player, float xVelocity) {
- 			float num = _data.jumpSpeed;
- 			switch (_type) {
- 				case 0:
-@@ -2039,6 +_,7 @@
- 					break;
- 			}
+ 			mountData = new MountData();
+ 			mounts[9] = mountData;
+@@ -1049,9 +_,11 @@
+ 			scutlixEyePositions[8] = new Vector2(70f, 34f);
+ 			scutlixEyePositions[9] = new Vector2(76f, 34f);
+ 			scutlixTextureSize = new Vector2(45f, 54f);
++#if CLIENT
+ 			Vector2 value2 = new Vector2(mountData.textureWidth / 2, mountData.textureHeight / mountData.totalFrames);
+ 			if (scutlixTextureSize != value2)
+ 				throw new Exception("Be sure to update the Scutlix texture origin to match the actual texture size of " + mountData.textureWidth + ", " + mountData.textureHeight + ".");
++#endif
  
-+			MountLoader.JumpSpeed(player, _data, ref num, xVelocity);
- 			return num;
- 		}
- 
-@@ -2477,6 +_,9 @@
- 		private Vector2 GetWitchBroomTrinketOriginOffset(Player player) => new Vector2(27 * player.direction, 5f);
- 
- 		public void UpdateFrame(Player mountedPlayer, int state, Vector2 velocity) {
-+			if (!MountLoader.UpdateFrame(mountedPlayer, state, velocity))
-+				return;
-+
- 			if (_frameState != state) {
- 				_frameState = state;
- 				_frameCounter = 0f;
-@@ -3205,7 +_,7 @@
- 
- 			Tile tileSafely = Framing.GetTileSafely(p.X, p.Y);
- 			if (WorldGen.SolidTile(p)) {
--				int num = WorldGen.KillTile_GetTileDustAmount(fail: true, tileSafely);
-+				int num = WorldGen.KillTile_GetTileDustAmount(true, tileSafely, p.X, p.Y);
- 				if (num > 1)
- 					num = 1;
- 
-@@ -3314,6 +_,7 @@
- 
- 		public void UpdateEffects(Player mountedPlayer) {
- 			mountedPlayer.autoJump = AutoJump;
-+			MountLoader.UpdateEffects(mountedPlayer);
- 			switch (_type) {
- 				case 13:
- 				case 15:
-@@ -3482,10 +_,13 @@
- 						else
- 							Lighting.AddLight(mountedPlayer.Center + Vector2.UnitX * mountedPlayer.direction * 20f, vector7.X, vector7.Y, vector7.Z);
- 
-+						mountedPlayer.allDamage += 0.15f;
-+						/*
- 						mountedPlayer.meleeDamage += 0.15f;
- 						mountedPlayer.rangedDamage += 0.15f;
- 						mountedPlayer.magicDamage += 0.15f;
- 						mountedPlayer.minionDamage += 0.15f;
-+						*/
- 					}
- 					if (mountedPlayer.statLife <= mountedPlayer.statLifeMax2 / 2)
- 						mountedPlayer.MountFishronSpecialCounter = 60f;
-@@ -3660,7 +_,7 @@
- 			if (_type == -1)
- 				return;
- 
--			for (int i = 0; i < 22; i++) {
-+			for (int i = 0; i < Player.MaxBuffs; i++) {
- 				if (mountedPlayer.buffType[i] == _data.buff || (Cart && mountedPlayer.buffType[i] == _data.extraBuff))
- 					return;
- 			}
-@@ -3714,6 +_,7 @@
- 
- 		public bool AimAbility(Player mountedPlayer, Vector2 mousePosition) {
- 			_aiming = true;
-+			MountLoader.AimAbility(this, mountedPlayer, mousePosition);
- 			switch (_type) {
- 				case 9: {
- 						int frameExtra = _frameExtra;
-@@ -4156,6 +_,7 @@
- 					break;
- 			}
- 
-+			flag2 = !MountLoader.Draw(this, playerDrawData, drawType, drawPlayer, ref texture2D, ref texture2D2, ref Position, ref value, ref drawColor, ref color, ref num8, ref spriteEffects, ref origin, ref scale, shadow);
- 			if (!flag2) {
- 				item = new DrawData(texture2D, Position, value, drawColor, num8, origin, scale, spriteEffects, 0);
- 				item.shader = currentShader;
-@@ -4294,6 +_,8 @@
- 				bool cart = Cart;
- 				_active = false;
- 				mountedPlayer.ClearBuff(_data.buff);
-+				bool skipDust = false;
-+				MountLoader.Dismount(this, mountedPlayer, ref skipDust);
- 				_mountSpecificData = null;
- 				_ = _type;
- 				if (cart) {
-@@ -4304,7 +_,8 @@
- 
- 				mountedPlayer.fullRotation = 0f;
- 				mountedPlayer.fullRotationOrigin = Vector2.Zero;
-+				if (!skipDust)
--				DoSpawnDust(mountedPlayer, isDismounting: true);
-+					DoSpawnDust(mountedPlayer, isDismounting: true);
- 				Reset();
- 				mountedPlayer.position.Y += mountedPlayer.height;
- 				mountedPlayer.height = 42;
-@@ -4315,7 +_,7 @@
- 		}
- 
- 		public void SetMount(int m, Player mountedPlayer, bool faceLeft = false) {
--			if (_type == m || m <= -1 || m >= MountID.Count || (m == 5 && mountedPlayer.wet))
-+			if (_type == m || m <= -1 || m >= mounts.Length || (m == 5 && mountedPlayer.wet))
- 				return;
- 
- 			if (_active) {
-@@ -4374,7 +_,10 @@
- 			if (_type == 35)
- 				_mountSpecificData = new ExtraFrameMountData();
- 
-+			bool skipDust = false;
-+			MountLoader.SetMount(this, mountedPlayer, ref skipDust);
-+			if (!skipDust)
--			DoSpawnDust(mountedPlayer, isDismounting: false);
-+				DoSpawnDust(mountedPlayer, isDismounting: false);
- 			if (mountedPlayer.whoAmI == Main.myPlayer)
- 				NetMessage.SendData(13, -1, -1, null, mountedPlayer.whoAmI);
- 		}
+ 			for (int num6 = 0; num6 < scutlixEyePositions.Length; num6++) {
+ 				scutlixEyePositions[num6] -= scutlixTextureSize;

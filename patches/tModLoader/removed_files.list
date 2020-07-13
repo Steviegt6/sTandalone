@@ -9,7 +9,6 @@ Terraria\Program.cs
 Terraria\Tile.cs
 Terraria\Utils.cs
 Terraria\WindowsLaunch.cs
-ReLogic\OS\Platform.cs
 Terraria\Audio\ActiveSound.cs
 Terraria\Audio\SoundEngine.cs
 Terraria\Audio\SoundInstanceGarbageCollector.cs
@@ -34,8 +33,6 @@ Terraria\Utilities\CrashDump.cs
 Terraria\Utilities\FileOperationAPIWrapper.cs
 Terraria\Utilities\FileUtilities.cs
 Terraria\Utilities\PlatformUtilities.cs
-ReLogic\Localization\IME\FnaIme.cs
-ReLogic\OS\Windows\PathService.cs
 Terraria\Chat\Commands\SayChatCommand.cs
 Terraria\GameContent\Drawing\TileDrawing.cs
 Terraria\GameContent\Liquid\LiquidRenderer.cs

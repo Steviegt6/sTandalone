@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/Localization/Content/pl-PL/Main.json
++++ src/tModLoader/Terraria/Localization/Content/pl-PL/Main.json
+@@ -693,5 +_,8 @@
+ 	},
+ 	"RandomWorldName_Composition": {
+ 		"6": "{Adjective} {Location}"
++	},
++	"Modded": {
++		"ModdedCategory": "Modded"
+ 	}
+ }

@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/Achievements/AchievementCategory.cs
++++ src/tModLoader/Terraria/Achievements/AchievementCategory.cs
+@@ -6,6 +_,7 @@
+ 		Slayer,
+ 		Collector,
+ 		Explorer,
+-		Challenger
++		Challenger,
++		Modded
+ 	}
+ }

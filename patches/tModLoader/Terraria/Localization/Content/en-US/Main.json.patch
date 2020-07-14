@@ -1,0 +1,92 @@
+--- src/Terraria/Terraria/Localization/Content/en-US/Main.json
++++ src/tModLoader/Terraria/Localization/Content/en-US/Main.json
+@@ -135,7 +_,7 @@
+ 		"NoValidSeed": "This world was generated in an older version that did not support seeds.",
+ 		"DisplaySeed": "World Seed: {0}",
+ 		"SetInitialMaxPlayers": "Max players (press enter for 16): ",
+-		"ServerIsFull": "This server is full right now, please try again later.",
++		"ServerIsFull": "This server is full right now, please try again later."
+ 	},
+ 	"UI": {
+ 		"Effects": "Effects",
+@@ -200,7 +_,7 @@
+ 		"PlayerNameSlot": "Name:",
+ 		"PlayerEmptyName": "{$Net.EmptyName}",
+ 		"Create": "Create",
+-		"SelectMapBorder":  "Minimap Border: {0}",
++		"SelectMapBorder": "Minimap Border: {0}",
+ 		"MinimapFrame_Default": "Default",
+ 		"MinimapFrame_Golden": "Golden",
+ 		"MinimapFrame_Remix": "Remix",
+@@ -210,11 +_,11 @@
+ 		"MinimapFrame_Leaf": "Leaf",
+ 		"MinimapFrame_Retro": "Retro",
+ 		"MinimapFrame_Valkyrie": "Valkyrie",
+-		"SelectHealthStyle":  "Health and Mana Style: {0}",
++		"SelectHealthStyle": "Health and Mana Style: {0}",
+ 		"HealthManaStyle_Default": "Classic",
+ 		"HealthManaStyle_New": "Fancy",
+ 		"HealthManaStyle_HorizontalBars": "Bars",
+-		"SpawnPoint":  "Spawn",
++		"SpawnPoint": "Spawn",
+ 		"SpawnBed": "Home",
+ 		"EmoteCategoryGeneral": "General",
+ 		"EmoteCategoryRPS": "Rock, Paper, Scissors!",
+@@ -308,7 +_,7 @@
+ 		"CannotTeleportToPylonBecauseNotEnoughNPCsAtCurrentPylon": "There are not enough villagers near the current pylon",
+ 		"CannotTeleportToPylonBecauseThereIsDanger": "Defeat the current threat before you can use the pylon network!",
+ 		"CannotTeleportToPylonBecauseNotMeetingBiomeRequirements": "This pylon is not in the correct biome to use",
+-		"CannotTeleportToPylonBecauseAccessingLihzahrdTempleEarly": "Ancient forces prevent you from accessing this location . . .",
++		"CannotTeleportToPylonBecauseAccessingLihzahrdTempleEarly": "Ancient forces prevent you from accessing this location . . ."
+ 
+ 	},
+ 	"GameUI": {
+@@ -419,7 +_,7 @@
+ 		"PotionOfReturnHomePortal": "Return Portal Entrance",
+ 		"Music": "Music",
+ 		"TorchTypeSwapperOn": "Biome torch swap on",
+-		"TorchTypeSwapperOff": "Biome torch swap off",
++		"TorchTypeSwapperOff": "Biome torch swap off"
+ 	},
+ 	"Controls": {
+ 		"LeftClick": "Left Click",
+@@ -850,7 +_,7 @@
+ 		"4": "Land of the Moon",
+ 		"5": "Working Ant's Nest"
+ 	},
+-	
++
+ 	"RandomWorldName_Composition": {
+ 		"1": "The {Adjective} {Location} of {Noun}",
+ 		"2": "The {Adjective} {Location} of {Noun}",
+@@ -862,7 +_,7 @@
+ 		"8": "{Location} of {Noun}"
+ 	},
+ 	"RandomWorldName_Adjective": {
+-"Abandoned": "Abandoned",
++		"Abandoned": "Abandoned",
+ 		"Abhorrent": "Abhorrent",
+ 		"Abusive": "Abusive",
+ 		"Adorable": "Adorable",
+@@ -1474,7 +_,7 @@
+ 		"Yellow": "Yellow",
+ 		"YOLO": "YOLO",
+ 		"Zany": "Zany",
+-		"Zealous": "Zealous",
++		"Zealous": "Zealous"
+ 	},
+ 	"RandomWorldName_Location": {
+ 		"Abode": "Abode",
+@@ -2646,8 +_,11 @@
+ 		"PlayingMulti": "Playing Multi-Player"
+ 	},
+ 
+-	"AssetRejections" : {
++	"AssetRejections": {
+ 		"BadSize": "Textures loaded must match the original size, got ({ActualWidth},{ActualHeight}) but expected ({NeededWidth}, {NeededHeight}).",
+ 		"BadExtension": "Only textures of type '.png' and '.xnb' may be loaded."
++	},
++	"Modded": {
++		"ModdedCategory": "Modded"
+ 	}
+ }

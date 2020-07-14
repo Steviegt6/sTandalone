@@ -1,0 +1,30 @@
+--- src/Terraria/Terraria/Main.cs
++++ src/tModLoader/Terraria/Main.cs
+@@ -175,6 +_,11 @@
+ 			public bool LanternNightActive;
+ 		}
+ 
++		//STANDALONE VARIABLES
++		#region STANDALONE
++		public static string sTandaloneVersion = "v1.0.0.0";
++		#endregion
++
+ 		private const string versionStringBecauseTheyreTheSame = "v1.4.0.5";
+ 		public const int curRelease = 230;
+ 		public const string assemblyVersionNumber = "1.4.0.5";
+@@ -38852,10 +_,13 @@
+ 					if (num107 == 3)
+ 						num109 = 2;
+ 
+-					Vector2 origin2 = FontAssets.MouseText.Value.MeasureString(versionNumber);
++					Vector2 origin1 = FontAssets.MouseText.Value.MeasureString("Terraria " + versionNumber);
++					spriteBatch.DrawString(FontAssets.MouseText.Value, "Terraria " + versionNumber, new Vector2(origin1.X + (float)num108 + 10f, (float)screenHeight - origin1.Y + (float)num109 - 2f), color12, 0f, origin1, 1f, SpriteEffects.None, 0f);
++
++					Vector2 origin2 = FontAssets.MouseText.Value.MeasureString("sTandalone " + sTandaloneVersion);
+ 					origin2.X *= 0.5f;
+ 					origin2.Y *= 0.5f;
+-					spriteBatch.DrawString(FontAssets.MouseText.Value, versionNumber, new Vector2(origin2.X + (float)num108 + 10f, (float)screenHeight - origin2.Y + (float)num109 - 2f), color12, 0f, origin2, 1f, SpriteEffects.None, 0f);
++					spriteBatch.DrawString(FontAssets.MouseText.Value, "sTandalone " + sTandaloneVersion, new Vector2(origin2.X + (float)num108 + 10f, (float)screenHeight - origin2.Y + (float)num109 - 2f), color12, 0f, origin2, 1f, SpriteEffects.None, 0f);
+ 				}
+ 			}
+ 

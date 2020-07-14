@@ -77,7 +77,7 @@
  	},
  	"RandomWorldName_Location": {
  		"Abode": "Abode",
-@@ -2646,8 +_,11 @@
+@@ -2646,8 +_,13 @@
  		"PlayingMulti": "Playing Multi-Player"
  	},
  
@@ -87,6 +87,8 @@
  		"BadExtension": "Only textures of type '.png' and '.xnb' may be loaded."
 +	},
 +	"Modded": {
-+		"ModdedCategory": "Modded"
++		"ModdedCategory": "Modded",
++		"Continue": "Continue",
++		"WelcomeMessage": "Hey! Thanks for using sTandalone. Hope you like it! :D"
  	}
  }

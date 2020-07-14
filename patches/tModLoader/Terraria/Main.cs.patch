@@ -1,17 +1,87 @@
 --- src/Terraria/Terraria/Main.cs
 +++ src/tModLoader/Terraria/Main.cs
-@@ -175,6 +_,11 @@
+@@ -69,6 +_,7 @@
+ using Terraria.Net;
+ using Terraria.ObjectData;
+ using Terraria.Social;
++using Terraria.sTandalone;
+ using Terraria.UI;
+ using Terraria.UI.Chat;
+ using Terraria.UI.Gamepad;
+@@ -175,6 +_,13 @@
  			public bool LanternNightActive;
  		}
  
 +		//STANDALONE VARIABLES
 +		#region STANDALONE
 +		public static string sTandaloneVersion = "v1.0.0.0";
++
++		public static bool _showWelcomeMessage = true;
 +		#endregion
 +
  		private const string versionStringBecauseTheyreTheSame = "v1.4.0.5";
  		public const int curRelease = 230;
  		public const string assemblyVersionNumber = "1.4.0.5";
+@@ -3031,6 +_,7 @@
+ 
+ 		public static bool SaveSettings() {
+ 			Configuration.Clear();
++			sMain.sTandalonePut();
+ 			Configuration.Put("ResetDefaultUIScale", false);
+ 			Configuration.Put("SmartCursorToggle", cSmartCursorModeIsToggleAndNotHold);
+ 			Configuration.Put("MapEnabled", mapEnabled);
+@@ -3150,6 +_,8 @@
+ 			if (currentValue < 219)
+ 				flag = true;
+ 
++			sMain.sTandaloneGet();
++
+ 			if (!flag) {
+ 				Configuration.Get("ResetDefaultUIScale", ref shouldSetDefaultUIScale);
+ 				Configuration.Get("Fullscreen", ref startFullscreen);
+@@ -8178,6 +_,8 @@
+ 			base.GraphicsDevice.DeviceResetting += GraphicsDeviceLost;
+ 			if (_needsLanguageSelect)
+ 				menuMode = 1212;
++			if (!_needsLanguageSelect && _showWelcomeMessage)
++				menuMode = 694201;
+ 
+ 			_achievements = new AchievementManager();
+ 			_achievementAdvisor = new AchievementAdvisor();
+@@ -35964,7 +_,10 @@
+ 				if (selectedMenu >= 1) {
+ 					changeTheTitle = true;
+ 					LanguageManager.Instance.SetLanguage(selectedMenu);
++					if (_showWelcomeMessage)
++						menuMode = 694201;
++					else
+-					menuMode = 0;
++						menuMode = 0;
+ 					SoundEngine.PlaySound(10);
+ 					SaveSettings();
+ 				}
+@@ -38121,6 +_,21 @@
+ 						netMode = 0;
+ 					}
+ 				}
++				else if (menuMode == 694201) {
++					num5 = 2;
++					array9[0] = Language.GetTextValue("Modded.WelcomeMessage");
++					array[0] = true;
++					num2 = 220;
++					num4 = 250;
++					array9[1] = Language.GetTextValue("Modded.Continue");
++					if (selectedMenu == 1) {
++						_showWelcomeMessage = false;
++						SaveSettings();
++						SoundEngine.PlaySound(11);
++						menuMode = 0;
++						netMode = 0;
++					}
++				}
+ 			}
+ 
+ 			if (menuMode == 888) {
 @@ -38852,10 +_,13 @@
  					if (num107 == 3)
  						num109 = 2;

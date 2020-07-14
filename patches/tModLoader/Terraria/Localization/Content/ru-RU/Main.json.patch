@@ -1,11 +1,13 @@
 --- src/Terraria/Terraria/Localization/Content/ru-RU/Main.json
 +++ src/tModLoader/Terraria/Localization/Content/ru-RU/Main.json
-@@ -693,5 +_,8 @@
+@@ -693,5 +_,10 @@
  	},
  	"RandomWorldName_Composition": {
  		"6": "{Adjective} {Location}"
 +	},
 +	"Modded": {
-+		"ModdedCategory": "Modded"
++		"ModdedCategory": "Modded",
++		"Continue": "Continue",
++		"WelcomeMessage": "Hey! Thanks for using sTandalone. Hope you like it! :D"
  	}
  }

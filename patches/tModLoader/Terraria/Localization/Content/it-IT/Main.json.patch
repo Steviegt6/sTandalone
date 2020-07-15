@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Localization/Content/it-IT/Main.json
 +++ src/tModLoader/Terraria/Localization/Content/it-IT/Main.json
-@@ -693,5 +_,10 @@
+@@ -693,5 +_,17 @@
  	},
  	"RandomWorldName_Composition": {
  		"6": "{Adjective} {Location}"
@@ -8,6 +8,13 @@
 +	"Modded": {
 +		"ModdedCategory": "Modded",
 +		"Continue": "Continue",
-+		"WelcomeMessage": "Hey! Thanks for using sTandalone. Hope you like it! :D"
++		"WelcomeMessage": "Hey! Thanks for using sTandalone. Hope you like it! :D",
++		"Mods": "Mods",
++		"ModList": "Available Mods:",
++		"TerrariaPlus": "Terraria+ Mod",
++		"Enabled": ": Enabled",
++		"Disabled": ": Disabled",
++		"StopAsking": "(Not a mod loader. :p)",
++		"RestartRequired": "(Restart Required!)"
  	}
  }

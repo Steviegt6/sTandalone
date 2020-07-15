@@ -8,7 +8,7 @@
  using Terraria.UI;
  using Terraria.UI.Chat;
  using Terraria.UI.Gamepad;
-@@ -175,6 +_,13 @@
+@@ -175,6 +_,26 @@
  			public bool LanternNightActive;
  		}
  
@@ -17,6 +17,19 @@
 +		public static string sTandaloneVersion = "v1.0.0.0";
 +
 +		public static bool _showWelcomeMessage = true;
++		public static bool restartRequired = false;
++		public static bool terrariaPlus = false;
++
++		public static int YellowtoWhiteDir = 1;
++
++		public static float YellowtoWhite = 1f;
++
++		public enum Mod
++		{
++			TerrariaPlus
++		}
++
++		public static List<Mod> enabledMods = new List<Mod>();
 +		#endregion
 +
  		private const string versionStringBecauseTheyreTheSame = "v1.4.0.5";
@@ -48,6 +61,24 @@
  
  			_achievements = new AchievementManager();
  			_achievementAdvisor = new AchievementAdvisor();
+@@ -13295,6 +_,17 @@
+ 				masterColor = 0f;
+ 				masterColorDir = 1;
+ 			}
++
++			YellowtoWhite += (float)YellowtoWhiteDir * (dayTime ? 0.05f : 0.01f);
++			if (YellowtoWhite > 1f) {
++				YellowtoWhite = 1f;
++				YellowtoWhiteDir = -1;
++			}
++
++			if (YellowtoWhite < 0f) {
++				YellowtoWhite = 0f;
++				YellowtoWhiteDir = 1;
++			}
+ 		}
+ 
+ 		private static void DoUpdate_AnimateTileGlows() {
 @@ -35964,7 +_,10 @@
  				if (selectedMenu >= 1) {
  					changeTheTitle = true;
@@ -60,7 +91,38 @@
  					SoundEngine.PlaySound(10);
  					SaveSettings();
  				}
-@@ -38121,6 +_,21 @@
+@@ -36391,7 +_,7 @@
+ 				netMode = 0;
+ 				ClearVisualPostProcessEffects();
+ 				int num11 = 0;
+-				num5 = 6;
++				num5 = 7;
+ 				num4 = 60;
+ 				array9[num11] = Lang.menu[12].Value;
+ 				if (selectedMenu == num11) {
+@@ -36424,6 +_,13 @@
+ 				}
+ 
+ 				num11++;
++				array9[num11] = Language.GetText("Modded.Mods").Value;
++				if (selectedMenu == num11) {
++					SoundEngine.PlaySound(10);
++					menuMode = 694202;
++				}
++
++				num11++;
+ 				array9[num11] = Lang.menu[14].Value;
+ 				if (selectedMenu == num11) {
+ 					SoundEngine.PlaySound(10);
+@@ -36434,6 +_,7 @@
+ 				array9[num11] = Lang.menu[15].Value;
+ 				if (selectedMenu == num11)
+ 					QuitGame();
++				array6[num11] = restartRequired ? (byte)8 : (byte)0;
+ 
+ 				num11++;
+ 			}
+@@ -38121,6 +_,74 @@
  						netMode = 0;
  					}
  				}
@@ -79,9 +141,75 @@
 +						netMode = 0;
 +					}
 +				}
++				else if (menuMode == 694202) {
++					num2 = 210;
++					num4 = 37;
++					num5 = 9;
++					int num20 = 0;
++
++					array4[num5 - 1] = 9;
++					for (int num19 = 1; num19 < num5; num19++) {
++						array7[num19] = 0.75f;
++					}
++
++					array9[num20] = Language.GetTextValue("Modded.ModList");
++					array[num20] = true;
++
++					num20++;
++					array9[num20] = Language.GetTextValue("Modded.StopAsking");
++					array[num20] = true;
++
++					num20++;
++					array9[num20] = Language.GetTextValue("Modded.TerrariaPlus") + (terrariaPlus ? Language.GetTextValue("Modded.Enabled") : Language.GetTextValue("Modded.Disabled"));
++					if (selectedMenu == num20) {
++						SoundEngine.PlaySound(10);
++						terrariaPlus = !terrariaPlus;
++
++						restartRequired = true;
++					}
++
++					num20++;
++					//array9[num20] = "";
++
++					num20++;
++					//array9[num20] = "";
++
++					num20++;
++					//array9[num20] = "";
++
++					num20++;
++					//array9[num20] = "";
++
++					num20++;
++					array9[num20] = Lang.menu[5].Value;
++					if (selectedMenu == num20 || flag5) {
++						flag5 = false;
++						SoundEngine.PlaySound(11);
++						menuMode = 0;
++						SaveSettings();
++					}
++
++					num20++;
++					array9[num20] = (restartRequired ? Language.GetTextValue("Modded.RestartRequired") : "");
++					array6[num20] = 3;
++					array[num20] = true;
++				}
  			}
  
  			if (menuMode == 888) {
+@@ -38671,6 +_,12 @@
+ 							case 6:
+ 								color11 = errorColor;
+ 								break;
++							case 7:
++								color11 = new Color(DiscoR, DiscoG, DiscoB);
++								break;
++							case 8:
++								color11 = new Color(255, 255, (byte)(Main.YellowtoWhite * 255f), Main.mouseTextColor);
++								break;
+ 							default:
+ 								color11 = color;
+ 								break;
 @@ -38852,10 +_,13 @@
  					if (num107 == 3)
  						num109 = 2;

@@ -77,7 +77,7 @@
  	},
  	"RandomWorldName_Location": {
  		"Abode": "Abode",
-@@ -2646,8 +_,13 @@
+@@ -2646,8 +_,20 @@
  		"PlayingMulti": "Playing Multi-Player"
  	},
  
@@ -89,6 +89,13 @@
 +	"Modded": {
 +		"ModdedCategory": "Modded",
 +		"Continue": "Continue",
-+		"WelcomeMessage": "Hey! Thanks for using sTandalone. Hope you like it! :D"
++		"WelcomeMessage": "Hey! Thanks for using sTandalone. Hope you like it! :D",
++		"Mods": "Mods",
++		"ModList": "Available Mods:",
++		"TerrariaPlus": "Terraria+ Mod",
++		"Enabled": ": Enabled",
++		"Disabled": ": Disabled",
++		"StopAsking": "(Not a mod loader. :p)",
++		"RestartRequired": "(Restart Required!)"
  	}
  }

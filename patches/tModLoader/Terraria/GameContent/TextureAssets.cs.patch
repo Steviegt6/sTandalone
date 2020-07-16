@@ -1,6 +1,11 @@
 --- src/Terraria/Terraria/GameContent/TextureAssets.cs
 +++ src/tModLoader/Terraria/GameContent/TextureAssets.cs
-@@ -181,7 +_,7 @@
+@@ -177,11 +_,11 @@
+ 		public static Asset<Texture2D>[] NpcToggle = new Asset<Texture2D>[2];
+ 		public static Asset<Texture2D>[] HbLock = new Asset<Texture2D>[2];
+ 		public static Asset<Texture2D>[] blockReplaceIcon = new Asset<Texture2D>[2];
+-		public static Asset<Texture2D>[] Buff = new Asset<Texture2D>[323];
++		public static Asset<Texture2D>[] Buff = new Asset<Texture2D>[Terraria.ID.BuffID.Count];
  		public static Asset<Texture2D>[] Item = new Asset<Texture2D>[5045];
  		public static Asset<Texture2D>[] ItemFlame = new Asset<Texture2D>[5045];
  		public static Asset<Texture2D>[] Npc = new Asset<Texture2D>[663];

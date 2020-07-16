@@ -1,5 +1,41 @@
 --- src/Terraria/Terraria/NPC.cs
 +++ src/tModLoader/Terraria/NPC.cs
+@@ -110,7 +_,7 @@
+ 		public const int maxBuffs = 5;
+ 		public int[] buffType = new int[5];
+ 		public int[] buffTime = new int[5];
+-		public bool[] buffImmune = new bool[323];
++		public bool[] buffImmune = new bool[BuffID.Count];
+ 		public bool midas;
+ 		public bool ichor;
+ 		public bool onFire;
+@@ -2837,7 +_,7 @@
+ 				buffType[k] = 0;
+ 			}
+ 
+-			for (int l = 0; l < 323; l++) {
++			for (int l = 0; l < BuffID.Count; l++) {
+ 				buffImmune[l] = false;
+ 			}
+ 
+@@ -10878,7 +_,7 @@
+ 
+ 				noGravity = true;
+ 				rarity = 2;
+-				for (int num2 = 0; num2 < 323; num2++) {
++				for (int num2 = 0; num2 < BuffID.Count; num2++) {
+ 					buffImmune[num2] = true;
+ 				}
+ 			}
+@@ -11612,7 +_,7 @@
+ 			}
+ 
+ 			if (flag) {
+-				for (int num4 = 0; num4 < 323; num4++) {
++				for (int num4 = 0; num4 < BuffID.Count; num4++) {
+ 					buffImmune[num4] = true;
+ 				}
+ 			}
 @@ -12808,6 +_,105 @@
  
  				damage = GetAttackDamage_LerpBetweenFinalValues(num36, num37);

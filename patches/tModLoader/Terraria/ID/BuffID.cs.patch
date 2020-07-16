@@ -1,0 +1,20 @@
+--- src/Terraria/Terraria/ID/BuffID.cs
++++ src/tModLoader/Terraria/ID/BuffID.cs
+@@ -10,7 +_,7 @@
+ 				public bool faceLeft;
+ 			}
+ 
+-			public static SetFactory Factory = new SetFactory(323);
++			public static SetFactory Factory = new SetFactory(Count);
+ 			public static bool[] IsWellFed = Factory.CreateBoolSet(26, 206, 207);
+ 			public static bool[] TimeLeftDoesNotDecrease = Factory.CreateBoolSet(28);
+ 			public static bool[] CanBeRemovedByNetMessage = Factory.CreateBoolSet(313);
+@@ -591,6 +_,7 @@
+ 		public const int GelBalloonBuff = 320;
+ 		public const int BrainOfConfusionBuff = 321;
+ 		public const int EmpressBlade = 322;
+-		public const int Count = 323;
++		public const int TrueConfusion = 323;
++		public const int Count = 324;
+ 	}
+ }

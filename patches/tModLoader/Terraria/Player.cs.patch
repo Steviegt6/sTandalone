@@ -1,5 +1,14 @@
 --- src/Terraria/Terraria/Player.cs
 +++ src/tModLoader/Terraria/Player.cs
+@@ -686,7 +_,7 @@
+ 		public const int maxBuffs = 22;
+ 		public int[] buffType = new int[22];
+ 		public int[] buffTime = new int[22];
+-		public bool[] buffImmune = new bool[323];
++		public bool[] buffImmune = new bool[BuffID.Count];
+ 		public int heldProj = -1;
+ 		public int breathCD;
+ 		public int breathMax = 200;
 @@ -1267,7 +_,7 @@
  		public int cUnicornHorn;
  		public int cMinion;
@@ -9,6 +18,15 @@
  		public bool[] npcTypeNoAggro = new bool[663];
  		public int lastPortalColorIndex;
  		public int _portalPhysicsTime;
+@@ -17379,7 +_,7 @@
+ 					AddBuff(194, 2, quiet: false);
+ 			}
+ 
+-			for (int num26 = 0; num26 < 323; num26++) {
++			for (int num26 = 0; num26 < BuffID.Count; num26++) {
+ 				buffImmune[num26] = false;
+ 			}
+ 
 @@ -29082,7 +_,7 @@
  				if (whoAmI == Main.myPlayer && gravDir == 1f && item.mountType != -1 && mount.CanMount(item.mountType, this))
  					mount.SetMount(item.mountType, this);

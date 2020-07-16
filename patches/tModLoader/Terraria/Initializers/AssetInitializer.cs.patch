@@ -1,5 +1,14 @@
 --- src/Terraria/Terraria/Initializers/AssetInitializer.cs
 +++ src/tModLoader/Terraria/Initializers/AssetInitializer.cs
+@@ -370,7 +_,7 @@
+ 				TextureAssets.BackPack[num48] = LoadAsset<Texture2D>("Images\\BackPack_" + num48, mode);
+ 			}
+ 
+-			for (int num49 = 1; num49 < 323; num49++) {
++			for (int num49 = 1; num49 < BuffID.Count; num49++) {
+ 				TextureAssets.Buff[num49] = LoadAsset<Texture2D>("Images\\Buff_" + num49, mode);
+ 			}
+ 
 @@ -438,6 +_,12 @@
  			TextureAssets.Logo2 = LoadAsset<Texture2D>("Images\\Logo2", mode);
  			TextureAssets.Logo3 = LoadAsset<Texture2D>("Images\\Logo3", mode);

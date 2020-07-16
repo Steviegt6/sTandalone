@@ -1,0 +1,19 @@
+--- src/Terraria/Terraria/Localization/Content/en-US/Game.json
++++ src/tModLoader/Terraria/Localization/Content/en-US/Game.json
+@@ -855,7 +_,7 @@
+ 		"DiggingMoleMinecartRight": "Digging Molecart",
+ 		"DiggingMoleMinecartLeft": "Digging Molecart",
+ 		"EmpressBlade": "Terraprisma",
+-		
++		"TrueConfusion": "True Confusion",
+ 
+ 	},
+ 	"BuffDescription": {
+@@ -1174,6 +_,7 @@
+ 		"DiggingMoleMinecartLeft": "The Molecart will dig for you",
+ 		"StormTiger": "The desert tiger will fight beside you",
+ 		"EmpressBlade": "The Blades of the Empress will fight for you",
++		"TrueConfusion": "Your mind throbs...",
+ 
+ 	},
+ 	"ArmorSetBonus": {

@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Localization/Content/it-IT/Main.json
 +++ src/tModLoader/Terraria/Localization/Content/it-IT/Main.json
-@@ -1,60 +_,60 @@
+@@ -1,60 +_,61 @@
  {
  	"GameTitle": {
 -		"0": "Terraria: Scava contadino, scava!",
@@ -112,7 +112,8 @@
 -		"9": "Terraria: Piccoli blocchi, non per bambini al di sotto dei 5 anni",
 +		"9": "tStandalone: Piccoli blocchi, non per bambini al di sotto dei 5 anni",
 -		"55": "Terraria: Zitto e scava, gaiden!"
-+		"55": "tStandalone: Zitto e scava, gaiden!"
++		"55": "tStandalone: Zitto e scava, gaiden!",
++		"56": "tStandalone: tBag"
  	},
  	"Achievements": {
  		"ARCHAEOLOGIST_Description": "Uccidi il dottor Ossa.",

@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Localization/Content/fr-FR/Main.json
 +++ src/tModLoader/Terraria/Localization/Content/fr-FR/Main.json
-@@ -1,60 +_,60 @@
+@@ -1,60 +_,61 @@
  {
  	"GameTitle": {
 -		"0": "Terraria : Creusez Péon, creusez !",
@@ -112,7 +112,8 @@
 -		"9": "Terraria : Petits blocs, déconseillés aux enfants de moins de 5 ans",
 +		"9": "tStandalone : Petits blocs, déconseillés aux enfants de moins de 5 ans",
 -		"55": "Terraria : Tais-toi et creuse !"
-+		"55": "tStandalone : Tais-toi et creuse !"
++		"55": "tStandalone : Tais-toi et creuse !",
++		"56": "tStandalone : tBag"
  	},
  	"Achievements": {
  		"ARCHAEOLOGIST_Description": "Tuez le Docteur Bones.",

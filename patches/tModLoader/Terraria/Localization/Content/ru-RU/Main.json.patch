@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Localization/Content/ru-RU/Main.json
 +++ src/tModLoader/Terraria/Localization/Content/ru-RU/Main.json
-@@ -1,60 +_,60 @@
+@@ -1,60 +_,61 @@
  {
  	"GameTitle": {
 -		"0": "Terraria: копай, пехотинец, копай!",
@@ -112,7 +112,8 @@
 -		"9": "Terraria: содержит мелкие детали, не для детей младше 5 лет",
 +		"9": "tStandalone: содержит мелкие детали, не для детей младше 5 лет",
 -		"55": "Terraria: молчи и копай, Gaiden!"
-+		"55": "tStandalone: молчи и копай, Gaiden!"
++		"55": "tStandalone: молчи и копай, Gaiden!",
++		"56": "tStandalone: tBag"
  	},
  	"Achievements": {
  		"ARCHAEOLOGIST_Description": "Убейте доктора Бонса.",

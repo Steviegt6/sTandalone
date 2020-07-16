@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Localization/Content/pt-BR/Main.json
 +++ src/tModLoader/Terraria/Localization/Content/pt-BR/Main.json
-@@ -1,60 +_,60 @@
+@@ -1,60 +_,61 @@
  {
  	"GameTitle": {
 -		"0": "Terraria: Cave, Peão, Cave!",
@@ -112,7 +112,8 @@
 -		"9": "Terraria: Blocos Pequenos, Não Recomendados para Crianças Menores de 5 Anos",
 +		"9": "tStandalone: Blocos Pequenos, Não Recomendados para Crianças Menores de 5 Anos",
 -		"55": "Terraria: Cala a Boca e Cava!"
-+		"55": "tStandalone: Cala a Boca e Cava!"
++		"55": "tStandalone: Cala a Boca e Cava!",
++		"56": "tStandalone: tBag"
  	},
  	"Achievements": {
  		"ARCHAEOLOGIST_Description": "Mate o Doutor Bones.",

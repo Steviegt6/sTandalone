@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Localization/Content/pl-PL/Main.json
 +++ src/tModLoader/Terraria/Localization/Content/pl-PL/Main.json
-@@ -1,60 +_,60 @@
+@@ -1,60 +_,61 @@
  {
  	"GameTitle": {
 -		"0": "Terraria: kop, młody, kop!",
@@ -111,7 +111,8 @@
 -		"9": "Terraria: gra zawiera małe elementy, nieodpowiednie dla dzieci poniżej 5. roku życia",
 +		"9": "tStandalone: gra zawiera małe elementy, nieodpowiednie dla dzieci poniżej 5. roku życia",
 -		"55": "Terraria: Shut Up and Dig Gaiden!"
-+		"55": "tStandalone: Shut Up and Dig Gaiden!"
++		"55": "tStandalone: Shut Up and Dig Gaiden!",
++		"56": "tStandalone: tBag"
  	},
  	"Achievements": {
  		"ARCHAEOLOGIST_Description": "Zabij doktora Bonesa.",

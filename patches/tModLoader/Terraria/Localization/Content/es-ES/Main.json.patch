@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Localization/Content/es-ES/Main.json
 +++ src/tModLoader/Terraria/Localization/Content/es-ES/Main.json
-@@ -1,60 +_,60 @@
+@@ -1,60 +_,61 @@
  {
  	"GameTitle": {
 -		"0": "Terraria: ¡Cava, peón! ¡Cava!",
@@ -112,7 +112,8 @@
 -		"9": "Terraria: Mantenga los bloques pequeños lejos del alcance de niños menores de 5 años",
 +		"9": "tStandalone: Mantenga los bloques pequeños lejos del alcance de niños menores de 5 años",
 -		"55": "Terraria: ¡Cava y calla!"
-+		"55": "tStandalone: ¡Cava y calla!"
++		"55": "tStandalone: ¡Cava y calla!",
++		"56": "tStandalone: tBag"
  	},
  	"Achievements": {
  		"ARCHAEOLOGIST_Description": "Mata al Doctor Látigo.",

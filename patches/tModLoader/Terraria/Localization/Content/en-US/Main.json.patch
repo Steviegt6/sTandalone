@@ -50,7 +50,7 @@
  	},
  	"Controls": {
  		"LeftClick": "Left Click",
-@@ -786,62 +_,62 @@
+@@ -786,62 +_,63 @@
  		"BartenderWarning": "The eternia crystal rejects this area and pops away instantly, the Tavernkeep mentioned it should rest in a large flat open area..."
  	},
  	"GameTitle": {
@@ -165,7 +165,8 @@
 -		"9": "Terraria: Small Blocks, Not for Children Under the Age of 5",
 +		"9": "tStandalone: Small Blocks, Not for Children Under the Age of 5",
 -		"55": "Terraria: Shut Up and Dig Gaiden!"
-+		"55": "tStandalone: Shut Up and Dig Gaiden!"
++		"55": "tStandalone: Shut Up and Dig Gaiden!",
++		"56": "tStandalone: tBag"
  	},
  	"RandomWorldName_Legacy": {
  		"1": "Redigit's Kingdom",

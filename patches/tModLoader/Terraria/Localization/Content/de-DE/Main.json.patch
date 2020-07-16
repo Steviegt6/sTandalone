@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Localization/Content/de-DE/Main.json
 +++ src/tModLoader/Terraria/Localization/Content/de-DE/Main.json
-@@ -1,60 +_,60 @@
+@@ -1,60 +_,61 @@
  {
  	"GameTitle": {
 -		"0": "Terraria: Grab, Arbeiter, grab!",
@@ -112,7 +112,8 @@
 -		"9": "Terraria: Kleine Blöcke, nicht für Kinder unter 5 Jahren geeignet",
 +		"9": "tStandalone: Kleine Blöcke, nicht für Kinder unter 5 Jahren geeignet",
 -		"55": "Terraria: Sei still und grabe, Gaiden!"
-+		"55": "tStandalone: Sei still und grabe, Gaiden!"
++		"55": "tStandalone: Sei still und grabe, Gaiden!",
++		"56": "tStandalone: tBag"
  	},
  	"Achievements": {
  		"ARCHAEOLOGIST_Description": "Töte Doktor Bones.",

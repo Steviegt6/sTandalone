@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Localization/Content/zh-Hans/Main.json
 +++ src/tModLoader/Terraria/Localization/Content/zh-Hans/Main.json
-@@ -1,61 +_,61 @@
+@@ -1,61 +_,62 @@
  {
  	"GameTitle": {
 -		"0": "泰拉瑞亚：劳工挖啊挖！",
@@ -114,7 +114,8 @@
 -		"9": "泰拉瑞亚：5岁以下的儿童不宜使用小块块",
 +		"9": "tStandalone：5岁以下的儿童不宜使用小块块",
 -		"55": "泰拉瑞亚：少说多挖之外传！"
-+		"55": "tStandalone：少说多挖之外传！"
++		"55": "tStandalone：少说多挖之外传！",
++		"56": "tStandalone : tBag"
  	},
  	"Achievements": {
  		"ARCHAEOLOGIST_Description": "杀死骷髅博士。",

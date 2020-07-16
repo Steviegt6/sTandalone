@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/Localization/Content/zh-Hans/Items.json
++++ src/tModLoader/Terraria/Localization/Content/zh-Hans/Items.json
+@@ -99,6 +_,7 @@
+ 		"Small": "小"
+ 	},
+ 	"ItemName": {
++		"FirstFractal": "First Fractal",
+ 		"IronPickaxe": "铁镐",
+ 		"IronAxe": "铁斧",
+ 		"ShadowGreaves": "暗影护胫",

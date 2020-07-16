@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/Localization/Content/fr-FR/Items.json
++++ src/tModLoader/Terraria/Localization/Content/fr-FR/Items.json
+@@ -99,6 +_,7 @@
+ 		"Small": "(Petit)"
+ 	},
+ 	"ItemName": {
++		"FirstFractal": "First Fractal",
+ 		"IronPickaxe": "Pioche en fer",
+ 		"IronAxe": "Hache en fer",
+ 		"ShadowGreaves": "Grèves de l'ombre",

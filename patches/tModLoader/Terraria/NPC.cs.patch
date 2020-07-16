@@ -358,3 +358,28 @@
  						num258 = 535;
  
  					int num259 = NewNPC(x, y, num258);
+@@ -22480,6 +_,8 @@
+ 			}
+ 			else if (aiStyle == 54) {
+ 				crimsonBoss = whoAmI;
++				if (Main.masterModeReloaded && Main.masterMode)
++					knockBackResist = 0f;
+ 				if (Main.netMode != 1 && localAI[0] == 0f) {
+ 					localAI[0] = 1f;
+ 					int brainOfCthuluCreepersCount = GetBrainOfCthuluCreepersCount();
+@@ -36255,10 +_,13 @@
+ 		}
+ 
+ 		public static int GetBrainOfCthuluCreepersCount() {
++			float creeperCount = 20;
++			if (Main.masterModeReloaded && Main.masterMode)
++				creeperCount *= 1.5f;
+ 			if (Main.getGoodWorld)
+-				return 40;
++				creeperCount *= 2f;
+ 
+-			return 20;
++			return (int)creeperCount;
+ 		}
+ 
+ 		private void AI_006_Worms() {

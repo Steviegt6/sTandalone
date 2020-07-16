@@ -7,14 +7,16 @@
 -			EnemyMaxLifeMultiplier = 3f,
 -			EnemyDamageMultiplier = 3f,
 -			DebuffTimeMultiplier = 2.5f,
-+			EnemyMaxLifeMultiplier = Main.masterModeReloaded ? ExpertMode.EnemyMaxLifeMultiplier : 3f,
-+			EnemyDamageMultiplier = Main.masterModeReloaded ? ExpertMode.EnemyDamageMultiplier : 3f,
-+			DebuffTimeMultiplier = Main.masterModeReloaded ? ExpertMode.DebuffTimeMultiplier : 2.5f,
- 			KnockbackToEnemiesMultiplier = 0.8f,
+-			KnockbackToEnemiesMultiplier = 0.8f,
 -			TownNPCDamageMultiplier = 1.75f,
-+			TownNPCDamageMultiplier = 2f,
- 			EnemyDefenseMultiplier = 1f,
+-			EnemyDefenseMultiplier = 1f,
 -			EnemyMoneyDropMultiplier = 2.5f
++			EnemyMaxLifeMultiplier = Main.masterModeReloaded ? ExpertMode.EnemyMaxLifeMultiplier * 1.1f : 3f,
++			EnemyDamageMultiplier = Main.masterModeReloaded ? ExpertMode.EnemyDamageMultiplier * 1.1f : 3f,
++			DebuffTimeMultiplier = Main.masterModeReloaded ? ExpertMode.DebuffTimeMultiplier * 1.1f : 2.5f,
++			KnockbackToEnemiesMultiplier = Main.masterModeReloaded ? 0.7f : 0.8f,
++			TownNPCDamageMultiplier = Main.masterModeReloaded ? 2.5f : 2f,
++			EnemyDefenseMultiplier = Main.masterModeReloaded ? 1.2f : 1f, //I mean, we want *something*, right?
 +			EnemyMoneyDropMultiplier = 3f
  		};
  		public static readonly GameModeData CreativeMode = new GameModeData {

@@ -1,0 +1,324 @@
+--- src/Terraria/Terraria/NPC.cs
++++ src/tModLoader/Terraria/NPC.cs
+@@ -12808,6 +_,105 @@
+ 
+ 				damage = GetAttackDamage_LerpBetweenFinalValues(num36, num37);
+ 				damage = GetAttackDamage_ScaledByStrength(damage);
++
++				//Phase Three
++				if (Main.masterModeReloaded && Main.masterMode) {
++					if (this.ai[0] == 3f && this.life <= this.lifeMax / 5) {
++						this.ai[0] = 4f;
++						this.ai[1] = 0f;
++						this.ai[2] = 0f;
++						this.ai[3] = 0f;
++						this.netUpdate = true;
++						return;
++					}
++					else if (this.ai[0] == 4f && this.ai[1] <= 180f) {
++						if (this.ai[1] == 30f && Main.netMode != 1) {
++							SoundEngine.PlaySound(15, (int)base.position.X, (int)base.position.Y, 0);
++						}
++						this.alpha += 2;
++						if (this.alpha >= 255) {
++							this.alpha = 255;
++						}
++						base.velocity *= 0.95f;
++						this.dontTakeDamage = true;
++						this.ai[1]++;
++						this.ai[2] += 0.01f;
++						if ((double)this.ai[2] > 0.67) {
++							this.ai[2] = 0.67f;
++						}
++						rotation += this.ai[2];
++						return;
++					}
++					else if (this.ai[0] == 4f && this.ai[1] > 180) {
++						this.ai[0] = 5f;
++						this.ai[1] = 0f;
++						this.ai[2] = 0f;
++						this.ai[3] = 0f;
++						this.dontTakeDamage = false;
++						this.netUpdate = true;
++						return;
++					}
++					float threshold = 80f;
++					if (this.ai[0] == 5f && this.ai[2] <= threshold) {
++						//Initial teleport, depending on this.ai[3]
++						this.TargetClosest(false);
++						if (this.ai[2] == 0f) {
++							if (this.ai[3] == 0f) {
++								//Top-left
++								base.Center = new Vector2(Main.player[this.target].Center.X - (16 * 12), Main.player[this.target].Center.Y - (16 * 12));
++								this.ai[3] = 1f;
++							}
++							else {
++								//Top-right
++								base.Center = new Vector2(Main.player[this.target].Center.X + (16 * 12), Main.player[this.target].Center.Y - (16 * 12));
++								this.ai[3] = 0f;
++							}
++							this.rotation = this.DirectionTo(Main.player[this.target].Center).ToRotation() - MathHelper.ToRadians(90);
++							this.alpha = 255;
++							this.hide = false;
++						}
++						if (this.ai[2] < 25f) {
++							this.rotation = this.DirectionTo(Main.player[this.target].Center).ToRotation() - MathHelper.ToRadians(90);
++							this.alpha -= 8;
++							Dust dust;
++							Vector2 position = base.position;
++							dust = Main.dust[Terraria.Dust.NewDust(position, base.width, base.height, 55, 0f, 0f, 0, new Color(255, 255, 255), 1.5f)];
++							dust.noGravity = true;
++						}
++						this.ai[2]++;
++						//The actual Charge towards the target
++						if (this.ai[2] == 25f) {
++							this.ai[1] = 1f;
++							base.velocity = this.DirectionTo(Main.player[this.target].Center) * 15f;
++							this.rotation = base.velocity.ToRotation() - MathHelper.ToRadians(90);
++							if (Main.netMode != 2) {
++								SoundEngine.PlaySound(SoundID.ForceRoar, base.Center, -1);
++							}
++						}
++						//Slowdown
++						if (this.ai[2] > 60f) {
++							this.ai[1] = 0f;
++							base.velocity *= 0.95f;
++							this.alpha += 8;
++							Dust dust;
++							Vector2 position = base.position;
++							dust = Main.dust[Terraria.Dust.NewDust(position, base.width, base.height, 55, 0f, 0f, 0, new Color(255, 255, 255), 1.5f)];
++							dust.noGravity = true;
++							if (this.alpha > 255) {
++								this.alpha = 255;
++								this.hide = true;
++							}
++							this.rotation = this.DirectionTo(Main.player[this.target].Center).ToRotation() - MathHelper.ToRadians(90);
++						}
++						return;
++					}
++					else if (this.ai[0] == 5f && this.ai[2] > threshold) {
++						this.ai[2] = 0f;
++						this.netUpdate = true;
++						return;
++					}
++				}
++
+ 				if (this.ai[1] == 0f && flag2)
+ 					this.ai[1] = 5f;
+ 
+@@ -14962,6 +_,8 @@
+ 				}
+ 			}
+ 			else if (aiStyle == 15) {
++				//Phase2
++				bool isPhase2 = Main.masterModeReloaded && Main.masterMode && this.life < this.lifeMax / 2;
+ 				float num236 = 1f;
+ 				bool flag8 = false;
+ 				bool flag9 = false;
+@@ -14982,6 +_,10 @@
+ 					netUpdate = true;
+ 				}
+ 
++				if (this.noTileCollide && base.Bottom.Y >= Main.player[this.target].Bottom.Y) {
++					this.noTileCollide = false;
++				}
++
+ 				int num238 = 3000;
+ 				if (Main.player[target].dead || Vector2.Distance(base.Center, Main.player[target].Center) > (float)num238) {
+ 					TargetClosest();
+@@ -15002,8 +_,34 @@
+ 						}
+ 					}
+ 				}
+-
+-				if (!Main.player[target].dead && timeLeft > 10 && this.ai[2] >= 300f && this.ai[1] < 5f && base.velocity.Y == 0f) {
++				if (isPhase2) {
++					if (Main.netMode != 1 && !Main.player[target].dead) {
++						Vector2 bottom = Main.player[target].Bottom;
++						localAI[1] = bottom.X;
++						localAI[2] = bottom.Y;
++					}
++					//So the timer doesn't increase when King Slime is in the process of teleporting
++					if (this.ai[1] != 5f && this.ai[1] != 6f) {
++						this.ai[2]++;
++					}
++					//Teleport cooldown based on health
++					if (this.ai[2] >= 480f) {
++						this.ai[0] = 0f;
++						this.ai[1] = 5f;
++						netUpdate = true;
++					}
++					else if (this.life < this.lifeMax / 3 && this.ai[2] >= 420f) {
++						this.ai[0] = 0f;
++						this.ai[1] = 5f;
++						netUpdate = true;
++					}
++					else if (this.life < this.lifeMax / 4 && this.ai[2] >= 300f) {
++						this.ai[0] = 0f;
++						this.ai[1] = 5f;
++						netUpdate = true;
++					}
++				}
++				else if (!Main.player[target].dead && timeLeft > 10 && this.ai[2] >= 300f && this.ai[1] < 5f && base.velocity.Y == 0f) {
+ 					this.ai[2] = 0f;
+ 					this.ai[0] = 0f;
+ 					this.ai[1] = 5f;
+@@ -15049,8 +_,8 @@
+ 
+ 							num244 += num246;
+ 							bool flag11 = true;
+-							if (flag11 && Main.tile[num243, num244].lava())
++							/*if (flag11 && Main.tile[num243, num244].lava())
+-								flag11 = false;
++								flag11 = false;*/
+ 
+ 							if (flag11 && !Collision.CanHitLine(base.Center, 0, 0, Main.player[target].Center, 0, 0))
+ 								flag11 = false;
+@@ -15091,6 +_,8 @@
+ 
+ 				Dust dust;
+ 				if (this.ai[1] == 5f) {
++					if (isPhase2 && !Main.player[target].dead)
++						this.ai[2] = 0f;
+ 					flag8 = true;
+ 					aiAction = 1;
+ 					this.ai[0]++;
+@@ -15106,7 +_,10 @@
+ 						Gore.NewGore(base.Center + new Vector2(-40f, -height / 2), base.velocity, 734);
+ 
+ 					if (this.ai[0] >= 60f && Main.netMode != 1) {
++						if (isPhase2)
++							base.Bottom = new Vector2(this.localAI[1], this.localAI[2] - (16 * 25));  //Teleportation destination is 25 blocks above the target
++						else
+-						base.Bottom = new Vector2(localAI[1], localAI[2]);
++							base.Bottom = new Vector2(this.localAI[1], this.localAI[2]);
+ 						this.ai[1] = 6f;
+ 						this.ai[0] = 0f;
+ 						netUpdate = true;
+@@ -15130,20 +_,36 @@
+ 					flag8 = true;
+ 					aiAction = 0;
+ 					this.ai[0]++;
++					if (isPhase2) {
++						this.velocity.Y = 0f;
++						this.velocity.X = 0f;
++						//To prevent cheese of hiding under something
++						this.noTileCollide = true;
++						this.noGravity = true;
++					}
+ 					num236 = MathHelper.Clamp(this.ai[0] / 30f, 0f, 1f);
+ 					num236 = 0.5f + num236 * 0.5f;
+ 					if (Main.getGoodWorld)
+ 						num236 *= num237;
+ 
+ 					if (this.ai[0] >= 30f && Main.netMode != 1) {
++						if (isPhase2) {
++							this.ai[1] = 7f;
++							this.velocity.Y = 20f;
++						}
++						else
+-						this.ai[1] = 0f;
++							this.ai[1] = 0f;
+ 						this.ai[0] = 0f;
+ 						netUpdate = true;
+ 						TargetClosest();
+ 					}
+ 
+ 					if (Main.netMode == 1 && this.ai[0] >= 60f) {
++						if (isPhase2) {
++							this.ai[1] = 7f;
++						}
++						else
+-						this.ai[1] = 0f;
++							this.ai[1] = 0f;
+ 						this.ai[0] = 0f;
+ 						TargetClosest();
+ 					}
+@@ -15155,6 +_,35 @@
+ 						dust.velocity *= 2f;
+ 					}
+ 				}
++				//Equivalent of isSlamming
++				else if (this.ai[1] == 7f) {
++					//Don't want him moving during the slam process
++					base.velocity.X = 0f;
++					//So King Slime doesn't fall through the map
++					if (base.velocity.Y == 0f) {
++						if (Main.netMode != 2) {
++							SoundEngine.PlaySound(SoundID.Item62, this.Center);
++							//So the dust actually shows, just using the statement once barely shows any dust
++							for (int i = 0; i < 40; i++) {
++								Dust dust2;
++								Vector2 position = new Vector2(this.Center.X - 144, this.Bottom.Y);
++								dust2 = Main.dust[Terraria.Dust.NewDust(position, 288, 48, 0, 0f, -8f, 0, new Color(255, 255, 255), 2f)];
++								dust2.noGravity = true;
++								dust2.noLight = true;
++							}
++						}
++						if (Main.netMode != 1) {
++							//Projectile.NewProjectile(new Vector2(this.Center.X, this.Bottom.Y), new Vector2(0, 0), ProjectileID.Shockwave, 20, 3f);
++							this.ai[0] = -360f;
++							this.ai[1] = (float)Main.rand.Next(4);
++							//So it looks like King Slime is stuck in the ground (give it that OOMPH)
++							this.behindTiles = true;
++							//Gravity is reverted back so King Slime doesn't fly around
++							this.noGravity = false;
++							netUpdate = true;
++						}
++					}
++				}
+ 
+ 				dontTakeDamage = (hide = flag9);
+ 				if (base.velocity.Y == 0f) {
+@@ -15163,6 +_,7 @@
+ 						base.velocity.X = 0f;
+ 
+ 					if (!flag8) {
++						this.noGravity = false;
+ 						this.ai[0] += 2f;
+ 						if ((double)life < (double)lifeMax * 0.8)
+ 							this.ai[0] += 1f;
+@@ -15184,21 +_,24 @@
+ 							TargetClosest();
+ 							if (this.ai[1] == 3f) {
+ 								base.velocity.Y = -13f;
+-								base.velocity.X += 3.5f * (float)base.direction;
++								base.velocity.X += 3.5f * (isPhase2 ? 1.1f : 1f) * (float)base.direction;
+ 								this.ai[0] = -200f;
+ 								this.ai[1] = 0f;
++								this.behindTiles = false;
+ 							}
+ 							else if (this.ai[1] == 2f) {
+ 								base.velocity.Y = -6f;
+-								base.velocity.X += 4.5f * (float)base.direction;
++								base.velocity.X += 4.5f * (isPhase2 ? 1.1f : 1f) * (float)base.direction;
+ 								this.ai[0] = -120f;
+ 								this.ai[1] += 1f;
++								this.behindTiles = false;
+ 							}
+ 							else {
+ 								base.velocity.Y = -8f;
+-								base.velocity.X += 4f * (float)base.direction;
++								base.velocity.X += 4f * (isPhase2 ? 1.1f : 1f) * (float)base.direction;
+ 								this.ai[0] = -120f;
+ 								this.ai[1] += 1f;
++								this.behindTiles = false;
+ 							}
+ 						}
+ 						else if (this.ai[0] >= -30f) {
+@@ -15252,7 +_,14 @@
+ 					int x = (int)(base.position.X + (float)Main.rand.Next(width - 32));
+ 					int y = (int)(base.position.Y + (float)Main.rand.Next(height - 32));
+ 					int num258 = 1;
++					//50% Chance to spawn spiked slimes if in Master
++					if (Main.masterMode) {
++						if (Main.rand.Next(2) == 0) {
++							num258 = 535;
++						}
++					}
++					//If not Master, 33% chance in Expert
+-					if (Main.expertMode && Main.rand.Next(4) == 0)
++					else if (Main.expertMode && Main.rand.Next(4) == 0)
+ 						num258 = 535;
+ 
+ 					int num259 = NewNPC(x, y, num258);

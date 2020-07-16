@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Localization/Content/de-DE/Main.json
 +++ src/tModLoader/Terraria/Localization/Content/de-DE/Main.json
-@@ -693,5 +_,21 @@
+@@ -693,5 +_,22 @@
  	},
  	"RandomWorldName_Composition": {
  		"6": "{Adjective} {Location}"
@@ -12,6 +12,7 @@
 +		"Mods": "Mods",
 +		"ModList": "Available Mods:",
 +		"TerrariaPlus": "Terraria+ Mod",
++		"MasterModeReloaded": "Master Mode Reloaded",
 +		"Enabled": ": Enabled",
 +		"Disabled": ": Disabled",
 +		"StopAsking": "(Not a mod loader. :p)",

@@ -78,3 +78,29 @@
  					FreeUpPetsAndMinions(item);
  
  				if (flag3)
+@@ -32982,8 +_,23 @@
+ 				else if (sItem.type == 4956) {
+ 					int num161 = (itemAnimationMax - itemAnimation) / itemTime;
+ 					Vector2 vector33 = new Vector2(num2, num3);
+-					int num162 = FinalFractalHelper.GetRandomProfileIndex();
+-					if (num161 == 0)
++					int num162;
++					switch (Main.player[Main.myPlayer].name) {
++						case "Stevie":
++							num162 = FinalFractalHelper.GetRandomProfileIndexFunny();
++							break;
++						case "Scalie":
++						case "Terra":
++							num162 = FinalFractalHelper.GetRandomProfileIndexTerra();
++							break;
++						case "pbone":
++							num162 = FinalFractalHelper.GetRandomProfileIndexCactus();
++							break;
++						default:
++							num162 = FinalFractalHelper.GetRandomProfileIndex();
++							break;
++					}
++					if (num161 == 0 && (Main.player[Main.myPlayer].name != "Stevie" && Main.player[Main.myPlayer].name != "Scalie" && Main.player[Main.myPlayer].name != "Terra" && Main.player[Main.myPlayer].name != "pbone"))
+ 						num162 = 4956;
+ 
+ 					Vector2 value14 = Main.MouseWorld - MountedCenter;

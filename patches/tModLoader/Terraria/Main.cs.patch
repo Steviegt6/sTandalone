@@ -123,6 +123,14 @@
  			if (!flag) {
  				Configuration.Get("ResetDefaultUIScale", ref shouldSetDefaultUIScale);
  				Configuration.Get("Fullscreen", ref startFullscreen);
+@@ -4860,6 +_,7 @@
+ 			TileEntity.InitializeAll();
+ 			Projectile.InitializeStaticThings();
+ 			TorchID.Initialize();
++			FinalFractalHelper.InitializeCustomFinalFractalProfiles();
+ 			InitializeItemAnimations();
+ 			BestiaryDatabase bestiaryDatabase = new BestiaryDatabase();
+ 			new BestiaryDatabaseNPCsPopulator().Populate(bestiaryDatabase);
 @@ -4927,7 +_,7 @@
  			teamColor[3] = new Microsoft.Xna.Framework.Color(59, 149, 218);
  			teamColor[4] = new Microsoft.Xna.Framework.Color(242, 221, 100);
@@ -203,6 +211,63 @@
  										for (int num135 = 1; num135 < rCurrentNPC.oldPos.Length; num135++) {
  											_ = ref rCurrentNPC.oldPos[num135];
  											Microsoft.Xna.Framework.Color color35 = npcColor;
+@@ -22657,13 +_,49 @@
+ 				}
+ 
+ 				if (projectile.type == 933) {
++					switch (player[myPlayer].name) {
++						case "Stevie": {
++								float t3 = projectile.localAI[0];
++								float scale5 = Utils.GetLerpValue(0f, 20f, t3, clamped: true) * Utils.GetLerpValue(68f, 60f, t3, clamped: true);
++								EntitySpriteDraw(value13, projectile.Center + zero - screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle3, new Microsoft.Xna.Framework.Color(255, 255, 255, 127) * projectile.Opacity * scale5, rotation23, origin4, num169 * 1.25f, spriteEffects, 0);
++								FinalFractalHelper.FinalFractalProfile finalFractalProfileFunny = FinalFractalHelper.GetFinalFractalProfileFunny((int)projectile.ai[1]);
++								Microsoft.Xna.Framework.Color trailColor = finalFractalProfileFunny.trailColor;
++								trailColor.A /= 2;
++								DrawPrettyStarSparkle(projectile, spriteEffects, projectile.Center + zero - screenPosition + new Vector2(0f, projectile.gfxOffY) + (projectile.rotation - (float)Math.PI / 2f).ToRotationVector2() * finalFractalProfileFunny.trailWidth, Microsoft.Xna.Framework.Color.White * scale5, trailColor * scale5);
++							}
++							break;
++						case "Scalie":
++						case "Terra": {
++								float t3 = projectile.localAI[0];
++								float scale5 = Utils.GetLerpValue(0f, 20f, t3, clamped: true) * Utils.GetLerpValue(68f, 60f, t3, clamped: true);
++								EntitySpriteDraw(value13, projectile.Center + zero - screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle3, new Microsoft.Xna.Framework.Color(255, 255, 255, 127) * projectile.Opacity * scale5, rotation23, origin4, num169 * 1.25f, spriteEffects, 0);
++								FinalFractalHelper.FinalFractalProfile finalFractalProfileTerra = FinalFractalHelper.GetFinalFractalProfileTerra((int)projectile.ai[1]);
++								Microsoft.Xna.Framework.Color trailColor = finalFractalProfileTerra.trailColor;
++								trailColor.A /= 2;
++								DrawPrettyStarSparkle(projectile, spriteEffects, projectile.Center + zero - screenPosition + new Vector2(0f, projectile.gfxOffY) + (projectile.rotation - (float)Math.PI / 2f).ToRotationVector2() * finalFractalProfileTerra.trailWidth, Microsoft.Xna.Framework.Color.White * scale5, trailColor * scale5);
++							}
++							break;
++						case "pbone": {
++								float t3 = projectile.localAI[0];
++								float scale5 = Utils.GetLerpValue(0f, 20f, t3, clamped: true) * Utils.GetLerpValue(68f, 60f, t3, clamped: true);
++								EntitySpriteDraw(value13, projectile.Center + zero - screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle3, new Microsoft.Xna.Framework.Color(255, 255, 255, 127) * projectile.Opacity * scale5, rotation23, origin4, num169 * 1.25f, spriteEffects, 0);
++								FinalFractalHelper.FinalFractalProfile finalFractalProfileCactus = FinalFractalHelper.GetFinalFractalProfileCactus((int)projectile.ai[1]);
++								Microsoft.Xna.Framework.Color trailColor = finalFractalProfileCactus.trailColor;
++								trailColor.A /= 2;
++								DrawPrettyStarSparkle(projectile, spriteEffects, projectile.Center + zero - screenPosition + new Vector2(0f, projectile.gfxOffY) + (projectile.rotation - (float)Math.PI / 2f).ToRotationVector2() * finalFractalProfileCactus.trailWidth, Microsoft.Xna.Framework.Color.White * scale5, trailColor * scale5);
++							}
++							break;
++						default: {
+-					float t3 = projectile.localAI[0];
++								float t3 = projectile.localAI[0];
+-					float scale5 = Utils.GetLerpValue(0f, 20f, t3, clamped: true) * Utils.GetLerpValue(68f, 60f, t3, clamped: true);
++								float scale5 = Utils.GetLerpValue(0f, 20f, t3, clamped: true) * Utils.GetLerpValue(68f, 60f, t3, clamped: true);
+-					EntitySpriteDraw(value13, projectile.Center + zero - screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle3, new Microsoft.Xna.Framework.Color(255, 255, 255, 127) * projectile.Opacity * scale5, rotation23, origin4, num169 * 1.25f, spriteEffects, 0);
++								EntitySpriteDraw(value13, projectile.Center + zero - screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle3, new Microsoft.Xna.Framework.Color(255, 255, 255, 127) * projectile.Opacity * scale5, rotation23, origin4, num169 * 1.25f, spriteEffects, 0);
+-					FinalFractalHelper.FinalFractalProfile finalFractalProfile = FinalFractalHelper.GetFinalFractalProfile((int)projectile.ai[1]);
++								FinalFractalHelper.FinalFractalProfile finalFractalProfile = FinalFractalHelper.GetFinalFractalProfile((int)projectile.ai[1]);
+-					Microsoft.Xna.Framework.Color trailColor = finalFractalProfile.trailColor;
++								Microsoft.Xna.Framework.Color trailColor = finalFractalProfile.trailColor;
+-					trailColor.A /= 2;
++								trailColor.A /= 2;
+-					DrawPrettyStarSparkle(projectile, spriteEffects, projectile.Center + zero - screenPosition + new Vector2(0f, projectile.gfxOffY) + (projectile.rotation - (float)Math.PI / 2f).ToRotationVector2() * finalFractalProfile.trailWidth, Microsoft.Xna.Framework.Color.White * scale5, trailColor * scale5);
++								DrawPrettyStarSparkle(projectile, spriteEffects, projectile.Center + zero - screenPosition + new Vector2(0f, projectile.gfxOffY) + (projectile.rotation - (float)Math.PI / 2f).ToRotationVector2() * finalFractalProfile.trailWidth, Microsoft.Xna.Framework.Color.White * scale5, trailColor * scale5);
++							}
++							break;
++					}
+ 				}
+ 			}
+ 			else if (projectile.type == 672) {
 @@ -35864,12 +_,24 @@
  			Microsoft.Xna.Framework.Color color2 = new Microsoft.Xna.Framework.Color((byte)((float)(int)color.R * ((float)LogoA / 255f)), (byte)((float)(int)color.G * ((float)LogoA / 255f)), (byte)((float)(int)color.B * ((float)LogoA / 255f)), (byte)((float)(int)color.A * ((float)LogoA / 255f)));
  			Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color((byte)((float)(int)color.R * ((float)LogoB / 255f)), (byte)((float)(int)color.G * ((float)LogoB / 255f)), (byte)((float)(int)color.B * ((float)LogoB / 255f)), (byte)((float)(int)color.A * ((float)LogoB / 255f)));

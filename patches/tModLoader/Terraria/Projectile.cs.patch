@@ -81,3 +81,103 @@
  										num18 = (int)((float)num18 * 0.75f);
  
  									if (type == 497 && penetrate != 1) {
+@@ -25703,22 +_,85 @@
+ 			}
+ 
+ 			if (num2 < 1f) {
++				switch (Main.player[Main.myPlayer].name) { //brackets are only there so I can reuse the same local variable names
++					case "Stevie": {
++							FinalFractalHelper.FinalFractalProfile finalFractalProfileFunny = FinalFractalHelper.GetFinalFractalProfileFunny((int)ai[1]);
++							Vector2 value4 = (rotation - (float)Math.PI / 2f).ToRotationVector2();
++							Vector2 center = base.Center;
++							int num11 = 1 + (int)(velocity.Length() / 100f);
++							num11 = (int)((float)num11 * Utils.GetLerpValue(0f, 0.5f, lerpValue2, clamped: true) * Utils.GetLerpValue(1f, 0.5f, lerpValue2, clamped: true));
++							if (num11 < 1)
++								num11 = 1;
++
++							for (int i = 0; i < num11; i++) {
++								finalFractalProfileFunny.dustMethod(center + value4 * finalFractalProfileFunny.trailWidth * MathHelper.Lerp(0.5f, 1f, Main.rand.NextFloat()), rotation - (float)Math.PI / 2f + (float)Math.PI / 2f * (float)spriteDirection, player.velocity);
++							}
++
++							Vector3 vector = finalFractalProfileFunny.trailColor.ToVector3();
++							Vector3 value5 = Vector3.Lerp(Vector3.One, vector, 0.7f);
++							Lighting.AddLight(base.Center, vector * 0.5f * Opacity);
++							Lighting.AddLight(mountedCenter, value5 * Opacity * 0.15f);
++						}
++						break;
++					case "Scalie":
++					case "Terra": {
++							FinalFractalHelper.FinalFractalProfile finalFractalProfileTerra = FinalFractalHelper.GetFinalFractalProfileTerra((int)ai[1]);
++							Vector2 value4 = (rotation - (float)Math.PI / 2f).ToRotationVector2();
++							Vector2 center = base.Center;
++							int num11 = 1 + (int)(velocity.Length() / 100f);
++							num11 = (int)((float)num11 * Utils.GetLerpValue(0f, 0.5f, lerpValue2, clamped: true) * Utils.GetLerpValue(1f, 0.5f, lerpValue2, clamped: true));
++							if (num11 < 1)
++								num11 = 1;
++
++							for (int i = 0; i < num11; i++) {
++								finalFractalProfileTerra.dustMethod(center + value4 * finalFractalProfileTerra.trailWidth * MathHelper.Lerp(0.5f, 1f, Main.rand.NextFloat()), rotation - (float)Math.PI / 2f + (float)Math.PI / 2f * (float)spriteDirection, player.velocity);
++							}
++
++							Vector3 vector = finalFractalProfileTerra.trailColor.ToVector3();
++							Vector3 value5 = Vector3.Lerp(Vector3.One, vector, 0.7f);
++							Lighting.AddLight(base.Center, vector * 0.5f * Opacity);
++							Lighting.AddLight(mountedCenter, value5 * Opacity * 0.15f);
++						}
++						break;
++					case "pbone": {
++							FinalFractalHelper.FinalFractalProfile finalFractalProfileCactus = FinalFractalHelper.GetFinalFractalProfileCactus((int)ai[1]);
++							Vector2 value4 = (rotation - (float)Math.PI / 2f).ToRotationVector2();
++							Vector2 center = base.Center;
++							int num11 = 1 + (int)(velocity.Length() / 100f);
++							num11 = (int)((float)num11 * Utils.GetLerpValue(0f, 0.5f, lerpValue2, clamped: true) * Utils.GetLerpValue(1f, 0.5f, lerpValue2, clamped: true));
++							if (num11 < 1)
++								num11 = 1;
++
++							for (int i = 0; i < num11; i++) {
++								finalFractalProfileCactus.dustMethod(center + value4 * finalFractalProfileCactus.trailWidth * MathHelper.Lerp(0.5f, 1f, Main.rand.NextFloat()), rotation - (float)Math.PI / 2f + (float)Math.PI / 2f * (float)spriteDirection, player.velocity);
++							}
++
++							Vector3 vector = finalFractalProfileCactus.trailColor.ToVector3();
++							Vector3 value5 = Vector3.Lerp(Vector3.One, vector, 0.7f);
++							Lighting.AddLight(base.Center, vector * 0.5f * Opacity);
++							Lighting.AddLight(mountedCenter, value5 * Opacity * 0.15f);
++						}
++						break;
++					default: {
+-				FinalFractalHelper.FinalFractalProfile finalFractalProfile = FinalFractalHelper.GetFinalFractalProfile((int)ai[1]);
++							FinalFractalHelper.FinalFractalProfile finalFractalProfile = FinalFractalHelper.GetFinalFractalProfile((int)ai[1]);
+-				Vector2 value4 = (rotation - (float)Math.PI / 2f).ToRotationVector2();
++							Vector2 value4 = (rotation - (float)Math.PI / 2f).ToRotationVector2();
+-				Vector2 center = base.Center;
++							Vector2 center = base.Center;
+-				int num11 = 1 + (int)(velocity.Length() / 100f);
++							int num11 = 1 + (int)(velocity.Length() / 100f);
+-				num11 = (int)((float)num11 * Utils.GetLerpValue(0f, 0.5f, lerpValue2, clamped: true) * Utils.GetLerpValue(1f, 0.5f, lerpValue2, clamped: true));
++							num11 = (int)((float)num11 * Utils.GetLerpValue(0f, 0.5f, lerpValue2, clamped: true) * Utils.GetLerpValue(1f, 0.5f, lerpValue2, clamped: true));
+-				if (num11 < 1)
++							if (num11 < 1)
+-					num11 = 1;
++								num11 = 1;
+ 
+-				for (int i = 0; i < num11; i++) {
++							for (int i = 0; i < num11; i++) {
+-					finalFractalProfile.dustMethod(center + value4 * finalFractalProfile.trailWidth * MathHelper.Lerp(0.5f, 1f, Main.rand.NextFloat()), rotation - (float)Math.PI / 2f + (float)Math.PI / 2f * (float)spriteDirection, player.velocity);
++								finalFractalProfile.dustMethod(center + value4 * finalFractalProfile.trailWidth * MathHelper.Lerp(0.5f, 1f, Main.rand.NextFloat()), rotation - (float)Math.PI / 2f + (float)Math.PI / 2f * (float)spriteDirection, player.velocity);
++							}
++
++							Vector3 vector = finalFractalProfile.trailColor.ToVector3();
++							Vector3 value5 = Vector3.Lerp(Vector3.One, vector, 0.7f);
++							Lighting.AddLight(base.Center, vector * 0.5f * Opacity);
++							Lighting.AddLight(mountedCenter, value5 * Opacity * 0.15f);
++						}
++						break;
+ 				}
+-
+-				Vector3 vector = finalFractalProfile.trailColor.ToVector3();
+-				Vector3 value5 = Vector3.Lerp(Vector3.One, vector, 0.7f);
+-				Lighting.AddLight(base.Center, vector * 0.5f * Opacity);
+-				Lighting.AddLight(mountedCenter, value5 * Opacity * 0.15f);
+ 			}
+ 
+ 			Opacity = Utils.GetLerpValue(0f, 5f, localAI[0], clamped: true) * Utils.GetLerpValue(120f, 115f, localAI[0], clamped: true);

@@ -256,7 +256,7 @@
 +							}
 +						}
 +						if (Main.netMode != 1) {
-+							//Projectile.NewProjectile(new Vector2(this.Center.X, this.Bottom.Y), new Vector2(0, 0), ProjectileID.Shockwave, 20, 3f);
++							Projectile.NewProjectile(new Vector2(this.Center.X, this.Bottom.Y), new Vector2(0, 0), ProjectileID.KingSlimeShockwave, 20, 3f);
 +							this.ai[0] = -360f;
 +							this.ai[1] = (float)Main.rand.Next(4);
 +							//So it looks like King Slime is stuck in the ground (give it that OOMPH)

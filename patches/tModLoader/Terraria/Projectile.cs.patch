@@ -27,6 +27,26 @@
  				for (int j = 0; j < 200; j++) {
  					perIDStaticNPCImmunity[i][j] = 0u;
  				}
+@@ -7823,6 +_,19 @@
+ 				hostile = true;
+ 				tileCollide = false;
+ 			}
++			else if (type == 950) {
++				hostile = true;
++				width = 288;
++				height = 48;
++				ignoreWater = true;
++				knockBack = 3f;
++				tileCollide = false;
++				timeLeft = 15;
++				penetrate = -1;
++				velocity = new Vector2(0, 0);
++				aiStyle = -1;
++				alpha = 255;
++			}
+ 			else {
+ 				active = false;
+ 			}
 @@ -7937,7 +_,7 @@
  				projectile.ai[1] = projectile.position.Y;
  			}

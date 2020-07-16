@@ -43,7 +43,7 @@
  		private const string versionStringBecauseTheyreTheSame = "v1.4.0.5";
  		public const int curRelease = 230;
  		public const string assemblyVersionNumber = "1.4.0.5";
-@@ -294,7 +_,7 @@
+@@ -294,11 +_,11 @@
  		public static bool superFast = false;
  		public const int offLimitBorderTiles = 40;
  		public const int maxItemTypes = 5045;
@@ -52,7 +52,12 @@
  		public const int maxNPCTypes = 663;
  		public const int maxTileSets = 623;
  		public const int maxWallTypes = 316;
-@@ -516,8 +_,8 @@
+-		public const int maxBuffTypes = 323;
++		public const int maxBuffTypes = BuffID.Count;
+ 		public const int maxGlowMasks = 301;
+ 		public const int maxExtras = 212;
+ 		public const int maxGoreTypes = 1269;
+@@ -516,17 +_,17 @@
  		public static int buffScanAreaWidth = (maxScreenW + 800) / 16 - 1;
  		public static int buffScanAreaHeight = (maxScreenH + 800) / 16 - 1;
  		public static float musicPitch = 0f;
@@ -60,9 +65,36 @@
 +		public static bool[] projHostile = new bool[ProjectileID.Count];
 -		public static bool[] projHook = new bool[950];
 +		public static bool[] projHook = new bool[ProjectileID.Count];
- 		public static bool[] pvpBuff = new bool[323];
- 		public static bool[] persistentBuff = new bool[323];
- 		public static bool[] vanityPet = new bool[323];
+-		public static bool[] pvpBuff = new bool[323];
++		public static bool[] pvpBuff = new bool[BuffID.Count];
+-		public static bool[] persistentBuff = new bool[323];
++		public static bool[] persistentBuff = new bool[BuffID.Count];
+-		public static bool[] vanityPet = new bool[323];
++		public static bool[] vanityPet = new bool[BuffID.Count];
+-		public static bool[] lightPet = new bool[323];
++		public static bool[] lightPet = new bool[BuffID.Count];
+-		public static bool[] meleeBuff = new bool[323];
++		public static bool[] meleeBuff = new bool[BuffID.Count];
+-		public static bool[] debuff = new bool[323];
++		public static bool[] debuff = new bool[BuffID.Count];
+-		public static bool[] buffNoSave = new bool[323];
++		public static bool[] buffNoSave = new bool[BuffID.Count];
+-		public static bool[] buffNoTimeDisplay = new bool[323];
++		public static bool[] buffNoTimeDisplay = new bool[BuffID.Count];
+-		public static bool[] buffDoubleApply = new bool[323];
++		public static bool[] buffDoubleApply = new bool[BuffID.Count];
+ 		public static int maxMP = 10;
+ 		public static string[] recentWorld = new string[maxMP];
+ 		public static string[] recentIP = new string[maxMP];
+@@ -636,7 +_,7 @@
+ 		public static bool armorHide;
+ 		public static float craftingAlpha = 1f;
+ 		public static float armorAlpha = 1f;
+-		public static float[] buffAlpha = new float[323];
++		public static float[] buffAlpha = new float[BuffID.Count];
+ 		public static bool hardMode;
+ 		public float chestLootScale = 1f;
+ 		public bool chestLootHover;
 @@ -788,8 +_,8 @@
  		public static int BartenderHelpTextIndex = 0;
  		public static bool autoGen;
@@ -109,6 +141,14 @@
  				projFrames[j] = 1;
  			}
  
+@@ -6823,6 +_,7 @@
+ 			debuff[215] = true;
+ 			debuff[320] = true;
+ 			debuff[321] = true;
++			debuff[BuffID.TrueConfusion] = true;
+ 			pvpBuff[20] = true;
+ 			pvpBuff[24] = true;
+ 			pvpBuff[31] = true;
 @@ -8178,6 +_,8 @@
  			base.GraphicsDevice.DeviceResetting += GraphicsDeviceLost;
  			if (_needsLanguageSelect)

@@ -342,17 +342,20 @@
  							}
  						}
  						else if (this.ai[0] >= -30f) {
-@@ -15252,7 +_,19 @@
+@@ -15252,7 +_,22 @@
  					int x = (int)(base.position.X + (float)Main.rand.Next(width - 32));
  					int y = (int)(base.position.Y + (float)Main.rand.Next(height - 32));
  					int num258 = 1;
 +					//50% Chance to spawn spiked slimes if in Master
 +					if (Main.masterMode) {
++						//75% Change to spawn spiked slimes if MMR is enabled
 +						if (Main.masterModeReloaded) {
-+							num258 = 535;
++							if (Main.rand.Next(4) <= 2) {
++								num258 = 535;
++							}
 +						}
 +						else {
-+							if (Main.rand.Next(2) == 0) {
++							if (Main.rand.Next(4) == 0) {
 +								num258 = 535;
 +							}
 +						}

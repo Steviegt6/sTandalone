@@ -1,0 +1,56 @@
+--- src/Terraria/Terraria/Recipe.cs
++++ src/tModLoader/Terraria/Recipe.cs
+@@ -9762,19 +_,40 @@
+ 			currentRecipe.requiredItem[1].SetDefaults(674);
+ 			currentRecipe.requiredTile[0] = 134;
+ 			AddRecipe();
++			if (Main.firstFractalRecipe) {
++				currentRecipe.createItem.SetDefaults(4956);
++				currentRecipe.requiredItem[0].SetDefaults(ItemID.FirstFractal);
++				currentRecipe.requiredItem[1].SetDefaults(2880);
++				currentRecipe.requiredItem[2].SetDefaults(1826);
++				currentRecipe.requiredItem[3].SetDefaults(3018);
++				currentRecipe.requiredItem[4].SetDefaults(65);
++				currentRecipe.requiredItem[5].SetDefaults(1123);
++				currentRecipe.requiredItem[6].SetDefaults(989);
++				currentRecipe.requiredItem[7].SetDefaults(3507);
++				currentRecipe.requiredTile[0] = 134;
++				AddRecipe();
++
++				currentRecipe.createItem.SetDefaults(ItemID.FirstFractal);
++				currentRecipe.requiredItem[0].SetDefaults(ItemID.TerraBlade);
++				currentRecipe.requiredItem[1].SetDefaults(ItemID.Meowmere);
++				currentRecipe.requiredItem[2].SetDefaults(ItemID.StarWrath);
++				AddRecipe();
++			}
++			else {
+-			currentRecipe.createItem.SetDefaults(4956);
++				currentRecipe.createItem.SetDefaults(4956);
+-			currentRecipe.requiredItem[0].SetDefaults(757);
++				currentRecipe.requiredItem[0].SetDefaults(757);
+-			currentRecipe.requiredItem[1].SetDefaults(3063);
++				currentRecipe.requiredItem[1].SetDefaults(3063);
+-			currentRecipe.requiredItem[2].SetDefaults(3065);
++				currentRecipe.requiredItem[2].SetDefaults(3065);
+-			currentRecipe.requiredItem[3].SetDefaults(2880);
++				currentRecipe.requiredItem[3].SetDefaults(2880);
+-			currentRecipe.requiredItem[4].SetDefaults(1826);
++				currentRecipe.requiredItem[4].SetDefaults(1826);
+-			currentRecipe.requiredItem[5].SetDefaults(3018);
++				currentRecipe.requiredItem[5].SetDefaults(3018);
+-			currentRecipe.requiredItem[6].SetDefaults(65);
++				currentRecipe.requiredItem[6].SetDefaults(65);
+-			currentRecipe.requiredItem[7].SetDefaults(1123);
++				currentRecipe.requiredItem[7].SetDefaults(1123);
+-			currentRecipe.requiredItem[8].SetDefaults(989);
++				currentRecipe.requiredItem[8].SetDefaults(989);
+-			currentRecipe.requiredItem[9].SetDefaults(3507);
++				currentRecipe.requiredItem[9].SetDefaults(3507);
+-			currentRecipe.requiredTile[0] = 134;
++				currentRecipe.requiredTile[0] = 134;
+-			AddRecipe();
++				AddRecipe();
++			}
+ 			currentRecipe.createItem.SetDefaults(389);
+ 			currentRecipe.requiredItem[0].SetDefaults(527);
+ 			currentRecipe.requiredItem[1].SetDefaults(528);

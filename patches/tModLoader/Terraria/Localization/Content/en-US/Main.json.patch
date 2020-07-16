@@ -77,7 +77,7 @@
  	},
  	"RandomWorldName_Location": {
  		"Abode": "Abode",
-@@ -2646,8 +_,20 @@
+@@ -2646,8 +_,24 @@
  		"PlayingMulti": "Playing Multi-Player"
  	},
  
@@ -96,6 +96,10 @@
 +		"Enabled": ": Enabled",
 +		"Disabled": ": Disabled",
 +		"StopAsking": "(Not a mod loader. :p)",
-+		"RestartRequired": "(Restart Required!)"
++		"RestartRequired": "(Restart Required!)",
++		"ModSettings": "Mod Settings",
++		"SlowerMasterModeRarity": "Slower Master Mode Rarity",
++		"FirstFractalRecipe": "First Fractal Crafting Recipe",
++		"AccessoryInAnyVanity": "Any Accessory in Vanity Slots"
  	}
  }

@@ -1,0 +1,12 @@
+--- src/Terraria/Terraria/Item.cs
++++ src/tModLoader/Terraria/Item.cs
+@@ -170,6 +_,9 @@
+ 
+ 		public bool FitsAccessoryVanitySlot {
+ 			get {
++				if ((Main.terrariaPlus && Main.enabledMods.Contains(Main.Mod.TerrariaPlus)) && Main.allAccessoriesInVanitySlots)
++					return accessory && balloonSlot != 1;
++
+ 				if (!canBePlacedInVanityRegardlessOfConditions && handOnSlot == -1 && handOffSlot == -1 && backSlot == -1 && frontSlot == -1 && shoeSlot == -1 && waistSlot == -1 && wingSlot == -1 && shieldSlot == -1 && neckSlot == -1 && faceSlot == -1)
+ 					return balloonSlot != -1;
+ 

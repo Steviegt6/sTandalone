@@ -43,6 +43,16 @@
  		private const string versionStringBecauseTheyreTheSame = "v1.4.0.5";
  		public const int curRelease = 230;
  		public const string assemblyVersionNumber = "1.4.0.5";
+@@ -279,6 +_,9 @@
+ 		public static ulong TileFrameSeed = (ulong)Guid.NewGuid().GetHashCode();
+ 		private static ulong _drawCycleCounter;
+ 		public static ContentManager ShaderContentManager;
++		#region Modded Shaders
++		public static Ref<Effect> VerticalMirrorRef = new Ref<Effect>();
++		#endregion
+ 		public static Ref<Effect> ScreenShaderRef = new Ref<Effect>();
+ 		public static Ref<Effect> PixelShaderRef = new Ref<Effect>();
+ 		public static Ref<Effect> TileShaderRef = new Ref<Effect>();
 @@ -294,11 +_,11 @@
  		public static bool superFast = false;
  		public const int offLimitBorderTiles = 40;
@@ -166,6 +176,16 @@
  
  			_achievements = new AchievementManager();
  			_achievementAdvisor = new AchievementAdvisor();
+@@ -8238,6 +_,9 @@
+ 			VertexPixelShaderRef.Value = ShaderContentManager.Load<Effect>("PixelShader");
+ 			TileShaderRef.Value = ShaderContentManager.Load<Effect>("TileShader");
+ 			ScreenShaderRef.Value = ShaderContentManager.Load<Effect>("ScreenShader");
++			#region Modded Shaders Initialization
++			VerticalMirrorRef.Value = ShaderContentManager.Load<Effect>("VerticalMirror");
++			#endregion
+ 			spriteBatch = new SpriteBatch(base.GraphicsDevice);
+ 			tileBatch = new TileBatch(base.GraphicsDevice);
+ 			DebugDrawer = new BasicDebugDrawer(base.GraphicsDevice);
 @@ -13285,7 +_,7 @@
  			if (mouseTextColor <= 190)
  				mouseTextColorChange = 1;
@@ -202,6 +222,15 @@
  					toolTipLine[numLines] = Language.GetText("Misc.CanBePlacedInVanity").Value;
  					numLines++;
  				}
+@@ -18509,7 +_,7 @@
+ 										Microsoft.Xna.Framework.Color alpha11 = rCurrentNPC.GetAlpha(npcColor);
+ 										float num115 = 1f - (float)rCurrentNPC.life / (float)rCurrentNPC.lifeMax;
+ 										num115 *= num115;
+-										if (getGoodWorld)
++										if (getGoodWorld || (masterModeReloaded && masterMode))
+ 											num115 = 1f;
+ 
+ 										alpha11.R = (byte)((float)(int)alpha11.R * num115);
 @@ -18877,7 +_,7 @@
  									else if (type == 389) {
  										mySpriteBatch.Draw(TextureAssets.GlowMask[34].Value, new Vector2(rCurrentNPC.position.X - screenPos.X + (float)(rCurrentNPC.width / 2) - (float)TextureAssets.Npc[type].Width() * rCurrentNPC.scale / 2f + halfSize.X * rCurrentNPC.scale, rCurrentNPC.position.Y - screenPos.Y + (float)rCurrentNPC.height - (float)TextureAssets.Npc[type].Height() * rCurrentNPC.scale / (float)npcFrameCount[type] + 4f + halfSize.Y * rCurrentNPC.scale + num37 + num36 + rCurrentNPC.gfxOffY), frame5, new Microsoft.Xna.Framework.Color(255, 255, 255, 0), rCurrentNPC.rotation, halfSize, rCurrentNPC.scale, spriteEffects, 0f);

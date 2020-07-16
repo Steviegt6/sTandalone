@@ -41,6 +41,21 @@
  				else if (BuffID.Sets.BasicMountData[buffType[j]] != null) {
  					BuffID.Sets.BuffMountData buffMountData = BuffID.Sets.BasicMountData[buffType[j]];
  					mount.SetMount(buffMountData.mountID, this, buffMountData.faceLeft);
+@@ -7786,6 +_,14 @@
+ 				luckNeedsSync = true;
+ 				oldLuckPotion = luckPotion;
+ 			}
++			PostUpdateBuffs();
++		}
++
++		private void PostUpdateBuffs() {
++			if (trulyConfused)
++				Filters.Scene.Activate("VerticalMirror");
++			else
++				Filters.Scene.Deactivate("VerticalMirror");
+ 		}
+ 
+ 		private void UpdateProjectileCaches(int i) {
 @@ -12327,6 +_,9 @@
  			else
  				extraAccessorySlots = 0;

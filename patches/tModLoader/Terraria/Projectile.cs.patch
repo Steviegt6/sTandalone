@@ -31,7 +31,7 @@
  				hostile = true;
  				tileCollide = false;
  			}
-+			else if (type == 950) {
++			else if (type == ProjectileID.KingSlimeShockwave) {
 +				hostile = true;
 +				width = 288;
 +				height = 48;

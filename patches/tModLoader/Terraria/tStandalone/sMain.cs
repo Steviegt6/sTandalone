@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Terraria.sTandalone
+namespace Terraria.tStandalone
 {
 	public class sMain
 	{
-		public static void sTandalonePut() {
+		public static void tStandalonePut() {
 			Main.Configuration.Put("ShowWelcomeMessage", Main._showWelcomeMessage);
 			Main.Configuration.Put("UselessDontEditThis", Main.restartRequired);
 			Main.Configuration.Put("TerrariaPlus", Main.terrariaPlus);
@@ -17,7 +17,7 @@ namespace Terraria.sTandalone
 			Main.Configuration.Put("SlowerMasterModeRarity", Main.slowerMasterModeRarity);
 			Main.Configuration.Put("AllAccessorySlotsInVanity", Main.allAccessoriesInVanitySlots);
 		}
-		public static void sTandaloneGet() {
+		public static void tStandaloneGet() {
 			Main.Configuration.Get("ShowWelcomeMessage", ref Main._showWelcomeMessage);
 			Main.Configuration.Get("UselessDontEditThis", false);
 			Main.Configuration.Get("TerrariaPlus", ref Main.terrariaPlus);

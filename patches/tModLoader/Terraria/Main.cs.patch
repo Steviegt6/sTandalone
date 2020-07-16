@@ -4,7 +4,7 @@
  using Terraria.Net;
  using Terraria.ObjectData;
  using Terraria.Social;
-+using Terraria.sTandalone;
++using Terraria.tStandalone;
  using Terraria.UI;
  using Terraria.UI.Chat;
  using Terraria.UI.Gamepad;
@@ -12,9 +12,9 @@
  			public bool LanternNightActive;
  		}
  
-+		//STANDALONE VARIABLES
-+		#region STANDALONE
-+		public static string sTandaloneVersion = "v1.0.0.0";
++		//tStandalone VARIABLES
++		#region tStandalone
++		public static string tStandaloneVersion = "v1.0.0.0";
 +
 +		public static bool _showWelcomeMessage = true;
 +		public static bool restartRequired = false;
@@ -37,8 +37,8 @@
 +		public static bool firstFractalRecipe = false;
 +		public static bool slowerMasterModeRarity = false;
 +		public static bool allAccessoriesInVanitySlots = false;
-+		#endregion
-+		#endregion
++		#endregion TERRARIA_PLUS
++		#endregion tStandalone
 +
  		private const string versionStringBecauseTheyreTheSame = "v1.4.0.5";
  		public const int curRelease = 230;
@@ -47,7 +47,7 @@
  
  		public static bool SaveSettings() {
  			Configuration.Clear();
-+			sMain.sTandalonePut();
++			sMain.tStandalonePut();
  			Configuration.Put("ResetDefaultUIScale", false);
  			Configuration.Put("SmartCursorToggle", cSmartCursorModeIsToggleAndNotHold);
  			Configuration.Put("MapEnabled", mapEnabled);
@@ -55,7 +55,7 @@
  			if (currentValue < 219)
  				flag = true;
  
-+			sMain.sTandaloneGet();
++			sMain.tStandaloneGet();
 +
  			if (!flag) {
  				Configuration.Get("ResetDefaultUIScale", ref shouldSetDefaultUIScale);
@@ -380,11 +380,11 @@
 +					Vector2 origin1 = FontAssets.MouseText.Value.MeasureString("Terraria " + versionNumber);
 +					spriteBatch.DrawString(FontAssets.MouseText.Value, "Terraria " + versionNumber, new Vector2(origin1.X + (float)num108 + 10f, (float)screenHeight - origin1.Y + (float)num109 - 2f), color12, 0f, origin1, 1f, SpriteEffects.None, 0f);
 +
-+					Vector2 origin2 = FontAssets.MouseText.Value.MeasureString("sTandalone " + sTandaloneVersion);
++					Vector2 origin2 = FontAssets.MouseText.Value.MeasureString("tStandalone " + tStandaloneVersion);
  					origin2.X *= 0.5f;
  					origin2.Y *= 0.5f;
 -					spriteBatch.DrawString(FontAssets.MouseText.Value, versionNumber, new Vector2(origin2.X + (float)num108 + 10f, (float)screenHeight - origin2.Y + (float)num109 - 2f), color12, 0f, origin2, 1f, SpriteEffects.None, 0f);
-+					spriteBatch.DrawString(FontAssets.MouseText.Value, "sTandalone " + sTandaloneVersion, new Vector2(origin2.X + (float)num108 + 10f, (float)screenHeight - origin2.Y + (float)num109 - 2f), color12, 0f, origin2, 1f, SpriteEffects.None, 0f);
++					spriteBatch.DrawString(FontAssets.MouseText.Value, "tStandalone " + tStandaloneVersion, new Vector2(origin2.X + (float)num108 + 10f, (float)screenHeight - origin2.Y + (float)num109 - 2f), color12, 0f, origin2, 1f, SpriteEffects.None, 0f);
  				}
  			}
  

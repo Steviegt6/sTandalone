@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/Lang.cs
++++ src/tModLoader/Terraria/Lang.cs
+@@ -36,7 +_,7 @@
+ 		public static LocalizedText[] prefix = new LocalizedText[85];
+ 		public static LocalizedText[] _mapLegendCache;
+ 		private static LocalizedText[] _itemNameCache = new LocalizedText[5045];
+-		private static LocalizedText[] _projectileNameCache = new LocalizedText[950];
++		private static LocalizedText[] _projectileNameCache = new LocalizedText[ProjectileID.Count];
+ 		private static LocalizedText[] _npcNameCache = new LocalizedText[663];
+ 		private static LocalizedText[] _negativeNpcNameCache = new LocalizedText[65];
+ 		private static LocalizedText[] _buffNameCache = new LocalizedText[323];

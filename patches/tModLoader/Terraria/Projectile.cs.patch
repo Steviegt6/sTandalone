@@ -1,0 +1,63 @@
+--- src/Terraria/Terraria/Projectile.cs
++++ src/tModLoader/Terraria/Projectile.cs
+@@ -56,7 +_,7 @@
+ 			public Rectangle GetBulletHitbox(int bulletIndex, Vector2 centerPoint) => Utils.CenteredRectangle(GetBulletPosition(bulletIndex, centerPoint), BulletSize);
+ 		}
+ 
+-		public static uint[][] perIDStaticNPCImmunity = new uint[950][];
++		public static uint[][] perIDStaticNPCImmunity = new uint[ProjectileID.Count][];
+ 		public const int SentryLifeTime = 7200;
+ 		public const int ArrowLifeTime = 1200;
+ 		public float ownerHitCheckDistance = 1000f;
+@@ -179,7 +_,7 @@
+ 		}
+ 
+ 		public static void InitializeStaticThings() {
+-			perIDStaticNPCImmunity = new uint[950][];
++			perIDStaticNPCImmunity = new uint[ProjectileID.Count][];
+ 			for (int i = 0; i < perIDStaticNPCImmunity.Length; i++) {
+ 				perIDStaticNPCImmunity[i] = new uint[200];
+ 			}
+@@ -188,7 +_,7 @@
+ 		}
+ 
+ 		public static void ResetImmunity() {
+-			for (int i = 0; i < 950; i++) {
++			for (int i = 0; i < ProjectileID.Count; i++) {
+ 				for (int j = 0; j < 200; j++) {
+ 					perIDStaticNPCImmunity[i][j] = 0u;
+ 				}
+@@ -7937,7 +_,7 @@
+ 				projectile.ai[1] = projectile.position.Y;
+ 			}
+ 
+-			if (Type > 0 && Type < 950) {
++			if (Type > 0 && Type < ProjectileID.Count) {
+ 				if (ProjectileID.Sets.NeedsUUID[Type])
+ 					projectile.projUUID = projectile.identity;
+ 
+@@ -8987,13 +_,13 @@
+ 									}
+ 
+ 									int num9 = (int)((float)damage * num5);
+-									if (type > 0 && type < 950 && ProjectileID.Sets.StardustDragon[type]) {
++									if (type > 0 && type < ProjectileID.Count && ProjectileID.Sets.StardustDragon[type]) {
+ 										float value2 = (scale - 1f) * 100f;
+ 										value2 = Utils.Clamp(value2, 0f, 50f);
+ 										num9 = (int)((float)num9 * (1f + value2 * 0.23f));
+ 									}
+ 
+-									if (type > 0 && type < 950 && ProjectileID.Sets.StormTiger[type]) {
++									if (type > 0 && type < ProjectileID.Count && ProjectileID.Sets.StormTiger[type]) {
+ 										int num10 = Math.Max(0, Main.player[owner].ownedProjectileCounts[831] - 1);
+ 										num9 = (int)((float)num9 * (1f + (float)num10 * 0.33333334f));
+ 									}
+@@ -9295,7 +_,7 @@
+ 											num18 = (int)((double)num18 * 0.75);
+ 									}
+ 
+-									if (Main.netMode != 2 && nPC.type == 439 && type >= 0 && type <= 950 && ProjectileID.Sets.CountsAsHoming[type])
++									if (Main.netMode != 2 && nPC.type == 439 && type >= 0 && type <= ProjectileID.Count && ProjectileID.Sets.CountsAsHoming[type])
+ 										num18 = (int)((float)num18 * 0.75f);
+ 
+ 									if (type == 497 && penetrate != 1) {

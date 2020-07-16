@@ -43,6 +43,37 @@
  		private const string versionStringBecauseTheyreTheSame = "v1.4.0.5";
  		public const int curRelease = 230;
  		public const string assemblyVersionNumber = "1.4.0.5";
+@@ -294,7 +_,7 @@
+ 		public static bool superFast = false;
+ 		public const int offLimitBorderTiles = 40;
+ 		public const int maxItemTypes = 5045;
+-		public const int maxProjectileTypes = 950;
++		public const int maxProjectileTypes = ProjectileID.Count;
+ 		public const int maxNPCTypes = 663;
+ 		public const int maxTileSets = 623;
+ 		public const int maxWallTypes = 316;
+@@ -516,8 +_,8 @@
+ 		public static int buffScanAreaWidth = (maxScreenW + 800) / 16 - 1;
+ 		public static int buffScanAreaHeight = (maxScreenH + 800) / 16 - 1;
+ 		public static float musicPitch = 0f;
+-		public static bool[] projHostile = new bool[950];
++		public static bool[] projHostile = new bool[ProjectileID.Count];
+-		public static bool[] projHook = new bool[950];
++		public static bool[] projHook = new bool[ProjectileID.Count];
+ 		public static bool[] pvpBuff = new bool[323];
+ 		public static bool[] persistentBuff = new bool[323];
+ 		public static bool[] vanityPet = new bool[323];
+@@ -788,8 +_,8 @@
+ 		public static int BartenderHelpTextIndex = 0;
+ 		public static bool autoGen;
+ 		public static bool autoPause = false;
+-		public static int[] projFrames = new int[950];
++		public static int[] projFrames = new int[ProjectileID.Count];
+-		public static bool[] projPet = new bool[950];
++		public static bool[] projPet = new bool[ProjectileID.Count];
+ 		public static float demonTorch = 1f;
+ 		public static int demonTorchDir = 1;
+ 		public static float martianLight = 1f;
 @@ -3031,6 +_,7 @@
  
  		public static bool SaveSettings() {
@@ -60,6 +91,24 @@
  			if (!flag) {
  				Configuration.Get("ResetDefaultUIScale", ref shouldSetDefaultUIScale);
  				Configuration.Get("Fullscreen", ref startFullscreen);
+@@ -4927,7 +_,7 @@
+ 			teamColor[3] = new Microsoft.Xna.Framework.Color(59, 149, 218);
+ 			teamColor[4] = new Microsoft.Xna.Framework.Color(242, 221, 100);
+ 			teamColor[5] = new Microsoft.Xna.Framework.Color(224, 100, 242);
+-			for (int m = 1; m < 950; m++) {
++			for (int m = 1; m < ProjectileID.Count; m++) {
+ 				Projectile obj = new Projectile();
+ 				obj.SetDefaults(m);
+ 				if (obj.hostile)
+@@ -6424,7 +_,7 @@
+ 				tileGlowMask[i] = -1;
+ 			}
+ 
+-			for (int j = 0; j < 950; j++) {
++			for (int j = 0; j < ProjectileID.Count; j++) {
+ 				projFrames[j] = 1;
+ 			}
+ 
 @@ -8178,6 +_,8 @@
  			base.GraphicsDevice.DeviceResetting += GraphicsDeviceLost;
  			if (_needsLanguageSelect)

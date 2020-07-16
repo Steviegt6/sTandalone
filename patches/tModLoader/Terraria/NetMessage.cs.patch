@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/NetMessage.cs
++++ src/tModLoader/Terraria/NetMessage.cs
+@@ -614,7 +_,7 @@
+ 							if (projectile.knockBack != 0f)
+ 								bb21[5] = true;
+ 
+-							if (projectile.type > 0 && projectile.type < 950 && ProjectileID.Sets.NeedsUUID[projectile.type])
++							if (projectile.type > 0 && projectile.type < ProjectileID.Count && ProjectileID.Sets.NeedsUUID[projectile.type])
+ 								bb21[7] = true;
+ 
+ 							if (projectile.originalDamage != 0)

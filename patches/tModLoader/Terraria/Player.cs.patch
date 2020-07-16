@@ -1,0 +1,20 @@
+--- src/Terraria/Terraria/Player.cs
++++ src/tModLoader/Terraria/Player.cs
+@@ -1267,7 +_,7 @@
+ 		public int cUnicornHorn;
+ 		public int cMinion;
+ 		public int cLeinShampoo;
+-		public int[] ownedProjectileCounts = new int[950];
++		public int[] ownedProjectileCounts = new int[ProjectileID.Count];
+ 		public bool[] npcTypeNoAggro = new bool[663];
+ 		public int lastPortalColorIndex;
+ 		public int _portalPhysicsTime;
+@@ -29082,7 +_,7 @@
+ 				if (whoAmI == Main.myPlayer && gravDir == 1f && item.mountType != -1 && mount.CanMount(item.mountType, this))
+ 					mount.SetMount(item.mountType, this);
+ 
+-				if ((item.shoot <= 0 || !ProjectileID.Sets.MinionTargettingFeature[item.shoot] || altFunctionUse != 2) && flag3 && whoAmI == Main.myPlayer && item.shoot >= 0 && item.shoot < 950 && (ProjectileID.Sets.LightPet[item.shoot] || Main.projPet[item.shoot]))
++				if ((item.shoot <= 0 || !ProjectileID.Sets.MinionTargettingFeature[item.shoot] || altFunctionUse != 2) && flag3 && whoAmI == Main.myPlayer && item.shoot >= 0 && item.shoot < ProjectileID.Count && (ProjectileID.Sets.LightPet[item.shoot] || Main.projPet[item.shoot]))
+ 					FreeUpPetsAndMinions(item);
+ 
+ 				if (flag3)

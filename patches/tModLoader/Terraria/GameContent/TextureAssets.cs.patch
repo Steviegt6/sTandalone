@@ -1,5 +1,14 @@
 --- src/Terraria/Terraria/GameContent/TextureAssets.cs
 +++ src/tModLoader/Terraria/GameContent/TextureAssets.cs
+@@ -181,7 +_,7 @@
+ 		public static Asset<Texture2D>[] Item = new Asset<Texture2D>[5045];
+ 		public static Asset<Texture2D>[] ItemFlame = new Asset<Texture2D>[5045];
+ 		public static Asset<Texture2D>[] Npc = new Asset<Texture2D>[663];
+-		public static Asset<Texture2D>[] Projectile = new Asset<Texture2D>[950];
++		public static Asset<Texture2D>[] Projectile = new Asset<Texture2D>[Terraria.ID.ProjectileID.Count];
+ 		public static Asset<Texture2D>[] Gore = new Asset<Texture2D>[1269];
+ 		public static Asset<Texture2D>[] BackPack = new Asset<Texture2D>[9];
+ 		public static Asset<Texture2D> Rain;
 @@ -249,6 +_,12 @@
  		public static Asset<Texture2D> Logo2;
  		public static Asset<Texture2D> Logo3;

@@ -204,7 +204,18 @@
  					SoundEngine.PlaySound(10);
  					SaveSettings();
  				}
-@@ -36391,7 +_,7 @@
+@@ -36382,8 +_,8 @@
+ 				_blockFancyUIWhileLoading = false;
+ 				_pendingCharacterSelect = null;
+ 				DD2Event.Ongoing = false;
+-				eclipse = false;
+-				pumpkinMoon = false;
++				eclipse = masterModeReloaded ? true : false;
++				pumpkinMoon = masterModeReloaded ? true : false;
+ 				snowMoon = false;
+ 				ServerSideCharacter = false;
+ 				menuMultiplayer = false;
+@@ -36391,20 +_,20 @@
  				netMode = 0;
  				ClearVisualPostProcessEffects();
  				int num11 = 0;
@@ -213,6 +224,21 @@
  				num4 = 60;
  				array9[num11] = Lang.menu[12].Value;
  				if (selectedMenu == num11) {
+ 					SoundEngine.PlaySound(10);
+ 					ClearPendingPlayerSelectCallbacks();
+-					menuMode = 1;
++					menuMode = (restartRequired) ? 694204 : 1;
+ 				}
+ 
+ 				num11++;
+ 				array9[num11] = Lang.menu[13].Value;
+ 				if (selectedMenu == num11) {
+ 					SoundEngine.PlaySound(10);
+-					menuMode = 12;
++					menuMode = (restartRequired) ? 694205 : 12;
+ 				}
+ 
+ 				num11++;
 @@ -36424,6 +_,13 @@
  				}
  
@@ -262,7 +288,7 @@
  					array9[num20] = Lang.menu[5].Value;
  					if (selectedMenu == num20 || flag5) {
  						flag5 = false;
-@@ -38121,6 +_,142 @@
+@@ -38121,6 +_,164 @@
  						netMode = 0;
  					}
  				}
@@ -401,6 +427,28 @@
 +					array9[num20] = (restartRequired ? Language.GetTextValue("Modded.RestartRequired") : "");
 +					array6[num20] = 3;
 +					array[num20] = true;
++				}
++				else if (menuMode == 694204) {
++					num5 = 2;
++					array9[0] = Language.GetTextValue("Modded.RestartMessage");
++					array[0] = true;
++					num2 = 220;
++					num4 = 250;
++					array9[1] = Language.GetTextValue("Modded.Continue");
++					if (selectedMenu == 1) {
++						menuMode = 1;
++					}
++				}
++				else if (menuMode == 694205) {
++					num5 = 2;
++					array9[0] = Language.GetTextValue("Modded.RestartMessage");
++					array[0] = true;
++					num2 = 220;
++					num4 = 250;
++					array9[1] = Language.GetTextValue("Modded.Continue");
++					if (selectedMenu == 1) {
++						menuMode = 12;
++					}
 +				}
  			}
  

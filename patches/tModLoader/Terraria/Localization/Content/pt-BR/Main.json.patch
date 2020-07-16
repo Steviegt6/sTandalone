@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Localization/Content/pt-BR/Main.json
 +++ src/tModLoader/Terraria/Localization/Content/pt-BR/Main.json
-@@ -693,5 +_,22 @@
+@@ -693,5 +_,23 @@
  	},
  	"RandomWorldName_Composition": {
  		"6": "{Adjective} {Location}"
@@ -20,6 +20,7 @@
 +		"ModSettings": "Mod Settings",
 +		"SlowerMasterModeRarity": "Slower Master Mode Rarity",
 +		"FirstFractalRecipe": "First Fractal Crafting Recipe",
-+		"AccessoryInAnyVanity": "Any Accessory in Vanity Slots"
++		"AccessoryInAnyVanity": "Any Accessory in Vanity Slots",
++		"RestartMessage": "You've made mod-related changes to your settings. Please restart your game!"
  	}
  }

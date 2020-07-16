@@ -7,20 +7,20 @@
 +	},
 +	"Modded": {
 +		"ModdedCategory": "Modded",
-+		"Continue": "Continue",
-+		"WelcomeMessage": "Hey! Thanks for using tStandalone. Hope you like it! :D",
++		"Continue": "Continuar",
++		"WelcomeMessage": "¡Hey! Gracias por usar tStandalone. Espero que te guste :D",
 +		"Mods": "Mods",
-+		"ModList": "Available Mods:",
++		"ModList": "Mods Disponibles:",
 +		"TerrariaPlus": "Terraria+ Mod",
 +		"MasterModeReloaded": "Master Mode Reloaded",
-+		"Enabled": ": Enabled",
-+		"Disabled": ": Disabled",
-+		"StopAsking": "(Not a mod loader. :p)",
-+		"RestartRequired": "(Restart Required!)",
-+		"ModSettings": "Mod Settings",
-+		"SlowerMasterModeRarity": "Slower Master Mode Rarity",
-+		"FirstFractalRecipe": "First Fractal Crafting Recipe",
-+		"AccessoryInAnyVanity": "Any Accessory in Vanity Slots",
-+		"RestartMessage": "You've made mod-related changes to your settings. Please restart your game!"
++		"Enabled": ": Activado",
++		"Disabled": ": Desactivado",
++		"StopAsking": "(No es un cargador de mods. :p)",
++		"RestartRequired": "(¡Reinicio Requerido!)",
++		"ModSettings": "Configuraciones de mods",
++		"SlowerMasterModeRarity": "Rareza de Modo Maestro más Lenta",
++		"FirstFractalRecipe": "Receta de elaboración del Primer Fractal",
++		"AccessoryInAnyVanity": "Cualquier Accesorio en Ranuras de Vanidad",
++		"RestartMessage": "Has hecho cambios relacionados con mods a las configuraciones. ¡Porfavor reinicia el juego!"
  	}
  }

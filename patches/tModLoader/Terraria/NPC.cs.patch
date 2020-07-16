@@ -342,14 +342,19 @@
  							}
  						}
  						else if (this.ai[0] >= -30f) {
-@@ -15252,7 +_,14 @@
+@@ -15252,7 +_,19 @@
  					int x = (int)(base.position.X + (float)Main.rand.Next(width - 32));
  					int y = (int)(base.position.Y + (float)Main.rand.Next(height - 32));
  					int num258 = 1;
 +					//50% Chance to spawn spiked slimes if in Master
 +					if (Main.masterMode) {
-+						if (Main.rand.Next(2) == 0) {
++						if (Main.masterModeReloaded) {
 +							num258 = 535;
++						}
++						else {
++							if (Main.rand.Next(2) == 0) {
++								num258 = 535;
++							}
 +						}
 +					}
 +					//If not Master, 33% chance in Expert

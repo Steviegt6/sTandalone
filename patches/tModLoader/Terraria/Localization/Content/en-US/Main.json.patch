@@ -77,7 +77,7 @@
  	},
  	"RandomWorldName_Location": {
  		"Abode": "Abode",
-@@ -2646,8 +_,24 @@
+@@ -2646,8 +_,25 @@
  		"PlayingMulti": "Playing Multi-Player"
  	},
  
@@ -93,6 +93,7 @@
 +		"Mods": "Mods",
 +		"ModList": "Available Mods:",
 +		"TerrariaPlus": "Terraria+ Mod",
++		"MasterModeReloaded": "Master Mode Reloaded",
 +		"Enabled": ": Enabled",
 +		"Disabled": ": Disabled",
 +		"StopAsking": "(Not a mod loader. :p)",

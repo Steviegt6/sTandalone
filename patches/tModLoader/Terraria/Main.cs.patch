@@ -8,7 +8,7 @@
  using Terraria.UI;
  using Terraria.UI.Chat;
  using Terraria.UI.Gamepad;
-@@ -175,6 +_,32 @@
+@@ -175,6 +_,34 @@
  			public bool LanternNightActive;
  		}
  
@@ -19,6 +19,7 @@
 +		public static bool _showWelcomeMessage = true;
 +		public static bool restartRequired = false;
 +		public static bool terrariaPlus = false;
++		public static bool masterModeReloaded = false;
 +
 +		public static int YellowtoWhiteDir = 1;
 +
@@ -26,7 +27,8 @@
 +
 +		public enum Mod
 +		{
-+			TerrariaPlus
++			TerrariaPlus,
++			MasterModeReloaded
 +		}
 +
 +		public static List<Mod> enabledMods = new List<Mod>();
@@ -103,6 +105,15 @@
  					toolTipLine[numLines] = Language.GetText("Misc.CanBePlacedInVanity").Value;
  					numLines++;
  				}
+@@ -18877,7 +_,7 @@
+ 									else if (type == 389) {
+ 										mySpriteBatch.Draw(TextureAssets.GlowMask[34].Value, new Vector2(rCurrentNPC.position.X - screenPos.X + (float)(rCurrentNPC.width / 2) - (float)TextureAssets.Npc[type].Width() * rCurrentNPC.scale / 2f + halfSize.X * rCurrentNPC.scale, rCurrentNPC.position.Y - screenPos.Y + (float)rCurrentNPC.height - (float)TextureAssets.Npc[type].Height() * rCurrentNPC.scale / (float)npcFrameCount[type] + 4f + halfSize.Y * rCurrentNPC.scale + num37 + num36 + rCurrentNPC.gfxOffY), frame5, new Microsoft.Xna.Framework.Color(255, 255, 255, 0), rCurrentNPC.rotation, halfSize, rCurrentNPC.scale, spriteEffects, 0f);
+ 									}
+-									else if (type == 4 && rCurrentNPC.ai[1] >= 4f && rCurrentNPC.ai[0] == 3f) {
++									else if (type == 4 && ((rCurrentNPC.ai[1] >= 4f && rCurrentNPC.ai[0] == 3f) || (rCurrentNPC.ai[0] == 5f && rCurrentNPC.ai[1] == 1f))) {
+ 										for (int num135 = 1; num135 < rCurrentNPC.oldPos.Length; num135++) {
+ 											_ = ref rCurrentNPC.oldPos[num135];
+ 											Microsoft.Xna.Framework.Color color35 = npcColor;
 @@ -35964,7 +_,10 @@
  				if (selectedMenu >= 1) {
  					changeTheTitle = true;
@@ -173,7 +184,7 @@
  					array9[num20] = Lang.menu[5].Value;
  					if (selectedMenu == num20 || flag5) {
  						flag5 = false;
-@@ -38121,6 +_,136 @@
+@@ -38121,6 +_,141 @@
  						netMode = 0;
  					}
  				}
@@ -214,13 +225,18 @@
 +					array9[num20] = Language.GetTextValue("Modded.TerrariaPlus") + ((terrariaPlus && enabledMods.Contains(Mod.TerrariaPlus)) ? Language.GetTextValue("Modded.Enabled") : Language.GetTextValue("Modded.Disabled"));
 +					if (selectedMenu == num20) {
 +						SoundEngine.PlaySound(10);
-+						terrariaPlus = terrariaPlus ? false : true;
++						terrariaPlus = !terrariaPlus;
 +
 +						restartRequired = true;
 +					}
 +
 +					num20++;
-+					//array9[num20] = "";
++					array9[num20] = Language.GetTextValue("Modded.MasterModeReloaded") + ((masterModeReloaded && enabledMods.Contains(Mod.MasterModeReloaded)) ? Language.GetTextValue("Modded.Enabled") : Language.GetTextValue("Modded.Disabled"));
++					if (selectedMenu == num20) {
++						SoundEngine.PlaySound(10);
++						masterModeReloaded = !masterModeReloaded;
++
++					}
 +
 +					num20++;
 +					//array9[num20] = "";

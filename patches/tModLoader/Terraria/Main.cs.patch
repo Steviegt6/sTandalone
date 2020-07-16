@@ -114,6 +114,35 @@
  										for (int num135 = 1; num135 < rCurrentNPC.oldPos.Length; num135++) {
  											_ = ref rCurrentNPC.oldPos[num135];
  											Microsoft.Xna.Framework.Color color35 = npcColor;
+@@ -35864,12 +_,24 @@
+ 			Microsoft.Xna.Framework.Color color2 = new Microsoft.Xna.Framework.Color((byte)((float)(int)color.R * ((float)LogoA / 255f)), (byte)((float)(int)color.G * ((float)LogoA / 255f)), (byte)((float)(int)color.B * ((float)LogoA / 255f)), (byte)((float)(int)color.A * ((float)LogoA / 255f)));
+ 			Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color((byte)((float)(int)color.R * ((float)LogoB / 255f)), (byte)((float)(int)color.G * ((float)LogoB / 255f)), (byte)((float)(int)color.B * ((float)LogoB / 255f)), (byte)((float)(int)color.A * ((float)LogoB / 255f)));
+ 			if (playOldTile) {
++				if (masterModeReloaded) {
++					spriteBatch.Draw(TextureAssets.MMRLogo3.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color2, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
++					spriteBatch.Draw(TextureAssets.MMRLogo4.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color3, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
++				}
++				else {
+-				spriteBatch.Draw(TextureAssets.Logo3.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color2, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
++					spriteBatch.Draw(TextureAssets.Logo3.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color2, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
+-				spriteBatch.Draw(TextureAssets.Logo4.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color3, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
++					spriteBatch.Draw(TextureAssets.Logo4.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color3, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
++				}
+ 			}
+ 			else {
++				if (masterModeReloaded) {
++					spriteBatch.Draw(TextureAssets.MMRLogo.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color2, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
++					spriteBatch.Draw(TextureAssets.MMRLogo2.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color3, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
++				}
++				else {
+-				spriteBatch.Draw(TextureAssets.Logo.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color2, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
++					spriteBatch.Draw(TextureAssets.Logo.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color2, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
+-				spriteBatch.Draw(TextureAssets.Logo2.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color3, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
++					spriteBatch.Draw(TextureAssets.Logo2.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color3, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
++				}
+ 			}
+ 
+ 			if (dayTime) {
 @@ -35964,7 +_,10 @@
  				if (selectedMenu >= 1) {
  					changeTheTitle = true;
@@ -184,7 +213,7 @@
  					array9[num20] = Lang.menu[5].Value;
  					if (selectedMenu == num20 || flag5) {
  						flag5 = false;
-@@ -38121,6 +_,141 @@
+@@ -38121,6 +_,142 @@
  						netMode = 0;
  					}
  				}
@@ -222,7 +251,7 @@
 +					array[num20] = true;
 +
 +					num20++;
-+					array9[num20] = Language.GetTextValue("Modded.TerrariaPlus") + ((terrariaPlus && enabledMods.Contains(Mod.TerrariaPlus)) ? Language.GetTextValue("Modded.Enabled") : Language.GetTextValue("Modded.Disabled"));
++					array9[num20] = Language.GetTextValue("Modded.TerrariaPlus") + (terrariaPlus ? Language.GetTextValue("Modded.Enabled") : Language.GetTextValue("Modded.Disabled"));
 +					if (selectedMenu == num20) {
 +						SoundEngine.PlaySound(10);
 +						terrariaPlus = !terrariaPlus;
@@ -231,11 +260,12 @@
 +					}
 +
 +					num20++;
-+					array9[num20] = Language.GetTextValue("Modded.MasterModeReloaded") + ((masterModeReloaded && enabledMods.Contains(Mod.MasterModeReloaded)) ? Language.GetTextValue("Modded.Enabled") : Language.GetTextValue("Modded.Disabled"));
++					array9[num20] = Language.GetTextValue("Modded.MasterModeReloaded") + (masterModeReloaded ? Language.GetTextValue("Modded.Enabled") : Language.GetTextValue("Modded.Disabled"));
 +					if (selectedMenu == num20) {
 +						SoundEngine.PlaySound(10);
 +						masterModeReloaded = !masterModeReloaded;
 +
++						restartRequired = true;
 +					}
 +
 +					num20++;

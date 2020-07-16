@@ -1,0 +1,15 @@
+--- src/Terraria/Terraria/Initializers/AssetInitializer.cs
++++ src/tModLoader/Terraria/Initializers/AssetInitializer.cs
+@@ -438,6 +_,12 @@
+ 			TextureAssets.Logo2 = LoadAsset<Texture2D>("Images\\Logo2", mode);
+ 			TextureAssets.Logo3 = LoadAsset<Texture2D>("Images\\Logo3", mode);
+ 			TextureAssets.Logo4 = LoadAsset<Texture2D>("Images\\Logo4", mode);
++			#region tStandalone
++			TextureAssets.MMRLogo = LoadAsset<Texture2D>("Images\\MMRLogo", mode);
++			TextureAssets.MMRLogo2 = LoadAsset<Texture2D>("Images\\MMRLogo2", mode);
++			TextureAssets.MMRLogo3 = LoadAsset<Texture2D>("Images\\MMRLogo3", mode);
++			TextureAssets.MMRLogo4 = LoadAsset<Texture2D>("Images\\MMRLogo4", mode);
++			#endregion tStandalone
+ 			TextureAssets.Dust = LoadAsset<Texture2D>("Images\\Dust", mode);
+ 			TextureAssets.Sun = LoadAsset<Texture2D>("Images\\Sun", mode);
+ 			TextureAssets.Sun2 = LoadAsset<Texture2D>("Images\\Sun2", mode);

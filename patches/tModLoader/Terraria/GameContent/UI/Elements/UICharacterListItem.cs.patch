@@ -17,6 +17,7 @@
  
  		private void CloudButtonClick(UIMouseEvent evt, UIElement listeningElement) {
 -			if (_data.IsCloudSave)
+-				_data.MoveToLocal();
 -			else
 -				_data.MoveToCloud();
 -

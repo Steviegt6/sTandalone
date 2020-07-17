@@ -117,7 +117,7 @@
  	},
  	"Achievements": {
  		"ARCHAEOLOGIST_Description": "Убейте доктора Бонса.",
-@@ -693,5 +_,24 @@
+@@ -693,5 +_,25 @@
  	},
  	"RandomWorldName_Composition": {
  		"6": "{Adjective} {Location}"
@@ -139,6 +139,7 @@
 +		"FirstFractalRecipe": "First Fractal Crafting Recipe",
 +		"AccessoryInAnyVanity": "Any Accessory in Vanity Slots",
 +		"RestartMessage": "You've made mod-related changes to your settings. Please reload!",
-+		"Reload": "Reload"
++		"Reload": "Reload",
++		"CloudSave": "Cloud saving is disabled with tStandalone"
  	}
  }

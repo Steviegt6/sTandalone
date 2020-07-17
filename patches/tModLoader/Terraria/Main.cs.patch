@@ -116,6 +116,21 @@
  		public static float demonTorch = 1f;
  		public static int demonTorchDir = 1;
  		public static float martianLight = 1f;
+@@ -1152,10 +_,10 @@
+ 		public static Player PendingPlayer = null;
+ 		public static List<WorldFileData> WorldList = new List<WorldFileData>();
+ 		public static WorldFileData ActiveWorldFileData = new WorldFileData();
+-		public static string WorldPath = Path.Combine(SavePath, "Worlds");
++		public static string WorldPath = Path.Combine(SavePath, "tStandalone\\Worlds");
+-		public static string CloudWorldPath = "worlds";
++		public static string CloudWorldPath = "tstandalone\\worlds";
+-		public static string PlayerPath = Path.Combine(SavePath, "Players");
++		public static string PlayerPath = Path.Combine(SavePath, "tStandalone\\Players");
+-		public static string CloudPlayerPath = "players";
++		public static string CloudPlayerPath = "tstandalone\\players";
+ 		public static Preferences Configuration = new Preferences(SavePath + Path.DirectorySeparatorChar + "config.json");
+ 		public static Preferences InputProfiles = new Preferences(SavePath + Path.DirectorySeparatorChar + "input profiles.json");
+ 		public static KeyboardState inputText;
 @@ -3031,6 +_,7 @@
  
  		public static bool SaveSettings() {

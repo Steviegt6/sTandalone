@@ -1,0 +1,32 @@
+--- src/Terraria/Terraria/GameContent/UI/Elements/UIWorldListItem.cs
++++ src/tModLoader/Terraria/GameContent/UI/Elements/UIWorldListItem.cs
+@@ -166,10 +_,7 @@
+ 		}
+ 
+ 		private void CloudMouseOver(UIMouseEvent evt, UIElement listeningElement) {
+-			if (_data.IsCloudSave)
+-				_buttonLabel.SetText(Language.GetTextValue("UI.MoveOffCloud"));
++			_buttonLabel.SetText(Language.GetTextValue("Modded.CloudSave"));
+-			else
+-				_buttonLabel.SetText(Language.GetTextValue("UI.MoveToCloud"));
+ 		}
+ 
+ 		private void PlayMouseOver(UIMouseEvent evt, UIElement listeningElement) {
+@@ -196,16 +_,7 @@
+ 		}
+ 
+ 		private void CloudButtonClick(UIMouseEvent evt, UIElement listeningElement) {
+-			if (_data.IsCloudSave)
+-				_data.MoveToLocal();
+-			else
+-				_data.MoveToCloud();
+-
+-			((UIImageButton)evt.Target).SetImage(_data.IsCloudSave ? _buttonCloudActiveTexture : _buttonCloudInactiveTexture);
+-			if (_data.IsCloudSave)
+-				_buttonLabel.SetText(Language.GetTextValue("UI.MoveOffCloud"));
+-			else
+-				_buttonLabel.SetText(Language.GetTextValue("UI.MoveToCloud"));
++			((UIImageButton)evt.Target).SetImage(_buttonCloudInactiveTexture);
+ 		}
+ 
+ 		private void DeleteButtonClick(UIMouseEvent evt, UIElement listeningElement) {

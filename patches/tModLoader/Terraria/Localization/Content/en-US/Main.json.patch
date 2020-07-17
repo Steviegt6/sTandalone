@@ -197,7 +197,7 @@
  	},
  	"RandomWorldName_Location": {
  		"Abode": "Abode",
-@@ -2646,8 +_,27 @@
+@@ -2646,8 +_,28 @@
  		"PlayingMulti": "Playing Multi-Player"
  	},
  
@@ -223,6 +223,7 @@
 +		"FirstFractalRecipe": "First Fractal Crafting Recipe",
 +		"AccessoryInAnyVanity": "Any Accessory in Vanity Slots",
 +		"RestartMessage": "You've made mod-related changes to your settings. Please reload!",
-+		"Reload": "Reload"
++		"Reload": "Reload",
++		"CloudSave": "Cloud saving is disabled with tStandalone"
  	}
  }

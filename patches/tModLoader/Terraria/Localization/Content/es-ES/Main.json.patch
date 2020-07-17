@@ -117,7 +117,7 @@
  	},
  	"Achievements": {
  		"ARCHAEOLOGIST_Description": "Mata al Doctor Látigo.",
-@@ -693,5 +_,24 @@
+@@ -693,5 +_,25 @@
  	},
  	"RandomWorldName_Composition": {
  		"6": "{Adjective} {Location}"
@@ -139,6 +139,7 @@
 +		"FirstFractalRecipe": "Receta de elaboración del Primer Fractal",
 +		"AccessoryInAnyVanity": "Cualquier Accesorio en Ranuras de Vanidad",
 +		"RestartMessage": "You've made mod-related changes to your settings. Please reload!",
-+		"Reload": "Reload"
++		"Reload": "Reload",
++		"CloudSave": "Cloud saving is disabled with tStandalone"
  	}
  }

@@ -391,3 +391,137 @@
  		}
  
  		private void AI_006_Worms() {
+@@ -55949,60 +_,72 @@
+ 			if (!active || (realLife >= 0 && realLife != whoAmI) || life > 0)
+ 				return;
+ 
+-			if (type == 604 || type == 605)
+-				LadyBugKilled(base.Center, type == 605);
+-
+-			if (type == 397 || type == 396) {
+-				if (ai[0] != -2f) {
+-					ai[0] = -2f;
+-					life = lifeMax;
+-					netUpdate = true;
+-					dontTakeDamage = true;
+-					if (Main.netMode != 1) {
+-						int num = NewNPC((int)base.Center.X, (int)base.Center.Y, 400);
+-						Main.npc[num].ai[3] = ai[3];
+-						Main.npc[num].netUpdate = true;
+-					}
+-				}
+-
+-				return;
+-			}
+-
+-			if (type == 398 && ai[0] != 2f) {
+-				ai[0] = 2f;
+-				life = lifeMax;
+-				netUpdate = true;
+-				dontTakeDamage = true;
+-				return;
+-			}
+-
+-			if ((type == 517 || type == 422 || type == 507 || type == 493) && ai[2] != 1f) {
+-				ai[2] = 1f;
+-				ai[1] = 0f;
+-				life = lifeMax;
+-				dontTakeDamage = true;
+-				netUpdate = true;
+-				return;
+-			}
+-
+-			if (type == 548 && ai[1] != 1f) {
+-				ai[1] = 1f;
+-				ai[0] = 0f;
+-				life = lifeMax;
+-				dontTakeDamageFromHostiles = true;
+-				netUpdate = true;
+-				return;
++			switch (type) {
++				case NPCID.LadyBug:
++				case NPCID.GoldLadyBug:
++					LadyBugKilled(base.Center, type == 605);
++					break;
++
++				case NPCID.MoonLordHead:
++				case NPCID.MoonLordHand:
++					if (ai[0] != -2f) {
++						ai[0] = -2f;
++						life = lifeMax;
++						netUpdate = true;
++						dontTakeDamage = true;
++						if (Main.netMode != 1) {
++							int num = NewNPC((int)base.Center.X, (int)base.Center.Y, 400);
++							Main.npc[num].ai[3] = ai[3];
++							Main.npc[num].netUpdate = true;
++						}
++					}
++					return;
++
++				case NPCID.MoonLordCore:
++					if (ai[0] != 2f) {
++						ai[0] = 2f;
++						life = lifeMax;
++						netUpdate = true;
++						dontTakeDamage = true;
++						return;
++					}
++					break;
++
++				case NPCID.LunarTowerSolar:
++				case NPCID.LunarTowerVortex:
++				case NPCID.LunarTowerNebula:
++				case NPCID.LunarTowerStardust:
++					if (ai[2] != 1f) {
++						ai[2] = 1f;
++						ai[1] = 0f;
++						life = lifeMax;
++						dontTakeDamage = true;
++						netUpdate = true;
++						return;
++					}
++					break;
++
++				case NPCID.DD2EterniaCrystal:
++					if (ai[1] != 1f) {
++						ai[1] = 1f;
++						ai[0] = 0f;
++						life = lifeMax;
++						dontTakeDamageFromHostiles = true;
++						netUpdate = true;
++						return;
++					}
++					break;
+ 			}
+ 
+ 			noSpawnCycle = true;
+-			if (townNPC && type != 37 && type != 453) {
++			if (townNPC && type != NPCID.OldMan && type != NPCID.SkeletonMerchant) {
+ 				if (Main.netMode != 2)
+ 					NPCLuck();
+ 
+ 				bool flag = true;
+ 				NetworkText fullNetName = GetFullNetName();
+ 				int num2 = 19;
+-				if (type == 369 || NPCID.Sets.IsTownPet[type]) {
++				if (type == NPCID.Angler || NPCID.Sets.IsTownPet[type]) {
+ 					num2 = 36;
+ 					flag = false;
+ 				}
+@@ -67316,6 +_,15 @@
+ 						}
+ 					}
+ 				}
++			}
++
++			if (type == NPCID.SlimeSpiked && Main.rand.Next(4) == 0 && Main.netMode != 1) {
++				int blueSlime = NewNPC((int)(position.X + (float)(width / 2)), (int)(position.Y + (float)height), NPCID.BlueSlime);
++				Main.npc[blueSlime].SetDefaults(NPCID.BlueSlime);
++				Main.npc[blueSlime].velocity.X = base.velocity.X;
++				Main.npc[blueSlime].velocity.Y = base.velocity.Y;
++				if (Main.netMode == 2 && blueSlime < 200)
++					NetMessage.SendData(23, -1, -1, null, blueSlime);
+ 			}
+ 
+ 			if (type == 120 || type == 137 || type == 138) {

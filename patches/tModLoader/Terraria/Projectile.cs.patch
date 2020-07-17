@@ -27,7 +27,7 @@
  				for (int j = 0; j < 200; j++) {
  					perIDStaticNPCImmunity[i][j] = 0u;
  				}
-@@ -7823,6 +_,19 @@
+@@ -7823,6 +_,29 @@
  				hostile = true;
  				tileCollide = false;
  			}
@@ -43,6 +43,16 @@
 +				velocity = new Vector2(0, 0);
 +				aiStyle = -1;
 +				alpha = 255;
++			}
++			else if (type == ProjectileID.CorruptedFlames) {
++				hostile = true;
++				width = 16;
++				height = 16;
++				tileCollide = false;
++				ignoreWater = true;
++				penetrate = -1;
++				timeLeft = 60 * 8;
++				aiStyle = 185;
 +			}
  			else {
  				active = false;
@@ -81,6 +91,26 @@
  										num18 = (int)((float)num18 * 0.75f);
  
  									if (type == 497 && penetrate != 1) {
+@@ -25388,6 +_,19 @@
+ 			else if (aiStyle == 184) {
+ 				AI_184_BadTorchLuck();
+ 			}
++			else if (aiStyle == 185)
++				AI_185_CorruptedFlames();
++		}
++
++		private void AI_185_CorruptedFlames() {
++			if (localAI[0] == 0f) {
++				SoundEngine.PlaySound(SoundID.Item20, Center);
++				localAI[0] = 1f;
++			}
++			Dust dust;
++			dust = Main.dust[Terraria.Dust.NewDust(base.position, width, height, 27, 0f, 0f, 0, new Color(255, 255, 255), 3f)];
++			dust.noGravity = true;
++			Lighting.AddLight(base.Center, new Vector3(0.5f, 0f, 1f)); //Dark Purple Light
+ 		}
+ 
+ 		private void AI_184_BadTorchLuck() {
 @@ -25703,22 +_,85 @@
  			}
  

@@ -375,7 +375,36 @@
  				if (Main.netMode != 1 && localAI[0] == 0f) {
  					localAI[0] = 1f;
  					int brainOfCthuluCreepersCount = GetBrainOfCthuluCreepersCount();
-@@ -36255,10 +_,13 @@
+@@ -36238,27 +_,36 @@
+ 		}
+ 
+ 		public static int GetEaterOfWorldsSegmentsCount() {
+-			if (!Main.expertMode)
+-				return 65;
++			float segmentCount = 65f;
++			if (Main.expertMode)
++				segmentCount += 5f;
++			if (Main.masterModeReloaded && Main.masterMode)
++				segmentCount *= 1.2f;
+ 
+-			return 70;
++			return (int)segmentCount;
+ 		}
+ 
+ 		public static int GetEaterOfWorldsSegmentsCountByGamemode(int gamemode) {
++			float segmentCount = 65f;
+ 			if (!Main.RegisterdGameModes.TryGetValue(gamemode, out GameModeData gameModeData))
+ 				return 65;
+ 
+-			if (!gameModeData.IsExpertMode)
+-				return 65;
++			if (gameModeData.IsExpertMode)
++				segmentCount += 5f;
++			if (Main.masterModeReloaded && Main.masterMode)
++				segmentCount *= 1.2f;
+ 
+-			return 70;
++			return (int)segmentCount;
  		}
  
  		public static int GetBrainOfCthuluCreepersCount() {
@@ -391,6 +420,28 @@
  		}
  
  		private void AI_006_Worms() {
+@@ -36702,6 +_,9 @@
+ 						netUpdate = true;
+ 						base.whoAmI = whoAmI;
+ 						alpha = 0;
++						if (Main.masterModeReloaded && Main.masterMode) {
++							Projectile.NewProjectile(base.Center, this.DirectionTo(Main.player[this.target].Center) * 8f, ProjectileID.CorruptedFlames, 20, 1f);
++						}
+ 					}
+ 
+ 					if (type == 14 && (!Main.npc[(int)ai[0]].active || Main.npc[(int)ai[0]].aiStyle != aiStyle)) {
+@@ -36860,6 +_,11 @@
+ 					num45 = 0.15f;
+ 				}
+ 
++				if (Main.masterModeReloaded && Main.masterMode) {
++					num44 = 16f;
++					num45 = 0.175f;
++				}
++
+ 				if (Main.getGoodWorld) {
+ 					num44 += 4f;
+ 					num45 += 0.05f;
 @@ -55949,60 +_,72 @@
  			if (!active || (realLife >= 0 && realLife != whoAmI) || life > 0)
  				return;

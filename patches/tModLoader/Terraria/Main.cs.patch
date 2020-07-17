@@ -133,6 +133,32 @@
  			if (!flag) {
  				Configuration.Get("ResetDefaultUIScale", ref shouldSetDefaultUIScale);
  				Configuration.Get("Fullscreen", ref startFullscreen);
+@@ -3159,7 +_,7 @@
+ 
+ 			PendingBorderlessState = screenBorderless;
+ 			screenBorderlessPendingResizes = (screenBorderless ? 6 : 0);
+-			if (!startFullscreen) {
++			if (!startFullscreen && !dedServ) {
+ 				int currentValue2 = graphics.PreferredBackBufferWidth;
+ 				int currentValue3 = graphics.PreferredBackBufferHeight;
+ 				Configuration.Get("DisplayWidth", ref currentValue2);
+@@ -3315,7 +_,7 @@
+ 			if (Enum.TryParse(Configuration.Get("FlashIconForEvents", "All"), out GameNotificationType result3))
+ 				_flashNotificationType = result3;
+ 
+-			if (!flag) {
++			if (!flag && !dedServ) {
+ 				string screenDeviceName = Configuration.Get("DisplayScreen", "");
+ 				_windowMover.TryMovingToScreen(screenDeviceName);
+ 				bool flag2 = Configuration.Get("ThrottleWhenInactive", defaultValue: true);
+@@ -4370,6 +_,7 @@
+ 			double num7 = 0.0;
+ 			int num8 = 0;
+ 			new Stopwatch().Start();
++			LoadSettings();
+ 			Netplay.StartServer();
+ 			gameMenu = false;
+ 			while (!Netplay.Disconnect) {
 @@ -4860,6 +_,7 @@
  			TileEntity.InitializeAll();
  			Projectile.InitializeStaticThings();

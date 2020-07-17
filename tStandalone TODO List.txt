@@ -1,0 +1,40 @@
+Made this to help prevent any overlap (and the subsequent issues) when working on different patches at the same time.
+
+Legend: 
+* = Category
+- = Change
+^ = Referring to above Change
+? = Suggested Change
+! = Critical Change, fix as soon as possible
+
+TODO List:
+*Known Issues:
+	-IndexOutOfRange exception thrown agressively in multiplayer.
+	!Massive multiplayer MMR boss desyncs due to desynced server/client mod bool values.
+*Master Mode:
+	-Additional AI for all of the Vanilla Bosses (Mutant)
+		^Especially Golem, huge pushover, even in Expert
+	-Additional Weapons from each boss
+	-Non-boss enemy AI changes (Mutant)
+	-New debuffs from enemies/bosses/biomes (Mutant)
+		^Possibly accessories to combat said debuffs
+	-Preventative measures to stop any cheese attempts of bosses
+	-General balance changes to the mode as a whole
+	-Playtesting of the mode (whenever we get a majority of this stuff finished)
+*General:
+	-Allowing loading of .png files instead of .xnb files (pbone)
+	-New MenuMode when you are reinitializing your client (Stevie)
+	-Allowing modded NPCs/Items/etc to be added more easily
+	-QoL changes that haven't already been implemented (if any, don't have any on mind atm)
+	-Resource pack support (not sure if possible due to tmod patcher)
+	-Make "Host & Play" button run the modded TerrariaServer.exe, not the vanilla one
+		^Either that, or prevent modded players from joining vanilla servers (or both)
+	-Localization for modded text
+	?Possbily creating new save locations for players/worlds to differentiate them from vanilla
+		^Don't want people trying to load their modded players in vanilla worlds with modded items (issues galore, likely)
+	-Discord Rich Presence compatability
+	?Repo cleanup (lots of files from the TML repo that can be removed, i think)
+
+	
+Feel free to add/remove stuff as it is needed
+- Mutant

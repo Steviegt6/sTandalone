@@ -11,7 +11,7 @@ TODO List:
 *Known Issues:
 	-IndexOutOfRange exception thrown agressively in multiplayer.
 	!Massive multiplayer MMR boss desyncs due to desynced server/client mod bool values.
-*Master Mode:
+*Master Mode Reloaded:
 	-Additional AI for all of the Vanilla Bosses (Mutant)
 		^Especially Golem, huge pushover, even in Expert
 	-Additional Weapons from each boss
@@ -30,11 +30,6 @@ TODO List:
 	-Make "Host & Play" button run the modded TerrariaServer.exe, not the vanilla one
 		^Either that, or prevent modded players from joining vanilla servers (or both)
 	-Localization for modded text
-	?Possbily creating new save locations for players/worlds to differentiate them from vanilla
-		^Don't want people trying to load their modded players in vanilla worlds with modded items (issues galore, likely)
+	-Add in World and Player migration
 	-Discord Rich Presence compatability
 	?Repo cleanup (lots of files from the TML repo that can be removed, i think)
-
-	
-Feel free to add/remove stuff as it is needed
-- Mutant

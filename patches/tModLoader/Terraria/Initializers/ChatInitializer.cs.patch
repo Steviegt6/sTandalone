@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/Initializers/ChatInitializer.cs
++++ src/tModLoader/Terraria/Initializers/ChatInitializer.cs
+@@ -34,6 +_,8 @@
+ 				"glyph"
+ 			});
+ 
++			ChatManager.Commands.ClearCommands();
++
+ 			ChatManager.Commands.AddCommand<PartyChatCommand>().AddCommand<RollCommand>().AddCommand<EmoteCommand>()
+ 				.AddCommand<ListPlayersCommand>()
+ 				.AddCommand<RockPaperScissorsCommand>()

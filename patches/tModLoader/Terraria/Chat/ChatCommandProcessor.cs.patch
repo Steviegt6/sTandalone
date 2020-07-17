@@ -1,0 +1,15 @@
+--- src/Terraria/Terraria/Chat/ChatCommandProcessor.cs
++++ src/tModLoader/Terraria/Chat/ChatCommandProcessor.cs
+@@ -13,6 +_,12 @@
+ 		private readonly Dictionary<LocalizedText, NetworkText> _aliases = new Dictionary<LocalizedText, NetworkText>();
+ 		private IChatCommand _defaultCommand;
+ 
++		public void ClearCommands() {
++			_localizedCommands.Clear();
++			_commands.Clear();
++			_aliases.Clear();
++		}
++
+ 		public ChatCommandProcessor AddCommand<T>() where T : IChatCommand, new() {
+ 			ChatCommandAttribute cacheableAttribute = AttributeUtilities.GetCacheableAttribute<T, ChatCommandAttribute>();
+ 			string commandKey = "ChatCommand." + cacheableAttribute.Name;

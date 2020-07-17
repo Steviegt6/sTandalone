@@ -150,6 +150,137 @@
  				Projectile obj = new Projectile();
  				obj.SetDefaults(m);
  				if (obj.hostile)
+@@ -4969,6 +_,130 @@
+ 			Star.SpawnStars();
+ 			ItemSorting.SetupWhiteLists();
+ #endif
++		}
++
++		private void Reinitialize_AlmostEverything_Needed() {
++			TilePaintSystem = new TilePaintSystemV2();
++			TilesRenderer = new TileDrawing(TilePaintSystem);
++			WallsRenderer = new WallDrawing(TilePaintSystem);
++			CreativePowerManager.Initialize();
++			LocalFavoriteData.Load();
++			CloudFavoritesData.Load();
++			Initialize_Entities();
++			FindAnnouncementBoxStatus();
++			CustomCurrencyManager.Initialize();
++			WingStatsInitializer.Load();
++			//TileObjectData.Initialize();
++			Animation.Initialize();
++			Chest.Initialize();
++			Wiring.Initialize();
++			Framing.Initialize();
++			ItemRarity.Initialize();
++			TileEntity.InitializeAll();
++			Projectile.InitializeStaticThings();
++			TorchID.Initialize();
++			FinalFractalHelper.InitializeCustomFinalFractalProfiles();
++			InitializeItemAnimations();
++			BestiaryDatabase bestiaryDatabase = new BestiaryDatabase();
++			new BestiaryDatabaseNPCsPopulator().Populate(bestiaryDatabase);
++			BestiaryDB = bestiaryDatabase;
++			ContentSamples.RebuildBestiarySortingIDsByBestiaryDatabaseContents(bestiaryDatabase);
++			BestiaryTracker = new BestiaryUnlocksTracker();
++			ItemDropDatabase itemDropDatabase = new ItemDropDatabase();
++			itemDropDatabase.Populate();
++			ItemDropsDB = itemDropDatabase;
++			bestiaryDatabase.Merge(ItemDropsDB);
++			PylonSystem = new TeleportPylonsSystem();
++			ItemDropSolver = new ItemDropResolver(itemDropDatabase);
++			ShopHelper = new ShopHelper();
++			CreativeItemSacrificesCatalog.Instance.Initialize();
++			BestiaryUI = new UIBestiaryTest(BestiaryDB);
++			ContentThatNeedsRenderTargets.Add(MapPlayerRenderer);
++			Lighting.Initialize();
++			MapHelper.Initialize();
++			WorldGen.RandomizeBackgrounds(rand);
++			if (treeBGSet1[0] == 173)
++				WorldGen.RandomizeBackgrounds(rand);
++
++			if (treeBGSet1[0] == 173)
++				WorldGen.RandomizeBackgrounds(rand);
++
++			WorldGen.RandomizeCaveBackgrounds();
++			WorldGen.Hooks.Initialize();
++			WorldGen.Hooks.OnWorldLoad += ResetGameCounter;
++			bgAlphaFrontLayer[0] = 1f;
++			bgAlphaFarBackLayer[0] = 1f;
++			invBottom = 258;
++			Initialize_TileAndNPCData1();
++			Initialize_TileAndNPCData2();
++			Initialize_Items();
++			for (int i = 0; i < Recipe.maxRecipes; i++) {
++				recipe[i] = new Recipe();
++				availableRecipeY[i] = 65 * i;
++			}
++
++			Recipe.SetupRecipes();
++			ContentSamples.FixItemsAfterRecipesAreAdded();
++			for (int j = 0; j < Liquid.maxLiquid; j++) {
++				liquid[j] = new Liquid();
++			}
++
++			for (int k = 0; k < 50000; k++) {
++				liquidBuffer[k] = new LiquidBuffer();
++			}
++
++			shop[0] = new Chest();
++			Chest.SetupTravelShop();
++			for (int l = 1; l < 100; l++) {
++				shop[l] = new Chest();
++				shop[l].SetupShop(l);
++			}
++
++			teamColor[0] = Microsoft.Xna.Framework.Color.White;
++			teamColor[1] = new Microsoft.Xna.Framework.Color(218, 59, 59);
++			teamColor[2] = new Microsoft.Xna.Framework.Color(59, 218, 85);
++			teamColor[3] = new Microsoft.Xna.Framework.Color(59, 149, 218);
++			teamColor[4] = new Microsoft.Xna.Framework.Color(242, 221, 100);
++			teamColor[5] = new Microsoft.Xna.Framework.Color(224, 100, 242);
++			for (int m = 1; m < ProjectileID.Count; m++) {
++				Projectile obj = new Projectile();
++				obj.SetDefaults(m);
++				if (obj.hostile)
++					projHostile[m] = true;
++
++				if (obj.aiStyle == 7)
++					projHook[m] = true;
++			}
++
++			Netplay.Initialize();
++			NetworkInitializer.Load();
++			ChatInitializer.Load();
++			if (menuMode == 1)
++				LoadPlayers();
++
++			if (skipMenu) {
++				WorldGen.clearWorld();
++				gameMenu = false;
++				LoadPlayers();
++				PlayerList[0].SetAsActive();
++				LoadWorlds();
++				WorldGen.GenerateWorld(new UnifiedRandom().Next());
++				WorldGen.EveryTileFrame();
++				player[myPlayer].Spawn(PlayerSpawnContext.SpawningIntoWorld);
++				ActivePlayerFileData.StartPlayTimer();
++				Player.Hooks.EnterWorld(myPlayer);
++			}
++#if WINDOWS
++			else {
++				IntPtr systemMenu = GetSystemMenu(base.Window.Handle, bRevert: false);
++				int menuItemCount = GetMenuItemCount(systemMenu);
++				RemoveMenu(systemMenu, menuItemCount - 1, 1024);
++			}
++#endif
++
++			SoundID.FillAccessMap();
++			Star.SpawnStars();
++			ItemSorting.SetupWhiteLists();
+ 		}
+ 
+ 		private void Initialize_Entities() {
 @@ -6424,7 +_,7 @@
  				tileGlowMask[i] = -1;
  			}
@@ -387,10 +518,22 @@
  				array9[num11] = Lang.menu[14].Value;
  				if (selectedMenu == num11) {
  					SoundEngine.PlaySound(10);
-@@ -36434,6 +_,7 @@
- 				array9[num11] = Lang.menu[15].Value;
- 				if (selectedMenu == num11)
- 					QuitGame();
+@@ -36431,9 +_,16 @@
+ 				}
+ 
+ 				num11++;
+-				array9[num11] = Lang.menu[15].Value;
+-				if (selectedMenu == num11)
+-					QuitGame();
++				array9[num11] = restartRequired ? Language.GetTextValue("Modded.Reload") : Lang.menu[15].Value;
++				if (selectedMenu == num11) {
++					if (restartRequired) {
++						Reinitialize_AlmostEverything_Needed();
++						restartRequired = false;
++					}
++					else
++						QuitGame();
++				}
 +				array6[num11] = restartRequired ? (byte)8 : (byte)0;
  
  				num11++;

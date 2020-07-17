@@ -1,5 +1,26 @@
 --- src/Terraria/Terraria/Recipe.cs
 +++ src/tModLoader/Terraria/Recipe.cs
+@@ -429,6 +_,10 @@
+ 		}
+ 
+ 		public static void SetupRecipeGroups() {
++			RecipeGroup.recipeGroups.Clear();
++			RecipeGroup.recipeGroupIDs.Clear();
++			RecipeGroup.nextRecipeGroupIndex = 0;
++
+ 			RecipeGroup rec = new RecipeGroup(() => Lang.misc[37].Value + " " + Lang.GetNPCNameValue(74), 2015, 2016, 2017);
+ 			RecipeGroupID.Birds = RecipeGroup.RegisterGroup("Birds", rec);
+ 			rec = new RecipeGroup(() => Lang.misc[37].Value + " " + Lang.GetNPCNameValue(367), 2157, 2156);
+@@ -456,6 +_,9 @@
+ 		public static void SetupRecipes() {
+ 			int num = 5;
+ 			int stack = 2;
++
++			numRecipes = 0;
++
+ 			SetupRecipeGroups();
+ 			currentRecipe.createItem.SetDefaults(8);
+ 			currentRecipe.createItem.stack = 3;
 @@ -9762,19 +_,40 @@
  			currentRecipe.requiredItem[1].SetDefaults(674);
  			currentRecipe.requiredTile[0] = 134;

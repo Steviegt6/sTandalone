@@ -124,8 +124,7 @@
 +		public static string WorldPath = Path.Combine(SavePath, "tStandalone\\Worlds");
 -		public static string CloudWorldPath = "worlds";
 +		public static string CloudWorldPath = "tstandalone\\worlds";
--		public static string PlayerPath = Path.Combine(SavePath, "Players");
-+		public static string PlayerPath = Path.Combine(SavePath, "tStandalone\\Players");
+ 		public static string PlayerPath = Path.Combine(SavePath, "Players");
 -		public static string CloudPlayerPath = "players";
 +		public static string CloudPlayerPath = "tstandalone\\players";
  		public static Preferences Configuration = new Preferences(SavePath + Path.DirectorySeparatorChar + "config.json");

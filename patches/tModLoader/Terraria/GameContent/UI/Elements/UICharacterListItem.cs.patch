@@ -1,18 +1,118 @@
 --- src/Terraria/Terraria/GameContent/UI/Elements/UICharacterListItem.cs
 +++ src/tModLoader/Terraria/GameContent/UI/Elements/UICharacterListItem.cs
-@@ -109,10 +_,7 @@
+@@ -24,9 +_,12 @@
+ 		private Asset<Texture2D> _buttonFavoriteInactiveTexture;
+ 		private Asset<Texture2D> _buttonPlayTexture;
+ 		private Asset<Texture2D> _buttonDeleteTexture;
++		private Asset<Texture2D> _buttonInfoTexture;
+ 		private UIImageButton _deleteButton;
++		private UIImageButton _infoButton;
+ 
+ 		public bool IsFavorite => _data.IsFavorite;
++		public bool IsDisplayingModData => _data.IsDisplayingModData;
+ 
+ 		public UICharacterListItem(PlayerFileData data, int snapPointIndex) {
+ 			BorderColor = new Color(89, 116, 213) * 0.7f;
+@@ -38,6 +_,7 @@
+ 			_buttonFavoriteInactiveTexture = Main.Assets.Request<Texture2D>("Images/UI/ButtonFavoriteInactive");
+ 			_buttonPlayTexture = Main.Assets.Request<Texture2D>("Images/UI/ButtonPlay");
+ 			_buttonDeleteTexture = Main.Assets.Request<Texture2D>("Images/UI/ButtonDelete");
++			_buttonInfoTexture = Main.Assets.Request<Texture2D>("Images/UI/ButtonInfo");
+ 			Height.Set(96f, 0f);
+ 			Width.Set(0f, 1f);
+ 			SetPadding(6f);
+@@ -85,6 +_,19 @@
+ 			uIImageButton4.OnMouseOut += DeleteMouseOut;
+ 			_deleteButton = uIImageButton4;
+ 			Append(uIImageButton4);
++
++			UIImageButton uIImageButton5 = new UIImageButton(_buttonInfoTexture) {
++				VAlign = 1f,
++				HAlign = 1f
++			};
++			uIImageButton5.Left.Set(-24f, 0);
++			uIImageButton5.OnClick += InfoButtonClick;
++
++			uIImageButton5.OnMouseOver += InfoMouseOver;
++			uIImageButton5.OnMouseOut += InfoMouseOut;
++			_infoButton = uIImageButton5;
++			Append(uIImageButton5);
++
+ 			_buttonLabel = new UIText("");
+ 			_buttonLabel.VAlign = 1f;
+ 			_buttonLabel.Left.Set(80f, 0f);
+@@ -93,15 +_,19 @@
+ 			_deleteButtonLabel = new UIText("");
+ 			_deleteButtonLabel.VAlign = 1f;
+ 			_deleteButtonLabel.HAlign = 1f;
+-			_deleteButtonLabel.Left.Set(-30f, 0f);
++			_deleteButtonLabel.Left.Set(-54f, 0f);
+ 			_deleteButtonLabel.Top.Set(-3f, 0f);
+ 			Append(_deleteButtonLabel);
+ 			uIImageButton.SetSnapPoint("Play", snapPointIndex);
+ 			uIImageButton2.SetSnapPoint("Favorite", snapPointIndex);
+ 			uIImageButton4.SetSnapPoint("Delete", snapPointIndex);
++			uIImageButton5.SetSnapPoint("Info", snapPointIndex);
+ 		}
+ 
+ 		private void FavoriteMouseOver(UIMouseEvent evt, UIElement listeningElement) {
++			if (IsDisplayingModData)
++				return;
++
+ 			if (_data.IsFavorite)
+ 				_buttonLabel.SetText(Language.GetTextValue("UI.Unfavorite"));
+ 			else
+@@ -109,17 +_,23 @@
  		}
  
  		private void CloudMouseOver(UIMouseEvent evt, UIElement listeningElement) {
 -			if (_data.IsCloudSave)
 -				_buttonLabel.SetText(Language.GetTextValue("UI.MoveOffCloud"));
-+			_buttonLabel.SetText(Language.GetTextValue("Modded.CloudSave"));
 -			else
 -				_buttonLabel.SetText(Language.GetTextValue("UI.MoveToCloud"));
++			if (IsDisplayingModData)
++				return;
++
++			_buttonLabel.SetText(Language.GetTextValue("Modded.CloudSave"));
  		}
  
  		private void PlayMouseOver(UIMouseEvent evt, UIElement listeningElement) {
-@@ -135,16 +_,7 @@
++			if (IsDisplayingModData)
++				return;
++
+ 			_buttonLabel.SetText(Language.GetTextValue("UI.Play"));
+ 		}
+ 
+ 		private void DeleteMouseOver(UIMouseEvent evt, UIElement listeningElement) {
++			if (IsDisplayingModData)
++				return;
++
+ 			if (_data.IsFavorite)
+ 				_deleteButtonLabel.SetText(Language.GetTextValue("UI.CannotDeleteFavorited"));
+ 			else
+@@ -127,27 +_,38 @@
+ 		}
+ 
+ 		private void DeleteMouseOut(UIMouseEvent evt, UIElement listeningElement) {
++			if (IsDisplayingModData)
++				return;
++
++			_deleteButtonLabel.SetText("");
++		}
++
++		private void InfoMouseOver(UIMouseEvent evt, UIElement listeningElement) {
++			_deleteButtonLabel.SetText(IsDisplayingModData ? "Display Player Info" : "Display Mod Info");
++		}
++
++		private void InfoMouseOut(UIMouseEvent evt, UIElement listeningElement) {
+ 			_deleteButtonLabel.SetText("");
+ 		}
+ 
+ 		private void ButtonMouseOut(UIMouseEvent evt, UIElement listeningElement) {
++			if (IsDisplayingModData)
++				return;
++
+ 			_buttonLabel.SetText("");
  		}
  
  		private void CloudButtonClick(UIMouseEvent evt, UIElement listeningElement) {
@@ -20,7 +120,9 @@
 -				_data.MoveToLocal();
 -			else
 -				_data.MoveToCloud();
--
++			if (IsDisplayingModData)
++				return;
+ 
 -			((UIImageButton)evt.Target).SetImage(_data.IsCloudSave ? _buttonCloudActiveTexture : _buttonCloudInactiveTexture);
 -			if (_data.IsCloudSave)
 -				_buttonLabel.SetText(Language.GetTextValue("UI.MoveOffCloud"));
@@ -30,3 +132,190 @@
  		}
  
  		private void DeleteButtonClick(UIMouseEvent evt, UIElement listeningElement) {
++			if (IsDisplayingModData)
++				return;
++
+ 			int num = 0;
+ 			while (true) {
+ 				if (num < Main.PlayerList.Count) {
+@@ -166,12 +_,26 @@
+ 			Main.menuMode = 5;
+ 		}
+ 
++		private void InfoButtonClick(UIMouseEvent evt, UIElement listeningElement) {
++			_data.ToggleModData();
++			if (_data.IsDisplayingModData)
++				_deleteButtonLabel.SetText(Language.GetTextValue("Display Player Info"));
++			else
++				_deleteButtonLabel.SetText(Language.GetTextValue("Display Mod Info"));
++		}
++
+ 		private void PlayGame(UIMouseEvent evt, UIElement listeningElement) {
++			if (IsDisplayingModData)
++				return;
++
+ 			if (listeningElement == evt.Target && _data.Player.loadStatus == 0)
+ 				Main.SelectPlayer(_data);
+ 		}
+ 
+ 		private void FavoriteButtonClick(UIMouseEvent evt, UIElement listeningElement) {
++			if (IsDisplayingModData)
++				return;
++
+ 			_data.ToggleFavorite();
+ 			((UIImageButton)evt.Target).SetImage(_data.IsFavorite ? _buttonFavoriteActiveTexture : _buttonFavoriteInactiveTexture);
+ 			((UIImageButton)evt.Target).SetVisibility(1f, _data.IsFavorite ? 0.8f : 0.4f);
+@@ -223,64 +_,106 @@
+ 			spriteBatch.Draw(_innerPanelTexture.Value, position, new Rectangle(0, 0, 8, _innerPanelTexture.Height()), Color.White);
+ 			spriteBatch.Draw(_innerPanelTexture.Value, new Vector2(position.X + 8f, position.Y), new Rectangle(8, 0, 8, _innerPanelTexture.Height()), Color.White, 0f, Vector2.Zero, new Vector2((width - 16f) / 8f, 1f), SpriteEffects.None, 0f);
+ 			spriteBatch.Draw(_innerPanelTexture.Value, new Vector2(position.X + width - 8f, position.Y), new Rectangle(16, 0, 8, _innerPanelTexture.Height()), Color.White);
++
++			if (IsDisplayingModData) {
++				string text = "Test";
++				float x = FontAssets.MouseText.Value.MeasureString(text).X;
++				Vector2 vector = new Vector2(Main.mouseX, Main.mouseY) + new Vector2(16f);
++				if (vector.Y > (float)(Main.screenHeight - 30))
++					vector.Y = Main.screenHeight - 30;
++
++				if (vector.X > (float)Main.screenWidth - x)
++					vector.X = Main.screenWidth - 460;
++
++				Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.MouseText.Value, text, vector.X, vector.Y, new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor), Color.Black, Vector2.Zero);
++			}
+ 		}
+ 
+ 		protected override void DrawSelf(SpriteBatch spriteBatch) {
+ 			base.DrawSelf(spriteBatch);
+ 			CalculatedStyle innerDimensions = GetInnerDimensions();
+ 			CalculatedStyle dimensions = _playerPanel.GetDimensions();
++
+ 			float num = dimensions.X + dimensions.Width;
+-			Utils.DrawBorderString(spriteBatch, _data.Name, new Vector2(num + 6f, dimensions.Y - 2f), Color.White);
++
++			Utils.DrawBorderString(spriteBatch, (IsDisplayingModData ? "[c/006400:Enabled = Green] / [c/FF0000:Disabled = Red]" : _data.Name), new Vector2(num + 6f, dimensions.Y - 2f), Color.White);
++
+ 			spriteBatch.Draw(_dividerTexture.Value, new Vector2(num, innerDimensions.Y + 21f), null, Color.White, 0f, Vector2.Zero, new Vector2((GetDimensions().X + GetDimensions().Width - num) / 8f, 1f), SpriteEffects.None, 0f);
++
+ 			Vector2 vector = new Vector2(num + 6f, innerDimensions.Y + 29f);
+-			float num2 = 200f;
+ 			Vector2 vector2 = vector;
++			float num2 = 200f;
++
++			if (!IsDisplayingModData) {
+-			DrawPanel(spriteBatch, vector2, num2);
++				DrawPanel(spriteBatch, vector2, num2);
+-			spriteBatch.Draw(TextureAssets.Heart.Value, vector2 + new Vector2(5f, 2f), Color.White);
++				spriteBatch.Draw(TextureAssets.Heart.Value, vector2 + new Vector2(5f, 2f), Color.White);
+-			vector2.X += 10f + (float)TextureAssets.Heart.Width();
++				vector2.X += 10f + (float)TextureAssets.Heart.Width();
+-			Utils.DrawBorderString(spriteBatch, _data.Player.statLifeMax + Language.GetTextValue("GameUI.PlayerLifeMax"), vector2 + new Vector2(0f, 3f), Color.White);
++				Utils.DrawBorderString(spriteBatch, _data.Player.statLifeMax + Language.GetTextValue("GameUI.PlayerLifeMax"), vector2 + new Vector2(0f, 3f), Color.White);
+-			vector2.X += 65f;
++				vector2.X += 65f;
+-			spriteBatch.Draw(TextureAssets.Mana.Value, vector2 + new Vector2(5f, 2f), Color.White);
++				spriteBatch.Draw(TextureAssets.Mana.Value, vector2 + new Vector2(5f, 2f), Color.White);
+-			vector2.X += 10f + (float)TextureAssets.Mana.Width();
++				vector2.X += 10f + (float)TextureAssets.Mana.Width();
+-			Utils.DrawBorderString(spriteBatch, _data.Player.statManaMax + Language.GetTextValue("GameUI.PlayerManaMax"), vector2 + new Vector2(0f, 3f), Color.White);
++				Utils.DrawBorderString(spriteBatch, _data.Player.statManaMax + Language.GetTextValue("GameUI.PlayerManaMax"), vector2 + new Vector2(0f, 3f), Color.White);
+-			vector.X += num2 + 5f;
++				vector.X += num2 + 5f;
+-			Vector2 vector3 = vector;
++				Vector2 vector3 = vector;
+-			float num3 = 140f;
++				float num3 = 140f;
+-			if (GameCulture.FromCultureName(GameCulture.CultureName.Russian).IsActive)
++				if (GameCulture.FromCultureName(GameCulture.CultureName.Russian).IsActive)
+-				num3 = 180f;
++					num3 = 180f;
+ 
+-			DrawPanel(spriteBatch, vector3, num3);
++				DrawPanel(spriteBatch, vector3, num3);
+-			string text = "";
++				string text = "";
+-			Color color = Color.White;
++				Color color = Color.White;
+-			switch (_data.Player.difficulty) {
++				switch (_data.Player.difficulty) {
+-				case 0:
++					case 0:
+-					text = Language.GetTextValue("UI.Softcore");
++						text = Language.GetTextValue("UI.Softcore");
+-					break;
++						break;
+-				case 1:
++					case 1:
+-					text = Language.GetTextValue("UI.Mediumcore");
++						text = Language.GetTextValue("UI.Mediumcore");
+-					color = Main.mcColor;
++						color = Main.mcColor;
+-					break;
++						break;
+-				case 2:
++					case 2:
+-					text = Language.GetTextValue("UI.Hardcore");
++						text = Language.GetTextValue("UI.Hardcore");
+-					color = Main.hcColor;
++						color = Main.hcColor;
+-					break;
++						break;
+-				case 3:
++					case 3:
+-					text = Language.GetTextValue("UI.Creative");
++						text = Language.GetTextValue("UI.Creative");
+-					color = Main.creativeModeColor;
++						color = Main.creativeModeColor;
+-					break;
++						break;
+-			}
+-
++				}
+-			vector3 += new Vector2(num3 * 0.5f - FontAssets.MouseText.Value.MeasureString(text).X * 0.5f, 3f);
++				vector3 += new Vector2(num3 * 0.5f - FontAssets.MouseText.Value.MeasureString(text).X * 0.5f, 3f);
+-			Utils.DrawBorderString(spriteBatch, text, vector3, color);
++				Utils.DrawBorderString(spriteBatch, text, vector3, color);
+-			vector.X += num3 + 5f;
++				vector.X += num3 + 5f;
+-			Vector2 vector4 = vector;
++				Vector2 vector4 = vector;
+-			float num4 = innerDimensions.X + innerDimensions.Width - vector4.X;
++				float num4 = innerDimensions.X + innerDimensions.Width - vector4.X;
+-			DrawPanel(spriteBatch, vector4, num4);
++				DrawPanel(spriteBatch, vector4, num4);
+-			TimeSpan playTime = _data.GetPlayTime();
++				TimeSpan playTime = _data.GetPlayTime();
+-			int num5 = playTime.Days * 24 + playTime.Hours;
++				int num5 = playTime.Days * 24 + playTime.Hours;
+-			string text2 = ((num5 < 10) ? "0" : "") + num5 + playTime.ToString("\\:mm\\:ss");
++				string text2 = ((num5 < 10) ? "0" : "") + num5 + playTime.ToString("\\:mm\\:ss");
+-			vector4 += new Vector2(num4 * 0.5f - FontAssets.MouseText.Value.MeasureString(text2).X * 0.5f, 3f);
++				vector4 += new Vector2(num4 * 0.5f - FontAssets.MouseText.Value.MeasureString(text2).X * 0.5f, 3f);
+-			Utils.DrawBorderString(spriteBatch, text2, vector4, Color.White);
++				Utils.DrawBorderString(spriteBatch, text2, vector4, Color.White);
++			}
++			else {
++				num2 += 33.5f;
++				DrawPanel(spriteBatch, vector2, num2);
++
++				Utils.DrawBorderString(spriteBatch, "Hover over me for more!", vector2 + new Vector2(num2 * 0.5f - FontAssets.MouseText.Value.MeasureString(Language.GetTextValue("Modded.HoverOverMe")).X * 0.5f, 3f), Color.White);
++
++				vector.X += num2 + 5f;
++				Vector2 vector3 = vector;
++				float num3 = 167.5f / 10 * 9;
++				DrawPanel(spriteBatch, vector3, num3);
++				string text = Language.GetTextValue("Modded.MMRShort");
++				Color color = Color.Red;
++				vector3 += new Vector2(num3 * 0.5f - FontAssets.MouseText.Value.MeasureString(text).X * 0.5f, 3f);
++				Utils.DrawBorderString(spriteBatch, text, vector3, color);
++
++				vector.X += num3 + 5f;
++				Vector2 vector4 = vector;
++				float num4 = 167.5f / 10 * 9;
++				DrawPanel(spriteBatch, vector4, num4);
++				string text2 = Language.GetTextValue("Modded.TerrariaPlusShort");
++				vector4 += new Vector2(num4 * 0.5f - FontAssets.MouseText.Value.MeasureString(text2).X * 0.5f, 3f);
++				Utils.DrawBorderString(spriteBatch, text2, vector4, Color.Red);
++			}
+ 		}
+ 	}
+ }

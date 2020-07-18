@@ -1,10 +1,11 @@
 --- src/Terraria/Terraria/Main.cs
 +++ src/tModLoader/Terraria/Main.cs
-@@ -69,6 +_,7 @@
+@@ -69,6 +_,8 @@
  using Terraria.Net;
  using Terraria.ObjectData;
  using Terraria.Social;
 +using Terraria.tStandalone;
++using Terraria.tStandalone.IO;
  using Terraria.UI;
  using Terraria.UI.Chat;
  using Terraria.UI.Gamepad;
@@ -43,6 +44,17 @@
  		private const string versionStringBecauseTheyreTheSame = "v1.4.0.5";
  		public const int curRelease = 230;
  		public const string assemblyVersionNumber = "1.4.0.5";
+@@ -251,6 +_,10 @@
+ 		public static Vector2 destroyerHB = new Vector2(0f, 0f);
+ 		public static FavoritesFile LocalFavoriteData = new FavoritesFile(SavePath + "/favorites.json", isCloud: false);
+ 		public static FavoritesFile CloudFavoritesData = new FavoritesFile("/favorites.json", isCloud: true);
++		#region tStandalone
++		public static ModInfoFile LocalModInfoData = new ModInfoFile(SavePath + "/tStandalone/modinfo.json", isCloud: false);
++		public static ModInfoFile CloudModInfoData = new ModInfoFile("/tStandalone/modinfo.json", isCloud: true);
++		#endregion tStandalone
+ 		public static FileMetadata WorldFileMetadata;
+ 		public static FileMetadata MapFileMetadata;
+ 		public static PingMapLayer Pings = new PingMapLayer();
 @@ -279,6 +_,9 @@
  		public static ulong TileFrameSeed = (ulong)Guid.NewGuid().GetHashCode();
  		private static ulong _drawCycleCounter;
@@ -124,7 +136,8 @@
 +		public static string WorldPath = Path.Combine(SavePath, "tStandalone\\Worlds");
 -		public static string CloudWorldPath = "worlds";
 +		public static string CloudWorldPath = "tstandalone\\worlds";
- 		public static string PlayerPath = Path.Combine(SavePath, "Players");
+-		public static string PlayerPath = Path.Combine(SavePath, "Players");
++		public static string PlayerPath = Path.Combine(SavePath, "tStandalone\\Players");
 -		public static string CloudPlayerPath = "players";
 +		public static string CloudPlayerPath = "tstandalone\\players";
  		public static Preferences Configuration = new Preferences(SavePath + Path.DirectorySeparatorChar + "config.json");
@@ -173,6 +186,14 @@
  			Netplay.StartServer();
  			gameMenu = false;
  			while (!Netplay.Disconnect) {
+@@ -4847,6 +_,7 @@
+ 			CreativePowerManager.Initialize();
+ 			LocalFavoriteData.Load();
+ 			CloudFavoritesData.Load();
++			LocalModInfoData.Load();
+ 			Initialize_Entities();
+ 			FindAnnouncementBoxStatus();
+ 			CustomCurrencyManager.Initialize();
 @@ -4860,6 +_,7 @@
  			TileEntity.InitializeAll();
  			Projectile.InitializeStaticThings();
@@ -190,7 +211,7 @@
  				Projectile obj = new Projectile();
  				obj.SetDefaults(m);
  				if (obj.hostile)
-@@ -4969,6 +_,130 @@
+@@ -4969,6 +_,131 @@
  			Star.SpawnStars();
  			ItemSorting.SetupWhiteLists();
  #endif
@@ -203,6 +224,7 @@
 +			CreativePowerManager.Initialize();
 +			LocalFavoriteData.Load();
 +			CloudFavoritesData.Load();
++			LocalModInfoData.Load();
 +			Initialize_Entities();
 +			FindAnnouncementBoxStatus();
 +			CustomCurrencyManager.Initialize();

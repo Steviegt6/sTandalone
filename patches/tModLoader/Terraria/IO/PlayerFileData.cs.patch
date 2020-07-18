@@ -1,0 +1,35 @@
+--- src/Terraria/Terraria/IO/PlayerFileData.cs
++++ src/tModLoader/Terraria/IO/PlayerFileData.cs
+@@ -40,6 +_,8 @@
+ 			playerFileData._isCloudSave = (SocialAPI.Cloud != null && SocialAPI.Cloud.EnabledByDefault);
+ 			playerFileData._path = Main.GetPlayerPathFromName(player.name, playerFileData.IsCloudSave);
+ 			(playerFileData.IsCloudSave ? Main.CloudFavoritesData : Main.LocalFavoriteData).ClearEntry(playerFileData);
++			Main.LocalModInfoData.ClearEntry(playerFileData);
++			Main.CloudModInfoData.ClearEntry(playerFileData);
+ 			Player.SavePlayer(playerFileData, skipMapSave: true);
+ 			return playerFileData;
+ 		}
+@@ -68,9 +_,11 @@
+ 			}
+ 
+ 			Main.LocalFavoriteData.ClearEntry(this);
++			Main.LocalModInfoData.ClearEntry(this);
+ 			_isCloudSave = true;
+ 			_path = playerPathFromName;
+ 			Main.CloudFavoritesData.SaveFavorite(this);
++			Main.CloudModInfoData.SaveModInfo(this);
+ 		}
+ 
+ 		public override void MoveToLocal() {
+@@ -91,9 +_,11 @@
+ 			}
+ 
+ 			Main.CloudFavoritesData.ClearEntry(this);
++			Main.CloudModInfoData.ClearEntry(this);
+ 			_isCloudSave = false;
+ 			_path = playerPathFromName;
+ 			Main.LocalFavoriteData.SaveFavorite(this);
++			Main.LocalModInfoData.SaveModInfo(this);
+ 		}
+ 
+ 		public void UpdatePlayTimer() {

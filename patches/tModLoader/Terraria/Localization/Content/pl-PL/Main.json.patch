@@ -116,7 +116,7 @@
  	},
  	"Achievements": {
  		"ARCHAEOLOGIST_Description": "Zabij doktora Bonesa.",
-@@ -693,5 +_,31 @@
+@@ -693,5 +_,34 @@
  	},
  	"RandomWorldName_Composition": {
  		"6": "{Adjective} {Location}"
@@ -145,6 +145,9 @@
 +		"MigrateWorldsMessage": "You have no tStandalone worlds.\nIf you'd like you migrate your vanilla worlds, please copy them from \n\"/Terraria/Worlds\" to  \"/Terraria/tStandalone/Worlds\"\nClick me to open them!",
 +		"MigrateWorldsText": "Click here to migrate your worlds automatically...",
 +		"MigratingWorldsText": "Migrating...",
-+		"Reinitializing": "Reinitializing..."
++		"Reinitializing": "Reinitializing...",
++		"TerrariaPlusShort": "Terraria+",
++		"MMRShort": "MM Reloaded",
++		"HoverOverMe": "Hover over me for more!"
  	}
  }

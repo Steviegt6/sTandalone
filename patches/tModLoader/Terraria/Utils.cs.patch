@@ -1,0 +1,36 @@
+--- src/Terraria/Terraria/Utils.cs
++++ src/tModLoader/Terraria/Utils.cs
+@@ -1,4 +_,5 @@
+ using Microsoft.Xna.Framework;
++using Microsoft.Xna.Framework.Content;
+ using Microsoft.Xna.Framework.Graphics;
+ using Microsoft.Xna.Framework.Graphics.PackedVector;
+ using Microsoft.Xna.Framework.Input;
+@@ -1339,5 +_,27 @@
+ 			if (flag3)
+ 				sb.Draw(TextureAssets.Cursors[cursorSlot].Value, value + value2, null, color, rot, origin, scale, SpriteEffects.None, 0f);
+ 		}
++
++		public static Texture2D GetPNGFromStream(this ContentManager contentManager, string path) {
++			if (string.IsNullOrEmpty(path)) throw new ArgumentException("Path was null or empty");
++
++			Stream stream = null;
++
++			try {
++				stream = TitleContainer.OpenStream(Path.Combine(contentManager.RootDirectory, path) + ".png");
++			}
++			catch (FileNotFoundException fileNotFound) {
++				throw new ContentLoadException("The specified file was not found.", fileNotFound);
++			}
++			catch (Exception e) {
++				throw new ContentLoadException("An error occured while opening stream.", e);
++			}
++
++			return Texture2D.FromStream(
++				Main.instance.GraphicsDevice,
++				stream
++				);
++		}
++
+ 	}
+ }

@@ -197,7 +197,7 @@
  	},
  	"RandomWorldName_Location": {
  		"Abode": "Abode",
-@@ -2646,8 +_,33 @@
+@@ -2646,8 +_,34 @@
  		"PlayingMulti": "Playing Multi-Player"
  	},
  
@@ -229,6 +229,7 @@
 +		"MigratePlayersText": "Click here to migrate your players automatically...",
 +		"MigrateWorldsMessage": "You have no tStandalone worlds.\nIf you'd like you migrate your vanilla worlds, please copy them from \n\"/Terraria/Worlds\" to  \"/Terraria/tStandalone/Worlds\"\nClick me to open them!",
 +		"MigrateWorldsText": "Click here to migrate your worlds automatically...",
-+		"MigratingWorldsText": "Migrating..."
++		"MigratingWorldsText": "Migrating...",
++		"Reinitializing": "Reinitializing..."
  	}
  }

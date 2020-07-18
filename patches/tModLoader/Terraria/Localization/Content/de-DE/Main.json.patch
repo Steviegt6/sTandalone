@@ -117,7 +117,7 @@
  	},
  	"Achievements": {
  		"ARCHAEOLOGIST_Description": "Töte Doktor Bones.",
-@@ -693,5 +_,30 @@
+@@ -693,5 +_,31 @@
  	},
  	"RandomWorldName_Composition": {
  		"6": "{Adjective} {Location}"
@@ -145,6 +145,7 @@
 +		"MigratePlayersText": "Click here to migrate your players automatically...",
 +		"MigrateWorldsMessage": "You have no tStandalone worlds.\nIf you'd like you migrate your vanilla worlds, please copy them from \n\"/Terraria/Worlds\" to  \"/Terraria/tStandalone/Worlds\"\nClick me to open them!",
 +		"MigrateWorldsText": "Click here to migrate your worlds automatically...",
-+		"MigratingWorldsText": "Migrating..."
++		"MigratingWorldsText": "Migrating...",
++		"Reinitializing": "Reinitializing..."
  	}
  }

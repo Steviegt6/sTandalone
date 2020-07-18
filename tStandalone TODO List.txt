@@ -30,6 +30,5 @@ TODO List:
 	-Make "Host & Play" button run the modded TerrariaServer.exe, not the vanilla one
 		^Either that, or prevent modded players from joining vanilla servers (or both)
 	-Localization for modded text
-	-Add in World and Player migration
 	-Discord Rich Presence compatability
 	?Repo cleanup (lots of files from the TML repo that can be removed, i think)

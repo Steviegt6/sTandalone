@@ -1,0 +1,87 @@
+--- src/Terraria/Terraria/GameContent/UI/States/UICharacterSelect.cs
++++ src/tModLoader/Terraria/GameContent/UI/States/UICharacterSelect.cs
+@@ -2,7 +_,9 @@
+ using Microsoft.Xna.Framework.Graphics;
+ using System;
+ using System.Collections.Generic;
++using System.IO;
+ using System.Linq;
++using System.Threading.Tasks;
+ using Terraria.Audio;
+ using Terraria.GameContent.UI.Elements;
+ using Terraria.GameInput;
+@@ -25,6 +_,8 @@
+ 		private List<Tuple<string, bool>> favoritesCache = new List<Tuple<string, bool>>();
+ 		private bool skipDraw;
+ 
++		public static bool migratingPlayers;
++
+ 		public override void OnInitialize() {
+ 			UIElement uIElement = new UIElement();
+ 			uIElement.Width.Set(0f, 0.8f);
+@@ -141,6 +_,65 @@
+ 			int num = 0;
+ 			foreach (PlayerFileData item in list) {
+ 				_playerList.Add(new UICharacterListItem(item, num++));
++			}
++
++			if (list.Count == 0) {
++				string vanillaPath = Path.Combine(Main.SavePath, "Players");
++
++				if (Directory.Exists(vanillaPath) && Directory.GetFiles(vanillaPath, "*.plr").Any()) {
++					var migrationButton = new UIPanel();
++					migrationButton.Width.Set(0, 1);
++					migrationButton.Height.Set(50, 0);
++
++					var migrationText = new UIText(!migratingPlayers ? Language.GetTextValue("Modded.MigratePlayersText") : Language.GetTextValue("Modded.MigratingWorldsText"));
++
++					migrationButton.OnClick += (a, b) => {
++						if (!migratingPlayers) {
++							migratingPlayers = true;
++
++							migrationText.SetText(Language.GetTextValue("Modded.MigratingWorldsText"));
++
++							Task.Factory.StartNew(() => {
++								var vanillaPlayers = Directory.GetFiles(vanillaPath, "*.*").Where(s => s.EndsWith(".plr") || s.EndsWith(".bak"));
++
++								foreach (string file in vanillaPlayers) {
++									File.Copy(file, Path.Combine(Main.PlayerPath, Path.GetFileName(file)), true);
++								}
++
++								foreach (string mapDir in Directory.GetDirectories(vanillaPath)) {
++									var mapFiles = Directory.GetFiles(mapDir, "*.*").Where(s => s.EndsWith(".map"));
++
++									try {
++										foreach (string mapFile in mapFiles) {
++											string mapFileDir = Path.Combine(Main.PlayerPath, Directory.GetParent(mapFile).Name);
++											Directory.CreateDirectory(mapFileDir);
++											File.Copy(mapFile, Path.Combine(mapFileDir, Path.GetFileName(mapFile)), true);
++										}
++									}
++									catch (Exception e) {
++
++									}
++								}
++								migratingPlayers = false;
++								Main.menuMode = 1;
++							}, TaskCreationOptions.PreferFairness);
++						}
++					};
++
++					migrationButton.Append(migrationText);
++					_playerList.Add(migrationButton);
++
++					var noMessage = new UIText(Language.GetTextValue("Modded.MigratePlayersMessage"));
++					noMessage.Width.Set(0, 1);
++					noMessage.Height.Set(200, 0);
++					noMessage.MarginTop = 20f;
++					noMessage.OnClick += (a, b) => {
++						Utils.OpenFolder(Main.PlayerPath);
++						Utils.OpenFolder(vanillaPath);
++					};
++
++					_playerList.Add(noMessage);
++				}
+ 			}
+ 		}
+ 

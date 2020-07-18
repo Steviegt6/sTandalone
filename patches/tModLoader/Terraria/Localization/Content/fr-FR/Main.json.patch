@@ -117,7 +117,7 @@
  	},
  	"Achievements": {
  		"ARCHAEOLOGIST_Description": "Tuez le Docteur Bones.",
-@@ -693,5 +_,25 @@
+@@ -693,5 +_,30 @@
  	},
  	"RandomWorldName_Composition": {
  		"6": "{Adjective} {Location}"
@@ -140,6 +140,11 @@
 +		"AccessoryInAnyVanity": "Any Accessory in Vanity Slots",
 +		"RestartMessage": "You've made mod-related changes to your settings. Please reload!",
 +		"Reload": "Reload",
-+		"CloudSave": "Cloud saving is disabled with tStandalone"
++		"CloudSave": "Cloud saving is disabled with tStandalone",
++		"MigratePlayersMessage": "You have no tStandalone players.\nIf you'd like you migrate your vanilla players, please copy them from\n \"/Terraria/Players\" to  \"/Terraria/tStandalone/Players\"\nClick me to open them!",
++		"MigratePlayersText": "Click here to migrate your players automatically...",
++		"MigrateWorldsMessage": "You have no tStandalone worlds.\nIf you'd like you migrate your vanilla worlds, please copy them from \n\"/Terraria/Worlds\" to  \"/Terraria/tStandalone/Worlds\"\nClick me to open them!",
++		"MigrateWorldsText": "Click here to migrate your worlds automatically...",
++		"MigratingWorldsText": "Migrating..."
  	}
  }

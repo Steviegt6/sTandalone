@@ -1,0 +1,80 @@
+--- src/Terraria/Terraria/GameContent/UI/States/UIWorldSelect.cs
++++ src/tModLoader/Terraria/GameContent/UI/States/UIWorldSelect.cs
+@@ -2,7 +_,9 @@
+ using Microsoft.Xna.Framework.Graphics;
+ using System;
+ using System.Collections.Generic;
++using System.IO;
+ using System.Linq;
++using System.Threading.Tasks;
+ using Terraria.Audio;
+ using Terraria.GameContent.UI.Elements;
+ using Terraria.GameInput;
+@@ -25,6 +_,8 @@
+ 		private List<Tuple<string, bool>> favoritesCache = new List<Tuple<string, bool>>();
+ 		private bool skipDraw;
+ 
++		public static bool migratingWorlds;
++
+ 		public override void OnInitialize() {
+ 			UIElement uIElement = new UIElement();
+ 			uIElement.Width.Set(0f, 0.8f);
+@@ -124,12 +_,58 @@
+ 
+ 		private void UpdateWorldsList() {
+ 			_worldList.Clear();
++
++			List<WorldFileData> list = new List<WorldFileData>(Main.WorldList);
+ 			IOrderedEnumerable<WorldFileData> orderedEnumerable = new List<WorldFileData>(Main.WorldList).OrderByDescending(CanWorldBePlayed).ThenByDescending((WorldFileData x) => x.IsFavorite).ThenBy((WorldFileData x) => x.Name)
+ 				.ThenBy((WorldFileData x) => x.GetFileName());
+ 
+ 			int num = 0;
+ 			foreach (WorldFileData item in orderedEnumerable) {
+ 				_worldList.Add(new UIWorldListItem(item, num++, CanWorldBePlayed(item)));
++			}
++
++			if (list.Count == 0) {
++				string vanillaPath = Path.Combine(Main.SavePath, "Worlds");
++
++				if (Directory.Exists(vanillaPath) && Directory.GetFiles(vanillaPath, "*.wld").Any()) {
++					var migrationButton = new UIPanel();
++					migrationButton.Width.Set(0, 1);
++					migrationButton.Height.Set(50, 0);
++
++					var migrationText = new UIText(!migratingWorlds ? Language.GetTextValue("Modded.MigrateWorldsText") : Language.GetTextValue("Modded.MigratingWorldsText"));
++
++					migrationButton.OnClick += (a, b) => {
++						if (!migratingWorlds) {
++							migratingWorlds = false;
++							migrationText.SetText(Language.GetTextValue("Modded.MigratingWorldsText"));
++
++							Task.Factory.StartNew(() => {
++								var vanillaFiles = Directory.GetFiles(vanillaPath, "*.*").Where(s => s.EndsWith(".wld") || s.EndsWith(".bak"));
++
++								foreach (string file in vanillaFiles) {
++									File.Copy(file, Path.Combine(Main.WorldPath, Path.GetFileName(file)), true);
++								}
++
++								migratingWorlds = false;
++								Main.menuMode = 6;
++							}, TaskCreationOptions.PreferFairness);
++						}
++					};
++
++					migrationButton.Append(migrationText);
++					_worldList.Add(migrationButton);
++
++					var noMessage = new UIText(Language.GetTextValue("Modded.MigrateWorldsMessage"));
++					noMessage.Width.Set(0, 1);
++					noMessage.Height.Set(300, 0);
++					noMessage.MarginTop = 20f;
++					noMessage.OnClick += (a, b) => {
++						Utils.OpenFolder(Main.WorldPath);
++						Utils.OpenFolder(vanillaPath);
++					};
++
++					_worldList.Add(noMessage);
++				}
+ 			}
+ 		}
+ 

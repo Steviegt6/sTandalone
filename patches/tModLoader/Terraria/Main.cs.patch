@@ -490,6 +490,23 @@
  				}
  			}
  			else if (projectile.type == 672) {
+@@ -31723,13 +_,13 @@
+ 				return drawBuffText;
+ 
+ 			Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(buffAlpha[buffSlotOnPlayer], buffAlpha[buffSlotOnPlayer], buffAlpha[buffSlotOnPlayer], buffAlpha[buffSlotOnPlayer]);
+-			spriteBatch.Draw(TextureAssets.Buff[num].Value, new Vector2(x, y), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Buff[num].Width(), TextureAssets.Buff[num].Height()), color, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
++			spriteBatch.Draw(TextureAssets.Buff[num].Value, new Vector2(x, y), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Buff[num].Value.Width, TextureAssets.Buff[num].Value.Height), color, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+ 			if (TryGetBuffTime(buffSlotOnPlayer, out int buffTimeValue) && buffTimeValue > 2) {
+ 				string text = Lang.LocalizedDuration(new TimeSpan(0, 0, buffTimeValue / 60), abbreviated: true, showAllAvailableUnits: false);
+-				spriteBatch.DrawString(FontAssets.ItemStack.Value, text, new Vector2(x, y + TextureAssets.Buff[num].Height()), color, 0f, default(Vector2), 0.8f, SpriteEffects.None, 0f);
++				spriteBatch.DrawString(FontAssets.ItemStack.Value, text, new Vector2(x, y + TextureAssets.Buff[num].Value.Height), color, 0f, default(Vector2), 0.8f, SpriteEffects.None, 0f);
+ 			}
+ 
+-			if (mouseX < x + TextureAssets.Buff[num].Width() && mouseY < y + TextureAssets.Buff[num].Height() && mouseX > x && mouseY > y) {
++			if (mouseX < x + TextureAssets.Buff[num].Value.Width && mouseY < y + TextureAssets.Buff[num].Value.Height && mouseX > x && mouseY > y) {
+ 				drawBuffText = buffSlotOnPlayer;
+ 				buffAlpha[buffSlotOnPlayer] += 0.1f;
+ 				bool flag = mouseRight && mouseRightRelease;
 @@ -35864,12 +_,24 @@
  			Microsoft.Xna.Framework.Color color2 = new Microsoft.Xna.Framework.Color((byte)((float)(int)color.R * ((float)LogoA / 255f)), (byte)((float)(int)color.G * ((float)LogoA / 255f)), (byte)((float)(int)color.B * ((float)LogoA / 255f)), (byte)((float)(int)color.A * ((float)LogoA / 255f)));
  			Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color((byte)((float)(int)color.R * ((float)LogoB / 255f)), (byte)((float)(int)color.G * ((float)LogoB / 255f)), (byte)((float)(int)color.B * ((float)LogoB / 255f)), (byte)((float)(int)color.A * ((float)LogoB / 255f)));

@@ -211,13 +211,14 @@
  				Projectile obj = new Projectile();
  				obj.SetDefaults(m);
  				if (obj.hostile)
-@@ -4969,6 +_,131 @@
+@@ -4969,6 +_,132 @@
  			Star.SpawnStars();
  			ItemSorting.SetupWhiteLists();
  #endif
 +		}
 +
 +		private void Reinitialize_AlmostEverything_Needed() {
++			sMain.UpdateEnabledMods();
 +			TilePaintSystem = new TilePaintSystemV2();
 +			TilesRenderer = new TileDrawing(TilePaintSystem);
 +			WallsRenderer = new WallDrawing(TilePaintSystem);

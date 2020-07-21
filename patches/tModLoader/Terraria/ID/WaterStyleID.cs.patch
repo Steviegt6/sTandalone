@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/ID/WaterStyleID.cs
++++ src/tModLoader/Terraria/ID/WaterStyleID.cs
+@@ -16,5 +_,7 @@
+ 		public const int Honey = 11;
+ 		public const int UndergroundDesert = 12;
+ 		public const int Count = 13;
++		public const int VanillaCount = 13;
++		//TODO: Count
+ 	}
+ }

@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/ID/NPCHeadID.cs
++++ src/tModLoader/Terraria/ID/NPCHeadID.cs
+@@ -54,5 +_,7 @@
+ 		public const int BunnyLop = 43;
+ 		public const int BunnySilver = 44;
+ 		public const int Count = 45;
++		public static int VanillaCount = 45;
++		//TODO: Count
+ 	}
+ }

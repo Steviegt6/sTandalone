@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/ID/GoreID.cs
++++ src/tModLoader/Terraria/ID/GoreID.cs
+@@ -627,5 +_,7 @@
+ 		public const int HallowBoss6 = 1267;
+ 		public const int HallowBoss7 = 1268;
+ 		public const short Count = 1269;
++		public const short VanillaCount = 1269;
++		//TODO: Count
+ 	}
+ }

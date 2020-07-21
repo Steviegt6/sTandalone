@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/ID/PrefixID.cs
++++ src/tModLoader/Terraria/ID/PrefixID.cs
+@@ -87,5 +_,7 @@
+ 		public const int Mythical = 83;
+ 		public const int Legendary2 = 84;
+ 		public const int Count = 85;
++		public const int VanillaCount = 85;
++		//TODO: Count
+ 	}
+ }

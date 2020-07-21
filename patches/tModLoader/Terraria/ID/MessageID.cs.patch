@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/ID/MessageID.cs
++++ src/tModLoader/Terraria/ID/MessageID.cs
+@@ -150,5 +_,7 @@
+ 		public const byte ClientSyncedInventory = 138;
+ 		public const byte SetCountsAsHostForGameplay = 139;
+ 		public const byte Count = 140;
++		public const byte VanillaCount = 140;
++		//TODO: Count
+ 	}
+ }

@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/ID/TileID.cs
++++ src/tModLoader/Terraria/ID/TileID.cs
+@@ -822,5 +_,7 @@
+ 		public const ushort SliceOfCake = 621;
+ 		public const ushort TeaKettle = 622;
+ 		public const ushort Count = 623;
++		public const ushort VanillaCount = 623;
++		//TODO: Count
+ 	}
+ }

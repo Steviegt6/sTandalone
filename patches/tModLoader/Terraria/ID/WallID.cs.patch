@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/ID/WallID.cs
++++ src/tModLoader/Terraria/ID/WallID.cs
+@@ -343,5 +_,7 @@
+ 		public const ushort AmberStoneWallEcho = 314;
+ 		public const ushort BambooFence = 315;
+ 		public const ushort Count = 316;
++		public const ushort VanillaCount = 316;
++		//TODO: Count
+ 	}
+ }

@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/ID/AchievementHelperID.cs
++++ src/tModLoader/Terraria/ID/AchievementHelperID.cs
+@@ -27,6 +_,7 @@
+ 			public const int UnlockedBiomeChest = 20;
+ 			public const int DefeatedMechaMayhem = 21;
+ 			public const int TempleRaider = 22;
++			public const int VanillaEvents = 22;
+ 		}
+ 
+ 		public class Special

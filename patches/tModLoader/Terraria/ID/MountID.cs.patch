@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/ID/MountID.cs
++++ src/tModLoader/Terraria/ID/MountID.cs
+@@ -62,5 +_,7 @@
+ 		public const int LavaShark = 49;
+ 		public const int QueenSlime = 50;
+ 		public static int Count = 51;
++		public static int VanillaCount = 51;
++		//TODO: Count
+ 	}
+ }

@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/ID/NPCID.cs
++++ src/tModLoader/Terraria/ID/NPCID.cs
+@@ -5653,6 +_,8 @@
+ 		public const short EmpressButterfly = 661;
+ 		public const short PirateGhost = 662;
+ 		public const short Count = 663;
++		public const short VanillaCount = 663;
++		//TODO: Count
+ 
+ 		public static int FromLegacyName(string name) {
+ 			if (LegacyNameToIdMap.TryGetValue(name, out int value))

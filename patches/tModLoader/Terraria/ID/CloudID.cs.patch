@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/ID/CloudID.cs
++++ src/tModLoader/Terraria/ID/CloudID.cs
+@@ -40,5 +_,7 @@
+ 		public const int Rare_Wyvern = 35;
+ 		public const int Rare_BOC = 36;
+ 		public const int Count = 37;
++		public const int VanillaCount = 37;
++		//TODO: Count
+ 	}
+ }

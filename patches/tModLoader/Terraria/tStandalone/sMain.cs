@@ -30,14 +30,11 @@ namespace Terraria.tStandalone
 		}
 
 		internal static void UpdateEnabledMods() { //TODO: Make this not bad.
-			if (Main.terrariaPlus && !Main.enabledMods.Contains(Main.Mod.TerrariaPlus))
+			Main.enabledMods.Clear();
+			if (Main.terrariaPlus)
 				Main.enabledMods.Add(Main.Mod.TerrariaPlus);
-			else if (Main.enabledMods.Contains(Main.Mod.TerrariaPlus) && !Main.terrariaPlus)
-				Main.enabledMods.Remove(Main.Mod.TerrariaPlus);
-			if (Main.masterModeReloaded && !Main.enabledMods.Contains(Main.Mod.MasterModeReloaded))
+			if (Main.masterModeReloaded)
 				Main.enabledMods.Add(Main.Mod.MasterModeReloaded);
-			else if (Main.enabledMods.Contains(Main.Mod.MasterModeReloaded) && !Main.masterModeReloaded)
-				Main.enabledMods.Remove(Main.Mod.MasterModeReloaded);
 		}
 	}
 }

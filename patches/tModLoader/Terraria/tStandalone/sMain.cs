@@ -29,7 +29,7 @@ namespace Terraria.tStandalone
 			UpdateEnabledMods();
 		}
 
-		internal static void UpdateEnabledMods() { //TODO: Make this not bad.
+		internal static void UpdateEnabledMods() {
 			Main.enabledMods.Clear();
 			if (Main.terrariaPlus)
 				Main.enabledMods.Add(Main.Mod.TerrariaPlus);

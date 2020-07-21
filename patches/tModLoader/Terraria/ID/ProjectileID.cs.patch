@@ -9,7 +9,7 @@
  			public static bool[] DontApplyParryDamageBuff = Factory.CreateBoolSet(false, 524, 321, 181, 566);
  			public static bool[] IsAWhip = Factory.CreateBoolSet(false, 847, 841, 848, 849, 912, 913, 914, 915);
  			public static bool[] ImmediatelyUpdatesNPCBuffFlags = Factory.CreateBoolSet(636);
-@@ -1209,6 +_,8 @@
+@@ -1209,6 +_,9 @@
  		public const short Mace = 947;
  		public const short FlamingMace = 948;
  		public const short TorchGod = 949;
@@ -17,5 +17,6 @@
 +		public const short KingSlimeShockwave = 950;
 +		public const short CorruptedFlames = 951;
 +		public const short Count = 952;
++		public const short VanillaCount = 950;
  	}
  }

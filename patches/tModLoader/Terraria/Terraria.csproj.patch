@@ -1,0 +1,12 @@
+--- src/Terraria/Terraria/Terraria.csproj
++++ src/tModLoader/Terraria/Terraria.csproj
+@@ -18,7 +_,8 @@
+   </PropertyGroup>
+   <PropertyGroup>
+     <PdbFile>bin\$(OutputName)</PdbFile>
+-    <ApplicationIcon>Icon.ico</ApplicationIcon>
++    <ApplicationIcon>tModLoader.ico</ApplicationIcon>
++    <TargetFramework>net45</TargetFramework>
+   </PropertyGroup>
+   <ItemGroup>
+     <Reference Include="FNA" Condition="$(DefineConstants.Contains('FNA'))">

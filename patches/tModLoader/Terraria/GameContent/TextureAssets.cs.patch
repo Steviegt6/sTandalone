@@ -1,13 +1,22 @@
 --- src/Terraria/Terraria/GameContent/TextureAssets.cs
 +++ src/tModLoader/Terraria/GameContent/TextureAssets.cs
+@@ -1,5 +_,6 @@
+ using Microsoft.Xna.Framework.Graphics;
+ using ReLogic.Content;
++using Terraria.ID;
+ 
+ namespace Terraria.GameContent
+ {
 @@ -177,11 +_,11 @@
  		public static Asset<Texture2D>[] NpcToggle = new Asset<Texture2D>[2];
  		public static Asset<Texture2D>[] HbLock = new Asset<Texture2D>[2];
  		public static Asset<Texture2D>[] blockReplaceIcon = new Asset<Texture2D>[2];
 -		public static Asset<Texture2D>[] Buff = new Asset<Texture2D>[323];
 +		public static Asset<Texture2D>[] Buff = new Asset<Texture2D>[Terraria.ID.BuffID.Count];
- 		public static Asset<Texture2D>[] Item = new Asset<Texture2D>[5045];
- 		public static Asset<Texture2D>[] ItemFlame = new Asset<Texture2D>[5045];
+-		public static Asset<Texture2D>[] Item = new Asset<Texture2D>[5045];
++		public static Asset<Texture2D>[] Item = new Asset<Texture2D>[ItemID.Count];
+-		public static Asset<Texture2D>[] ItemFlame = new Asset<Texture2D>[5045];
++		public static Asset<Texture2D>[] ItemFlame = new Asset<Texture2D>[ItemID.Count];
  		public static Asset<Texture2D>[] Npc = new Asset<Texture2D>[663];
 -		public static Asset<Texture2D>[] Projectile = new Asset<Texture2D>[950];
 +		public static Asset<Texture2D>[] Projectile = new Asset<Texture2D>[Terraria.ID.ProjectileID.Count];

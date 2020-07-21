@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/UI/ItemSorting.cs
++++ src/tModLoader/Terraria/UI/ItemSorting.cs
+@@ -809,7 +_,7 @@
+ 			list.Add(ItemSortingLayers.LastTilesCommon);
+ 			list.Add(ItemSortingLayers.LastNotTrash);
+ 			list.Add(ItemSortingLayers.LastTrash);
+-			for (int i = -48; i < 5045; i++) {
++			for (int i = -48; i < ItemID.Count; i++) {
+ 				Item item = new Item();
+ 				item.netDefaults(i);
+ 				list2.Add(item);

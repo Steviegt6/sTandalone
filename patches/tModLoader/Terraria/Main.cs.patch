@@ -65,10 +65,12 @@
  		public static Ref<Effect> ScreenShaderRef = new Ref<Effect>();
  		public static Ref<Effect> PixelShaderRef = new Ref<Effect>();
  		public static Ref<Effect> TileShaderRef = new Ref<Effect>();
-@@ -294,11 +_,11 @@
+@@ -293,12 +_,12 @@
+ 		public static int dedServCount2;
  		public static bool superFast = false;
  		public const int offLimitBorderTiles = 40;
- 		public const int maxItemTypes = 5045;
+-		public const int maxItemTypes = 5045;
++		public const int maxItemTypes = ItemID.Count;
 -		public const int maxProjectileTypes = 950;
 +		public const int maxProjectileTypes = ProjectileID.Count;
  		public const int maxNPCTypes = 663;
@@ -128,6 +130,15 @@
  		public static float demonTorch = 1f;
  		public static int demonTorchDir = 1;
  		public static float martianLight = 1f;
+@@ -981,7 +_,7 @@
+ 		public static Sign[] sign = new Sign[1000];
+ 		public static int[] itemFrame = new int[401];
+ 		public static int[] itemFrameCounter = new int[401];
+-		public static DrawAnimation[] itemAnimations = new DrawAnimation[5045];
++		public static DrawAnimation[] itemAnimations = new DrawAnimation[ItemID.Count];
+ 		private static DrawAnimation _coinOnWorldAnimation = new DrawAnimationVertical(6, 8);
+ 		private static DrawAnimation _monkStaffT3OnWorldAnimation = new DrawAnimationVertical(5, 3);
+ 		public static List<int> itemAnimationsRegistered = new List<int>();
 @@ -1152,10 +_,10 @@
  		public static Player PendingPlayer = null;
  		public static List<WorldFileData> WorldList = new List<WorldFileData>();
@@ -344,6 +355,15 @@
  		}
  
  		private void Initialize_Entities() {
+@@ -5020,7 +_,7 @@
+ 		}
+ 
+ 		private static void Initialize_Items() {
+-			for (int i = 0; i < 5045; i++) {
++			for (int i = 0; i < ItemID.Count; i++) {
+ 				Item item = new Item();
+ 				item.SetDefaults(i);
+ 				if (item.headSlot > 0)
 @@ -6424,7 +_,7 @@
  				tileGlowMask[i] = -1;
  			}

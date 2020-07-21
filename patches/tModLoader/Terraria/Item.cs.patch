@@ -1,5 +1,16 @@
 --- src/Terraria/Terraria/Item.cs
 +++ src/tModLoader/Terraria/Item.cs
+@@ -39,8 +_,8 @@
+ 		public static int[] headType = new int[266];
+ 		public static int[] bodyType = new int[235];
+ 		public static int[] legType = new int[218];
+-		public static bool[] staff = new bool[5045];
++		public static bool[] staff = new bool[ItemID.Count];
+-		public static bool[] claw = new bool[5045];
++		public static bool[] claw = new bool[ItemID.Count];
+ 		public bool flame;
+ 		public bool mech;
+ 		public int noGrabDelay;
 @@ -170,6 +_,9 @@
  
  		public bool FitsAccessoryVanitySlot {
@@ -9,4 +20,31 @@
 +
  				if (!canBePlacedInVanityRegardlessOfConditions && handOnSlot == -1 && handOffSlot == -1 && backSlot == -1 && frontSlot == -1 && shoeSlot == -1 && waistSlot == -1 && wingSlot == -1 && shieldSlot == -1 && neckSlot == -1 && faceSlot == -1)
  					return balloonSlot != -1;
+ 
+@@ -44361,7 +_,7 @@
+ 				playerIndexTheItemIsReservedFor = Main.myPlayer;
+ 
+ 			ResetStats(Type);
+-			if (type >= 5045)
++			if (type >= ItemID.Count)
+ 				type = 0;
+ 
+ 			if (type == 0) {
+@@ -44540,7 +_,7 @@
+ 				material = ItemID.Sets.IsAMaterial[type];
+ 
+ 			RebuildTooltip();
+-			if (type > 0 && type < 5045 && ItemID.Sets.Deprecated[type]) {
++			if (type > 0 && type < ItemID.Count && ItemID.Sets.Deprecated[type]) {
+ 				netID = 0;
+ 				type = 0;
+ 				stack = 0;
+@@ -45840,7 +_,7 @@
+ 				Prefix(reader.ReadByte());
+ 			}
+ 
+-			if (type >= 5045)
++			if (type >= ItemID.Count)
+ 				TurnToAir();
+ 		}
  

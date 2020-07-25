@@ -9,7 +9,7 @@
  using Terraria.UI;
  using Terraria.UI.Chat;
  using Terraria.UI.Gamepad;
-@@ -175,6 +_,34 @@
+@@ -175,6 +_,29 @@
  			public bool LanternNightActive;
  		}
  
@@ -22,17 +22,12 @@
 +		public static bool terrariaPlus = false;
 +		public static bool masterModeReloaded = false;
 +
++		public static bool enableTerrariaPlus = false;
++		public static bool enableMasterModeReloaded = false;
++
 +		public static int YellowtoWhiteDir = 1;
 +
 +		public static float YellowtoWhite = 1f;
-+
-+		public enum Mod
-+		{
-+			TerrariaPlus,
-+			MasterModeReloaded
-+		}
-+
-+		public static List<Mod> enabledMods = new List<Mod>();
 +
 +		#region TERRARIA_PLUS
 +		public static bool firstFractalRecipe = false;
@@ -44,6 +39,15 @@
  		private const string versionStringBecauseTheyreTheSame = "v1.4.0.5";
  		public const int curRelease = 230;
  		public const string assemblyVersionNumber = "1.4.0.5";
+@@ -242,7 +_,7 @@
+ 		public static Dictionary<int, GameModeData> RegisterdGameModes = new Dictionary<int, GameModeData> {
+ 			{ 0, GameModeData.NormalMode },
+ 			{ 1, GameModeData.ExpertMode },
+-			{ 2, GameModeData.MasterMode },
++			{ 2, masterModeReloaded ? GameModeData.MasterModeReloaded : GameModeData.MasterMode },
+ 			{ 3, GameModeData.CreativeMode }		};
+ 		private static bool? _overrideForExpertMode = null;
+ 		private static bool? _overrideForMasterMode = null;
 @@ -251,6 +_,10 @@
  		public static Vector2 destroyerHB = new Vector2(0f, 0f);
  		public static FavoritesFile LocalFavoriteData = new FavoritesFile(SavePath + "/favorites.json", isCloud: false);
@@ -157,7 +161,7 @@
  
  		public static bool SaveSettings() {
  			Configuration.Clear();
-+			sMain.tStandalonePut();
++			tMain.tStandalonePut();
  			Configuration.Put("ResetDefaultUIScale", false);
  			Configuration.Put("SmartCursorToggle", cSmartCursorModeIsToggleAndNotHold);
  			Configuration.Put("MapEnabled", mapEnabled);
@@ -165,7 +169,7 @@
  			if (currentValue < 219)
  				flag = true;
  
-+			sMain.tStandaloneGet();
++			tMain.tStandaloneGet();
 +
  			if (!flag) {
  				Configuration.Get("ResetDefaultUIScale", ref shouldSetDefaultUIScale);
@@ -196,7 +200,14 @@
  			Netplay.StartServer();
  			gameMenu = false;
  			while (!Netplay.Disconnect) {
-@@ -4847,6 +_,7 @@
+@@ -4841,12 +_,14 @@
+ 		}
+ 
+ 		private void Initialize_AlmostEverything() {
++			tMain.UpdateEnabledMods();
+ 			TilePaintSystem = new TilePaintSystemV2();
+ 			TilesRenderer = new TileDrawing(TilePaintSystem);
+ 			WallsRenderer = new WallDrawing(TilePaintSystem);
  			CreativePowerManager.Initialize();
  			LocalFavoriteData.Load();
  			CloudFavoritesData.Load();
@@ -221,14 +232,19 @@
  				Projectile obj = new Projectile();
  				obj.SetDefaults(m);
  				if (obj.hostile)
-@@ -4969,6 +_,132 @@
+@@ -4969,6 +_,137 @@
  			Star.SpawnStars();
  			ItemSorting.SetupWhiteLists();
  #endif
 +		}
 +
 +		private void Reinitialize_AlmostEverything_Needed() {
-+			sMain.UpdateEnabledMods();
++			tMain.UpdateEnabledMods();
++			RegisterdGameModes = new Dictionary<int, GameModeData> {
++			{ 0, GameModeData.NormalMode },
++			{ 1, GameModeData.ExpertMode },
++			{ 2, masterModeReloaded ? GameModeData.MasterModeReloaded : GameModeData.MasterMode },
++			{ 3, GameModeData.CreativeMode }        };
 +			TilePaintSystem = new TilePaintSystemV2();
 +			TilesRenderer = new TileDrawing(TilePaintSystem);
 +			WallsRenderer = new WallDrawing(TilePaintSystem);
@@ -431,7 +447,7 @@
  				}
  
 -				if (!item.vanity && item.FitsAccessoryVanitySlot) {
-+				if (!item.vanity && item.FitsAccessoryVanitySlot && (!terrariaPlus && !enabledMods.Contains(Mod.TerrariaPlus) && !allAccessoriesInVanitySlots)) {
++				if (!item.vanity && item.FitsAccessoryVanitySlot && (!terrariaPlus && !allAccessoriesInVanitySlots)) {
  					toolTipLine[numLines] = Language.GetText("Misc.CanBePlacedInVanity").Value;
  					numLines++;
  				}
@@ -440,7 +456,7 @@
  										float num115 = 1f - (float)rCurrentNPC.life / (float)rCurrentNPC.lifeMax;
  										num115 *= num115;
 -										if (getGoodWorld)
-+										if (getGoodWorld || (masterModeReloaded && masterMode))
++										if (getGoodWorld || (Main.masterModeReloaded && masterMode))
  											num115 = 1f;
  
  										alpha11.R = (byte)((float)(int)alpha11.R * num115);
@@ -531,7 +547,7 @@
  			Microsoft.Xna.Framework.Color color2 = new Microsoft.Xna.Framework.Color((byte)((float)(int)color.R * ((float)LogoA / 255f)), (byte)((float)(int)color.G * ((float)LogoA / 255f)), (byte)((float)(int)color.B * ((float)LogoA / 255f)), (byte)((float)(int)color.A * ((float)LogoA / 255f)));
  			Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color((byte)((float)(int)color.R * ((float)LogoB / 255f)), (byte)((float)(int)color.G * ((float)LogoB / 255f)), (byte)((float)(int)color.B * ((float)LogoB / 255f)), (byte)((float)(int)color.A * ((float)LogoB / 255f)));
  			if (playOldTile) {
-+				if (masterModeReloaded) {
++				if (Main.masterModeReloaded) {
 +					spriteBatch.Draw(TextureAssets.MMRLogo3.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color2, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
 +					spriteBatch.Draw(TextureAssets.MMRLogo4.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color3, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
 +				}
@@ -543,7 +559,7 @@
 +				}
  			}
  			else {
-+				if (masterModeReloaded) {
++				if (Main.masterModeReloaded) {
 +					spriteBatch.Draw(TextureAssets.MMRLogo.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color2, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
 +					spriteBatch.Draw(TextureAssets.MMRLogo2.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color3, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
 +				}
@@ -574,8 +590,8 @@
  				DD2Event.Ongoing = false;
 -				eclipse = false;
 -				pumpkinMoon = false;
-+				eclipse = masterModeReloaded ? true : false;
-+				pumpkinMoon = masterModeReloaded ? true : false;
++				eclipse = Main.masterModeReloaded ? true : false;
++				pumpkinMoon = Main.masterModeReloaded ? true : false;
  				snowMoon = false;
  				ServerSideCharacter = false;
  				menuMultiplayer = false;
@@ -648,12 +664,10 @@
  					for (int num19 = 0; num19 < num5; num19++) {
  						array7[num19] = 0.75f;
  					}
-@@ -37088,6 +_,15 @@
+@@ -37088,6 +_,13 @@
  					}
  
  					num20++;
-+					array[num20] = (enabledMods.Count() >= 1) ? false : true;
-+					array6[num20] = ((enabledMods.Count() >= 1) ? (byte)0 : (byte)9);
 +					array9[num20] = Language.GetTextValue("Modded.ModSettings");
 +					if (selectedMenu == num20) {
 +						SoundEngine.PlaySound(10);
@@ -664,7 +678,7 @@
  					array9[num20] = Lang.menu[5].Value;
  					if (selectedMenu == num20 || flag5) {
  						flag5 = false;
-@@ -38121,6 +_,164 @@
+@@ -38121,6 +_,162 @@
  						netMode = 0;
  					}
  				}
@@ -706,7 +720,6 @@
 +					if (selectedMenu == num20) {
 +						SoundEngine.PlaySound(10);
 +						terrariaPlus = !terrariaPlus;
-+
 +						restartRequired = true;
 +					}
 +
@@ -715,7 +728,6 @@
 +					if (selectedMenu == num20) {
 +						SoundEngine.PlaySound(10);
 +						masterModeReloaded = !masterModeReloaded;
-+
 +						restartRequired = true;
 +					}
 +
@@ -845,7 +857,7 @@
  							default:
  								color11 = color;
  								break;
-@@ -38852,10 +_,13 @@
+@@ -38852,10 +_,20 @@
  					if (num107 == 3)
  						num109 = 2;
  
@@ -858,6 +870,13 @@
  					origin2.Y *= 0.5f;
 -					spriteBatch.DrawString(FontAssets.MouseText.Value, versionNumber, new Vector2(origin2.X + (float)num108 + 10f, (float)screenHeight - origin2.Y + (float)num109 - 2f), color12, 0f, origin2, 1f, SpriteEffects.None, 0f);
 +					spriteBatch.DrawString(FontAssets.MouseText.Value, "tStandalone " + tStandaloneVersion, new Vector2(origin2.X + (float)num108 + 10f, (float)screenHeight - origin2.Y + (float)num109 - 2f), color12, 0f, origin2, 1f, SpriteEffects.None, 0f);
++
++					Vector2 origin3 = FontAssets.MouseText.Value.MeasureString("Terraria+ v1.0.0.0 - " + (terrariaPlus ? "Enabled" : "Disabled") + "\n" +
++						"Master Mode Reloaded v1.0.0.0 - " + (masterModeReloaded ? "Enabled" : "Disabled") + "\n");
++					origin3.X *= 0.5f;
++					origin3.Y *= 0.5f;
++					spriteBatch.DrawString(FontAssets.MouseText.Value, "Terraria+ v1.0.0.0 - " + (terrariaPlus ? "Enabled" : "Disabled") + "\n" +
++						"Master Mode Reloaded v1.0.0.0 - " + (masterModeReloaded ? "Enabled" : "Disabled") + "\n", new Vector2(origin3.X + (float)num108 + 10f, origin3.Y + (float)num109 + 4f), color12, 0f, origin3, 1f, SpriteEffects.None, 0f);
  				}
  			}
  

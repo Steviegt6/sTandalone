@@ -165,34 +165,14 @@
  			_data.ToggleFavorite();
  			((UIImageButton)evt.Target).SetImage(_data.IsFavorite ? _buttonFavoriteActiveTexture : _buttonFavoriteInactiveTexture);
  			((UIImageButton)evt.Target).SetVisibility(1f, _data.IsFavorite ? 0.8f : 0.4f);
-@@ -223,64 +_,106 @@
- 			spriteBatch.Draw(_innerPanelTexture.Value, position, new Rectangle(0, 0, 8, _innerPanelTexture.Height()), Color.White);
- 			spriteBatch.Draw(_innerPanelTexture.Value, new Vector2(position.X + 8f, position.Y), new Rectangle(8, 0, 8, _innerPanelTexture.Height()), Color.White, 0f, Vector2.Zero, new Vector2((width - 16f) / 8f, 1f), SpriteEffects.None, 0f);
- 			spriteBatch.Draw(_innerPanelTexture.Value, new Vector2(position.X + width - 8f, position.Y), new Rectangle(16, 0, 8, _innerPanelTexture.Height()), Color.White);
-+
-+			if (IsDisplayingModData) {
-+				string text = "Test";
-+				float x = FontAssets.MouseText.Value.MeasureString(text).X;
-+				Vector2 vector = new Vector2(Main.mouseX, Main.mouseY) + new Vector2(16f);
-+				if (vector.Y > (float)(Main.screenHeight - 30))
-+					vector.Y = Main.screenHeight - 30;
-+
-+				if (vector.X > (float)Main.screenWidth - x)
-+					vector.X = Main.screenWidth - 460;
-+
-+				Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.MouseText.Value, text, vector.X, vector.Y, new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor), Color.Black, Vector2.Zero);
-+			}
- 		}
- 
- 		protected override void DrawSelf(SpriteBatch spriteBatch) {
+@@ -229,12 +_,17 @@
  			base.DrawSelf(spriteBatch);
  			CalculatedStyle innerDimensions = GetInnerDimensions();
  			CalculatedStyle dimensions = _playerPanel.GetDimensions();
 +
  			float num = dimensions.X + dimensions.Width;
--			Utils.DrawBorderString(spriteBatch, _data.Name, new Vector2(num + 6f, dimensions.Y - 2f), Color.White);
 +
-+			Utils.DrawBorderString(spriteBatch, (IsDisplayingModData ? "[c/006400:Enabled = Green] / [c/FF0000:Disabled = Red]" : _data.Name), new Vector2(num + 6f, dimensions.Y - 2f), Color.White);
+ 			Utils.DrawBorderString(spriteBatch, _data.Name, new Vector2(num + 6f, dimensions.Y - 2f), Color.White);
 +
  			spriteBatch.Draw(_dividerTexture.Value, new Vector2(num, innerDimensions.Y + 21f), null, Color.White, 0f, Vector2.Zero, new Vector2((GetDimensions().X + GetDimensions().Width - num) / 8f, 1f), SpriteEffects.None, 0f);
 +
@@ -201,121 +181,14 @@
  			Vector2 vector2 = vector;
 +			float num2 = 200f;
 +
-+			if (!IsDisplayingModData) {
--			DrawPanel(spriteBatch, vector2, num2);
-+				DrawPanel(spriteBatch, vector2, num2);
--			spriteBatch.Draw(TextureAssets.Heart.Value, vector2 + new Vector2(5f, 2f), Color.White);
-+				spriteBatch.Draw(TextureAssets.Heart.Value, vector2 + new Vector2(5f, 2f), Color.White);
--			vector2.X += 10f + (float)TextureAssets.Heart.Width();
-+				vector2.X += 10f + (float)TextureAssets.Heart.Width();
--			Utils.DrawBorderString(spriteBatch, _data.Player.statLifeMax + Language.GetTextValue("GameUI.PlayerLifeMax"), vector2 + new Vector2(0f, 3f), Color.White);
-+				Utils.DrawBorderString(spriteBatch, _data.Player.statLifeMax + Language.GetTextValue("GameUI.PlayerLifeMax"), vector2 + new Vector2(0f, 3f), Color.White);
--			vector2.X += 65f;
-+				vector2.X += 65f;
--			spriteBatch.Draw(TextureAssets.Mana.Value, vector2 + new Vector2(5f, 2f), Color.White);
-+				spriteBatch.Draw(TextureAssets.Mana.Value, vector2 + new Vector2(5f, 2f), Color.White);
--			vector2.X += 10f + (float)TextureAssets.Mana.Width();
-+				vector2.X += 10f + (float)TextureAssets.Mana.Width();
--			Utils.DrawBorderString(spriteBatch, _data.Player.statManaMax + Language.GetTextValue("GameUI.PlayerManaMax"), vector2 + new Vector2(0f, 3f), Color.White);
-+				Utils.DrawBorderString(spriteBatch, _data.Player.statManaMax + Language.GetTextValue("GameUI.PlayerManaMax"), vector2 + new Vector2(0f, 3f), Color.White);
--			vector.X += num2 + 5f;
-+				vector.X += num2 + 5f;
--			Vector2 vector3 = vector;
-+				Vector2 vector3 = vector;
--			float num3 = 140f;
-+				float num3 = 140f;
--			if (GameCulture.FromCultureName(GameCulture.CultureName.Russian).IsActive)
-+				if (GameCulture.FromCultureName(GameCulture.CultureName.Russian).IsActive)
--				num3 = 180f;
-+					num3 = 180f;
- 
--			DrawPanel(spriteBatch, vector3, num3);
-+				DrawPanel(spriteBatch, vector3, num3);
--			string text = "";
-+				string text = "";
--			Color color = Color.White;
-+				Color color = Color.White;
--			switch (_data.Player.difficulty) {
-+				switch (_data.Player.difficulty) {
--				case 0:
-+					case 0:
--					text = Language.GetTextValue("UI.Softcore");
-+						text = Language.GetTextValue("UI.Softcore");
--					break;
-+						break;
--				case 1:
-+					case 1:
--					text = Language.GetTextValue("UI.Mediumcore");
-+						text = Language.GetTextValue("UI.Mediumcore");
--					color = Main.mcColor;
-+						color = Main.mcColor;
--					break;
-+						break;
--				case 2:
-+					case 2:
--					text = Language.GetTextValue("UI.Hardcore");
-+						text = Language.GetTextValue("UI.Hardcore");
--					color = Main.hcColor;
-+						color = Main.hcColor;
--					break;
-+						break;
--				case 3:
-+					case 3:
--					text = Language.GetTextValue("UI.Creative");
-+						text = Language.GetTextValue("UI.Creative");
--					color = Main.creativeModeColor;
-+						color = Main.creativeModeColor;
--					break;
-+						break;
--			}
+ 			DrawPanel(spriteBatch, vector2, num2);
+ 			spriteBatch.Draw(TextureAssets.Heart.Value, vector2 + new Vector2(5f, 2f), Color.White);
+ 			vector2.X += 10f + (float)TextureAssets.Heart.Width();
+@@ -269,7 +_,6 @@
+ 					color = Main.creativeModeColor;
+ 					break;
+ 			}
 -
-+				}
--			vector3 += new Vector2(num3 * 0.5f - FontAssets.MouseText.Value.MeasureString(text).X * 0.5f, 3f);
-+				vector3 += new Vector2(num3 * 0.5f - FontAssets.MouseText.Value.MeasureString(text).X * 0.5f, 3f);
--			Utils.DrawBorderString(spriteBatch, text, vector3, color);
-+				Utils.DrawBorderString(spriteBatch, text, vector3, color);
--			vector.X += num3 + 5f;
-+				vector.X += num3 + 5f;
--			Vector2 vector4 = vector;
-+				Vector2 vector4 = vector;
--			float num4 = innerDimensions.X + innerDimensions.Width - vector4.X;
-+				float num4 = innerDimensions.X + innerDimensions.Width - vector4.X;
--			DrawPanel(spriteBatch, vector4, num4);
-+				DrawPanel(spriteBatch, vector4, num4);
--			TimeSpan playTime = _data.GetPlayTime();
-+				TimeSpan playTime = _data.GetPlayTime();
--			int num5 = playTime.Days * 24 + playTime.Hours;
-+				int num5 = playTime.Days * 24 + playTime.Hours;
--			string text2 = ((num5 < 10) ? "0" : "") + num5 + playTime.ToString("\\:mm\\:ss");
-+				string text2 = ((num5 < 10) ? "0" : "") + num5 + playTime.ToString("\\:mm\\:ss");
--			vector4 += new Vector2(num4 * 0.5f - FontAssets.MouseText.Value.MeasureString(text2).X * 0.5f, 3f);
-+				vector4 += new Vector2(num4 * 0.5f - FontAssets.MouseText.Value.MeasureString(text2).X * 0.5f, 3f);
--			Utils.DrawBorderString(spriteBatch, text2, vector4, Color.White);
-+				Utils.DrawBorderString(spriteBatch, text2, vector4, Color.White);
-+			}
-+			else {
-+				num2 += 33.5f;
-+				DrawPanel(spriteBatch, vector2, num2);
-+
-+				Utils.DrawBorderString(spriteBatch, "Hover over me for more!", vector2 + new Vector2(num2 * 0.5f - FontAssets.MouseText.Value.MeasureString(Language.GetTextValue("Modded.HoverOverMe")).X * 0.5f, 3f), Color.White);
-+
-+				vector.X += num2 + 5f;
-+				Vector2 vector3 = vector;
-+				float num3 = 167.5f / 10 * 9;
-+				DrawPanel(spriteBatch, vector3, num3);
-+				string text = Language.GetTextValue("Modded.MMRShort");
-+				Color color = Color.Red;
-+				vector3 += new Vector2(num3 * 0.5f - FontAssets.MouseText.Value.MeasureString(text).X * 0.5f, 3f);
-+				Utils.DrawBorderString(spriteBatch, text, vector3, color);
-+
-+				vector.X += num3 + 5f;
-+				Vector2 vector4 = vector;
-+				float num4 = 167.5f / 10 * 9;
-+				DrawPanel(spriteBatch, vector4, num4);
-+				string text2 = Language.GetTextValue("Modded.TerrariaPlusShort");
-+				vector4 += new Vector2(num4 * 0.5f - FontAssets.MouseText.Value.MeasureString(text2).X * 0.5f, 3f);
-+				Utils.DrawBorderString(spriteBatch, text2, vector4, Color.Red);
-+			}
- 		}
- 	}
- }
+ 			vector3 += new Vector2(num3 * 0.5f - FontAssets.MouseText.Value.MeasureString(text).X * 0.5f, 3f);
+ 			Utils.DrawBorderString(spriteBatch, text, vector3, color);
+ 			vector.X += num3 + 5f;

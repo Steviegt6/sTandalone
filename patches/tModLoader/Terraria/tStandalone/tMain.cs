@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Terraria.tStandalone
 {
-	public class sMain
+	public class tMain
 	{
 		internal static void tStandalonePut() {
 			Main.Configuration.Put("ShowWelcomeMessage", Main._showWelcomeMessage);
@@ -25,16 +25,9 @@ namespace Terraria.tStandalone
 			Main.Configuration.Get("FirstFractalRecipe", ref Main.firstFractalRecipe);
 			Main.Configuration.Get("SlowerMasterModeRarity", ref Main.slowerMasterModeRarity);
 			Main.Configuration.Get("AllAccessorySlotsInVanity", ref Main.allAccessoriesInVanitySlots);
-
-			UpdateEnabledMods();
 		}
 
 		internal static void UpdateEnabledMods() {
-			Main.enabledMods.Clear();
-			if (Main.terrariaPlus)
-				Main.enabledMods.Add(Main.Mod.TerrariaPlus);
-			if (Main.masterModeReloaded)
-				Main.enabledMods.Add(Main.Mod.MasterModeReloaded);
 		}
 	}
 }

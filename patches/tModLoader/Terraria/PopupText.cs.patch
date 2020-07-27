@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/PopupText.cs
++++ src/tModLoader/Terraria/PopupText.cs
+@@ -195,7 +_,7 @@
+ 					Main.popupText[num2].color = new Color(255, 150, 150);
+ 				else if (newItem.rare == 5)
+ 					Main.popupText[num2].color = new Color(255, 150, 255);
+-				else if (newItem.rare == -13)
++				else if (newItem.master || newItem.rare == -13)
+ 					Main.popupText[num2].master = true;
+ 				else if (newItem.rare == -11)
+ 					Main.popupText[num2].color = new Color(255, 175, 0);

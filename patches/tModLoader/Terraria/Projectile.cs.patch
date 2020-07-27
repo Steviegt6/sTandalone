@@ -27,18 +27,28 @@
  				for (int j = 0; j < 200; j++) {
  					perIDStaticNPCImmunity[i][j] = 0u;
  				}
-@@ -7823,6 +_,29 @@
+@@ -7823,6 +_,8 @@
  				hostile = true;
  				tileCollide = false;
  			}
-+			else if (type == ProjectileID.KingSlimeShockwave) {
++			else if (type >= ProjectileID.VanillaCount)
++				ModdedDefaults(type);
+ 			else {
+ 				active = false;
+ 			}
+@@ -7832,6 +_,43 @@
+ 			maxPenetrate = penetrate;
+ 		}
+ 
++		private void ModdedDefaults(int type) {
++			if (type == ProjectileID.KingSlimeShockwave) {
 +				hostile = true;
 +				width = 288;
 +				height = 48;
 +				ignoreWater = true;
 +				knockBack = 3f;
 +				tileCollide = false;
-+				timeLeft = 15;
++				timeLeft = 5;
 +				penetrate = -1;
 +				velocity = new Vector2(0, 0);
 +				aiStyle = -1;
@@ -54,9 +64,22 @@
 +				timeLeft = 60 * 8;
 +				aiStyle = 185;
 +			}
- 			else {
- 				active = false;
- 			}
++			else if (type == ProjectileID.SlimeScepterExplosion) {
++				friendly = true;
++				height = 150;
++				width = 150;
++				aiStyle = -1;
++				tileCollide = false;
++				ignoreWater = true;
++				penetrate = -1;
++				timeLeft = 5;
++				alpha = 255;
++			}
++		}
++
+ 		private void DefaultToWhip() {
+ 			width = 18;
+ 			height = 18;
 @@ -7937,7 +_,7 @@
  				projectile.ai[1] = projectile.position.Y;
  			}

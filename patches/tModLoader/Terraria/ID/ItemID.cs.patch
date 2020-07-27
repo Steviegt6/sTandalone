@@ -18,11 +18,14 @@
  			public static bool[] NeverAppearsAsNewInInventory = Factory.CreateBoolSet(71, 72, 73, 74);
  			public static bool[] CommonCoin = Factory.CreateBoolSet(71, 72, 73, 74);
  			public static bool[] ItemIconPulse = Factory.CreateBoolSet(520, 521, 575, 549, 548, 547, 3456, 3457, 3458, 3459, 3580, 3581);
-@@ -6032,6 +_,7 @@
+@@ -6031,7 +_,9 @@
+ 		public const short CoffeeCup = 5042;
  		public const short TorchGodsFavor = 5043;
  		public const short MusicBoxCredits = 5044;
- 		public const short Count = 5045;
-+		public const short VanillaCount = 5045;
+-		public const short Count = 5045;
++		public const short SlimeScepter = 5045;
++		public const short Count = 5046;
++		//public const short VanillaCount = 5045;
  
  		private static Dictionary<string, short> GenerateLegacyItemDictionary() {
  			return new Dictionary<string, short> {

@@ -111,6 +111,15 @@
  				buffImmune[num26] = false;
  			}
  
+@@ -20916,7 +_,7 @@
+ 				controlUseItem = true;
+ 			}
+ 
+-			if (flag2 && altFunctionUse == 0 && inventory[selectedItem].shoot > 0 && ProjectileID.Sets.MinionTargettingFeature[inventory[selectedItem].shoot]) {
++			if (flag2 && altFunctionUse == 0 && ((inventory[selectedItem].shoot > 0 && ProjectileID.Sets.MinionTargettingFeature[inventory[selectedItem].shoot]) || inventory[selectedItem].type == ItemID.SlimeScepter)) {
+ 				altFunctionUse = 1;
+ 				controlUseItem = true;
+ 			}
 @@ -29082,7 +_,7 @@
  				if (whoAmI == Main.myPlayer && gravDir == 1f && item.mountType != -1 && mount.CanMount(item.mountType, this))
  					mount.SetMount(item.mountType, this);
@@ -120,6 +129,48 @@
  					FreeUpPetsAndMinions(item);
  
  				if (flag3)
+@@ -29356,6 +_,8 @@
+ 					}
+ 				}
+ 
++				ModdedUseItem(item);
++
+ 				if ((item.type == 50 || item.type == 3124 || item.type == 3199) && itemAnimation > 0) {
+ 					if (Main.rand.Next(2) == 0)
+ 						Dust.NewDust(base.position, width, height, 15, 0f, 0f, 150, default(Color), 1.1f);
+@@ -29402,6 +_,7 @@
+ 					}
+ 				}
+ 
++
+ 				if (item.type == 4819 && itemAnimation > 0) {
+ 					Vector2 value2 = Vector2.UnitY.RotatedBy((float)itemAnimation * ((float)Math.PI * 2f) / 30f) * new Vector2(15f, 0f);
+ 					for (int n = 0; n < 2; n++) {
+@@ -29601,6 +_,24 @@
+ 				JustDroppedAnItem = false;
+ 		}
+ 
++		private void ModdedUseItem(Item moddedItem) {
++			if (moddedItem.type == ItemID.SlimeScepter && itemAnimation > 0 && altFunctionUse == 0 && MinionAttackTargetNPC != -1) {
++				if (NPCID.Sets.IsSlime[Main.npc[MinionAttackTargetNPC].type]) {
++					NPC slime = Main.npc[MinionAttackTargetNPC];
++					int explosionID = Projectile.NewProjectile(slime.Center, Vector2.Zero, ProjectileID.SlimeScepterExplosion, moddedItem.damage, moddedItem.knockBack, whoAmI);
++					Projectile explosion = Main.projectile[explosionID];
++					float explosionMultiplier = NPCID.Sets.SlimeExplosionStrength.TryGetValue(slime.type, out float value) ? value : 1f;
++					explosion.width = (int)(explosion.width * explosionMultiplier);
++					explosion.height = (int)(explosion.height * explosionMultiplier);
++					explosion.damage = (int)(explosion.damage * explosionMultiplier);
++					explosion.Center = slime.Center;
++					slime.StrikeNPCNoInteraction(slime.lifeMax, 0f, 0);
++					for (int i = 0; i < 100; i++)
++						Dust.NewDust(explosion.position, explosion.width, explosion.height, 4, Alpha: 150, newColor: new Color(78, 136, 255, 80), Scale: 2f);
++				}
++			}
++		}
++
+ 		private void ItemCheck_EmitFoodParticles(Item sItem) {
+ 			if (itemAnimation >= 1) {
+ 				Color[] array = ItemID.Sets.FoodParticleColors[sItem.type];
 @@ -32982,8 +_,24 @@
  				else if (sItem.type == 4956) {
  					int num161 = (itemAnimationMax - itemAnimation) / itemTime;
@@ -147,6 +198,22 @@
  						num162 = 4956;
  
  					Vector2 value14 = Main.MouseWorld - MountedCenter;
+@@ -33348,10 +_,14 @@
+ 		}
+ 
+ 		private void ItemCheck_MinionAltFeatureUse(Item sItem, bool cShoot) {
+-			if (sItem.shoot > 0 && ProjectileID.Sets.MinionTargettingFeature[sItem.shoot] && altFunctionUse == 2 && cShoot && ItemTimeIsZero) {
++			if (sItem.shoot > 0 && ProjectileID.Sets.MinionTargettingFeature[sItem.shoot] && cShoot && altFunctionUse == 2 && ItemTimeIsZero) {
+ 				ApplyItemTime(sItem);
+ 				MinionNPCTargetAim(doNotDisableIfTheTargetIsTheSame: false);
+ 			}
++			else if (sItem.type == ItemID.SlimeScepter && cShoot && altFunctionUse == 2 && ItemTimeIsZero) {
++				ApplyItemTime(sItem);
++				TargetSlime(doNotDisableIfTheTargetIsTheSame: false);
++			}
+ 		}
+ 
+ 		private void ItemCheck_TurretAltFeatureUse(Item sItem, bool cShoot) {
 @@ -36982,7 +_,7 @@
  								if (num >= 58) {
  									for (int num7 = 0; num7 < 58; num7++) {
@@ -201,3 +268,24 @@
  												player.miscDyes[num13].netDefaults(0);
  												binaryReader.ReadByte();
  											}
+@@ -38273,6 +_,20 @@
+ 			int num = -1;
+ 			for (int i = 0; i < 200; i++) {
+ 				if (Main.npc[i].CanBeChasedBy(this) && (num == -1 || Main.npc[i].Hitbox.Distance(mouseWorld) < Main.npc[num].Hitbox.Distance(mouseWorld)))
++					num = i;
++			}
++
++			if (MinionAttackTargetNPC == num && !doNotDisableIfTheTargetIsTheSame)
++				MinionAttackTargetNPC = -1;
++			else
++				MinionAttackTargetNPC = num;
++		}
++
++		public void TargetSlime(bool doNotDisableIfTheTargetIsTheSame) {
++			Vector2 mouseWorld = Main.MouseWorld;
++			int num = -1;
++			for (int i = 0; i < 200; i++) {
++				if (NPCID.Sets.IsSlime[Main.npc[i].type] && Main.npc[i].CanBeChasedBy(this) && (num == -1 || Main.npc[i].Hitbox.Distance(mouseWorld) < Main.npc[num].Hitbox.Distance(mouseWorld)))
+ 					num = i;
+ 			}
+ 

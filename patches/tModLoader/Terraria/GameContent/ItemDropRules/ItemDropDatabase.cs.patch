@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/GameContent/ItemDropRules/ItemDropDatabase.cs
++++ src/tModLoader/Terraria/GameContent/ItemDropRules/ItemDropDatabase.cs
+@@ -332,6 +_,7 @@
+ 			short type = 50;
+ 			RegisterToNPC(type, ItemDropRule.BossBag(3318));
+ 			RegisterToNPC(type, ItemDropRule.MasterModeCommonDrop(4929));
++			RegisterToNPC(type, ItemDropRule.MasterModeCommonDrop(ItemID.SlimeScepter));
+ 			RegisterToNPC(type, ItemDropRule.MasterModeDropOnAllPlayers(4797, _masterModeDropRng));
+ 			LeadingConditionRule leadingConditionRule = new LeadingConditionRule(new Conditions.NotExpert());
+ 			RegisterToNPC(type, leadingConditionRule);

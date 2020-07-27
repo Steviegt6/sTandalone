@@ -442,6 +442,24 @@
  		}
  
  		private static void DoUpdate_AnimateTileGlows() {
+@@ -14757,7 +_,7 @@
+ 
+ 			float num2 = (float)(int)mouseTextColor / 255f;
+ 			Microsoft.Xna.Framework.Color baseColor = new Microsoft.Xna.Framework.Color(mouseTextColor, mouseTextColor, mouseTextColor, mouseTextColor);
+-			if (num == -13)
++			if (HoverItem.master || num == -13)
+ 				baseColor = new Microsoft.Xna.Framework.Color((byte)(255f * num2), (byte)(masterColor * 200f * num2), 0, mouseTextColor);
+ 
+ 			if (num == -11)
+@@ -15002,7 +_,7 @@
+ 					Microsoft.Xna.Framework.Color black = Microsoft.Xna.Framework.Color.Black;
+ 					black = new Microsoft.Xna.Framework.Color(num4, num4, num4, num4);
+ 					if (k == 0) {
+-						if (rare == -13)
++						if (hoverItem.master || rare == -13)
+ 							black = new Microsoft.Xna.Framework.Color((byte)(255f * num4), (byte)(masterColor * 200f * num4), 0, a);
+ 
+ 						if (rare == -11)
 @@ -15233,7 +_,7 @@
  					numLines++;
  				}
@@ -451,6 +469,15 @@
  					toolTipLine[numLines] = Language.GetText("Misc.CanBePlacedInVanity").Value;
  					numLines++;
  				}
+@@ -15582,7 +_,7 @@
+ 				numLines++;
+ 			}
+ 
+-			if (item.rare == -13) {
++			if (item.master || item.rare == -13) {
+ 				toolTipLine[numLines] = Language.GetTextValue("GameUI.Master");
+ 				numLines++;
+ 			}
 @@ -18509,7 +_,7 @@
  										Microsoft.Xna.Framework.Color alpha11 = rCurrentNPC.GetAlpha(npcColor);
  										float num115 = 1f - (float)rCurrentNPC.life / (float)rCurrentNPC.lifeMax;

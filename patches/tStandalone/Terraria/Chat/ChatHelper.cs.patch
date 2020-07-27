@@ -1,0 +1,11 @@
+--- src/tModLoader/Terraria/Chat/ChatHelper.cs
++++ src/tStandalone/Terraria/Chat/ChatHelper.cs
+@@ -8,7 +_,7 @@
+ 
+ namespace Terraria.Chat
+ {
+-	public static class ChatHelper
++	public static class ChatHelper //TODO: Funny Discord emotes in Terraria!?!?!?
+ 	{
+ 		private static List<Tuple<string, Color>> _cachedMessages = new List<Tuple<string, Color>>();
+ 

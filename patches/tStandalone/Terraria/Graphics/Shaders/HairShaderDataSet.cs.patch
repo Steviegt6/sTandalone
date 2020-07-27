@@ -1,0 +1,23 @@
+--- src/tModLoader/Terraria/Graphics/Shaders/HairShaderDataSet.cs
++++ src/tStandalone/Terraria/Graphics/Shaders/HairShaderDataSet.cs
+@@ -7,17 +_,15 @@
+ {
+ 	public class HairShaderDataSet
+ 	{
+-		internal List<HairShaderData> _shaderData = new List<HairShaderData>();
++		protected List<HairShaderData> _shaderData = new List<HairShaderData>();
+-		internal Dictionary<int, short> _shaderLookupDictionary = new Dictionary<int, short>();
++		protected Dictionary<int, short> _shaderLookupDictionary = new Dictionary<int, short>();
+-		internal Dictionary<short, int> _reverseShaderLookupDictionary = new Dictionary<short, int>();
+-		internal byte _shaderDataCount;
++		protected byte _shaderDataCount;
+ 
+ 		public T BindShader<T>(int itemId, T shaderData) where T : HairShaderData {
+ 			if (_shaderDataCount == byte.MaxValue)
+ 				throw new Exception("Too many shaders bound.");
+ 
+ 			_shaderLookupDictionary[itemId] = ++_shaderDataCount;
+-			_reverseShaderLookupDictionary[_shaderLookupDictionary[itemId]] = itemId;
+ 			_shaderData.Add(shaderData);
+ 			return shaderData;
+ 		}

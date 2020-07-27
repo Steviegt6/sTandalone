@@ -1,0 +1,10 @@
+--- src/tModLoader/Terraria/ID/PlayerTextureID.cs
++++ src/tStandalone/Terraria/ID/PlayerTextureID.cs
+@@ -19,5 +_,7 @@
+ 		public const int Extra = 14;
+ 		public const int EyeBlink = 15;
+ 		public const int Count = 16;
++		public const int VanillaCount = 16;
++		//TODO: Count
+ 	}
+ }

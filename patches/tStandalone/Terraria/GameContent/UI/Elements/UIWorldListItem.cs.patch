@@ -1,0 +1,125 @@
+--- src/tModLoader/Terraria/GameContent/UI/Elements/UIWorldListItem.cs
++++ src/tStandalone/Terraria/GameContent/UI/Elements/UIWorldListItem.cs
+@@ -2,13 +_,10 @@
+ using Microsoft.Xna.Framework.Graphics;
+ using ReLogic.Content;
+ using ReLogic.OS;
+-using System;
+ using Terraria.Audio;
+ using Terraria.DataStructures;
+ using Terraria.IO;
+ using Terraria.Localization;
+-using Terraria.ModLoader;
+-using Terraria.ModLoader.Config;
+ using Terraria.Social;
+ using Terraria.UI;
+ 
+@@ -31,7 +_,6 @@
+ 		private Asset<Texture2D> _buttonDeleteTexture;
+ 		private UIImageButton _deleteButton;
+ 		private int _orderInList;
+-		private Asset<Texture2D> _configTexture;
+ 		private bool _canBePlayed;
+ 
+ 		public bool IsFavorite => _data.IsFavorite;
+@@ -89,17 +_,6 @@
+ 				num += 24f;
+ 			}
+ 
+-			//if (ConfigManager.Configs.Count > 0)
+-			//{
+-			//	UIImageButton configButton = new UIImageButton(this._configTexture);
+-			//	configButton.VAlign = 1f;
+-			//	configButton.Left.Set(num, 0f);
+-			//	configButton.OnClick += new UIElement.MouseEvent(this.ConfigButtonClick);
+-			//	configButton.OnMouseOver += new UIElement.MouseEvent(this.ConfigMouseOver);
+-			//	configButton.OnMouseOut += new UIElement.MouseEvent(this.ButtonMouseOut);
+-			//	Append(configButton);
+-			//	num += 24f;
+-			//}
+ 			UIImageButton uIImageButton5 = new UIImageButton(_buttonDeleteTexture) {
+ 				VAlign = 1f,
+ 				HAlign = 1f
+@@ -139,7 +_,6 @@
+ 			_buttonPlayTexture = Main.Assets.Request<Texture2D>("Images/UI/ButtonPlay");
+ 			_buttonSeedTexture = Main.Assets.Request<Texture2D>("Images/UI/ButtonSeed");
+ 			_buttonDeleteTexture = Main.Assets.Request<Texture2D>("Images/UI/ButtonDelete");
+-			_configTexture = ModLoader.UI.UICommon.ButtonConfigTexture;
+ 		}
+ 
+ 		private void InitializeAppearance() {
+@@ -182,14 +_,7 @@
+ 		}
+ 
+ 		private void CloudMouseOver(UIMouseEvent evt, UIElement listeningElement) {
+-			if (_data.IsCloudSave)
+-				_buttonLabel.SetText(Language.GetTextValue("UI.MoveOffCloud"));
++			_buttonLabel.SetText(Language.GetTextValue("Modded.CloudSave"));
+-			else
+-				_buttonLabel.SetText(Language.GetTextValue("UI.MoveToCloud"));
+-		}
+-
+-		private void ConfigMouseOver(UIMouseEvent evt, UIElement listeningElement) {
+-			_buttonLabel.SetText("Edit World Config");
+ 		}
+ 
+ 		private void PlayMouseOver(UIMouseEvent evt, UIElement listeningElement) {
+@@ -216,16 +_,7 @@
+ 		}
+ 
+ 		private void CloudButtonClick(UIMouseEvent evt, UIElement listeningElement) {
+-			if (_data.IsCloudSave)
+-				_data.MoveToLocal();
+-			else
+-				_data.MoveToCloud();
+-
+-			((UIImageButton)evt.Target).SetImage(_data.IsCloudSave ? _buttonCloudActiveTexture : _buttonCloudInactiveTexture);
+-			if (_data.IsCloudSave)
+-				_buttonLabel.SetText(Language.GetTextValue("UI.MoveOffCloud"));
+-			else
+-				_buttonLabel.SetText(Language.GetTextValue("UI.MoveToCloud"));
++			((UIImageButton)evt.Target).SetImage(_buttonCloudInactiveTexture);
+ 		}
+ 
+ 		private void DeleteButtonClick(UIMouseEvent evt, UIElement listeningElement) {
+@@ -259,29 +_,9 @@
+ 				else
+ 					Main.menuMode = 10;
+ 
+-				if (!Main.menuMultiplayer) {
++				if (!Main.menuMultiplayer)
+-					ConfigManager.LoadAll(); // Makes sure MP configs are cleared.
+-					if (ConfigManager.AnyModNeedsReload()) {
+-						ModLoader.ModLoader.OnSuccessfulLoad += PlayReload();
+-						ModLoader.ModLoader.Reload();
+-						return;
+-					}
+-	
+-					ConfigManager.OnChangedAll();
+ 					WorldGen.playWorld();
+-				}
+ 			}
+-		}
+-
+-		internal static Action PlayReload() {
+-			// Main.ActivePlayerFileData gets cleared during reload
+-			var path = Main.ActivePlayerFileData.Path;
+-			var isCloudSave = Main.ActivePlayerFileData.IsCloudSave;
+-			return () => {
+-				// re-select the current player
+-				Player.GetFileData(path, isCloudSave).SetAsActive();
+-				WorldGen.playWorld();
+-			};
+ 		}
+ 
+ 		private bool TryMovingToRejectionMenuIfNeeded(int worldGameMode) {
+@@ -330,9 +_,6 @@
+ 		private void SeedButtonClick(UIMouseEvent evt, UIElement listeningElement) {
+ 			Platform.Get<IClipboard>().Value = _data.GetFullSeedText();
+ 			_buttonLabel.SetText(Language.GetTextValue("UI.SeedCopied"));
+-		}
+-
+-		private void ConfigButtonClick(UIMouseEvent evt, UIElement listeningElement) {
+ 		}
+ 
+ 		public override int CompareTo(object obj) {

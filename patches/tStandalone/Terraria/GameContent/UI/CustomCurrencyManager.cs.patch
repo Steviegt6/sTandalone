@@ -1,0 +1,10 @@
+--- src/tModLoader/Terraria/GameContent/UI/CustomCurrencyManager.cs
++++ src/tStandalone/Terraria/GameContent/UI/CustomCurrencyManager.cs
+@@ -12,7 +_,6 @@
+ 
+ 		public static void Initialize() {
+ 			_nextCurrencyIndex = 0;
+-			_currencies.Clear();
+ 			CustomCurrencyID.DefenderMedals = RegisterCurrency(new CustomCurrencySingleCoin(3817, 999L));
+ 		}
+ 

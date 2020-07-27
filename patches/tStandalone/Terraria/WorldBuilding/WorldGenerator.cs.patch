@@ -1,0 +1,15 @@
+--- src/tModLoader/Terraria/WorldBuilding/WorldGenerator.cs
++++ src/tStandalone/Terraria/WorldBuilding/WorldGenerator.cs
+@@ -6,9 +_,9 @@
+ {
+ 	public class WorldGenerator
+ 	{
+-		internal readonly List<GenPass> _passes = new List<GenPass>();
++		private readonly List<GenPass> _passes = new List<GenPass>();
+-		internal float _totalLoadWeight;
++		private float _totalLoadWeight;
+-		internal readonly int _seed;
++		private readonly int _seed;
+ 		private readonly WorldGenConfiguration _configuration;
+ 		public static GenerationProgress CurrentGenerationProgress;
+ 

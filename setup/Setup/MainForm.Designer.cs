@@ -38,6 +38,8 @@ namespace Terraria.ModLoader.Setup
             this.buttonPatchTerraria = new System.Windows.Forms.Button();
             this.buttonPatchModLoader = new System.Windows.Forms.Button();
             this.buttonDiffModLoader = new System.Windows.Forms.Button();
+            this.buttonPatchStandalone = new System.Windows.Forms.Button();
+            this.buttonDiffStandalone = new System.Windows.Forms.Button();
             this.toolTipButtons = new System.Windows.Forms.ToolTip(this.components);
             this.buttonRegenSource = new System.Windows.Forms.Button();
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
@@ -155,7 +157,7 @@ namespace Terraria.ModLoader.Setup
             this.buttonPatchModLoader.Size = new System.Drawing.Size(129, 23);
             this.buttonPatchModLoader.TabIndex = 3;
             this.buttonPatchModLoader.Text = "Patch tModLoader";
-            this.toolTipButtons.SetToolTip(this.buttonPatchModLoader, "Applies tModLoader patches to Terraria\r\nEdit the source code in src/tModLoader af" +
+            this.toolTipButtons.SetToolTip(this.buttonPatchModLoader, "Applies tStandalone patches to tModLoader\r\nEdit the source code in src/tModLoader af" +
         "ter this phase\r\nInternally formats the Terraria sources before patching");
             this.buttonPatchModLoader.UseVisualStyleBackColor = true;
             this.buttonPatchModLoader.Click += new System.EventHandler(this.buttonTask_Click);
@@ -169,9 +171,36 @@ namespace Terraria.ModLoader.Setup
             this.buttonDiffModLoader.Size = new System.Drawing.Size(129, 23);
             this.buttonDiffModLoader.TabIndex = 5;
             this.buttonDiffModLoader.Text = "Diff tModLoader";
-            this.toolTipButtons.SetToolTip(this.buttonDiffModLoader, resources.GetString("buttonDiffModLoader.ToolTip"));
+            this.toolTipButtons.SetToolTip(this.buttonDiffModLoader, resources.GetString("buttonDiffStandalone.ToolTip"));
             this.buttonDiffModLoader.UseVisualStyleBackColor = true;
             this.buttonDiffModLoader.Click += new System.EventHandler(this.buttonTask_Click);
+            // 
+            // buttonPatchStandalone
+            // 
+            this.buttonPatchStandalone.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonPatchStandalone.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonPatchStandalone.Location = new System.Drawing.Point(180, 129);
+            this.buttonPatchStandalone.Name = "buttonPatchStandalone";
+            this.buttonPatchStandalone.Size = new System.Drawing.Size(129, 23);
+            this.buttonPatchStandalone.TabIndex = 3;
+            this.buttonPatchStandalone.Text = "Patch tStandalone";
+            this.toolTipButtons.SetToolTip(this.buttonPatchStandalone, "Applies tModLoader patches to Terraria\r\nEdit the source code in src/tModLoader af" +
+                                                                      "ter this phase\r\nInternally formats the Terraria sources before patching");
+            this.buttonPatchStandalone.UseVisualStyleBackColor = true;
+            this.buttonPatchStandalone.Click += new System.EventHandler(this.buttonTask_Click);
+            // 
+            // buttonDiffStandalone
+            // 
+            this.buttonDiffStandalone.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonDiffStandalone.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonDiffStandalone.Location = new System.Drawing.Point(45, 129);
+            this.buttonDiffStandalone.Name = "buttonDiffStandalone";
+            this.buttonDiffStandalone.Size = new System.Drawing.Size(129, 23);
+            this.buttonDiffStandalone.TabIndex = 5;
+            this.buttonDiffStandalone.Text = "Diff tStandalone";
+            this.toolTipButtons.SetToolTip(this.buttonDiffStandalone, resources.GetString("buttonDiffStandalone.ToolTip"));
+            this.buttonDiffStandalone.UseVisualStyleBackColor = true;
+            this.buttonDiffStandalone.Click += new System.EventHandler(this.buttonTask_Click);
             // 
             // toolTipButtons
             // 
@@ -184,7 +213,7 @@ namespace Terraria.ModLoader.Setup
             // 
             this.buttonRegenSource.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.buttonRegenSource.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonRegenSource.Location = new System.Drawing.Point(180, 129);
+            this.buttonRegenSource.Location = new System.Drawing.Point(180, 158);
             this.buttonRegenSource.Name = "buttonRegenSource";
             this.buttonRegenSource.Size = new System.Drawing.Size(129, 23);
             this.buttonRegenSource.TabIndex = 3;
@@ -311,7 +340,7 @@ namespace Terraria.ModLoader.Setup
             // 
             this.buttonSetupDebugging.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.buttonSetupDebugging.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonSetupDebugging.Location = new System.Drawing.Point(45, 129);
+            this.buttonSetupDebugging.Location = new System.Drawing.Point(45, 158);
             this.buttonSetupDebugging.Name = "buttonSetupDebugging";
             this.buttonSetupDebugging.Size = new System.Drawing.Size(129, 23);
             this.buttonSetupDebugging.TabIndex = 3;
@@ -325,6 +354,8 @@ namespace Terraria.ModLoader.Setup
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(349, 371);
             this.Controls.Add(this.buttonDiffModLoader);
+            this.Controls.Add(this.buttonDiffStandalone);
+            this.Controls.Add(this.buttonPatchStandalone);
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.buttonDiffTerraria);
             this.Controls.Add(this.buttonSetupDebugging);
@@ -358,6 +389,8 @@ namespace Terraria.ModLoader.Setup
         private System.Windows.Forms.Button buttonPatchTerraria;
         private System.Windows.Forms.Button buttonPatchModLoader;
         private System.Windows.Forms.Button buttonDiffModLoader;
+        private System.Windows.Forms.Button buttonPatchStandalone;
+        private System.Windows.Forms.Button buttonDiffStandalone;
         private System.Windows.Forms.ToolTip toolTipButtons;
         private System.Windows.Forms.MenuStrip mainMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem menuItemOptions;

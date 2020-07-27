@@ -1,0 +1,10 @@
+--- src/tModLoader/Terraria/ID/MenuID.cs
++++ src/tStandalone/Terraria/ID/MenuID.cs
+@@ -1,6 +_,6 @@
+ namespace Terraria.ID
+ {
+-	public static class MenuID
++	public static class MenuID //TODO: This.
+ 	{
+ 		public const int None = -1;
+ 		public const int LanguageSelectFirstRun = 1212;

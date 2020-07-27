@@ -1,0 +1,28 @@
+--- src/tModLoader/Terraria/DataStructures/TileEntity.cs
++++ src/tStandalone/Terraria/DataStructures/TileEntity.cs
+@@ -4,7 +_,6 @@
+ using System.IO;
+ using Terraria.Audio;
+ using Terraria.GameInput;
+-using Terraria.ModLoader;
+ 
+ namespace Terraria.DataStructures
+ {
+@@ -43,7 +_,6 @@
+ 		public static void InitializeAll() {
+ 			manager = new TileEntitiesManager();
+ 			manager.RegisterAll();
+-			ModTileEntity.Initialize();
+ 		}
+ 
+ 		public static void PlaceEntityNet(int x, int y, int type) {
+@@ -62,9 +_,6 @@
+ 		public static TileEntity Read(BinaryReader reader, bool networkSend = false) {
+ 			byte id = reader.ReadByte();
+ 			TileEntity tileEntity = manager.GenerateInstance(id);
+- 			if(tileEntity is null) {
+-				ModTileEntity.ConstructFromType(id);
+-			}
+ 			tileEntity.type = id;
+ 			tileEntity.ReadInner(reader, networkSend);
+ 			return tileEntity;

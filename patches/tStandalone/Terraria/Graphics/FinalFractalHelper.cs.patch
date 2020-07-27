@@ -1,0 +1,169 @@
+--- src/tModLoader/Terraria/Graphics/FinalFractalHelper.cs
++++ src/tStandalone/Terraria/Graphics/FinalFractalHelper.cs
+@@ -4,6 +_,7 @@
+ using System.Runtime.InteropServices;
+ #if XNA
+ using Terraria.Graphics.Shaders;
++using Terraria.ID;
+ #endif
+ 
+ namespace Terraria.Graphics
+@@ -78,9 +_,22 @@
+ 			{ 3018, new FinalFractalProfile(80f, new Color(143, 215, 29)) },
+ 			{ 4144, new FinalFractalProfile(45f, new Color(178, 255, 180)) },
+ 			{ 3507, new FinalFractalProfile(45f, new Color(235, 166, 135)) },
++			{ ItemID.FirstFractal, new FinalFractalProfile(80f, new Color(80, 222, 122)) },
+ 			{ 4956, new FinalFractalProfile(86f, new Color(178, 255, 180)) }		};
++		private static Dictionary<int, FinalFractalProfile> _fractalProfilesFunny = new Dictionary<int, FinalFractalProfile> { };
++		private static Dictionary<int, FinalFractalProfile> _fractalProfilesTerra = new Dictionary<int, FinalFractalProfile> {
++		{ ItemID.TerraToilet, new FinalFractalProfile(20f, new Color(80, 222, 122)) }       };
++		private static Dictionary<int, FinalFractalProfile> _fractalProfilesCactus = new Dictionary<int, FinalFractalProfile> {
++		{ ItemID.Cactus, new FinalFractalProfile(10f, Color.Green) }       };
+ 		private static FinalFractalProfile _defaultProfile = new FinalFractalProfile(50f, Color.White);
+ 
++		public static void InitializeCustomFinalFractalProfiles() {
++			_fractalProfilesFunny.Clear();
++			for (int i = 0; i < ItemID.Count; i++) {
++				_fractalProfilesFunny.Add(i, new FinalFractalProfile((float)Main.rand.Next(10, 60), new Color(Main.rand.Next(256), Main.rand.Next(256), Main.rand.Next(256))));
++			}
++		}
++
+ 		public static int GetRandomProfileIndex() {
+ 			List<int> list = _fractalProfiles.Keys.ToList();
+ 			int index = Main.rand.Next(list.Count);
+@@ -91,27 +_,122 @@
+ 
+ 			return list[index];
+ 		}
++		public static int GetRandomProfileIndexFunny() {
++			List<int> list = _fractalProfilesFunny.Keys.ToList();
++			int index = Main.rand.Next(list.Count);
++
++			return list[index];
++		}
++
++		public static int GetRandomProfileIndexTerra() {
++			List<int> list = _fractalProfilesTerra.Keys.ToList();
++			int index = Main.rand.Next(list.Count);
++
++			return list[index];
++		}
++
++		public static int GetRandomProfileIndexCactus() {
++			List<int> list = _fractalProfilesCactus.Keys.ToList();
++			int index = Main.rand.Next(list.Count);
++
++			return list[index];
++		}
+ 
+ 		public void Draw(Projectile proj) {
+ #if XNA
++			switch (Main.player[Main.myPlayer].name) {
++				case "Stevie": {
++						FinalFractalProfile finalFractalProfileFunny = GetFinalFractalProfileFunny((int)proj.ai[1]);
++						MiscShaderData miscShaderData = GameShaders.Misc["FinalFractal"];
++						int num = 4;
++						int num2 = 0;
++						int num3 = 0;
++						int num4 = 4;
++						miscShaderData.UseShaderSpecificData(new Vector4(num, num2, num3, num4));
++						miscShaderData.UseImage0("Images/Extra_" + (short)201);
++						miscShaderData.UseImage1("Images/Extra_" + (short)193);
++						miscShaderData.Apply();
++						_vertexStrip.PrepareStrip(proj.oldPos, proj.oldRot, finalFractalProfileFunny.colorMethod, finalFractalProfileFunny.widthMethod, -Main.screenPosition + proj.Size / 2f, proj.oldPos.Length, includeBacksides: true);
++						_vertexStrip.DrawTrail();
++						Main.pixelShader.CurrentTechnique.Passes[0].Apply();
++					}
++					break;
++				case "Scalie":
++				case "Terra": {
++						FinalFractalProfile finalFractalProfileTerra = GetFinalFractalProfileTerra((int)proj.ai[1]);
++						MiscShaderData miscShaderData = GameShaders.Misc["FinalFractal"];
++						int num = 4;
++						int num2 = 0;
++						int num3 = 0;
++						int num4 = 4;
++						miscShaderData.UseShaderSpecificData(new Vector4(num, num2, num3, num4));
++						miscShaderData.UseImage0("Images/Extra_" + (short)201);
++						miscShaderData.UseImage1("Images/Extra_" + (short)193);
++						miscShaderData.Apply();
++						_vertexStrip.PrepareStrip(proj.oldPos, proj.oldRot, finalFractalProfileTerra.colorMethod, finalFractalProfileTerra.widthMethod, -Main.screenPosition + proj.Size / 2f, proj.oldPos.Length, includeBacksides: true);
++						_vertexStrip.DrawTrail();
++						Main.pixelShader.CurrentTechnique.Passes[0].Apply();
++					}
++					break;
++				case "pbone": {
++						FinalFractalProfile finalFractalProfileCactus = GetFinalFractalProfileCactus((int)proj.ai[1]);
++						MiscShaderData miscShaderData = GameShaders.Misc["FinalFractal"];
++						int num = 4;
++						int num2 = 0;
++						int num3 = 0;
++						int num4 = 4;
++						miscShaderData.UseShaderSpecificData(new Vector4(num, num2, num3, num4));
++						miscShaderData.UseImage0("Images/Extra_" + (short)201);
++						miscShaderData.UseImage1("Images/Extra_" + (short)193);
++						miscShaderData.Apply();
++						_vertexStrip.PrepareStrip(proj.oldPos, proj.oldRot, finalFractalProfileCactus.colorMethod, finalFractalProfileCactus.widthMethod, -Main.screenPosition + proj.Size / 2f, proj.oldPos.Length, includeBacksides: true);
++						_vertexStrip.DrawTrail();
++						Main.pixelShader.CurrentTechnique.Passes[0].Apply();
++					}
++					break;
++				default: {
+-			FinalFractalProfile finalFractalProfile = GetFinalFractalProfile((int)proj.ai[1]);
++						FinalFractalProfile finalFractalProfile = GetFinalFractalProfile((int)proj.ai[1]);
+-			MiscShaderData miscShaderData = GameShaders.Misc["FinalFractal"];
++						MiscShaderData miscShaderData = GameShaders.Misc["FinalFractal"];
+-			int num = 4;
++						int num = 4;
+-			int num2 = 0;
++						int num2 = 0;
+-			int num3 = 0;
++						int num3 = 0;
+-			int num4 = 4;
++						int num4 = 4;
+-			miscShaderData.UseShaderSpecificData(new Vector4(num, num2, num3, num4));
++						miscShaderData.UseShaderSpecificData(new Vector4(num, num2, num3, num4));
+-			miscShaderData.UseImage0("Images/Extra_" + (short)201);
++						miscShaderData.UseImage0("Images/Extra_" + (short)201);
+-			miscShaderData.UseImage1("Images/Extra_" + (short)193);
++						miscShaderData.UseImage1("Images/Extra_" + (short)193);
+-			miscShaderData.Apply();
++						miscShaderData.Apply();
+-			_vertexStrip.PrepareStrip(proj.oldPos, proj.oldRot, finalFractalProfile.colorMethod, finalFractalProfile.widthMethod, -Main.screenPosition + proj.Size / 2f, proj.oldPos.Length, includeBacksides: true);
++						_vertexStrip.PrepareStrip(proj.oldPos, proj.oldRot, finalFractalProfile.colorMethod, finalFractalProfile.widthMethod, -Main.screenPosition + proj.Size / 2f, proj.oldPos.Length, includeBacksides: true);
+-			_vertexStrip.DrawTrail();
++						_vertexStrip.DrawTrail();
+-			Main.pixelShader.CurrentTechnique.Passes[0].Apply();
++						Main.pixelShader.CurrentTechnique.Passes[0].Apply();
++					}
++					break;
++			}
+ #endif
+ 		}
+ 
+ 		public static FinalFractalProfile GetFinalFractalProfile(int usedSwordId) {
+ 			if (!_fractalProfiles.TryGetValue(usedSwordId, out FinalFractalProfile value))
++				return _defaultProfile;
++
++			return value;
++		}
++
++		public static FinalFractalProfile GetFinalFractalProfileFunny(int usedSwordId) {
++			if (!_fractalProfilesFunny.TryGetValue(usedSwordId, out FinalFractalProfile value))
++				return _defaultProfile;
++
++			return value;
++		}
++
++		public static FinalFractalProfile GetFinalFractalProfileTerra(int usedSwordId) {
++			if (!_fractalProfilesTerra.TryGetValue(usedSwordId, out FinalFractalProfile value))
++				return _defaultProfile;
++
++			return value;
++		}
++
++		public static FinalFractalProfile GetFinalFractalProfileCactus(int usedSwordId) {
++			if (!_fractalProfilesCactus.TryGetValue(usedSwordId, out FinalFractalProfile value))
+ 				return _defaultProfile;
+ 
+ 			return value;

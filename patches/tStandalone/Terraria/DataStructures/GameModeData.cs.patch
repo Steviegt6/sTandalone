@@ -1,0 +1,28 @@
+--- src/tModLoader/Terraria/DataStructures/GameModeData.cs
++++ src/tStandalone/Terraria/DataStructures/GameModeData.cs
+@@ -30,10 +_,22 @@
+ 			EnemyMaxLifeMultiplier = 3f,
+ 			EnemyDamageMultiplier = 3f,
+ 			DebuffTimeMultiplier = 2.5f,
+-			KnockbackToEnemiesMultiplier = 0.8f,
++			KnockbackToEnemiesMultiplier =  0.8f,
+-			TownNPCDamageMultiplier = 1.75f,
++			TownNPCDamageMultiplier = 2f,
+ 			EnemyDefenseMultiplier = 1f,
++			EnemyMoneyDropMultiplier = 3f
++		};
++		public static readonly GameModeData MasterModeReloaded = new GameModeData {
++			Id = 2,
++			IsExpertMode = true,
++			IsMasterMode = true,
++			EnemyMaxLifeMultiplier = ExpertMode.EnemyMaxLifeMultiplier * 1.1f,
++			EnemyDamageMultiplier = ExpertMode.EnemyDamageMultiplier * 1.1f,
++			DebuffTimeMultiplier = ExpertMode.DebuffTimeMultiplier * 1.1f,
++			KnockbackToEnemiesMultiplier = 0.7f,
+-			EnemyMoneyDropMultiplier = 2.5f
++			TownNPCDamageMultiplier = 2.5f,
++			EnemyDefenseMultiplier = 1.2f, //I mean, we want *something*, right?
++			EnemyMoneyDropMultiplier = 3f
+ 		};
+ 		public static readonly GameModeData CreativeMode = new GameModeData {
+ 			Id = 3,

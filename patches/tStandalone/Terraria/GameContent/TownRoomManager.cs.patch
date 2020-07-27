@@ -1,0 +1,37 @@
+--- src/tModLoader/Terraria/GameContent/TownRoomManager.cs
++++ src/tStandalone/Terraria/GameContent/TownRoomManager.cs
+@@ -3,14 +_,13 @@
+ using System.Collections.Generic;
+ using System.IO;
+ using Terraria.ID;
+-using Terraria.ModLoader;
+ 
+ namespace Terraria.GameContent
+ {
+ 	public class TownRoomManager
+ 	{
+-		internal List<Tuple<int, Point>> _roomLocationPairs = new List<Tuple<int, Point>>();
++		private List<Tuple<int, Point>> _roomLocationPairs = new List<Tuple<int, Point>>();
+-		internal bool[] _hasRoom = new bool[NPCLoader.NPCCount];
++		private bool[] _hasRoom = new bool[663];
+ 
+ 		public void AddOccupantsToList(int x, int y, List<int> occupantsList) {
+ 			AddOccupantsToList(new Point(x, y), occupantsList);
+@@ -69,16 +_,8 @@
+ 
+ 		public void Save(BinaryWriter writer) {
+ 			lock (_roomLocationPairs) {
+-				int count = 0;
+-				foreach (Tuple<int, Point> current in _roomLocationPairs) {
+-					if (current.Item1 < Main.maxNPCTypes)
+-						count++;
+-				}
+-				writer.Write(count);
++				writer.Write(_roomLocationPairs.Count);
+ 				foreach (Tuple<int, Point> roomLocationPair in _roomLocationPairs) {
+-					if (roomLocationPair.Item1 >= Main.maxNPCTypes)
+-						continue;
+-
+ 					writer.Write(roomLocationPair.Item1);
+ 					writer.Write(roomLocationPair.Item2.X);
+ 					writer.Write(roomLocationPair.Item2.Y);

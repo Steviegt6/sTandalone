@@ -1,0 +1,10 @@
+--- src/tModLoader/Terraria/Localization/Content/ru-RU/Items.json
++++ src/tStandalone/Terraria/Localization/Content/ru-RU/Items.json
+@@ -99,6 +_,7 @@
+ 		"Small": "Маленький"
+ 	},
+ 	"ItemName": {
++		"FirstFractal": "First Fractal",
+ 		"IronPickaxe": "Железная кирка",
+ 		"IronAxe": "Железный топор",
+ 		"ShadowGreaves": "Теневые ботинки",

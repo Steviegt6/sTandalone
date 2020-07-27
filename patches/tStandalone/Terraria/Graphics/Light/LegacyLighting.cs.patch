@@ -1,0 +1,71 @@
+--- src/tModLoader/Terraria/Graphics/Light/LegacyLighting.cs
++++ src/tStandalone/Terraria/Graphics/Light/LegacyLighting.cs
+@@ -5,7 +_,6 @@
+ using System.Diagnostics;
+ using Terraria.DataStructures;
+ using Terraria.Utilities;
+-using Terraria.ModLoader;
+ 
+ namespace Terraria.Graphics.Light
+ {
+@@ -107,7 +_,7 @@
+ 		private int _expandedRectTop;
+ 		private int _expandedRectRight;
+ 		private int _expandedRectBottom;
+-		internal float _negLight = 0.04f;
++		private float _negLight = 0.04f;
+ 		private float _negLight2 = 0.16f;
+ 		private float _wetLightR = 0.16f;
+ 		private float _wetLightG = 0.16f;
+@@ -115,7 +_,7 @@
+ 		private float _honeyLightR = 0.16f;
+ 		private float _honeyLightG = 0.16f;
+ 		private float _honeyLightB = 0.16f;
+-		internal float _blueWave = 1f;
++		private float _blueWave = 1f;
+ 		private int _blueDir = 1;
+ 		private RectArea _minBoundArea;
+ 		private RectArea _requestedArea;
+@@ -579,7 +_,6 @@
+ 			_tileScanner.ExportTo(new Rectangle(num, num3, num2 - num, num4 - num3), _lightMap);
+ 			for (int m = num; m < num2; m++) {
+ 				LightingState[] array3 = _states[m - _expandedRectLeft];
+-				//patch file: n, num17
+ 				for (int n = num3; n < num4; n++) {
+ 					LightingState lightingState2 = array3[n - _expandedRectTop];
+ 					Tile tile = Main.tile[m, n];
+@@ -589,8 +_,6 @@
+ 					}
+ 
+ 					_lightMap.GetLight(m - num, n - num3, out Vector3 color);
+-					WallLoader.ModifyLight(m, n, tile.wall, ref color.X, ref color.Y, ref color.Z); //TODO: Test. Is this the correct place?
+-					TileLoader.ModifyLight(m, n, tile.type, ref color.X, ref color.Y, ref color.Z);
+ 					if (_rgb) {
+ 						lightingState2.R2 = color.X;
+ 						lightingState2.G2 = color.Y;
+@@ -750,8 +_,6 @@
+ 							_wetLightB = 0f;
+ 							break;
+ 					}
+-
+-					WaterStyleLoader.LightColorMultiplier(Main.waterStyle, ref _wetLightR, ref _wetLightG, ref _wetLightB);
+ 				}
+ 				else {
+ 					_negLight = 0.9f;
+@@ -778,8 +_,6 @@
+ 					_negLight *= 0.85f;
+ 					_negLight2 *= 0.85f;
+ 				}
+-
+-				ModHooks.ModifyLightingBrightness(ref _negLight, ref _negLight2);
+ 			}
+ 			else {
+ 				_negLight = 0.04f;
+@@ -804,7 +_,6 @@
+ 					_negLight2 += 0.18f;
+ 				}
+ 
+-				ModHooks.ModifyLightingBrightness(ref _negLight, ref _negLight2);
+ 				_wetLightR = _negLight * 1.2f;
+ 				_wetLightG = _negLight * 1.1f;
+ 			}

@@ -1,86 +1,142 @@
 --- src/Terraria/Terraria/Recipe.cs
 +++ src/tModLoader/Terraria/Recipe.cs
-@@ -429,6 +_,10 @@
+@@ -3,6 +_,7 @@
+ using Terraria.GameContent.Achievements;
+ using Terraria.ID;
+ using Terraria.Localization;
++using Terraria.ModLoader;
+ 
+ namespace Terraria
+ {
+@@ -72,7 +_,7 @@
+ 				if (num == -1)
+ 					break;
+ 
+-				if (RecipeGroup.recipeGroups[num].ValidItems.Contains(type)) {
++				if (RecipeGroup.recipeGroups[num].ContainsItem(type)) {
+ 					theText = RecipeGroup.recipeGroups[num].GetText();
+ 					return true;
+ 				}
+@@ -88,7 +_,7 @@
+ 				if (num == -1)
+ 					break;
+ 
+-				if (RecipeGroup.recipeGroups[num].ValidItems.Contains(invType) && RecipeGroup.recipeGroups[num].ValidItems.Contains(reqType))
++				if (RecipeGroup.recipeGroups[num].ContainsItem(invType) && RecipeGroup.recipeGroups[num].ContainsItem(reqType))
+ 					return true;
+ 			}
+ 
+@@ -113,6 +_,10 @@
+ 					break;
+ 
+ 				int num = item2.stack;
++				ModRecipe modRecipe = this as ModRecipe;
++				if (modRecipe != null)
++					num = modRecipe.ConsumeItem(item2.type, item2.stack);
++
+ 				if (alchemy && Main.player[Main.myPlayer].alchemyTable) {
+ 					if (num > 1) {
+ 						int num2 = 0;
+@@ -193,6 +_,9 @@
  		}
  
- 		public static void SetupRecipeGroups() {
-+			RecipeGroup.recipeGroups.Clear();
-+			RecipeGroup.recipeGroupIDs.Clear();
-+			RecipeGroup.nextRecipeGroupIndex = 0;
-+
- 			RecipeGroup rec = new RecipeGroup(() => Lang.misc[37].Value + " " + Lang.GetNPCNameValue(74), 2015, 2016, 2017);
- 			RecipeGroupID.Birds = RecipeGroup.RegisterGroup("Birds", rec);
- 			rec = new RecipeGroup(() => Lang.misc[37].Value + " " + Lang.GetNPCNameValue(367), 2157, 2156);
-@@ -456,6 +_,9 @@
+ 		public bool useWood(int invType, int reqType) {
++			RecipeGroup rec = RecipeGroup.recipeGroups[RecipeGroupID.Wood];
++			return anyWood && rec.ContainsItem(invType) && rec.ContainsItem(reqType);
++			/*
+ 			if (!anyWood)
+ 				return false;
+ 
+@@ -221,9 +_,13 @@
+ 							return true;
+ 					}
+ 			}
++			*/
+ 		}
+ 
+ 		public bool useIronBar(int invType, int reqType) {
++			RecipeGroup rec = RecipeGroup.recipeGroups[RecipeGroupID.IronBar];
++			return this.anyIronBar && rec.ContainsItem(invType) && rec.ContainsItem(reqType);
++			/*
+ 			if (!anyIronBar)
+ 				return false;
+ 
+@@ -234,9 +_,13 @@
+ 				return false;
+ 
+ 			return true;
++			*/
+ 		}
+ 
+ 		public bool useSand(int invType, int reqType) {
++			RecipeGroup rec = RecipeGroup.recipeGroups[RecipeGroupID.Sand];
++			return this.anySand && rec.ContainsItem(invType) && rec.ContainsItem(reqType);
++			/*
+ 			if (reqType != 169 && reqType != 408 && reqType != 1246 && reqType != 370 && reqType != 3272 && reqType != 3338 && reqType != 3274 && reqType != 3275)
+ 				return false;
+ 
+@@ -244,9 +_,13 @@
+ 				return true;
+ 
+ 			return false;
++			*/
+ 		}
+ 
+ 		public bool useFragment(int invType, int reqType) {
++			RecipeGroup rec = RecipeGroup.recipeGroups[RecipeGroupID.Fragment];
++			return this.anyFragment && rec.ContainsItem(invType) && rec.ContainsItem(reqType);
++			/*
+ 			if (reqType != 3458 && reqType != 3456 && reqType != 3457 && reqType != 3459)
+ 				return false;
+ 
+@@ -254,9 +_,13 @@
+ 				return true;
+ 
+ 			return false;
++			*/
+ 		}
+ 
+ 		public bool usePressurePlate(int invType, int reqType) {
++			RecipeGroup rec = RecipeGroup.recipeGroups[RecipeGroupID.PressurePlate];
++			return anyPressurePlate && rec.ContainsItem(invType) && rec.ContainsItem(reqType);
++			/*
+ 			if (!anyPressurePlate)
+ 				return false;
+ 
+@@ -285,6 +_,7 @@
+ 							return true;
+ 					}
+ 			}
++			*/
+ 		}
+ 
+ 		public static void GetThroughDelayedFindRecipes() {
+@@ -402,7 +_,7 @@
+ 							flag = false;
+ 					}
+ 
+-					if (flag) {
++					if (flag && RecipeHooks.RecipeAvailable(Main.recipe[n])) {
+ 						Main.availableRecipe[Main.numAvailableRecipes] = n;
+ 						Main.numAvailableRecipes++;
+ 					}
+@@ -451,6 +_,8 @@
+ 			RecipeGroupID.Turtles = RecipeGroup.RegisterGroup("Turtles", rec);
+ 			rec = new RecipeGroup(() => Lang.misc[37].Value + " " + Language.GetTextValue("Misc.Fruit"), 4009, 4282, 4283, 4284, 4285, 4286, 4287, 4288, 4289, 4290, 4291, 4292, 4293, 4294, 4295, 4296, 4297);
+ 			RecipeGroupID.Fruit = RecipeGroup.RegisterGroup("Fruit", rec);
++			RecipeGroupHelper.AddOldVanillaGroups();
++			RecipeGroupHelper.AddRecipeGroups();
+ 		}
+ 
  		public static void SetupRecipes() {
- 			int num = 5;
- 			int stack = 2;
-+
-+			numRecipes = 0;
-+
- 			SetupRecipeGroups();
- 			currentRecipe.createItem.SetDefaults(8);
- 			currentRecipe.createItem.stack = 3;
-@@ -9762,19 +_,40 @@
- 			currentRecipe.requiredItem[1].SetDefaults(674);
- 			currentRecipe.requiredTile[0] = 134;
+@@ -13052,7 +_,10 @@
  			AddRecipe();
-+			if (Main.firstFractalRecipe) {
-+				currentRecipe.createItem.SetDefaults(4956);
-+				currentRecipe.requiredItem[0].SetDefaults(ItemID.FirstFractal);
-+				currentRecipe.requiredItem[1].SetDefaults(2880);
-+				currentRecipe.requiredItem[2].SetDefaults(1826);
-+				currentRecipe.requiredItem[3].SetDefaults(3018);
-+				currentRecipe.requiredItem[4].SetDefaults(65);
-+				currentRecipe.requiredItem[5].SetDefaults(1123);
-+				currentRecipe.requiredItem[6].SetDefaults(989);
-+				currentRecipe.requiredItem[7].SetDefaults(3507);
-+				currentRecipe.requiredTile[0] = 134;
-+				AddRecipe();
-+
-+				currentRecipe.createItem.SetDefaults(ItemID.FirstFractal);
-+				currentRecipe.requiredItem[0].SetDefaults(ItemID.TerraBlade);
-+				currentRecipe.requiredItem[1].SetDefaults(ItemID.Meowmere);
-+				currentRecipe.requiredItem[2].SetDefaults(ItemID.StarWrath);
-+				AddRecipe();
-+			}
-+			else {
--			currentRecipe.createItem.SetDefaults(4956);
-+				currentRecipe.createItem.SetDefaults(4956);
--			currentRecipe.requiredItem[0].SetDefaults(757);
-+				currentRecipe.requiredItem[0].SetDefaults(757);
--			currentRecipe.requiredItem[1].SetDefaults(3063);
-+				currentRecipe.requiredItem[1].SetDefaults(3063);
--			currentRecipe.requiredItem[2].SetDefaults(3065);
-+				currentRecipe.requiredItem[2].SetDefaults(3065);
--			currentRecipe.requiredItem[3].SetDefaults(2880);
-+				currentRecipe.requiredItem[3].SetDefaults(2880);
--			currentRecipe.requiredItem[4].SetDefaults(1826);
-+				currentRecipe.requiredItem[4].SetDefaults(1826);
--			currentRecipe.requiredItem[5].SetDefaults(3018);
-+				currentRecipe.requiredItem[5].SetDefaults(3018);
--			currentRecipe.requiredItem[6].SetDefaults(65);
-+				currentRecipe.requiredItem[6].SetDefaults(65);
--			currentRecipe.requiredItem[7].SetDefaults(1123);
-+				currentRecipe.requiredItem[7].SetDefaults(1123);
--			currentRecipe.requiredItem[8].SetDefaults(989);
-+				currentRecipe.requiredItem[8].SetDefaults(989);
--			currentRecipe.requiredItem[9].SetDefaults(3507);
-+				currentRecipe.requiredItem[9].SetDefaults(3507);
--			currentRecipe.requiredTile[0] = 134;
-+				currentRecipe.requiredTile[0] = 134;
--			AddRecipe();
-+				AddRecipe();
-+			}
- 			currentRecipe.createItem.SetDefaults(389);
- 			currentRecipe.requiredItem[0].SetDefaults(527);
- 			currentRecipe.requiredItem[1].SetDefaults(528);
-@@ -13067,7 +_,7 @@
+ 			CreateReverseWallRecipes();
+ 			CreateReversePlatformRecipes();
++			RecipeHooks.AddRecipes();
++			RecipeHooks.PostAddRecipes();
+ 			UpdateWhichItemsAreMaterials();
++			Item.PopulateMaterialCache();
+ 			UpdateMaterialFieldForAllRecipes();
  		}
  
- 		public static void UpdateWhichItemsAreMaterials() {
--			for (int i = 0; i < 5045; i++) {
-+			for (int i = 0; i < ItemID.Count; i++) {
- 				Item item = new Item();
- 				item.SetDefaults(i, noMatCheck: true);
- 				item.checkMat();

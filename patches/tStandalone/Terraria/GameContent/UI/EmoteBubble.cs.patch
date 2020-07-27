@@ -1,0 +1,11 @@
+--- src/tModLoader/Terraria/GameContent/UI/EmoteBubble.cs
++++ src/tStandalone/Terraria/GameContent/UI/EmoteBubble.cs
+@@ -9,7 +_,7 @@
+ {
+ 	public class EmoteBubble
+ 	{
+-		internal static int[] CountNPCs = new int[NPCID.Count];
++		private static int[] CountNPCs = new int[663];
+ 		public static Dictionary<int, EmoteBubble> byID = new Dictionary<int, EmoteBubble>();
+ 		private static List<int> toClean = new List<int>();
+ 		public static int NextID;

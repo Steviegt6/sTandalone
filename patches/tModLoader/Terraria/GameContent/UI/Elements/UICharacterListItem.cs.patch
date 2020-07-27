@@ -1,194 +1,159 @@
 --- src/Terraria/Terraria/GameContent/UI/Elements/UICharacterListItem.cs
 +++ src/tModLoader/Terraria/GameContent/UI/Elements/UICharacterListItem.cs
-@@ -24,9 +_,12 @@
+@@ -7,6 +_,10 @@
+ using Terraria.Localization;
+ using Terraria.Social;
+ using Terraria.UI;
++using System.Reflection;
++using Terraria.ModLoader;
++using System.Linq;
++using Terraria.ModLoader.UI;
+ 
+ namespace Terraria.GameContent.UI.Elements
+ {
+@@ -24,6 +_,8 @@
  		private Asset<Texture2D> _buttonFavoriteInactiveTexture;
  		private Asset<Texture2D> _buttonPlayTexture;
  		private Asset<Texture2D> _buttonDeleteTexture;
-+		private Asset<Texture2D> _buttonInfoTexture;
++		private Asset<Texture2D> _errorTexture;
++		private Asset<Texture2D> _configTexture;
  		private UIImageButton _deleteButton;
-+		private UIImageButton _infoButton;
  
  		public bool IsFavorite => _data.IsFavorite;
-+		public bool IsDisplayingModData => _data.IsDisplayingModData;
- 
- 		public UICharacterListItem(PlayerFileData data, int snapPointIndex) {
- 			BorderColor = new Color(89, 116, 213) * 0.7f;
-@@ -38,6 +_,7 @@
+@@ -38,6 +_,8 @@
  			_buttonFavoriteInactiveTexture = Main.Assets.Request<Texture2D>("Images/UI/ButtonFavoriteInactive");
  			_buttonPlayTexture = Main.Assets.Request<Texture2D>("Images/UI/ButtonPlay");
  			_buttonDeleteTexture = Main.Assets.Request<Texture2D>("Images/UI/ButtonDelete");
-+			_buttonInfoTexture = Main.Assets.Request<Texture2D>("Images/UI/ButtonInfo");
++			_errorTexture = UICommon.ButtonErrorTexture;
++			_configTexture = UICommon.ButtonConfigTexture;
  			Height.Set(96f, 0f);
  			Width.Set(0f, 1f);
  			SetPadding(6f);
-@@ -85,6 +_,19 @@
+@@ -85,15 +_,82 @@
  			uIImageButton4.OnMouseOut += DeleteMouseOut;
  			_deleteButton = uIImageButton4;
  			Append(uIImageButton4);
++			if (data.customDataFail != null) {
++				UIImageButton uIImageButton5 = new UIImageButton(_errorTexture);
++				uIImageButton5.VAlign = 1f;
++				uIImageButton5.HAlign = 1f;
++				uIImageButton5.Left.Set(-24f, 0f);
++				uIImageButton5.OnClick += new MouseEvent(ErrorButtonClick);
++				uIImageButton5.OnMouseOver += new MouseEvent(ErrorMouseOver);
++				uIImageButton5.OnMouseOut += new MouseEvent(DeleteMouseOut);
++				Append(uIImageButton5);
++			}
 +
-+			UIImageButton uIImageButton5 = new UIImageButton(_buttonInfoTexture) {
-+				VAlign = 1f,
-+				HAlign = 1f
-+			};
-+			uIImageButton5.Left.Set(-24f, 0);
-+			uIImageButton5.OnClick += InfoButtonClick;
++			if (data.Player.usedMods != null) {
++				var currentModNames = ModLoader.ModLoader.Mods.Select(m => m.Name).ToArray();
++				var missingMods = data.Player.usedMods.Except(currentModNames).ToList();
++				var newMods = currentModNames.Except(new[] { "ModLoader" }).Except(data.Player.usedMods).ToList();
++				if (missingMods.Count > 0 || newMods.Count > 0) {
++					UIText warningLabel = new UIText("", 1f, false) {
++						VAlign = 0f,
++						HAlign = 1f
++					};
 +
-+			uIImageButton5.OnMouseOver += InfoMouseOver;
-+			uIImageButton5.OnMouseOut += InfoMouseOut;
-+			_infoButton = uIImageButton5;
-+			Append(uIImageButton5);
++					warningLabel.Left.Set(-30f, 0f);
++					warningLabel.Top.Set(3f, 0f);
++					Append(warningLabel);
++					UIImageButton modListWarning = new UIImageButton(_errorTexture) {
++						VAlign = 0f,
++						HAlign = 1f
++					};
 +
++					modListWarning.Top.Set(-2f, 0f);
++					System.Text.StringBuilder fullSB = new System.Text.StringBuilder(Language.GetTextValue("tModLoader.ModsDifferentSinceLastPlay"));
++					System.Text.StringBuilder shortSB = new System.Text.StringBuilder();
++					if (missingMods.Count > 0) {
++						shortSB.Append(missingMods.Count > 1 ? Language.GetTextValue("tModLoader.MissingXMods", missingMods.Count) : Language.GetTextValue("tModLoader.Missing1Mod"));
++						fullSB.Append("\n" + Language.GetTextValue("tModLoader.MissingModsListing", string.Join("\n", missingMods.Select(x => "- " + x))));
++					}
++
++					if (newMods.Count > 0) {
++						shortSB.Append(" " + (newMods.Count > 1 ? Language.GetTextValue("tModLoader.NewXMods", newMods.Count) : Language.GetTextValue("tModLoader.New1Mod")));
++						fullSB.Append("\n" + Language.GetTextValue("tModLoader.NewModsListing", string.Join("\n", newMods.Select(x => "- " + x))));
++					}
++
++					string warning = shortSB.ToString();
++					string fullWarning = fullSB.ToString();
++					modListWarning.OnMouseOver += (a, b) => warningLabel.SetText(warning);
++					modListWarning.OnMouseOut += (a, b) => warningLabel.SetText("");
++					modListWarning.OnClick += (a, b) => {
++						Interface.infoMessage.Show(fullWarning, 888, Main._characterSelectMenu);
++					};
++
++					Append(modListWarning);
++				}
++			}
++
++			int buttonLabelLeft = 80;
++			//if(ConfigManager.Configs.Count > 0)
++			//{
++			//	UIImageButton configButton = new UIImageButton(this._configTexture);
++			//	configButton.VAlign = 1f;
++			//	configButton.Left.Set(76, 0f);
++			//	configButton.OnClick += new UIElement.MouseEvent(this.ConfigButtonClick);
++			//	configButton.OnMouseOver += new UIElement.MouseEvent(this.ConfigMouseOver);
++			//	configButton.OnMouseOut += new UIElement.MouseEvent(this.ButtonMouseOut);
++			//	base.Append(configButton);
++
++			//	buttonLabelLeft += 24;
++			//}
  			_buttonLabel = new UIText("");
  			_buttonLabel.VAlign = 1f;
- 			_buttonLabel.Left.Set(80f, 0f);
-@@ -93,15 +_,19 @@
+-			_buttonLabel.Left.Set(80f, 0f);
++			_buttonLabel.Left.Set(buttonLabelLeft, 0f);
+ 			_buttonLabel.Top.Set(-3f, 0f);
+ 			Append(_buttonLabel);
  			_deleteButtonLabel = new UIText("");
  			_deleteButtonLabel.VAlign = 1f;
  			_deleteButtonLabel.HAlign = 1f;
 -			_deleteButtonLabel.Left.Set(-30f, 0f);
-+			_deleteButtonLabel.Left.Set(-54f, 0f);
++			_deleteButtonLabel.Left.Set(data.customDataFail == null ? -30f : -54f, 0f);
  			_deleteButtonLabel.Top.Set(-3f, 0f);
  			Append(_deleteButtonLabel);
  			uIImageButton.SetSnapPoint("Play", snapPointIndex);
- 			uIImageButton2.SetSnapPoint("Favorite", snapPointIndex);
- 			uIImageButton4.SetSnapPoint("Delete", snapPointIndex);
-+			uIImageButton5.SetSnapPoint("Info", snapPointIndex);
+@@ -126,6 +_,14 @@
+ 				_deleteButtonLabel.SetText(Language.GetTextValue("UI.Delete"));
  		}
  
- 		private void FavoriteMouseOver(UIMouseEvent evt, UIElement listeningElement) {
-+			if (IsDisplayingModData)
-+				return;
++		private void ErrorMouseOver(UIMouseEvent evt, UIElement listeningElement) {
++			_deleteButtonLabel.SetText(_data.customDataFail.modName + " Error");
++		}
 +
- 			if (_data.IsFavorite)
- 				_buttonLabel.SetText(Language.GetTextValue("UI.Unfavorite"));
- 			else
-@@ -109,17 +_,23 @@
- 		}
- 
- 		private void CloudMouseOver(UIMouseEvent evt, UIElement listeningElement) {
--			if (_data.IsCloudSave)
--				_buttonLabel.SetText(Language.GetTextValue("UI.MoveOffCloud"));
--			else
--				_buttonLabel.SetText(Language.GetTextValue("UI.MoveToCloud"));
-+			if (IsDisplayingModData)
-+				return;
++		private void ConfigMouseOver(UIMouseEvent evt, UIElement listeningElement) {
++			_buttonLabel.SetText("Edit Player Config");
++		}
 +
-+			_buttonLabel.SetText(Language.GetTextValue("Modded.CloudSave"));
- 		}
- 
- 		private void PlayMouseOver(UIMouseEvent evt, UIElement listeningElement) {
-+			if (IsDisplayingModData)
-+				return;
-+
- 			_buttonLabel.SetText(Language.GetTextValue("UI.Play"));
- 		}
- 
- 		private void DeleteMouseOver(UIMouseEvent evt, UIElement listeningElement) {
-+			if (IsDisplayingModData)
-+				return;
-+
- 			if (_data.IsFavorite)
- 				_deleteButtonLabel.SetText(Language.GetTextValue("UI.CannotDeleteFavorited"));
- 			else
-@@ -127,27 +_,38 @@
- 		}
- 
  		private void DeleteMouseOut(UIMouseEvent evt, UIElement listeningElement) {
-+			if (IsDisplayingModData)
-+				return;
-+
-+			_deleteButtonLabel.SetText("");
-+		}
-+
-+		private void InfoMouseOver(UIMouseEvent evt, UIElement listeningElement) {
-+			_deleteButtonLabel.SetText(IsDisplayingModData ? "Display Player Info" : "Display Mod Info");
-+		}
-+
-+		private void InfoMouseOut(UIMouseEvent evt, UIElement listeningElement) {
  			_deleteButtonLabel.SetText("");
  		}
- 
- 		private void ButtonMouseOut(UIMouseEvent evt, UIElement listeningElement) {
-+			if (IsDisplayingModData)
-+				return;
-+
- 			_buttonLabel.SetText("");
+@@ -187,6 +_,13 @@
+ 			(base.Parent.Parent as UIList)?.UpdateOrder();
  		}
  
- 		private void CloudButtonClick(UIMouseEvent evt, UIElement listeningElement) {
--			if (_data.IsCloudSave)
--				_data.MoveToLocal();
--			else
--				_data.MoveToCloud();
-+			if (IsDisplayingModData)
-+				return;
- 
--			((UIImageButton)evt.Target).SetImage(_data.IsCloudSave ? _buttonCloudActiveTexture : _buttonCloudInactiveTexture);
--			if (_data.IsCloudSave)
--				_buttonLabel.SetText(Language.GetTextValue("UI.MoveOffCloud"));
--			else
--				_buttonLabel.SetText(Language.GetTextValue("UI.MoveToCloud"));
-+			((UIImageButton)evt.Target).SetImage(_buttonCloudInactiveTexture);
- 		}
- 
- 		private void DeleteButtonClick(UIMouseEvent evt, UIElement listeningElement) {
-+			if (IsDisplayingModData)
-+				return;
-+
- 			int num = 0;
- 			while (true) {
- 				if (num < Main.PlayerList.Count) {
-@@ -166,12 +_,26 @@
- 			Main.menuMode = 5;
- 		}
- 
-+		private void InfoButtonClick(UIMouseEvent evt, UIElement listeningElement) {
-+			_data.ToggleModData();
-+			if (_data.IsDisplayingModData)
-+				_deleteButtonLabel.SetText(Language.GetTextValue("Display Player Info"));
-+			else
-+				_deleteButtonLabel.SetText(Language.GetTextValue("Display Mod Info"));
++		private void ErrorButtonClick(UIMouseEvent evt, UIElement listeningElement) {
++			Logging.Terraria.Error(Language.GetTextValue("tModLoader.PlayerCustomDataFail"), _data.customDataFail.InnerException);
 +		}
 +
- 		private void PlayGame(UIMouseEvent evt, UIElement listeningElement) {
-+			if (IsDisplayingModData)
-+				return;
++		private void ConfigButtonClick(UIMouseEvent evt, UIElement listeningElement) {
++		}
 +
- 			if (listeningElement == evt.Target && _data.Player.loadStatus == 0)
- 				Main.SelectPlayer(_data);
- 		}
- 
- 		private void FavoriteButtonClick(UIMouseEvent evt, UIElement listeningElement) {
-+			if (IsDisplayingModData)
-+				return;
-+
- 			_data.ToggleFavorite();
- 			((UIImageButton)evt.Target).SetImage(_data.IsFavorite ? _buttonFavoriteActiveTexture : _buttonFavoriteInactiveTexture);
- 			((UIImageButton)evt.Target).SetVisibility(1f, _data.IsFavorite ? 0.8f : 0.4f);
-@@ -229,12 +_,17 @@
- 			base.DrawSelf(spriteBatch);
- 			CalculatedStyle innerDimensions = GetInnerDimensions();
- 			CalculatedStyle dimensions = _playerPanel.GetDimensions();
-+
- 			float num = dimensions.X + dimensions.Width;
-+
- 			Utils.DrawBorderString(spriteBatch, _data.Name, new Vector2(num + 6f, dimensions.Y - 2f), Color.White);
-+
- 			spriteBatch.Draw(_dividerTexture.Value, new Vector2(num, innerDimensions.Y + 21f), null, Color.White, 0f, Vector2.Zero, new Vector2((GetDimensions().X + GetDimensions().Width - num) / 8f, 1f), SpriteEffects.None, 0f);
-+
- 			Vector2 vector = new Vector2(num + 6f, innerDimensions.Y + 29f);
--			float num2 = 200f;
- 			Vector2 vector2 = vector;
-+			float num2 = 200f;
-+
+ 		public override int CompareTo(object obj) {
+ 			UICharacterListItem uICharacterListItem = obj as UICharacterListItem;
+ 			if (uICharacterListItem != null) {
+@@ -238,11 +_,11 @@
  			DrawPanel(spriteBatch, vector2, num2);
  			spriteBatch.Draw(TextureAssets.Heart.Value, vector2 + new Vector2(5f, 2f), Color.White);
  			vector2.X += 10f + (float)TextureAssets.Heart.Width();
-@@ -269,7 +_,6 @@
- 					color = Main.creativeModeColor;
- 					break;
- 			}
--
- 			vector3 += new Vector2(num3 * 0.5f - FontAssets.MouseText.Value.MeasureString(text).X * 0.5f, 3f);
- 			Utils.DrawBorderString(spriteBatch, text, vector3, color);
- 			vector.X += num3 + 5f;
+-			Utils.DrawBorderString(spriteBatch, _data.Player.statLifeMax + Language.GetTextValue("GameUI.PlayerLifeMax"), vector2 + new Vector2(0f, 3f), Color.White);
++			Utils.DrawBorderString(spriteBatch, _data.Player.statLifeMax2 + Language.GetTextValue("GameUI.PlayerLifeMax"), vector2 + new Vector2(0f, 3f), Color.White);
+ 			vector2.X += 65f;
+ 			spriteBatch.Draw(TextureAssets.Mana.Value, vector2 + new Vector2(5f, 2f), Color.White);
+ 			vector2.X += 10f + (float)TextureAssets.Mana.Width();
+-			Utils.DrawBorderString(spriteBatch, _data.Player.statManaMax + Language.GetTextValue("GameUI.PlayerManaMax"), vector2 + new Vector2(0f, 3f), Color.White);
++			Utils.DrawBorderString(spriteBatch, _data.Player.statManaMax2 + Language.GetTextValue("GameUI.PlayerManaMax"), vector2 + new Vector2(0f, 3f), Color.White);
+ 			vector.X += num2 + 5f;
+ 			Vector2 vector3 = vector;
+ 			float num3 = 140f;

@@ -1,17 +1,13 @@
 --- src/Terraria/ReLogic/ReLogic.csproj
 +++ src/tModLoader/ReLogic/ReLogic.csproj
-@@ -8,11 +_,11 @@
+@@ -8,8 +_,8 @@
      <RootNamespace>ReLogic</RootNamespace>
    </PropertyGroup>
    <ItemGroup>
 -    <Reference Include="Ionic.Zip.CF">
--      <HintPath>../Terraria/Libraries/DotNetZip/Ionic.Zip.CF.dll</HintPath>
--    </Reference>
-     <Reference Include="FNA" Condition="$(DefineConstants.Contains('FNA'))">
-       <HintPath>..\..\..\references\FNA.dll</HintPath>
-+    </Reference>
 +    <Reference Include="Ionic.Zip.Reduced">
+-      <HintPath>../Terraria/Libraries/DotNetZip/Ionic.Zip.CF.dll</HintPath>
 +      <HintPath>..\..\..\references\Ionic.Zip.Reduced.dll</HintPath>
      </Reference>
-     <Reference Include="Microsoft.Xna.Framework" Condition="$(DefineConstants.Contains('XNA'))" />
-     <Reference Include="Microsoft.Xna.Framework.Game" Condition="$(DefineConstants.Contains('XNA'))" />
+     <Reference Include="FNA" Condition="$(DefineConstants.Contains('FNA'))">
+       <HintPath>..\..\..\references\FNA.dll</HintPath>

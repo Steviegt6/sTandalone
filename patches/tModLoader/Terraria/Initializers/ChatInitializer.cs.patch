@@ -1,11 +1,10 @@
 --- src/Terraria/Terraria/Initializers/ChatInitializer.cs
 +++ src/tModLoader/Terraria/Initializers/ChatInitializer.cs
-@@ -34,6 +_,8 @@
- 				"glyph"
- 			});
+@@ -6,6 +_,7 @@
  
-+			ChatManager.Commands.ClearCommands();
-+
- 			ChatManager.Commands.AddCommand<PartyChatCommand>().AddCommand<RollCommand>().AddCommand<EmoteCommand>()
- 				.AddCommand<ListPlayersCommand>()
- 				.AddCommand<RockPaperScissorsCommand>()
+ namespace Terraria.Initializers
+ {
++	// @todo: if need be, we can add register tag handlers here
+ 	public static class ChatInitializer
+ 	{
+ 		public static void Load() {

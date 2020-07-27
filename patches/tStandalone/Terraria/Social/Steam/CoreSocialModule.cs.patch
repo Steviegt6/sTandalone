@@ -1,0 +1,38 @@
+--- src/tModLoader/Terraria/Social/Steam/CoreSocialModule.cs
++++ src/tStandalone/Terraria/Social/Steam/CoreSocialModule.cs
+@@ -1,7 +_,6 @@
+ using ReLogic.OS;
+ using Steamworks;
+ using System;
+-using System.IO;
+ using System.Threading;
+ using System.Windows.Forms;
+ using Terraria.Localization;
+@@ -11,7 +_,7 @@
+ 	public class CoreSocialModule : ISocialModule
+ 	{
+ 		private static CoreSocialModule _instance;
+-		public const uint SteamAppId = ModLoader.Engine.Steam.TMLAppID; // No references to this?
++		public const int SteamAppId = 105600;
+ 		private bool IsSteamValid;
+ 		private object _steamTickLock = new object();
+ 		private object _steamCallbackLock = new object();
+@@ -22,16 +_,14 @@
+ 		public void Initialize() {
+ 			_instance = this;
+ #if CLIENT
+-			if (System.Diagnostics.Debugger.IsAttached && !File.Exists("steam_appid.txt"))
+-				ModLoader.Engine.Steam.EnsureSteamAppIdTMLFile();
+-			if (SteamAPI.RestartAppIfNecessary(ModLoader.Engine.Steam.TMLAppID_t) && !System.Diagnostics.Debugger.IsAttached) {
++			if (SteamAPI.RestartAppIfNecessary(new AppId_t(105600u))) {
+ 				Environment.Exit(1);
+ 				return;
+ 			}
+ #endif
+ 
+ 			if (!SteamAPI.Init()) {
+-				ModLoader.UI.Interface.MessageBoxShow(Language.GetTextValue("Error.LaunchFromSteam"), Language.GetTextValue("Error.Error"));
++				MessageBox.Show(Language.GetTextValue("Error.LaunchFromSteam"), Language.GetTextValue("Error.Error"));
+ 				Environment.Exit(1);
+ 			}
+ 

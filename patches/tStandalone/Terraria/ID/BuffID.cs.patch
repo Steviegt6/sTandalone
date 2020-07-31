@@ -51,6 +51,6 @@
 -		}
 +		public const int TrueConfusion = 323;
 +		public const int Count = 324;
-+		public const int VanillaCount = 323;
++		//public const int VanillaCount = 323;
  	}
  }

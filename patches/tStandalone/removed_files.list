@@ -2,7 +2,6 @@ ReLogic\tModLoader.xml
 Terraria\Icon.ico
 Terraria\Item_tML.cs
 Terraria\Main.TML.cs
-Terraria\tModLoader.ico
 Terraria\Enums\Team.cs
 Terraria\ID\ItemRarityID.cs
 Terraria\ID\LangID.cs

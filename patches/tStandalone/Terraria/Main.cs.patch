@@ -38,7 +38,7 @@
  #endif
  	{
  		public delegate void OnPlayerSelected(PlayerFileData player);
-@@ -182,6 +_,29 @@
+@@ -182,6 +_,36 @@
  			public bool LanternNightActive;
  		}
  
@@ -63,6 +63,13 @@
 +		public static bool slowerMasterModeRarity = false;
 +		public static bool allAccessoriesInVanitySlots = false;
 +		#endregion TERRARIA_PLUS
++
++		#region MASTER_MODE_RELOADED
++		//Instead of having to do Main.masterModeReloaded && Main.masterMode for each call
++		public static bool MMRChangesEnabled {
++			get { return masterModeReloaded && masterMode; }
++		}
++		#endregion
 +		#endregion tStandalone
 +
  		private const string versionStringBecauseTheyreTheSame = "v1.4.0.5";
@@ -1049,6 +1056,16 @@
  			pvpBuff[20] = true;
  			pvpBuff[24] = true;
  			pvpBuff[31] = true;
+@@ -7196,6 +_,9 @@
+ 			buffNoTimeDisplay[317] = true;
+ 			buffNoTimeDisplay[318] = true;
+ 			buffNoTimeDisplay[320] = true;
++			#region tStandalone buffNoTimeDisplay
++			buffNoTimeDisplay[BuffID.TrueConfusion] = true;
++			#endregion
+ 			persistentBuff[71] = true;
+ 			persistentBuff[73] = true;
+ 			persistentBuff[74] = true;
 @@ -8290,6 +_,8 @@
  			base.GraphicsDevice.DeviceResetting += GraphicsDeviceLost;
  			if (_needsLanguageSelect)
@@ -2162,15 +2179,18 @@
  			npcColor = rCurrentNPC.GetNPCColorTintedByBuffs(npcColor);
  			if (type == 50) {
  				Vector2 zero = Vector2.Zero;
-@@ -18745,7 +_,7 @@
+@@ -18745,8 +_,9 @@
  										Microsoft.Xna.Framework.Color alpha11 = rCurrentNPC.GetAlpha(npcColor);
  										float num115 = 1f - (float)rCurrentNPC.life / (float)rCurrentNPC.lifeMax;
  										num115 *= num115;
 -										if (getGoodWorld)
-+										if (getGoodWorld || (Main.masterModeReloaded && masterMode))
- 											num115 = 1f;
+-											num115 = 1f;
++										if (Main.MMRChangesEnabled) {
++											num115 *= 2;
++										}
  
  										alpha11.R = (byte)((float)(int)alpha11.R * num115);
+ 										alpha11.G = (byte)((float)(int)alpha11.G * num115);
 @@ -19113,7 +_,7 @@
  									else if (type == 389) {
  										mySpriteBatch.Draw(TextureAssets.GlowMask[34].Value, new Vector2(rCurrentNPC.position.X - screenPos.X + (float)(rCurrentNPC.width / 2) - (float)TextureAssets.Npc[type].Width() * rCurrentNPC.scale / 2f + halfSize.X * rCurrentNPC.scale, rCurrentNPC.position.Y - screenPos.Y + (float)rCurrentNPC.height - (float)TextureAssets.Npc[type].Height() * rCurrentNPC.scale / (float)npcFrameCount[type] + 4f + halfSize.Y * rCurrentNPC.scale + num37 + num36 + rCurrentNPC.gfxOffY), frame5, new Microsoft.Xna.Framework.Color(255, 255, 255, 0), rCurrentNPC.rotation, halfSize, rCurrentNPC.scale, spriteEffects, 0f);

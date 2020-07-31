@@ -1,0 +1,107 @@
+--- src/tModLoader/Terraria/GameContent/UI/States/UIWorldSelect.cs
++++ src/tStandalone/Terraria/GameContent/UI/States/UIWorldSelect.cs
+@@ -4,8 +_,8 @@
+ using System.Collections.Generic;
+ using System.IO;
+ using System.Linq;
+-using Terraria.Audio;
+ using System.Threading.Tasks;
++using Terraria.Audio;
+ using Terraria.GameContent.UI.Elements;
+ using Terraria.GameInput;
+ using Terraria.ID;
+@@ -26,7 +_,8 @@
+ 		private bool _isScrollbarAttached;
+ 		private List<Tuple<string, bool>> favoritesCache = new List<Tuple<string, bool>>();
+ 		private bool skipDraw;
+-		private static bool _currentlyMigratingFiles;
++
++		public static bool migratingWorlds;
+ 
+ 		public override void OnInitialize() {
+ 			UIElement uIElement = new UIElement();
+@@ -127,6 +_,8 @@
+ 
+ 		private void UpdateWorldsList() {
+ 			_worldList.Clear();
++
++			List<WorldFileData> list = new List<WorldFileData>(Main.WorldList);
+ 			IOrderedEnumerable<WorldFileData> orderedEnumerable = new List<WorldFileData>(Main.WorldList).OrderByDescending(CanWorldBePlayed).ThenByDescending((WorldFileData x) => x.IsFavorite).ThenBy((WorldFileData x) => x.Name)
+ 				.ThenBy((WorldFileData x) => x.GetFileName());
+ 
+@@ -135,46 +_,47 @@
+ 				_worldList.Add(new UIWorldListItem(item, num++, CanWorldBePlayed(item)));
+ 			}
+ 
+-			if (orderedEnumerable.Any()) {
+-				string vanillaWorldsPath = Path.Combine(ReLogic.OS.Platform.Get<ReLogic.OS.IPathService>().GetStoragePath("Terraria"), "Worlds");
+-				if (Directory.Exists(vanillaWorldsPath) && Directory.GetFiles(vanillaWorldsPath, "*.wld").Any()) {
+-					var autoMigrateButton = new UIPanel();
+-					autoMigrateButton.Width.Set(0, 1);
+-					autoMigrateButton.Height.Set(50, 0);
+-					var migrateText = new UIText(!_currentlyMigratingFiles
+-						? Language.GetText("tModLoader.MigrateWorldsText")
+-						: Language.GetText("tModLoader.MigratingWorldsText"));
+-
+-					autoMigrateButton.OnClick += (a, b) => {
+-						if (!_currentlyMigratingFiles) {
+-							_currentlyMigratingFiles = true;
+-							migrateText.SetText(Language.GetText("tModLoader.MigratingWorldsText"));
++			if (list.Count == 0) {
++				string vanillaPath = Path.Combine(Main.SavePath, "Worlds");
++
++				if (Directory.Exists(vanillaPath) && Directory.GetFiles(vanillaPath, "*.wld").Any()) {
++					var migrationButton = new UIPanel();
++					migrationButton.Width.Set(0, 1);
++					migrationButton.Height.Set(50, 0);
++
++					var migrationText = new UIText(!migratingWorlds ? Language.GetTextValue("Modded.MigrateWorldsText") : Language.GetTextValue("Modded.MigratingWorldsText"));
++
++					migrationButton.OnClick += (a, b) => {
++						if (!migratingWorlds) {
++							migratingWorlds = false;
++							migrationText.SetText(Language.GetTextValue("Modded.MigratingWorldsText"));
++
+ 							Task.Factory.StartNew(() => {
+-								var vanillaWorldFiles = Directory.GetFiles(vanillaWorldsPath, "*.*")
+-									.Where(s => s.EndsWith(".wld") || s.EndsWith(".twld") || s.EndsWith(".bak"));
++								var vanillaFiles = Directory.GetFiles(vanillaPath, "*.*").Where(s => s.EndsWith(".wld") || s.EndsWith(".bak"));
+ 
+-								foreach (string file in vanillaWorldFiles) {
++								foreach (string file in vanillaFiles) {
+ 									File.Copy(file, Path.Combine(Main.WorldPath, Path.GetFileName(file)), true);
+ 								}
+ 
+-								_currentlyMigratingFiles = false;
++								migratingWorlds = false;
+ 								Main.menuMode = 6;
+ 							}, TaskCreationOptions.PreferFairness);
+ 						}
+ 					};
+ 
+-					autoMigrateButton.Append(migrateText);
++					migrationButton.Append(migrationText);
+-					_worldList.Add(autoMigrateButton);
++					_worldList.Add(migrationButton);
++
+-					var noWorldsMessage = new UIText(Language.GetText("tModLoader.MigrateWorldsMessage"));
++					var noMessage = new UIText(Language.GetTextValue("Modded.MigrateWorldsMessage"));
+-					noWorldsMessage.Width.Set(0, 1);
++					noMessage.Width.Set(0, 1);
+-					noWorldsMessage.Height.Set(300, 0);
++					noMessage.Height.Set(300, 0);
+-					noWorldsMessage.MarginTop = 20f;
++					noMessage.MarginTop = 20f;
+-					noWorldsMessage.OnClick += (a, b) => {
++					noMessage.OnClick += (a, b) => {
+-						System.Diagnostics.Process.Start(Main.WorldPath);
++						Utils.OpenFolder(Main.WorldPath);
+-						System.Diagnostics.Process.Start(vanillaWorldsPath);
++						Utils.OpenFolder(vanillaPath);
+ 					};
+ 
+-					_worldList.Add(noWorldsMessage);
++					_worldList.Add(noMessage);
+ 				}
+ 			}
+ 		}

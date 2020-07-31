@@ -1,0 +1,10 @@
+--- src/tModLoader/Terraria/ID/GlowMaskID.cs
++++ src/tStandalone/Terraria/ID/GlowMaskID.cs
+@@ -306,5 +_,7 @@
+ 		public const short PottedLavaPlantTendrils = 299;
+ 		public const short TruffleWormCage = 300;
+ 		public const short Count = 301;
++		public const short VanillaCount = 301;
++		//TODO: Count
+ 	}
+ }

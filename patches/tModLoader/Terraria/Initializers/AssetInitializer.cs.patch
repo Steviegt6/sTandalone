@@ -1,24 +1,30 @@
 --- src/Terraria/Terraria/Initializers/AssetInitializer.cs
 +++ src/tModLoader/Terraria/Initializers/AssetInitializer.cs
-@@ -370,7 +_,7 @@
- 				TextureAssets.BackPack[num48] = LoadAsset<Texture2D>("Images\\BackPack_" + num48, mode);
- 			}
+@@ -14,14 +_,17 @@
+ using Terraria.GameContent.UI;
+ using Terraria.ID;
+ using Terraria.IO;
++using Terraria.ModLoader.UI;
+ using Terraria.Utilities;
  
--			for (int num49 = 1; num49 < 323; num49++) {
-+			for (int num49 = 1; num49 < BuffID.Count; num49++) {
- 				TextureAssets.Buff[num49] = LoadAsset<Texture2D>("Images\\Buff_" + num49, mode);
- 			}
+ namespace Terraria.Initializers
+ {
+ 	public static class AssetInitializer
+ 	{
++		internal static AssetReaderCollection assetReaderCollection;
++
+ 		public static void CreateAssetServices(GameServiceContainer services) {
+-			AssetReaderCollection assetReaderCollection = new AssetReaderCollection();
++			assetReaderCollection = new AssetReaderCollection();
+ 			assetReaderCollection.RegisterReader(new PngReader(services.Get<IGraphicsDeviceService>().GraphicsDevice), ".png");
+ 			assetReaderCollection.RegisterReader(new XnbReader(services), ".xnb");
+ 			AsyncAssetLoader asyncAssetLoader = new AsyncAssetLoader(assetReaderCollection, 20);
+@@ -591,6 +_,8 @@
+ 			LoadMinimapFrames(mode);
+ 			LoadPlayerResourceSets(mode);
+ 			Main.AchievementAdvisor.LoadContent();
++
++			UICommon.LoadTextures();
+ 		}
  
-@@ -438,6 +_,12 @@
- 			TextureAssets.Logo2 = LoadAsset<Texture2D>("Images\\Logo2", mode);
- 			TextureAssets.Logo3 = LoadAsset<Texture2D>("Images\\Logo3", mode);
- 			TextureAssets.Logo4 = LoadAsset<Texture2D>("Images\\Logo4", mode);
-+			#region tStandalone
-+			TextureAssets.MMRLogo = LoadAsset<Texture2D>("Images\\MMRLogo", mode);
-+			TextureAssets.MMRLogo2 = LoadAsset<Texture2D>("Images\\MMRLogo2", mode);
-+			TextureAssets.MMRLogo3 = LoadAsset<Texture2D>("Images\\MMRLogo3", mode);
-+			TextureAssets.MMRLogo4 = LoadAsset<Texture2D>("Images\\MMRLogo4", mode);
-+			#endregion tStandalone
- 			TextureAssets.Dust = LoadAsset<Texture2D>("Images\\Dust", mode);
- 			TextureAssets.Sun = LoadAsset<Texture2D>("Images\\Sun", mode);
- 			TextureAssets.Sun2 = LoadAsset<Texture2D>("Images\\Sun2", mode);
+ 		private static void LoadMinimapFrames(AssetRequestMode mode) {

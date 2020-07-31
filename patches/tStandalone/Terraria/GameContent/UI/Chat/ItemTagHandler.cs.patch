@@ -1,0 +1,80 @@
+--- src/tModLoader/Terraria/GameContent/UI/Chat/ItemTagHandler.cs
++++ src/tStandalone/Terraria/GameContent/UI/Chat/ItemTagHandler.cs
+@@ -1,9 +_,6 @@
+ using Microsoft.Xna.Framework;
+ using Microsoft.Xna.Framework.Graphics;
+ using ReLogic.Graphics;
+-using System.Linq;
+-using Terraria.ModLoader;
+-using Terraria.ModLoader.IO;
+ using Terraria.UI;
+ using Terraria.UI.Chat;
+ 
+@@ -25,7 +_,6 @@
+ 				Main.instance.MouseText(_item.Name, _item.rare, 0);
+ 			}
+ 
+-			//TODO possibly allow modders to custom draw here
+ 			public override bool UniqueDraw(bool justCheckingString, out Vector2 size, SpriteBatch spriteBatch, Vector2 position = default(Vector2), Color color = default(Color), float scale = 1f) {
+ 				float num = 1f;
+ 				float num2 = 1f;
+@@ -58,26 +_,20 @@
+ 
+ 		TextSnippet ITagHandler.Parse(string text, Color baseColor, string options) {
+ 			Item item = new Item();
+-			if (int.TryParse(text, out int result) && result < ItemLoader.ItemCount)
++			if (int.TryParse(text, out int result))
+ 				item.netDefaults(result);
+ 
+ 			if (item.type <= 0)
+ 				return new TextSnippet(text);
+ 
+ 			item.stack = 1;
+-			// options happen here, we add MID (=ModItemData) options
+ 			if (options != null) {
+-				// don't know why all these options here in vanilla,
+-				// since it only assumed one option (stack OR prefix, since prefixed items don't stack)
+ 				string[] array = options.Split(',');
+ 				for (int i = 0; i < array.Length; i++) {
+ 					if (array[i].Length == 0)
+ 						continue;
+ 
+ 					switch (array[i][0]) {
+-						case 'd': // MID is present, we will override
+-							item = ItemIO.FromBase64(array[i].Substring(1));
+-							break;
+ 						case 's':
+ 						case 'x': {
+ 								if (int.TryParse(array[i].Substring(1), out int result3))
+@@ -87,7 +_,7 @@
+ 							}
+ 						case 'p': {
+ 								if (int.TryParse(array[i].Substring(1), out int result2))
+-									item.Prefix((byte)Utils.Clamp(result2, 0, ModPrefix.PrefixCount));
++									item.Prefix((byte)Utils.Clamp(result2, 0, 85));
+ 
+ 								break;
+ 							}
+@@ -106,22 +_,13 @@
+ 			};
+ 		}
+ 
+-		// we do not alter vanilla ways of doing things
+-		// this can lead to trouble in future patches
+ 		public static string GenerateTag(Item I) {
+ 			string text = "[i";
+-			// assuming we have modded data, simply write the item as base64
+-			// do not write other option, base64 holds all the info.
+-			if (I.modItem != null || I.globalItems.Any()) {
+-				text = text + "/d" + ItemIO.ToBase64(I);
+-			}
+-			else {
+ 			if (I.prefix != 0)
+ 				text = text + "/p" + I.prefix;
+ 
+ 			if (I.stack != 1)
+ 				text = text + "/s" + I.stack;
+-			}
+ 
+ 			return text + ":" + I.netID + "]";
+ 		}

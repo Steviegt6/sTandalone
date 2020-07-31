@@ -1,0 +1,20 @@
+--- src/tModLoader/Terraria/SceneMetrics.cs
++++ src/tStandalone/Terraria/SceneMetrics.cs
+@@ -27,7 +_,7 @@
+ 		public static int GraveyardTileThreshold = 24;
+ 		public bool[] NPCBannerBuff = new bool[289];
+ 		public bool hasBanner;
+-		internal int[] _tileCounts = new int[623];
++		private readonly int[] _tileCounts = new int[623];
+ 		private readonly World _world;
+ 		private readonly List<Point> _oreFinderTileLocations = new List<Point>(512);
+ 		public int bestOre;
+@@ -417,8 +_,6 @@
+ 			MoonLordMonolith = false;
+ 			Array.Clear(NPCBannerBuff, 0, NPCBannerBuff.Length);
+ 			hasBanner = false;
+-			if(NPCBannerBuff.Length<ModLoader.NPCLoader.NPCCount)
+-				Array.Resize(ref NPCBannerBuff, ModLoader.NPCLoader.NPCCount);
+ 		}
+ 
+ 		private void UpdateOreFinderData() {

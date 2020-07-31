@@ -1,0 +1,45 @@
+--- src/Terraria/Terraria/Localization/LanguageManager.cs
++++ src/tModLoader/Terraria/Localization/LanguageManager.cs
+@@ -9,6 +_,7 @@
+ using System.Text.RegularExpressions;
+ using System.Threading;
+ using Terraria.GameContent;
++using Terraria.ModLoader;
+ using Terraria.Utilities;
+ 
+ namespace Terraria.Localization
+@@ -16,7 +_,7 @@
+ 	public class LanguageManager
+ 	{
+ 		public static LanguageManager Instance = new LanguageManager();
+-		private readonly Dictionary<string, LocalizedText> _localizedTexts = new Dictionary<string, LocalizedText>();
++		internal readonly Dictionary<string, LocalizedText> _localizedTexts = new Dictionary<string, LocalizedText>();
+ 		private readonly Dictionary<string, List<string>> _categoryGroupedKeys = new Dictionary<string, List<string>>();
+ 		private GameCulture _fallbackCulture = GameCulture.DefaultCulture;
+ 
+@@ -68,6 +_,9 @@
+ 				}
+ 
+ 				LoadLanguage(culture);
++				if (ActiveCulture != null)
++					ModContent.RefreshModLanguage(culture);
++
+ 				ActiveCulture = culture;
+ 				Thread.CurrentThread.CurrentCulture = culture.CultureInfo;
+ 				Thread.CurrentThread.CurrentUICulture = culture.CultureInfo;
+@@ -106,10 +_,13 @@
+ 			}
+ 		}
+ 
+-		private void ProcessCopyCommandsInTexts() {
++		internal void ProcessCopyCommandsInTexts() {
+-			Regex regex = new Regex("{\\$(\\w+\\.\\w+)}", RegexOptions.Compiled);
++			Regex regex = new Regex(@"{\$([\w\.]+)}", RegexOptions.Compiled);
+ 			foreach (KeyValuePair<string, LocalizedText> localizedText in _localizedTexts) {
+ 				LocalizedText value = localizedText.Value;
++				if (value.Value == null)
++					continue;
++
+ 				for (int i = 0; i < 100; i++) {
+ 					string text = regex.Replace(value.Value, (Match match) => GetTextValue(match.Groups[1].ToString()));
+ 					if (text == value.Value)

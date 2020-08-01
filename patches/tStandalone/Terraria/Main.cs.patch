@@ -38,7 +38,7 @@
  #endif
  	{
  		public delegate void OnPlayerSelected(PlayerFileData player);
-@@ -182,6 +_,29 @@
+@@ -182,6 +_,35 @@
  			public bool LanternNightActive;
  		}
  
@@ -63,6 +63,12 @@
 +		public static bool slowerMasterModeRarity = false;
 +		public static bool allAccessoriesInVanitySlots = false;
 +		#endregion TERRARIA_PLUS
++
++		#region MASTER_MODE_RELOADED
++		public static bool MMRChangesEnabled {
++			get { return masterModeReloaded && masterMode;  }
++		}
++		#endregion
 +		#endregion tStandalone
 +
  		private const string versionStringBecauseTheyreTheSame = "v1.4.0.5";
@@ -1041,14 +1047,30 @@
  				projFrames[j] = 1;
  			}
  
-@@ -6935,6 +_,7 @@
- 			debuff[215] = true;
- 			debuff[320] = true;
- 			debuff[321] = true;
+@@ -7281,6 +_,9 @@
+ 			lightPet[294] = true;
+ 			lightPet[298] = true;
+ 			lightPet[299] = true;
++
++			InitializeModdedBuffs();
++
+ 			tileFlame[4] = true;
+ 			tileFlame[33] = true;
+ 			tileFlame[34] = true;
+@@ -8253,6 +_,13 @@
+ 			wallDungeon[99] = true;
+ 		}
+ 
++		private static void InitializeModdedBuffs() {
++			//True Confusion
 +			debuff[BuffID.TrueConfusion] = true;
- 			pvpBuff[20] = true;
- 			pvpBuff[24] = true;
- 			pvpBuff[31] = true;
++			buffNoTimeDisplay[BuffID.TrueConfusion] = true;
++			//
++		}
++
+ 		private void ClientInitialize() {
+ 			MessageBuffer.OnTileChangeReceived += OnTileChangeEvent;
+ 			LanguageManager.Instance.OnLanguageChanged += delegate {
 @@ -8290,6 +_,8 @@
  			base.GraphicsDevice.DeviceResetting += GraphicsDeviceLost;
  			if (_needsLanguageSelect)
@@ -2162,15 +2184,15 @@
  			npcColor = rCurrentNPC.GetNPCColorTintedByBuffs(npcColor);
  			if (type == 50) {
  				Vector2 zero = Vector2.Zero;
-@@ -18745,7 +_,7 @@
- 										Microsoft.Xna.Framework.Color alpha11 = rCurrentNPC.GetAlpha(npcColor);
- 										float num115 = 1f - (float)rCurrentNPC.life / (float)rCurrentNPC.lifeMax;
+@@ -18747,6 +_,8 @@
  										num115 *= num115;
--										if (getGoodWorld)
-+										if (getGoodWorld || (Main.masterModeReloaded && masterMode))
+ 										if (getGoodWorld)
  											num115 = 1f;
++										else if (Main.MMRChangesEnabled)
++											num115 *= 2;
  
  										alpha11.R = (byte)((float)(int)alpha11.R * num115);
+ 										alpha11.G = (byte)((float)(int)alpha11.G * num115);
 @@ -19113,7 +_,7 @@
  									else if (type == 389) {
  										mySpriteBatch.Draw(TextureAssets.GlowMask[34].Value, new Vector2(rCurrentNPC.position.X - screenPos.X + (float)(rCurrentNPC.width / 2) - (float)TextureAssets.Npc[type].Width() * rCurrentNPC.scale / 2f + halfSize.X * rCurrentNPC.scale, rCurrentNPC.position.Y - screenPos.Y + (float)rCurrentNPC.height - (float)TextureAssets.Npc[type].Height() * rCurrentNPC.scale / (float)npcFrameCount[type] + 4f + halfSize.Y * rCurrentNPC.scale + num37 + num36 + rCurrentNPC.gfxOffY), frame5, new Microsoft.Xna.Framework.Color(255, 255, 255, 0), rCurrentNPC.rotation, halfSize, rCurrentNPC.scale, spriteEffects, 0f);

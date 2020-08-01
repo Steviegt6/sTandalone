@@ -1,10 +1,12 @@
 --- src/tModLoader/Terraria/NPC.cs
 +++ src/tStandalone/Terraria/NPC.cs
-@@ -21,26 +_,11 @@
+@@ -21,26 +_,13 @@
  using Terraria.Localization;
  using Terraria.Utilities;
  using Terraria.WorldBuilding;
++
 -using Terraria.ModLoader;
++using Terraria.tStandalone;
  
  namespace Terraria
  {
@@ -179,7 +181,7 @@
  				damage = GetAttackDamage_ScaledByStrength(damage);
 +
 +				//Phase Three
-+				if (Main.masterModeReloaded && Main.masterMode) {
++				if (Main.MMRChangesEnabled) {
 +					if (this.ai[0] == 3f && this.life <= this.lifeMax / 5) {
 +						this.ai[0] = 4f;
 +						this.ai[1] = 0f;
@@ -284,7 +286,7 @@
  			}
  			else if (aiStyle == 15) {
 +				//Phase2
-+				bool isPhase2 = Main.masterModeReloaded && Main.masterMode && this.life < this.lifeMax / 2;
++				bool isPhase2 = Main.MMRChangesEnabled && this.life < this.lifeMax / 2;
  				float num236 = 1f;
  				bool flag8 = false;
  				bool flag9 = false;
@@ -507,11 +509,24 @@
  			}
  			else if (aiStyle == 54) {
  				crimsonBoss = whoAmI;
-+				if (Main.masterModeReloaded && Main.masterMode)
++				if (Main.MMRChangesEnabled)
 +					knockBackResist = 0f;
  				if (Main.netMode != 1 && localAI[0] == 0f) {
  					localAI[0] = 1f;
  					int brainOfCthuluCreepersCount = GetBrainOfCthuluCreepersCount();
+@@ -22560,6 +_,12 @@
+ 
+ 					dontTakeDamage = false;
+ 					TargetClosest();
++					if (Main.MMRChangesEnabled && Main.netMode != 1) {
++						foreach (Player player in Main.player) {
++							if (this.Distance(player.Center) <= tUtils.BlocksToPixels(200))
++								player.AddBuff(BuffID.TrueConfusion, 5);
++						}
++					}
+ 					Vector2 vector95 = new Vector2(base.Center.X, base.Center.Y);
+ 					float num839 = Main.player[target].Center.X - vector95.X;
+ 					float num840 = Main.player[target].Center.Y - vector95.Y;
 @@ -36276,27 +_,36 @@
  		}
  
@@ -521,7 +536,7 @@
 +			float segmentCount = 65f;
 +			if (Main.expertMode)
 +				segmentCount += 5f;
-+			if (Main.masterModeReloaded && Main.masterMode)
++			if (Main.MMRChangesEnabled)
 +				segmentCount *= 1.2f;
  
 -			return 70;
@@ -537,7 +552,7 @@
 -				return 65;
 +			if (gameModeData.IsExpertMode)
 +				segmentCount += 5f;
-+			if (Main.masterModeReloaded && Main.masterMode)
++			if (Main.MMRChangesEnabled)
 +				segmentCount *= 1.2f;
  
 -			return 70;
@@ -546,7 +561,7 @@
  
  		public static int GetBrainOfCthuluCreepersCount() {
 +			float creeperCount = 20;
-+			if (Main.masterModeReloaded && Main.masterMode)
++			if (Main.MMRChangesEnabled)
 +				creeperCount *= 1.5f;
  			if (Main.getGoodWorld)
 -				return 40;
@@ -561,7 +576,7 @@
  						netUpdate = true;
  						base.whoAmI = whoAmI;
  						alpha = 0;
-+						if (Main.masterModeReloaded && Main.masterMode) {
++						if (Main.MMRChangesEnabled) {
 +							Projectile.NewProjectile(base.Center, this.DirectionTo(Main.player[this.target].Center) * 8f, ProjectileID.CorruptedFlames, 20, 1f);
 +						}
  					}
@@ -571,7 +586,7 @@
  					num45 = 0.15f;
  				}
  
-+				if (Main.masterModeReloaded && Main.masterMode) {
++				if (Main.MMRChangesEnabled) {
 +					num44 = 16f;
 +					num45 = 0.175f;
 +				}

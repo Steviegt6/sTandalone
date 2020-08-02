@@ -38,7 +38,7 @@
  #endif
  	{
  		public delegate void OnPlayerSelected(PlayerFileData player);
-@@ -182,6 +_,29 @@
+@@ -182,6 +_,42 @@
  			public bool LanternNightActive;
  		}
  
@@ -58,11 +58,24 @@
 +
 +		public static float YellowtoWhite = 1f;
 +
++		public static SoundBank moddedSoundBank;
++		public static WaveBank moddedWaveBank;
++		public const int vanillaMaxMusic = 89;
++		public const int addedModdedTracks = 10;
++		public const int maxMusic = 99;
++
 +		#region TERRARIA_PLUS
 +		public static bool firstFractalRecipe = false;
 +		public static bool slowerMasterModeRarity = false;
 +		public static bool allAccessoriesInVanitySlots = false;
 +		#endregion TERRARIA_PLUS
++
++		#region MASTER_MODE_RELOADED
++		public static bool MMRChangesEnabled {
++			get { return masterModeReloaded && masterMode;  }
++		}
++
++		#endregion
 +		#endregion tStandalone
 +
  		private const string versionStringBecauseTheyreTheSame = "v1.4.0.5";
@@ -109,7 +122,7 @@
  		public static Ref<Effect> ScreenShaderRef = new Ref<Effect>();
  		public static Ref<Effect> PixelShaderRef = new Ref<Effect>();
  		public static Ref<Effect> TileShaderRef = new Ref<Effect>();
-@@ -300,12 +_,11 @@
+@@ -300,16 +_,14 @@
  		public static int dedServCount2;
  		public static bool superFast = false;
  		public const int offLimitBorderTiles = 40;
@@ -124,6 +137,10 @@
  		public const int maxGlowMasks = 301;
  		public const int maxExtras = 212;
  		public const int maxGoreTypes = 1269;
+-		public const int maxMusic = 89;
+ 		public const int MaxBannerTypes = 289;
+ 		public const int numArmorHead = 266;
+ 		public const int numArmorBody = 235;
 @@ -523,17 +_,17 @@
  		public static int buffScanAreaWidth = (maxScreenW + 800) / 16 - 1;
  		public static int buffScanAreaHeight = (maxScreenH + 800) / 16 - 1;
@@ -256,15 +273,19 @@
  		public static float demonTorch = 1f;
  		public static int demonTorchDir = 1;
  		public static float martianLight = 1f;
-@@ -852,7 +_,7 @@
+@@ -852,9 +_,9 @@
  		public static AudioEngine engine;
  		public static SoundBank soundBank;
  		public static WaveBank waveBank;
 -		public static Music[] music = new Music[89];
-+		public static Cue[] music = new Cue[89];
- 		public static bool[] musicNoCrossFade = new bool[89];
- 		public static float[] musicFade = new float[89];
++		public static Cue[] music = new Cue[maxMusic];
+-		public static bool[] musicNoCrossFade = new bool[89];
++		public static bool[] musicNoCrossFade = new bool[maxMusic];
+-		public static float[] musicFade = new float[89];
++		public static float[] musicFade = new float[maxMusic];
  		public static float musicVolume = 1f;
+ 		public static float ambientVolume = 1f;
+ 		public static float soundVolume = 1f;
 @@ -996,7 +_,7 @@
  		public static Sign[] sign = new Sign[1000];
  		public static int[] itemFrame = new int[401];
@@ -1041,14 +1062,30 @@
  				projFrames[j] = 1;
  			}
  
-@@ -6935,6 +_,7 @@
- 			debuff[215] = true;
- 			debuff[320] = true;
- 			debuff[321] = true;
+@@ -7281,6 +_,9 @@
+ 			lightPet[294] = true;
+ 			lightPet[298] = true;
+ 			lightPet[299] = true;
++
++			InitializeModdedBuffs();
++
+ 			tileFlame[4] = true;
+ 			tileFlame[33] = true;
+ 			tileFlame[34] = true;
+@@ -8253,6 +_,13 @@
+ 			wallDungeon[99] = true;
+ 		}
+ 
++		private static void InitializeModdedBuffs() {
++			//True Confusion
 +			debuff[BuffID.TrueConfusion] = true;
- 			pvpBuff[20] = true;
- 			pvpBuff[24] = true;
- 			pvpBuff[31] = true;
++			buffNoTimeDisplay[BuffID.TrueConfusion] = true;
++			//
++		}
++
+ 		private void ClientInitialize() {
+ 			MessageBuffer.OnTileChangeReceived += OnTileChangeEvent;
+ 			LanguageManager.Instance.OnLanguageChanged += delegate {
 @@ -8290,6 +_,8 @@
  			base.GraphicsDevice.DeviceResetting += GraphicsDeviceLost;
  			if (_needsLanguageSelect)
@@ -1086,32 +1123,52 @@
  			CacheSupportedDisplaySizes();
  			ContentSamples.RebuildItemCreativeSortingIDsAfterRecipesAreSetUp();
  			ContentSamples.CommonlyUsedContentSamples.PrepareAfterEverythingElseLoaded();
-@@ -8457,9 +_,9 @@
+@@ -8457,22 +_,34 @@
  
  		private void LoadMusic() {
  			if (SoundEngine.IsAudioSupported) {
 -				engine = new AudioEngine(Path.Combine(Main.instance.Content.RootDirectory, "TerrariaMusic.xgs"));
 -				soundBank = new SoundBank(engine, Path.Combine(Main.instance.Content.RootDirectory, "Sound Bank.xsb"));
 -				waveBank = new WaveBank(engine, Path.Combine(Main.instance.Content.RootDirectory, "Wave Bank.xwb"));
+-				for (int i = 1; i < 89; i++) {
+-					music[i] = soundBank.GetCue("Music_" + i);
 +				engine = new AudioEngine("Content\\TerrariaMusic.xgs");
 +				soundBank = new SoundBank(engine, "Content\\Sound Bank.xsb");
 +				waveBank = new WaveBank(engine, "Content\\Wave Bank.xwb");
- 				for (int i = 1; i < 89; i++) {
- 					music[i] = soundBank.GetCue("Music_" + i);
++
++				moddedSoundBank = new SoundBank(engine, "Content\\tStandalone Sound Bank.xsb");
++				moddedWaveBank = new WaveBank(engine, "Content\\tStandalone Wave Bank.xwb");
++				for (int i = 1; i < vanillaMaxMusic; i++) {
++					if (i < vanillaMaxMusic)
++						music[i] = soundBank.GetCue("Music_" + i);
++					else
++						music[i] = moddedSoundBank.GetCue("Music_" + i);
  				}
-@@ -8467,9 +_,9 @@
+ 			}
  		}
  
  		private IEnumerator LoadMusic_InSteps() {
 -			engine = new AudioEngine(Path.Combine(Main.instance.Content.RootDirectory, "TerrariaMusic.xgs"));
 -			soundBank = new SoundBank(engine, Path.Combine(Main.instance.Content.RootDirectory, "Sound Bank.xsb"));
 -			waveBank = new WaveBank(engine, Path.Combine(Main.instance.Content.RootDirectory, "Wave Bank.xwb"));
+-			yield return null;
+-			for (int i = 1; i < 89; i++) {
+-				music[i] = soundBank.GetCue("Music_" + i);
 +			engine = new AudioEngine("Content\\TerrariaMusic.xgs");
 +			soundBank = new SoundBank(engine, "Content\\Sound Bank.xsb");
 +			waveBank = new WaveBank(engine, "Content\\Wave Bank.xwb");
- 			yield return null;
- 			for (int i = 1; i < 89; i++) {
- 				music[i] = soundBank.GetCue("Music_" + i);
++			yield return null;
++			moddedSoundBank = new SoundBank(engine, "Content\\tStandalone Sound Bank.xsb");
++			moddedWaveBank = new WaveBank(engine, "Content\\tStandalone Wave Bank.xwb");
++			yield return null;
++			for (int i = 1; i < maxMusic; i++) {
++				if (i < vanillaMaxMusic)
++					music[i] = soundBank.GetCue("Music_" + i);
++				else
++					music[i] = moddedSoundBank.GetCue("Music_" + i);
+ 				yield return null;
+ 			}
+ 		}
 @@ -8885,8 +_,6 @@
  
  					if (SceneMetrics.ActiveMusicBox == 84)
@@ -1126,17 +1183,26 @@
  					}
  
 -					if (NPC.MoonLordCountdown == 1 && curMusic >= 1 && curMusic < music.Length)
-+					if (NPC.MoonLordCountdown == 1 && curMusic >= 1 && curMusic < 89)
++					if (NPC.MoonLordCountdown == 1 && curMusic >= 1 && curMusic < maxMusic)
  						musicFade[curMusic] = 0f;
  				}
  
 -				for (int k = 1; k < music.Length; k++) {
-+				for (int k = 1; k < 89; k++) {
++				for (int k = 1; k < maxMusic; k++) {
 -					if (music[k] == null)
 -						continue; // Race condition, Music is resized during load.
  					float num2 = musicFade[k] * musicVolume * num;
  					if (k >= 62 && k <= 88) {
  						num2 *= 0.9f;
+@@ -8925,6 +_,8 @@
+ 							num2 = 1f;
+ 					}
+ 
++					//Allows for tStandalone music to play properly at correct volume
++					AudioCategory musicCategory = engine.GetCategory("Music");
+ 					switch (k) {
+ 						case 28: {
+ 								float num6 = 0.5f;
 @@ -8945,7 +_,7 @@
  									}
  
@@ -1155,9 +1221,31 @@
  										music[k].Play();
  										music[k].SetVariable("Volume", musicFade[k] * ambientVolume * num4);
  										continue;
-@@ -9054,10 +_,8 @@
+@@ -9042,8 +_,15 @@
+ 									_musicReplayDelay = rand.Next(14400, 21601);
+ 
+ 								music[k].Stop(AudioStopOptions.Immediate);
++								if (k < vanillaMaxMusic)
+-								music[k] = soundBank.GetCue("Music_" + k);
++									music[k] = soundBank.GetCue("Music_" + k);
++								else
++									music[k] = moddedSoundBank.GetCue("Music_" + k);
+ 								music[k].SetVariable("Volume", num2);
++								if (k >= vanillaMaxMusic)
++									musicCategory.SetVolume(num2 * 0.5f);
++								else
++									musicCategory.SetVolume(1f);
+ 								music[k].Play();
+ 							}
+ 						}
+@@ -9053,11 +_,13 @@
+ 								musicFade[k] = 1f;
  
  							music[k].SetVariable("Volume", num2);
++							if (k >= vanillaMaxMusic)
++								musicCategory.SetVolume(num2 * 0.5f);
++							else
++								musicCategory.SetVolume(1f);
  						}
 -						music[k].CheckBuffer();
  					}
@@ -1167,6 +1255,17 @@
  						if (musicFade[curMusic] > 0.25f)
  							musicFade[k] -= 0.005f;
  						else if (curMusic == 0)
+@@ -9070,6 +_,10 @@
+ 						}
+ 						else {
+ 							music[k].SetVariable("Volume", num2);
++							if (k >= vanillaMaxMusic)
++								musicCategory.SetVolume(num2 * 0.5f);
++							else
++								musicCategory.SetVolume(1f);
+ 						}
+ 					}
+ 					else {
 @@ -9209,22 +_,17 @@
  							break;
  					}
@@ -1192,6 +1291,193 @@
  						switch (num2) {
  							case 1:
  								flag = true;
+@@ -9457,8 +_,9 @@
+ 			bool flag15 = false;
+ 			bool flag16 = LocalPlayer.townNPCs > 2f;
+ 			bool flag17 = slimeRain;
++			bool speedUpActive = false;
+ 			float num = 0f;
+-			for (int i = 0; i < 89; i++) {
++			for (int i = 0; i < maxMusic; i++) {
+ 				if (musicFade[i] > num) {
+ 					num = musicFade[i];
+ 					if (num == 1f)
+@@ -9572,6 +_,115 @@
+ 					if (num3 == 0 && npc[j].boss)
+ 						num3 = 1;
+ 
++					if (Main.MMRChangesEnabled) {
++						for (int npcIndex = 0; npcIndex < 200; npcIndex++) {
++							if (!npc[j].active)
++								continue;
++							NPC curNPC = npc[npcIndex];
++							bool isHalfLife = curNPC.life < curNPC.lifeMax / 2;
++							switch (curNPC.type) {
++								//Boss 1
++								case NPCID.EyeofCthulhu:
++									if (curNPC.ai[0] > 0) {
++										num3 = 1;
++										speedUpActive = true;
++									}
++									break;
++								case NPCID.KingSlime:
++								case NPCID.SkeletronHead:
++								case NPCID.SkeletronPrime:
++									if (isHalfLife) {
++										num3 = 1;
++										speedUpActive = true;
++									}
++									break;
++								//Boss 2
++								case NPCID.WallofFlesh:
++								case NPCID.WallofFleshEye:
++									if (isHalfLife) {
++										num3 = 2;
++										speedUpActive = true;
++									}
++									break;
++								case NPCID.Retinazer:
++								case NPCID.Spazmatism:
++									if (curNPC.ai[0] > 0) {
++										num3 = 2;
++										speedUpActive = true;
++									}
++									break;
++								//Boss 3
++								case NPCID.BrainofCthulhu:
++									if (curNPC.ai[0] < 0) {
++										num3 = 3;
++										speedUpActive = true;
++									}
++									break;
++								case NPCID.TheDestroyer:
++								case NPCID.TheDestroyerBody:
++								case NPCID.TheDestroyerTail:
++									if (isHalfLife) {
++										num3 = 3;
++										speedUpActive = true;
++									}
++									break;
++								//Boss 4
++								case NPCID.GolemHeadFree:
++									num3 = 4;
++									speedUpActive = true;
++									break;
++								case NPCID.CultistBoss:
++									if (isHalfLife) {
++										num3 = 4;
++										speedUpActive = true;
++									}
++									break;
++								//Boss 5 (Queen Bee)
++								case NPCID.QueenBee:
++									if (isHalfLife) {
++										num3 = 5;
++										speedUpActive = true;
++									}
++									break;
++								//Queen Slime
++								case NPCID.QueenSlimeBoss:
++									if (isHalfLife) {
++										num3 = 13;
++										speedUpActive = true;
++									}
++									break;
++								//Plantera
++								case NPCID.Plantera:
++									if (isHalfLife) {
++										num3 = 6;
++										speedUpActive = true;
++									}
++									break;
++								//Empress of Light
++								case NPCID.HallowBoss:
++									if (isHalfLife) {
++										num3 = 14;
++										speedUpActive = true;
++									}
++									break;
++								//Duke Fishron
++								case NPCID.DukeFishron:
++									if (curNPC.ai[0] >= 4) {
++										num3 = 15;
++										speedUpActive = true;
++									}
++									break;
++								//Moon Lord
++								case NPCID.MoonLordCore:
++									if (!curNPC.dontTakeDamage) {
++										num3 = 7;
++										speedUpActive = true;
++									}
++									break;
++							}
++						}
++					}
++
+ 					if (num3 == 0)
+ 						continue;
+ 
+@@ -9667,7 +_,8 @@
+ 				newMusic = 13;
+ 			}
+ 			else if (flag7) {
+-				newMusic = 38;
++				//Moon Lord
++				newMusic = speedUpActive ? 98 : 38;
+ 			}
+ 			else if (flag9) {
+ 				newMusic = 37;
+@@ -9676,31 +_,40 @@
+ 				newMusic = 34;
+ 			}
+ 			else if (flag6) {
+-				newMusic = 24;
++				//Plantera
++				newMusic = speedUpActive ? 95 : 24;
+ 			}
+ 			else if (flag14) {
+-				newMusic = 57;
++				//Empress of Light
++				newMusic = speedUpActive ? 96 : 57;
+ 			}
+ 			else if (flag15) {
+-				newMusic = 58;
++				//Duke Fishron
++				newMusic = speedUpActive ? 97 : 58;
+ 			}
+ 			else if (flag2) {
+-				newMusic = 12;
++				//Boss 2
++				newMusic = speedUpActive ? 90 : 12;
+ 			}
+ 			else if (flag) {
+-				newMusic = 5;
++				//Boss 1
++				newMusic = speedUpActive ? 89 : 5;
+ 			}
+ 			else if (flag3) {
+-				newMusic = 13;
++				//Boss 3
++				newMusic = speedUpActive ? 91 : 13;
+ 			}
+ 			else if (flag4) {
+-				newMusic = 17;
++				//Boss 4
++				newMusic = speedUpActive ? 93 : 17;
+ 			}
+ 			else if (flag5) {
+-				newMusic = 25;
++				//Boss 5 (Queen Bee)
++				newMusic = speedUpActive ? 92 : 25;
+ 			}
+ 			else if (flag13) {
+-				newMusic = 56;
++				//Queen Slime
++				newMusic = speedUpActive ? 94 : 56;
+ 			}
+ 			else if (flag8) {
+ 				newMusic = 35;
 @@ -12428,17 +_,6 @@
  					Main.OnEnginePreload();
  			}
@@ -2162,15 +2448,15 @@
  			npcColor = rCurrentNPC.GetNPCColorTintedByBuffs(npcColor);
  			if (type == 50) {
  				Vector2 zero = Vector2.Zero;
-@@ -18745,7 +_,7 @@
- 										Microsoft.Xna.Framework.Color alpha11 = rCurrentNPC.GetAlpha(npcColor);
- 										float num115 = 1f - (float)rCurrentNPC.life / (float)rCurrentNPC.lifeMax;
+@@ -18747,6 +_,8 @@
  										num115 *= num115;
--										if (getGoodWorld)
-+										if (getGoodWorld || (Main.masterModeReloaded && masterMode))
+ 										if (getGoodWorld)
  											num115 = 1f;
++										else if (Main.MMRChangesEnabled)
++											num115 *= 2;
  
  										alpha11.R = (byte)((float)(int)alpha11.R * num115);
+ 										alpha11.G = (byte)((float)(int)alpha11.G * num115);
 @@ -19113,7 +_,7 @@
  									else if (type == 389) {
  										mySpriteBatch.Draw(TextureAssets.GlowMask[34].Value, new Vector2(rCurrentNPC.position.X - screenPos.X + (float)(rCurrentNPC.width / 2) - (float)TextureAssets.Npc[type].Width() * rCurrentNPC.scale / 2f + halfSize.X * rCurrentNPC.scale, rCurrentNPC.position.Y - screenPos.Y + (float)rCurrentNPC.height - (float)TextureAssets.Npc[type].Height() * rCurrentNPC.scale / (float)npcFrameCount[type] + 4f + halfSize.Y * rCurrentNPC.scale + num37 + num36 + rCurrentNPC.gfxOffY), frame5, new Microsoft.Xna.Framework.Color(255, 255, 255, 0), rCurrentNPC.rotation, halfSize, rCurrentNPC.scale, spriteEffects, 0f);

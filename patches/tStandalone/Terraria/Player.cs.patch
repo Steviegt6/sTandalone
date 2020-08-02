@@ -958,7 +958,7 @@
  				oldLuckPotion = luckPotion;
  			}
 +
-+			//PostUpdateBuffs();
++			PostUpdateBuffs();
 +		}
 +
 +		private void PostUpdateBuffs() {
@@ -1550,19 +1550,19 @@
  				velocity.Y -= num * gravDir;
  				if (gravDir == 1f) {
  					if (velocity.Y > 0f)
-@@ -15324,6 +_,12 @@
+@@ -15475,6 +_,12 @@
+ 				else if (!frozen && Main.expertMode && Main.rand.Next(25) == 0)
+ 					AddBuff(47, 60);
+ 			}
++
++			ModdedOnNPCHitPlayer(npc);
++		}
++
++		private void ModdedOnNPCHitPlayer(NPC npc) {
++
  		}
  
- 		public void StatusFromNPC(NPC npc) {
-+			//tSTandalone StatusFromNPC
-+			#region tStandalone
-+			if (Main.masterModeReloaded && Main.masterMode && npc.type == NPCID.BrainofCthulhu)
-+				AddBuff(BuffID.TrueConfusion, 120);
-+			#endregion tStandalone
-+
- 			if (Main.expertMode && ((npc.type == 266 && Main.rand.Next(3) == 0) || npc.type == 267)) {
- 				int num = Main.rand.Next(9);
- 				if (num == 2 || num == 4)
+ 		public void GrappleMovement() {
 @@ -15526,7 +_,7 @@
  						Position.Y = projectile.position.Y + (float)(projectile.height / 2) - (float)(height / 2);
  						RemoveAllGrapplingHooks();

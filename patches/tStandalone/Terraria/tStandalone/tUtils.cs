@@ -17,5 +17,9 @@ namespace Terraria.tStandalone
 		public static int BlocksToPixels(int blocks) {
 			return (blocks * 16);
 		}
+
+		public static bool NextBool() {
+			return Main.rand.Next(2) == 0;
+		}
 	}
 }

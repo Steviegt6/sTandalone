@@ -1221,7 +1221,7 @@
  										music[k].Play();
  										music[k].SetVariable("Volume", musicFade[k] * ambientVolume * num4);
  										continue;
-@@ -9042,8 +_,15 @@
+@@ -9042,8 +_,12 @@
  									_musicReplayDelay = rand.Next(14400, 21601);
  
  								music[k].Stop(AudioStopOptions.Immediate);
@@ -1231,21 +1231,15 @@
 +								else
 +									music[k] = moddedSoundBank.GetCue("Music_" + k);
  								music[k].SetVariable("Volume", num2);
-+								if (k >= vanillaMaxMusic)
-+									musicCategory.SetVolume(num2 * 0.5f);
-+								else
-+									musicCategory.SetVolume(1f);
++								musicCategory.SetVolume(num2 * 0.33f);
  								music[k].Play();
  							}
  						}
-@@ -9053,11 +_,13 @@
+@@ -9053,11 +_,10 @@
  								musicFade[k] = 1f;
  
  							music[k].SetVariable("Volume", num2);
-+							if (k >= vanillaMaxMusic)
-+								musicCategory.SetVolume(num2 * 0.5f);
-+							else
-+								musicCategory.SetVolume(1f);
++							musicCategory.SetVolume(num2 * 0.33f);
  						}
 -						music[k].CheckBuffer();
  					}
@@ -1255,14 +1249,11 @@
  						if (musicFade[curMusic] > 0.25f)
  							musicFade[k] -= 0.005f;
  						else if (curMusic == 0)
-@@ -9070,6 +_,10 @@
+@@ -9070,6 +_,7 @@
  						}
  						else {
  							music[k].SetVariable("Volume", num2);
-+							if (k >= vanillaMaxMusic)
-+								musicCategory.SetVolume(num2 * 0.5f);
-+							else
-+								musicCategory.SetVolume(1f);
++							musicCategory.SetVolume(num2 * 0.33f);
  						}
  					}
  					else {
@@ -2656,6 +2647,127 @@
  					spriteBatch.Draw(TextureAssets.Dust.Value, dust.position - screenPosition, dust.frame, newColor, dust.rotation, new Vector2(4f, 4f), scale, SpriteEffects.None, 0f);
  					if (dust.color.PackedValue != 0) {
  						Microsoft.Xna.Framework.Color color6 = dust.GetColor(newColor);
+@@ -28200,6 +_,10 @@
+ 		}
+ 
+ 		private static void HelpText() {
++			if (Main.MMRChangesEnabled && tUtils.NextBool()) {
++				MMRHelpText();
++				return;
++			}
+ 			bool flag = false;
+ 			if (player[myPlayer].statLifeMax > 100)
+ 				flag = true;
+@@ -28369,6 +_,7 @@
+ 			}
+ 
+ 			object obj = Lang.CreateDialogSubstitutionObject();
++
+ 			while (true) {
+ 				helpText++;
+ 				if (Language.Exists("GuideHelpText.Help_" + helpText)) {
+@@ -28886,6 +_,101 @@
+ 			npcChatText = Language.GetTextValue("GuideHelpTextSpecific.Help_1158");
+ 		}
+ 
++		private static void MMRHelpText() {
++			bool isClothierAlive = false;
++			int clotherIndex = 0;
++			bool isWitchDoctorAlive = false;
++			int witchDoctorIndex = 0;
++			for (int npcIndex = 0; npcIndex < 200; npcIndex++) {
++				if (npc[npcIndex].active) {
++					if (npc[npcIndex].type == NPCID.WitchDoctor) {
++						isWitchDoctorAlive = true;
++						witchDoctorIndex = npcIndex;
++					}
++					if (npc[npcIndex].type == NPCID.Clothier) {
++						isClothierAlive = true;
++						clotherIndex = npcIndex;
++					}
++					if (isClothierAlive && isWitchDoctorAlive)
++						break;
++				}
++			}
++			if (!NPC.downedSlimeKing) {
++				npcChatText = Language.GetTextValue("GuideMMRHelp.KingSlimeTip");
++				return;
++			}
++			if (!NPC.downedBoss1) {
++				npcChatText = Language.GetTextValue("GuideMMRHelp.EyeOfCthulhuTip");
++				return;
++			}
++			if (!NPC.downedBoss2 && WorldGen.crimson) {
++				npcChatText = Language.GetTextValue("GuideMMRHelp.BrainOfCthulhuTip");
++				return;
++			}
++			else if (!NPC.downedBoss2) {
++				npcChatText = Language.GetTextValue("GuideMMRHelp.EaterOfWorldsTip");
++				return;
++			}
++			if (!NPC.downedQueenBee) {
++				npcChatText = Language.GetTextValue("GuideMMRHelp.QueenBeeTip");
++				return;
++			}
++			if (!NPC.downedBoss3) {
++				npcChatText = Language.GetTextValue("GuideMMRHelp.SkeletronTip");
++				return;
++			}
++			if (!Main.hardMode) {
++				npcChatText = Language.GetTextValue("GuideMMRHelp.WallOfFleshTip");
++				return;
++			}
++			if (!NPC.downedQueenSlime) {
++				npcChatText = Language.GetTextValue("GuideMMRHelp.QueenSlimeTip");
++				return;
++			}
++			if (!NPC.downedMechBoss2) {
++				npcChatText = Language.GetTextValue("GuideMMRHelp.TheTwinsTip");
++				return;
++			}
++			if (!NPC.downedMechBoss1) {
++				npcChatText = Language.GetTextValue("GuideMMRHelp.TheDestroyerTip");
++				return;
++			}
++			if (!NPC.downedMechBoss3) {
++				if (isClothierAlive)
++					npcChatText = Language.GetTextValueWith("GuideMMRHelp.SkeletronPrimeTip1", npc[clotherIndex].GivenOrTypeName);
++				else
++					npcChatText = Language.GetTextValue("GuideMMRHelp.SkeletronPrimeTip2");
++				return;
++			}
++			if (!NPC.downedPlantBoss) {
++				npcChatText = Language.GetTextValue("GuideMMRHelp.PlanteraTip");
++				return;
++			}
++			if (!NPC.downedGolemBoss) {
++				if (isWitchDoctorAlive)
++					npcChatText = Language.GetTextValueWith("GuideMMRHelp.GolemTip1", npc[witchDoctorIndex].GivenOrTypeName);
++				else
++					npcChatText = Language.GetTextValue("GuideMMRHelp.GolemTip2");
++				return;
++			}
++			if (!NPC.downedEmpressOfLight) {
++				npcChatText = Language.GetTextValue("GuideMMRHelp.EmpressOfLightTip");
++				return;
++			}
++			if (!NPC.downedAncientCultist) {
++				npcChatText = Language.GetTextValue("GuideMMRHelp.LunaticCultistTip");
++				return;
++			}
++			if (!NPC.downedTowers) {
++				npcChatText = Language.GetTextValue("GuideMMRHelp.PillarTip");
++				return;
++			}
++			if (!NPC.downedMoonlord) {
++				npcChatText = Language.GetTextValue("GuideMMRHelp.MoonLordTip");
++				return;
++			}
++		}
++
+ 		protected void GUIChatDrawInner() {
+ 			if (player[myPlayer].talkNPC < 0 && player[myPlayer].sign == -1) {
+ 				npcChatText = "";
 @@ -28962,16 +_,12 @@
  			string focusText = "";
  			string focusText2 = "";

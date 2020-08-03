@@ -22,13 +22,10 @@ TODO List:
 	-General balance changes to the mode as a whole
 	-Playtesting of the mode (whenever we get a majority of this stuff finished)
 *General:
-	-Allowing loading of .png files instead of .xnb files (pbone)
 	-New MenuMode when you are reinitializing your client (Stevie)
-	-Allowing modded NPCs/Items/etc to be added more easily
 	-QoL changes that haven't already been implemented (if any, don't have any on mind atm)
 	-Resource pack support (not sure if possible due to tmod patcher)
 	-Make "Host & Play" button run the modded TerrariaServer.exe, not the vanilla one
 		^Either that, or prevent modded players from joining vanilla servers (or both)
 	-Localization for modded text
 	-Discord Rich Presence compatability
-	?Repo cleanup (lots of files from the TML repo that can be removed, i think)

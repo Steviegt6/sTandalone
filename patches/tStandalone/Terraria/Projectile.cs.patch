@@ -1,6 +1,6 @@
 --- src/tModLoader/Terraria/Projectile.cs
 +++ src/tStandalone/Terraria/Projectile.cs
-@@ -20,7 +_,6 @@
+@@ -20,28 +_,15 @@
  using Terraria.ID;
  using Terraria.Localization;
  using Terraria.Physics;
@@ -8,7 +8,9 @@
  using Terraria.Utilities;
  using Terraria.WorldBuilding;
  
-@@ -28,20 +_,6 @@
++using Terraria.tStandalone;
++
+ namespace Terraria
  {
  	public class Projectile : Entity
  	{
@@ -51,7 +53,7 @@
  		public int maxPenetrate = 1;
  		public int identity;
  		public float light;
-@@ -155,12 +_,7 @@
+@@ -155,12 +_,13 @@
  		private static List<int> _ai156_blacklistedTargets = new List<int>();
  		private static float[] _CompanionCubeScreamCooldown = new float[255];
  
@@ -61,6 +63,12 @@
 -			get => nameOverride ?? Lang.GetProjectileName(type).Value;
 -			set => nameOverride = value;
 -		}
++		#region tStandalone Variables
++		public Vector2 originalPosition;
++		public static int maxModdedAI = 4;
++		public float[] moddedAI = new float[maxModdedAI];
++		#endregion
++
 +		public string Name => Lang.GetProjectileName(type).Value;
  
  		public bool WipableTurret {
@@ -115,13 +123,25 @@
  			ownerHitCheckDistance = 1000f;
  			counterweight = false;
  			sentry = false;
-@@ -7867,8 +_,32 @@
+@@ -7867,14 +_,57 @@
  				hostile = true;
  				tileCollide = false;
  			}
 -
 -			ProjectileLoader.SetDefaults(this);
-+			else if (type == ProjectileID.KingSlimeShockwave) {
++			else if (type >= 950) {
++				ModdedSetDefaults(Type);
++			}
++			else
++				active = false;;
+ 
+ 			width = (int)((float)width * scale);
+ 			height = (int)((float)height * scale);
+ 			maxPenetrate = penetrate;
+ 		}
+ 
++		private void ModdedSetDefaults(int Type) {
++			if (type == ProjectileID.KingSlimeShockwave) {
 +				hostile = true;
 +				width = 288;
 +				height = 48;
@@ -144,12 +164,25 @@
 +				timeLeft = 60 * 8;
 +				aiStyle = 185;
 +			}
-+			else {
-+				active = false;
++			if (type == ProjectileID.SmarterCursedFlames) {
++				width = 16;
++				height = 16;
++				aiStyle = 186;
++				timeLeft = tUtils.SecondsToTicks(20);
++				hostile = true;
++				light = 0.8f;
++				alpha = 100;
++				magic = true;
++				penetrate = -1;
++				scale = 0.9f;
++				scale = 1.3f;
++				tileCollide = false;
 +			}
- 
- 			width = (int)((float)width * scale);
- 			height = (int)((float)height * scale);
++		}
++
+ 		private void DefaultToWhip() {
+ 			width = 18;
+ 			height = 18;
 @@ -7901,7 +_,6 @@
  			return result;
  		}
@@ -158,6 +191,14 @@
  		public static int NewProjectile(Vector2 position, Vector2 velocity, int Type, int Damage, float KnockBack, int Owner = 255, float ai0 = 0f, float ai1 = 0f) => NewProjectile(position.X, position.Y, velocity.X, velocity.Y, Type, Damage, KnockBack, Owner, ai0, ai1);
  
  		public static int FindOldestProjectile() {
+@@ -7942,6 +_,7 @@
+ 			projectile.gfxOffY = 0f;
+ 			projectile.stepSpeed = 1f;
+ 			projectile.wet = Collision.WetCollision(projectile.position, projectile.width, projectile.height);
++			projectile.originalPosition = projectile.position;
+ 			if (projectile.ignoreWater)
+ 				projectile.wet = false;
+ 
 @@ -7981,7 +_,7 @@
  				projectile.ai[1] = projectile.position.Y;
  			}
@@ -516,12 +557,30 @@
  			if (aiStyle == 1) {
  				AI_001();
  			}
-@@ -25519,6 +_,19 @@
+@@ -25519,6 +_,37 @@
  			else if (aiStyle == 184) {
  				AI_184_BadTorchLuck();
  			}
 +			else if (aiStyle == 185)
 +				AI_185_CorruptedFlames();
++			else if (aiStyle == 186) {
++				SmarterCursedFlamesAI();
++			}
++		}
++
++		private void SmarterCursedFlamesAI() {
++			int cursedDust = Dust.NewDust(new Vector2(base.position.X + base.velocity.X, base.position.Y + base.velocity.Y), base.width, base.height, 75, base.velocity.X, base.velocity.Y, 100, default(Color), 3f * scale);
++			Main.dust[cursedDust].noGravity = true;
++			if (moddedAI[0] == 1f) {
++				Vector2 circleCenter = new Vector2(this.ai[0], this.ai[1]);
++				if (++moddedAI[1] <= 120) {
++					this.velocity = this.DirectionTo(circleCenter) * 12f;
++				}
++				else if (moddedAI[1] > 120 && moddedAI[2] == 0f) {
++					this.velocity = this.DirectionTo(originalPosition) * 12f;
++					moddedAI[2] = 1f;
++				}
++			}
 +		}
 +
 +		private void AI_185_CorruptedFlames() {

@@ -58,7 +58,7 @@
 -		}
 +		public const short KingSlimeShockwave = 950;
 +		public const short CorruptedFlames = 951;
-+		public const short Count = 952;
-+		public const short VanillaCount = 950;
++		public const short SmarterCursedFlames = 952;
++		public const short Count = 953;
  	}
  }

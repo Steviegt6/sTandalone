@@ -1,0 +1,11 @@
+--- src/tModLoader/Terraria/Localization/Content/en-US/Projectiles.json
++++ src/tStandalone/Terraria/Localization/Content/en-US/Projectiles.json
+@@ -879,5 +_,8 @@
+ 		"FlamingMace": "Flaming Mace",
+ 		"StardustPunch": "Stardust Guardian",
+ 		"TorchGod": "The Torch God",
++		"KingSlimeShockwave": "King Slime Slam",
++		"CorruptedFlames": "Corrupted Flames",
++		"SmarterCursedFlames": "Cursed Flames"
+ 	}
+ }

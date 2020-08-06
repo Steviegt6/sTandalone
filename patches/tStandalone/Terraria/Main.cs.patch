@@ -2599,16 +2599,19 @@
  			}
  		}
  
-@@ -27574,7 +_,7 @@
+@@ -27573,8 +_,10 @@
+ 				if (projectile[i].type == 673 || projectile[i].type == 674 || projectile[i].type == 691 || projectile[i].type == 692 || projectile[i].type == 693 || projectile[i].type == 923)
  					DrawCacheProjsBehindNPCs.Add(i);
  
++				AddModdedProjectilesBehindNPCs(i);
++
  				if (projectile[i].type != 636 && projectile[i].type != 598)
 -					goto PostProjDrawCache;
 +					continue;
  
  				bool flag = true;
  				if (projectile[i].ai[0] == 1f) {
-@@ -27591,9 +_,6 @@
+@@ -27591,10 +_,12 @@
  
  				if (flag)
  					DrawCacheProjsBehindProjectiles.Add(i);
@@ -2616,8 +2619,14 @@
 -				PostProjDrawCache:
 -				ProjectileLoader.DrawBehind(projectile[i], i, DrawCacheProjsBehindNPCsAndTiles, DrawCacheProjsBehindNPCs, DrawCacheProjsBehindProjectiles, DrawCacheProjsOverWiresUI);
  			}
++		}
++
++		private void AddModdedProjectilesBehindNPCs(int projectileIndex) {
++			if (projectile[projectileIndex].type == ProjectileID.SmarterCursedFlames)
++				DrawCacheProjsBehindNPCs.Add(projectileIndex);
  		}
  
+ 		protected void DrawCachedNPCs(List<int> npcCache, bool behindTiles) {
 @@ -28019,15 +_,11 @@
  			if (num2 != -1)
  				spriteBatch.Draw(TextureAssets.GlowMask[num2].Value, vector2, frame, new Microsoft.Xna.Framework.Color(250, 250, 250, item.alpha), num, vector, scale, SpriteEffects.None, 0f);

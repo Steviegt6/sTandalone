@@ -46,6 +46,16 @@
  		public bool midas;
  		public bool ichor;
  		public bool onFire;
+@@ -222,6 +_,9 @@
+ 		public int directionY = 1;
+ 		public int type;
+ 		public float[] ai = new float[maxAI];
++
++		public float[] moddedAI = new float[maxAI]; //I need more ai
++
+ 		public float[] localAI = new float[maxAI];
+ 		public int aiAction;
+ 		public int aiStyle;
 @@ -664,7 +_,7 @@
  		public static void UpdateFoundActiveNPCs() {
  			for (int i = 0; i < 200; i++) {
@@ -136,6 +146,30 @@
  				buffImmune[l] = false;
  			}
  
+@@ -4870,7 +_,10 @@
+ 				aiStyle = 30;
+ 				defense = 10;
+ 				damage = 45;
++				if (Main.MMRChangesEnabled)
++					lifeMax = 45000; //Twins will "share" a health pool in MMR
++				else
+-				lifeMax = 20000;
++					lifeMax = 20000;
+ 				HitSound = SoundID.NPCHit1;
+ 				DeathSound = SoundID.NPCDeath14;
+ 				knockBackResist = 0f;
+@@ -4887,7 +_,10 @@
+ 				aiStyle = 31;
+ 				defense = 10;
+ 				damage = 50;
++				if (Main.MMRChangesEnabled)
++					lifeMax = 45000; //Twins will "share" a health pool in MMR
++				else
+-				lifeMax = 23000;
++					lifeMax = 23000;
+ 				HitSound = SoundID.NPCHit1;
+ 				DeathSound = SoundID.NPCDeath14;
+ 				knockBackResist = 0f;
 @@ -10910,7 +_,7 @@
  
  				noGravity = true;
@@ -505,6 +539,684 @@
  						num258 = 535;
  
  					int num259 = NewNPC(x, y, num258);
+@@ -17437,8 +_,24 @@
+ 				Lighting.AddLight((int)(base.position.X + (float)(width / 2)) / 16, (int)(base.position.Y + (float)(height / 2)) / 16, 0.3f, 0.2f, 0.1f);
+ 			}
+ 			else if (aiStyle == 30) {
+-				if (target < 0 || target == 255 || Main.player[target].dead || !Main.player[target].active)
++				if (target < 0 || target == 255 || Main.player[target].dead || !Main.player[target].active && this.ai[1] != 2f)
+ 					TargetClosest();
++
++				int spazbudIndex = FindFirstNPC(NPCID.Spazmatism);
++
++				//Twins share health pool in MMR
++				if (!Main.player[target].dead && Main.MMRChangesEnabled) {
++					if (Main.netMode != 1 && spazbudIndex != -1 && this.life > Main.npc[spazbudIndex].life) {
++						NPC spazmatism = Main.npc[spazbudIndex];
++						int damage = this.life - spazmatism.life;
++						this.StrikeNPCNoInteraction(damage, 0, 0);
++						netUpdate = true;
++					}
++					else if (Main.netMode != 1 && spazbudIndex == -1) {
++						this.StrikeNPCNoInteraction(this.life, 0, 0);
++						netUpdate = true;
++					}
++				}
+ 
+ 				bool dead2 = Main.player[target].dead;
+ 				float num397 = base.position.X + (float)(width / 2) - Main.player[target].position.X - (float)(Main.player[target].width / 2);
+@@ -17450,29 +_,31 @@
+ 					num399 -= 6.283f;
+ 
+ 				float num400 = 0.1f;
++				if (this.ai[1] != 2f) { //This check is so that Retinazer won't rotate while in the Laser Barrage phase
+-				if (rotation < num399) {
++					if (rotation < num399) {
+-					if ((double)(num399 - rotation) > 3.1415)
++						if ((double)(num399 - rotation) > 3.1415)
+-						rotation -= num400;
++							rotation -= num400;
+-					else
++						else
+-						rotation += num400;
++							rotation += num400;
+-				}
++					}
+-				else if (rotation > num399) {
++					else if (rotation > num399) {
+-					if ((double)(rotation - num399) > 3.1415)
++						if ((double)(rotation - num399) > 3.1415)
+-						rotation += num400;
++							rotation += num400;
+-					else
++						else
+-						rotation -= num400;
++							rotation -= num400;
+-				}
++					}
+ 
+-				if (rotation > num399 - num400 && rotation < num399 + num400)
++					if (rotation > num399 - num400 && rotation < num399 + num400)
+-					rotation = num399;
++						rotation = num399;
+ 
+-				if (rotation < 0f)
++					if (rotation < 0f)
+-					rotation += 6.283f;
++						rotation += 6.283f;
+-				else if ((double)rotation > 6.283)
++					else if ((double)rotation > 6.283)
+-					rotation -= 6.283f;
++						rotation -= 6.283f;
+ 
+-				if (rotation > num399 - num400 && rotation < num399 + num400)
++					if (rotation > num399 - num400 && rotation < num399 + num400)
+-					rotation = num399;
++						rotation = num399;
++				}
+ 
+ 				if (Main.rand.Next(5) == 0) {
+ 					int num401 = Dust.NewDust(new Vector2(base.position.X, base.position.Y + (float)height * 0.25f), width, (int)((float)height * 0.5f), 5, base.velocity.X, 2f);
+@@ -17641,7 +_,17 @@
+ 						}
+ 					}
+ 
++					float secondPhasePercent = Main.MMRChangesEnabled ? 0.6f : 0.4f;
++					//Twins will always enter second phase at same time
+-					if ((double)life < (double)lifeMax * 0.4) {
++					if ((double)life < (double)lifeMax * secondPhasePercent) {
++						if (Main.MMRChangesEnabled && spazbudIndex != -1) {
++							NPC spazmatism = Main.npc[spazbudIndex];
++							spazmatism.ai[0] = 1f;
++							spazmatism.ai[1] = 0f;
++							spazmatism.ai[2] = 0f;
++							spazmatism.ai[3] = 0f;
++							spazmatism.netUpdate = true;
++						}
+ 						this.ai[0] = 1f;
+ 						this.ai[1] = 0f;
+ 						this.ai[2] = 0f;
+@@ -17793,100 +_,169 @@
+ 
+ 					return;
+ 				}
+-
++				else if (this.ai[1] == 1f || (Main.MMRChangesEnabled && this.ai[1] == 2f)) {
+-				int num427 = 1;
++					int num427 = 1;
+-				if (base.position.X + (float)(width / 2) < Main.player[target].position.X + (float)Main.player[target].width)
++					if (base.position.X + (float)(width / 2) < Main.player[target].position.X + (float)Main.player[target].width)
+-					num427 = -1;
++						num427 = -1;
+ 
+-				float num428 = 8f;
++					float num428 = 8f;
+-				float num429 = 0.2f;
++					float num429 = 0.2f;
+-				if (Main.expertMode) {
++					if (Main.expertMode) {
+-					num428 = 9.5f;
++						num428 = 9.5f;
+-					num429 = 0.25f;
++						num429 = 0.25f;
+-				}
++					}
+ 
+-				if (Main.getGoodWorld) {
++					if (Main.getGoodWorld) {
+-					num428 *= 1.15f;
++						num428 *= 1.15f;
+-					num429 *= 1.15f;
++						num429 *= 1.15f;
+-				}
++					}
+ 
+-				Vector2 vector40 = new Vector2(base.position.X + (float)width * 0.5f, base.position.Y + (float)height * 0.5f);
++					Vector2 vector40 = new Vector2(base.position.X + (float)width * 0.5f, base.position.Y + (float)height * 0.5f);
+-				float num430 = Main.player[target].position.X + (float)(Main.player[target].width / 2) + (float)(num427 * 340) - vector40.X;
++					float num430 = Main.player[target].position.X + (float)(Main.player[target].width / 2) + (float)(num427 * 340) - vector40.X;
+-				float num431 = Main.player[target].position.Y + (float)(Main.player[target].height / 2) - vector40.Y;
++					float num431 = Main.player[target].position.Y + (float)(Main.player[target].height / 2) - vector40.Y;
+-				float num432 = (float)Math.Sqrt(num430 * num430 + num431 * num431);
++					float num432 = (float)Math.Sqrt(num430 * num430 + num431 * num431);
+-				num432 = num428 / num432;
++					num432 = num428 / num432;
+-				num430 *= num432;
++					num430 *= num432;
+-				num431 *= num432;
++					num431 *= num432;
++					if (this.moddedAI[1] == 0f) {
+-				if (base.velocity.X < num430) {
++						if (base.velocity.X < num430) {
+-					base.velocity.X += num429;
++							base.velocity.X += num429;
+-					if (base.velocity.X < 0f && num430 > 0f)
++							if (base.velocity.X < 0f && num430 > 0f)
+-						base.velocity.X += num429;
++								base.velocity.X += num429;
+-				}
++						}
+-				else if (base.velocity.X > num430) {
++						else if (base.velocity.X > num430) {
+-					base.velocity.X -= num429;
++							base.velocity.X -= num429;
+-					if (base.velocity.X > 0f && num430 < 0f)
++							if (base.velocity.X > 0f && num430 < 0f)
+-						base.velocity.X -= num429;
++								base.velocity.X -= num429;
+-				}
++						}
+ 
+-				if (base.velocity.Y < num431) {
++						if (base.velocity.Y < num431) {
+-					base.velocity.Y += num429;
++							base.velocity.Y += num429;
+-					if (base.velocity.Y < 0f && num431 > 0f)
++							if (base.velocity.Y < 0f && num431 > 0f)
+-						base.velocity.Y += num429;
++								base.velocity.Y += num429;
+-				}
++						}
+-				else if (base.velocity.Y > num431) {
++						else if (base.velocity.Y > num431) {
+-					base.velocity.Y -= num429;
++							base.velocity.Y -= num429;
+-					if (base.velocity.Y > 0f && num431 < 0f)
++							if (base.velocity.Y > 0f && num431 < 0f)
+-						base.velocity.Y -= num429;
++								base.velocity.Y -= num429;
++						}
+-				}
++					}
+ 
+-				vector40 = new Vector2(base.position.X + (float)width * 0.5f, base.position.Y + (float)height * 0.5f);
++					vector40 = new Vector2(base.position.X + (float)width * 0.5f, base.position.Y + (float)height * 0.5f);
+-				num430 = Main.player[target].position.X + (float)(Main.player[target].width / 2) - vector40.X;
++					num430 = Main.player[target].position.X + (float)(Main.player[target].width / 2) - vector40.X;
+-				num431 = Main.player[target].position.Y + (float)(Main.player[target].height / 2) - vector40.Y;
++					num431 = Main.player[target].position.Y + (float)(Main.player[target].height / 2) - vector40.Y;
++					
++					if (this.moddedAI[1] == 0f)
+-				rotation = (float)Math.Atan2(num431, num430) - 1.57f;
++						rotation = (float)Math.Atan2(num431, num430) - 1.57f;
+-				if (Main.netMode != 1) {
+-					localAI[1] += 1f;
+-					if ((double)life < (double)lifeMax * 0.75)
+-						localAI[1] += 0.5f;
+-
+-					if ((double)life < (double)lifeMax * 0.5)
+-						localAI[1] += 0.75f;
+-
+-					if ((double)life < (double)lifeMax * 0.25)
++
++					if (Main.netMode != 1 && this.ai[1] != 2f) {
+ 						localAI[1] += 1f;
++						if ((double)life < (double)lifeMax * 0.75)
++							localAI[1] += 0.5f;
++
++						if ((double)life < (double)lifeMax * 0.5)
++							localAI[1] += 0.75f;
++
++						if ((double)life < (double)lifeMax * 0.25)
++							localAI[1] += 1f;
+ 
+-					if ((double)life < (double)lifeMax * 0.1)
++						if ((double)life < (double)lifeMax * 0.1)
+-						localAI[1] += 1.5f;
++							localAI[1] += 1.5f;
+ 
+-					if (Main.expertMode)
++						if (Main.expertMode)
+-						localAI[1] += 1.5f;
++							localAI[1] += 1.5f;
+ 
++
+-					if (localAI[1] > 60f && Collision.CanHit(base.position, width, height, Main.player[target].position, Main.player[target].width, Main.player[target].height)) {
++						if (this.ai[1] != 2f && localAI[1] > 60f && Collision.CanHit(base.position, width, height, Main.player[target].position, Main.player[target].width, Main.player[target].height)) {
+-						localAI[1] = 0f;
++							localAI[1] = 0f;
+-						float num433 = 9f;
++							float num433 = 9f;
+-						int attackDamage_ForProjectiles5 = GetAttackDamage_ForProjectiles(18f, 17f);
++							int attackDamage_ForProjectiles5 = GetAttackDamage_ForProjectiles(18f, 17f);
+-						int num434 = 100;
++							int num434 = 100;
+-						num432 = (float)Math.Sqrt(num430 * num430 + num431 * num431);
++							num432 = (float)Math.Sqrt(num430 * num430 + num431 * num431);
+-						num432 = num433 / num432;
++							num432 = num433 / num432;
+-						num430 *= num432;
++							num430 *= num432;
+-						num431 *= num432;
++							num431 *= num432;
+-						vector40.X += num430 * 15f;
++							vector40.X += num430 * 15f;
+-						vector40.Y += num431 * 15f;
++							vector40.Y += num431 * 15f;
+-						int num435 = Projectile.NewProjectile(vector40.X, vector40.Y, num430, num431, num434, attackDamage_ForProjectiles5, 0f, Main.myPlayer);
++							int num435 = Projectile.NewProjectile(vector40.X, vector40.Y, num430, num431, num434, attackDamage_ForProjectiles5, 0f, Main.myPlayer);
++						}
+ 					}
+-				}
+-
+-				this.ai[2] += 1f;
++					//While Spaz circles, Retinazer will aim at the player, 
+-				if (this.ai[2] >= 180f) {
++					else if (this.ai[1] == 2f) {
+-					this.ai[1] = 0f;
+-					this.ai[2] = 0f;
+-					this.ai[3] = 0f;
+-					TargetClosest();
+-					netUpdate = true;
++						moddedAI[0]++;
++						if (this.life < this.lifeMax * 0.25f)
++							moddedAI[0] += 0.25f;
++						if (this.life < this.lifeMax * 0.1f)
++							moddedAI[0] += 0.25f;
++
++						if (moddedAI[0] >= tUtils.SecondsToTicks(4) && moddedAI[1] == 0f) {
++							moddedAI[0] = 0f;
++							moddedAI[1] = 1f;
++							moddedAI[2] = Main.player[target].Center.X;
++							moddedAI[3] = Main.player[target].Center.Y;
++							SoundEngine.PlaySound(SoundID.Roar, (int)this.Center.X, (int)this.Center.Y, Style: 0);
++							this.velocity *= 0.9f;
++							this.netUpdate = true;
++						}
++						else if (moddedAI[0] <= tUtils.SecondsToTicks(3) && moddedAI[1] == 1f) {
++							this.velocity *= 0.9f;
++							rotation = this.DirectionTo(new Vector2(moddedAI[2], moddedAI[3])).ToRotation() + MathHelper.ToRadians(-90);
++							int redDust = Dust.NewDust(new Vector2(base.position.X + base.velocity.X, base.position.Y + base.velocity.Y), base.width, base.height, DustID.RedTorch, base.velocity.X, base.velocity.Y, 100, default(Color), 3.5f);
++							Main.dust[redDust].noGravity = true;
++						}
++						else if (moddedAI[0] > tUtils.SecondsToTicks(3) && moddedAI[1] == 1f) {
++							moddedAI[0] = 0f;
++							moddedAI[1] = 2f;
++							this.netUpdate = true;
++						}
++						else if (moddedAI[0] <= tUtils.SecondsToTicks(5) && moddedAI[0] % 5f == 0f && moddedAI[1] == 2f) {
++							Vector2 targetLocation = new Vector2(moddedAI[2], moddedAI[3]);
++							int laserBarrage = Projectile.NewProjectile(Center, DirectionTo(targetLocation) * 15f, ProjectileID.DeathLaser, 50, 0.5f);
++							Main.projectile[laserBarrage].tileCollide = false;
++							Main.projectile[laserBarrage].alpha = 310; //This is done so that the laser looks like it properly comes out of the eye barrel
++							Main.projectile[laserBarrage].timeLeft = tUtils.SecondsToTicks(3);
++							Main.projectile[laserBarrage].netUpdate = true;
++						}
++						else if (moddedAI[0] > tUtils.SecondsToTicks(5) && moddedAI[1] == 2f) {
++							moddedAI[0] = 0f;
++							moddedAI[1] = 0f;
++							this.netUpdate = true;
++						}
++					}
++
++					this.ai[2] += 1f;
++					if (this.ai[2] >= 180f) {
++						if (this.ai[1] == 2f)
++							this.ai[2] = 0f;
++						else {
++							this.ai[1] = 0f;
++							this.ai[2] = 0f;
++							this.ai[3] = 0f;
++							TargetClosest();
++							netUpdate = true;
++						}
++					}
+ 				}
+ 			}
+ 			else if (aiStyle == 31) {
+-				if (target < 0 || target == 255 || Main.player[target].dead || !Main.player[target].active)
++				if (target < 0 || target == 255 || Main.player[target].dead || !Main.player[target].active || !(Main.MMRChangesEnabled && this.ai[1] == 3f))
+ 					TargetClosest();
++
++				int retbudIndex = FindFirstNPC(NPCID.Retinazer);
++
++				//Twins share health pool in MMR
++				if (!Main.player[target].dead && Main.MMRChangesEnabled) {
++					if (Main.netMode != 1 && retbudIndex != -1 && this.life > Main.npc[retbudIndex].life) {
++						NPC retinazer = Main.npc[retbudIndex];
++						int damage = this.life - retinazer.life;
++						this.StrikeNPCNoInteraction(damage, 0, 0);
++						netUpdate = true;
++					}
++					else if (Main.netMode != 1 && retbudIndex == -1) {
++						this.StrikeNPCNoInteraction(this.life, 0, 0);
++						netUpdate = true;
++					}
++				}
+ 
+ 				bool dead3 = Main.player[target].dead;
+ 				float num436 = base.position.X + (float)(width / 2) - Main.player[target].position.X - (float)(Main.player[target].width / 2);
+@@ -17898,29 +_,31 @@
+ 					num438 -= 6.283f;
+ 
+ 				float num439 = 0.15f;
++				if (ai[1] != 3f) {
+-				if (rotation < num438) {
++					if (rotation < num438) {
+-					if ((double)(num438 - rotation) > 3.1415)
++						if ((double)(num438 - rotation) > 3.1415)
+-						rotation -= num439;
++							rotation -= num439;
+-					else
++						else
+-						rotation += num439;
++							rotation += num439;
+-				}
++					}
+-				else if (rotation > num438) {
++					else if (rotation > num438) {
+-					if ((double)(rotation - num438) > 3.1415)
++						if ((double)(rotation - num438) > 3.1415)
+-						rotation += num439;
++							rotation += num439;
+-					else
++						else
+-						rotation -= num439;
++							rotation -= num439;
+-				}
++					}
+ 
+-				if (rotation > num438 - num439 && rotation < num438 + num439)
++					if (rotation > num438 - num439 && rotation < num438 + num439)
+-					rotation = num438;
++						rotation = num438;
+ 
+-				if (rotation < 0f)
++					if (rotation < 0f)
+-					rotation += 6.283f;
++						rotation += 6.283f;
+-				else if ((double)rotation > 6.283)
++					else if ((double)rotation > 6.283)
+-					rotation -= 6.283f;
++						rotation -= 6.283f;
+ 
+-				if (rotation > num438 - num439 && rotation < num438 + num439)
++					if (rotation > num438 - num439 && rotation < num438 + num439)
+-					rotation = num438;
++						rotation = num438;
++				}
+ 
+ 				if (Main.rand.Next(5) == 0) {
+ 					int num440 = Dust.NewDust(new Vector2(base.position.X, base.position.Y + (float)height * 0.25f), width, (int)((float)height * 0.5f), 5, base.velocity.X, 2f);
+@@ -18009,21 +_,29 @@
+ 								num445 = Main.player[target].position.X + (float)(Main.player[target].width / 2) - vector41.X;
+ 								num446 = Main.player[target].position.Y + (float)(Main.player[target].height / 2) - vector41.Y;
+ 								if (Main.netMode != 1) {
+-									float num449 = 12f;
+ 									int attackDamage_ForProjectiles6 = GetAttackDamage_ForProjectiles(25f, 22f);
++									if (!Main.MMRChangesEnabled) {
++										float num449 = 12f;
+-									int num450 = 96;
++										int num450 = 96;
+-									if (Main.expertMode)
++										if (Main.expertMode)
+-										num449 = 14f;
++											num449 = 14f;
+ 
+-									num447 = (float)Math.Sqrt(num445 * num445 + num446 * num446);
++										num447 = (float)Math.Sqrt(num445 * num445 + num446 * num446);
+-									num447 = num449 / num447;
++										num447 = num449 / num447;
+-									num445 *= num447;
++										num445 *= num447;
+-									num446 *= num447;
++										num446 *= num447;
+-									num445 += (float)Main.rand.Next(-40, 41) * 0.05f;
++										num445 += (float)Main.rand.Next(-40, 41) * 0.05f;
+-									num446 += (float)Main.rand.Next(-40, 41) * 0.05f;
++										num446 += (float)Main.rand.Next(-40, 41) * 0.05f;
+-									vector41.X += num445 * 4f;
++										vector41.X += num445 * 4f;
+-									vector41.Y += num446 * 4f;
++										vector41.Y += num446 * 4f;
+-									int num451 = Projectile.NewProjectile(vector41.X, vector41.Y, num445, num446, num450, attackDamage_ForProjectiles6, 0f, Main.myPlayer);
++										int num451 = Projectile.NewProjectile(vector41.X, vector41.Y, num445, num446, num450, attackDamage_ForProjectiles6, 0f, Main.myPlayer);
++									} 
++									else { //Will fire three projectiles with a 15 degree skew in MMR instead of one inaccurate projectile
++										for (float projRotation = -15; projRotation <= 15; projRotation += 15) {
++											Vector2 projSpeed = (this.DirectionTo(Main.player[target].Center) * 10f).RotatedBy(MathHelper.ToRadians(projRotation));
++											Projectile.NewProjectile(this.Center, projSpeed, ProjectileID.CursedFlameHostile, attackDamage_ForProjectiles6, 1f);
++										}
++									}
+ 								}
+ 							}
+ 						}
+@@ -18063,8 +_,8 @@
+ 					else if (this.ai[1] == 2f) {
+ 						this.ai[2] += 1f;
+ 						if (this.ai[2] >= 8f) {
+-							base.velocity.X *= 0.9f;
+-							base.velocity.Y *= 0.9f;
++							base.velocity.X *= Main.MMRChangesEnabled ? 0.97f : 0.9f; //Will dash with less deceleration in MMR
++							base.velocity.Y *= Main.MMRChangesEnabled ? 0.97f : 0.9f;
+ 							if ((double)base.velocity.X > -0.1 && (double)base.velocity.X < 0.1)
+ 								base.velocity.X = 0f;
+ 
+@@ -18090,7 +_,17 @@
+ 						}
+ 					}
+ 
++					float secondPhasePercent = Main.MMRChangesEnabled ? 0.6f : 0.4f;
++					//Twins will always enter second phase at same time
+-					if ((double)life < (double)lifeMax * 0.4) {
++					if ((double)life < (double)lifeMax * secondPhasePercent) {
++						if (Main.MMRChangesEnabled && retbudIndex != -1) {
++							NPC retinazer = Main.npc[retbudIndex];
++							retinazer.ai[0] = 1f;
++							retinazer.ai[1] = 0f;
++							retinazer.ai[2] = 0f;
++							retinazer.ai[3] = 0f;
++							retinazer.netUpdate = true;
++						}
+ 						this.ai[0] = 1f;
+ 						this.ai[1] = 0f;
+ 						this.ai[2] = 0f;
+@@ -18283,9 +_,7 @@
+ 					base.velocity.Y = num469 * num470;
+ 					this.ai[1] = 2f;
+ 				}
+-				else {
+-					if (this.ai[1] != 2f)
+-						return;
++				else if (this.ai[1] == 2f) {
+ 
+ 					this.ai[2] += 1f;
+ 					if (Main.expertMode)
+@@ -18304,18 +_,193 @@
+ 						rotation = (float)Math.Atan2(base.velocity.Y, base.velocity.X) - 1.57f;
+ 					}
+ 
++					if (Main.MMRChangesEnabled && this.moddedAI[3] == 0f && this.ai[3] >= 4) { //Cursed Flame glowing effect to indicate incoming circling phase, plus sound
++						if (localAI[3] == 0f) {
++							localAI[3] = 1;
++							SoundEngine.PlaySound(SoundID.ForceRoar, (int)Center.X, (int)Center.Y, -1);
++						}
++						int cursedDust = Dust.NewDust(new Vector2(base.position.X + base.velocity.X, base.position.Y + base.velocity.Y), base.width, base.height, DustID.CursedTorch, base.velocity.X, base.velocity.Y, 100, default(Color), 3f * scale);
++						Main.dust[cursedDust].noGravity = true;
++						alpha += 3;
++						if (alpha > 255)
++							alpha = 255;
++					}
++
+ 					if (this.ai[2] >= 80f) {
+ 						this.ai[3] += 1f;
+ 						this.ai[2] = 0f;
+ 						target = 255;
+ 						rotation = num438;
+ 						if (this.ai[3] >= 6f) {
++							if (Main.MMRChangesEnabled && moddedAI[3] == 0f) {
++								this.ai[1] = 3f;
++								this.ai[2] = 0f;
++								this.moddedAI[3] = (life < lifeMax / 4) ? 2f : 1f; //For the time being, moddedAI[3] will be used for rotation count, since we don't want it changing mid-circling phase
++								localAI[3] = 0;
++								if (retbudIndex != -1 && Main.netMode != 1) {
++									NPC retinazer = Main.npc[retbudIndex];
++									retinazer.ai[1] = 2f; //Retinazer shall be in his horizontal firing phase for the duration of the circling phase
++									retinazer.ai[2] = 0f;
++									retinazer.ai[3] = 0f;
++									retinazer.netUpdate = true;
++								}
++							}
++							else if (!Main.MMRChangesEnabled || moddedAI[3] == 1f) {
+-							this.ai[1] = 0f;
++								this.ai[1] = 0f;
++								this.moddedAI[3] = 0f;
++							}
+ 							this.ai[3] = 0f;
++							netUpdate = true;
+ 						}
+ 						else {
+ 							this.ai[1] = 1f;
+ 						}
++					}
++				}
++				else if (Main.MMRChangesEnabled && this.ai[1] == 3f) {
++					/* Run over of each of the AI values in here so we don't lose track:
++					ai[0] = Vanilla's way of telling if Spazmatism is in Second Phase. Should not be changed
++					ai[1] = Vanilla again. Used for subphases of Phase 1 and Phase 2. Implemented here as a 3rd subphase in Phase 2.
++					ai[2] = Used for other things in Vanilla, but in this case, its used as "sub-subphase" indicator.
++					ai[3] = In this case, used to store a rotation value separate from spaz's actual rotation, so that we can move in a circle and face the center of the circle at the same time
++					moddedAI[0] = X coordinate of the Center of the Circle
++					moddedAI[1] = Y coordinate of the Center of the Circle
++					moddedAI[2] = General use timer
++					moddedAI[3] = Used for alternating between every other charge attack leading to the circling phase
++					 */
++					if (retbudIndex != -1) {
++						float fullRotation = MathHelper.TwoPi;
++						int circleRadius = tUtils.BlocksToPixels(25);
++						float speedMultiplier = (life < lifeMax / 4) ? 1.5f : 1f;
++						float rotationCount = moddedAI[3];
++						float rotationPlaceholder = this.ai[3] - MathHelper.ToRadians(270);
++
++						if (this.ai[2] == 0f) { //Locate target player as center of circle and teleport
++							TargetClosest();
++							this.moddedAI[0] = Main.player[target].Center.X - circleRadius;
++							this.moddedAI[1] = Main.player[target].Center.Y;
++							SoundEngine.PlaySound(SoundID.ForceRoar, (int)Center.X, (int)Center.Y, -1);
++							this.Center = new Vector2(this.moddedAI[0], this.moddedAI[1]);
++							rotation = MathHelper.ToRadians(-90);
++							alpha = 0;
++							this.ai[2] = 1f;
++							this.ai[3] = MathHelper.ToRadians(270);
++							velocity = Vector2.Zero;
++							netUpdate = true;
++						}
++
++						else if (this.ai[2] == 1f) { //Begin rotation and creation of the cursed flame ring
++							this.ai[3] += MathHelper.ToRadians(5f);
++							velocity = ai[3].ToRotationVector2() * 32f;
++							rotation = velocity.RotatedBy(MathHelper.ToRadians(-90)).ToRotation();
++
++							if (Main.netMode != 1 && ++this.moddedAI[2] >= 2 && rotationPlaceholder < fullRotation) {
++								int cursedRing = Projectile.NewProjectile(Center, Vector2.Zero, ProjectileID.SmarterCursedFlames, 50, 0f);
++								Projectile cursedProj = Main.projectile[cursedRing];
++								cursedProj.ai[0] = this.moddedAI[0] + circleRadius;
++								cursedProj.ai[1] = this.moddedAI[1];
++								cursedProj.moddedAI[0] = 0f;
++								cursedProj.netUpdate = true;
++								this.moddedAI[2] = 0;
++							}
++							else if (rotationPlaceholder < fullRotation) { //Reappear while creating the ring
++								alpha -= 8;
++								if (alpha < 0)
++									alpha = 0;
++							}
++
++							if (rotationPlaceholder >= fullRotation) { //On full rotation, transition to readjustment
++								this.ai[2] = 2f;
++								this.moddedAI[2] = 0;
++								this.ai[3] = 0;
++								rotation = 0;
++								velocity = Vector2.Zero;
++								netUpdate = true;
++							}
++
++						}
++
++						else if (this.ai[2] == 2f) { //Re-align position to be outside of circle, prepare to fire
++							this.Center = new Vector2(this.moddedAI[0] - tUtils.BlocksToPixels(4), this.moddedAI[1]);
++							rotation = DirectionTo(new Vector2(this.moddedAI[0] + circleRadius, this.moddedAI[1])).RotatedBy(MathHelper.ToRadians(-90)).ToRotation();
++							this.ai[2] = 3f;
++							this.ai[3] = MathHelper.ToRadians(270);
++							netUpdate = true;
++						}
++
++						else if (this.ai[2] == 3f) { //Circling phase, blasting eye fire facing the center of the circle
++							Vector2 centerOfCircle = new Vector2(this.moddedAI[0] + circleRadius, this.moddedAI[1]);
++							rotation = DirectionTo(centerOfCircle).RotatedBy(MathHelper.ToRadians(-90)).ToRotation();
++
++							this.ai[3] += MathHelper.ToRadians(0.53125f * speedMultiplier);
++							
++							velocity = ai[3].ToRotationVector2() * (4f * speedMultiplier);
++
++							if (Main.netMode != 1 && ++this.moddedAI[2] >= 6f) {
++								int eyeFire = Projectile.NewProjectile(Center, DirectionTo(centerOfCircle) * 12f, ProjectileID.EyeFire, 30, 1f);
++								Main.projectile[eyeFire].tileCollide = false;
++								this.moddedAI[2] = 0f;
++							}
++
++							//Using localAI here because it does not need to be synced, the sounds don't have to be exact on each client
++							if (++localAI[2] > 22f) {
++								SoundEngine.PlaySound(SoundID.Item34, base.position);
++								localAI[2] = 0f;
++							}
++
++							if (ai[3] - MathHelper.ToRadians(270) >= fullRotation * rotationCount) { //After X rotations, loop back around into normal vanilla AI
++								tUtils.KillAllProjectileType(ProjectileID.SmarterCursedFlames);
++								SoundEngine.PlaySound(SoundID.ForceRoar, (int)Center.X, (int)Center.Y, -1);
++								if (retbudIndex != -1) {
++									NPC retinazer = Main.npc[retbudIndex];
++									retinazer.ai[1] = 1f;
++									retinazer.ai[2] = 0f;
++									retinazer.ai[3] = 0f;
++									retinazer.moddedAI[0] = 0f;
++									retinazer.moddedAI[1] = 0f;
++									retinazer.netUpdate = true;
++								}
++								this.moddedAI[0] = 0f;
++								this.moddedAI[1] = 0f;
++								this.moddedAI[2] = 0f;
++								this.moddedAI[3] = 1f;
++								localAI[2] = 0f;
++								this.ai[1] = 0f;
++								this.ai[3] = 0f;
++								netUpdate = true;
++							}
++						}
++
++						if ((this.ai[2] == 3f && Main.netMode != 1 && Main.player[target].Distance(new Vector2(moddedAI[0] + circleRadius, moddedAI[1])) >= circleRadius) || Main.player[target].dead) { //Prevent target player from exiting the cursed flame circle without heavy repercussions
++							SoundEngine.PlaySound(SoundID.ForceRoar, (int)Center.X, (int)Center.Y, -1);
++							for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++) {
++								Projectile projectile = Main.projectile[projIndex];
++								if (projectile.type == ProjectileID.SmarterCursedFlames) {
++									projectile.moddedAI[0] = 1f;
++									projectile.moddedAI[1] = 0f;
++									projectile.moddedAI[2] = 0f;
++									projectile.netUpdate = true;
++								}
++								if (retbudIndex != -1) {
++									NPC retinazer = Main.npc[retbudIndex];
++									retinazer.ai[1] = 1f;
++									retinazer.ai[2] = 0f;
++									retinazer.ai[3] = 0f;
++									retinazer.moddedAI[0] = 0f;
++									retinazer.moddedAI[1] = 0f;
++									retinazer.netUpdate = true;
++								}
++								this.moddedAI[0] = 0f;
++								this.moddedAI[1] = 0f;
++								this.moddedAI[2] = 0f;
++								this.moddedAI[3] = 1f;
++								localAI[2] = 0f;
++								this.ai[1] = 0f;
++								this.ai[3] = 0f;
++								netUpdate = true;
++							}
++						}
++
+ 					}
+ 				}
+ 			}
 @@ -22518,6 +_,8 @@
  			}
  			else if (aiStyle == 54) {

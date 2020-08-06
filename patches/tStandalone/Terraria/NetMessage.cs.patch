@@ -75,6 +75,33 @@
  							break;
  						}
  					case 22:
+@@ -552,6 +_,7 @@
+ 							bb22[6] = (nPC2.spriteDirection > 0);
+ 							bb22[7] = (num19 == nPC2.lifeMax);
+ 							writer.Write(bb22);
++
+ 							BitsByte bb23 = (byte)0;
+ 							bb23[0] = (nPC2.statsAreScaledForThisManyPlayers > 1);
+ 							bb23[1] = nPC2.SpawnedFromStatue;
+@@ -562,6 +_,18 @@
+ 									writer.Write(nPC2.ai[num20]);
+ 							}
+ 
++							bool[] moddedAIArray = new bool[4];
++							BitsByte moddedAIByte = (byte)0;
++							moddedAIByte[0] = (moddedAIArray[0] = (nPC2.moddedAI[0] != 0f));
++							moddedAIByte[1] = (moddedAIArray[1] = (nPC2.moddedAI[1] != 0f));
++							moddedAIByte[2] = (moddedAIArray[2] = (nPC2.moddedAI[2] != 0f));
++							moddedAIByte[3] = (moddedAIArray[3] = (nPC2.moddedAI[3] != 0f));
++							writer.Write(moddedAIByte);
++							for (int aiIndex = 0; aiIndex < NPC.maxAI; aiIndex++) {
++								if (moddedAIArray[aiIndex])
++									writer.Write(nPC2.moddedAI[aiIndex]);
++							}
++
+ 							writer.Write(value3);
+ 							if (bb23[0])
+ 								writer.Write((byte)nPC2.statsAreScaledForThisManyPlayers);
 @@ -590,10 +_,9 @@
  								}
  							}
@@ -87,7 +114,17 @@
  							break;
  						}
  					case 24:
-@@ -626,24 +_,18 @@
+@@ -614,6 +_,9 @@
+ 							writer.WriteVector2(projectile.velocity);
+ 							writer.Write((byte)projectile.owner);
+ 							writer.Write((short)projectile.type);
++
++							writer.WriteVector2(projectile.originalPosition);
++
+ 							BitsByte bb21 = (byte)0;
+ 							for (int num17 = 0; num17 < Projectile.maxAI; num17++) {
+ 								if (projectile.ai[num17] != 0f)
+@@ -626,22 +_,29 @@
  							if (projectile.knockBack != 0f)
  								bb21[5] = true;
  
@@ -108,11 +145,20 @@
 -							if (bb21[Projectile.maxAI + 1]) {
 -								writer.Write((byte)extraAI.Length);
 -								writer.Write(extraAI);
--							}
--
- 							if (bb21[4])
- 								writer.Write((short)projectile.damage);
++							BitsByte moddedAIArray = (byte)0;
++							for (int aiIndex = 0; aiIndex < Projectile.maxModdedAI; aiIndex++) {
++								if (projectile.moddedAI[aiIndex] != 0f)
++									moddedAIArray[aiIndex] = true;
++							}
++
++							writer.Write(moddedAIArray);
++
++							for (int aiIndex = 0; aiIndex < Projectile.maxModdedAI; aiIndex++) {
++								if (moddedAIArray[aiIndex])
++									writer.Write(projectile.moddedAI[aiIndex]);
+ 							}
  
+ 							if (bb21[4])
 @@ -660,10 +_,7 @@
  						}
  					case 28:

@@ -148,6 +148,33 @@
  							obj3.playerIndexTheItemIsReservedFor = Main.myPlayer;
  							if (flag5) {
  								NetMessage.TrySendData(21, -1, -1, null, num69);
+@@ -1270,6 +_,15 @@
+ 								array[num82] = 0f;
+ 						}
+ 
++						BitsByte moddedAIByte = reader.ReadByte();
++						float[] moddedAIArray = new float[NPC.maxAI];
++						for (int aiIndex = 0; aiIndex < NPC.maxAI; aiIndex++) {
++							if (moddedAIByte[aiIndex + 2])
++								moddedAIArray[aiIndex] = reader.ReadSingle();
++							else
++								moddedAIArray[aiIndex] = 0f;
++						}
++
+ 						int num83 = reader.ReadInt16();
+ 						int? playerCountForMultiplayerDifficultyOverride = 1;
+ 						if (bitsByte7[0])
+@@ -1335,6 +_,10 @@
+ 							nPC3.ai[num86] = array[num86];
+ 						}
+ 
++						for (int aiIndex = 0; aiIndex < NPC.maxAI; aiIndex++) {
++							nPC3.ai[aiIndex] = moddedAIArray[aiIndex];
++						}
++
+ 						if (num85 > -1 && num85 != nPC3.type)
+ 							nPC3.TransformVisuals(num85, nPC3.type);
+ 
 @@ -1344,10 +_,9 @@
  						if (num83 == 245)
  							NPC.golemBoss = num80;
@@ -160,7 +187,32 @@
  						break;
  					}
  				case 24: {
-@@ -1386,7 +_,7 @@
+@@ -1371,6 +_,9 @@
+ 						Vector2 velocity4 = reader.ReadVector2();
+ 						int num122 = reader.ReadByte();
+ 						int num123 = reader.ReadInt16();
++
++						Vector2 origPos = reader.ReadVector2();
++
+ 						BitsByte bitsByte8 = reader.ReadByte();
+ 						float[] array2 = new float[Projectile.maxAI];
+ 						for (int num124 = 0; num124 < Projectile.maxAI; num124++) {
+@@ -1380,13 +_,22 @@
+ 								array2[num124] = 0f;
+ 						}
+ 
++						BitsByte moddedAIByte = reader.ReadByte();
++						float[] moddedAIArray = new float[Projectile.maxModdedAI];
++						for (int aiIndex = 0; aiIndex < Projectile.maxModdedAI; aiIndex++) {
++							if (moddedAIByte[aiIndex])
++								moddedAIArray[aiIndex] = reader.ReadSingle();
++							else
++								moddedAIArray[aiIndex] = 0f;
++						}
++
+ 						int damage = bitsByte8[4] ? reader.ReadInt16() : 0;
+ 						float knockBack = bitsByte8[5] ? reader.ReadSingle() : 0f;
+ 						int originalDamage = bitsByte8[6] ? reader.ReadInt16() : 0;
  						int num125 = bitsByte8[7] ? reader.ReadInt16() : (-1);
  						if (num125 >= 1000)
  							num125 = -1;
@@ -169,7 +221,24 @@
  						if (Main.netMode == 2) {
  							if (num123 == 949) {
  								num122 = 255;
-@@ -1442,7 +_,6 @@
+@@ -1433,16 +_,23 @@
+ 						projectile.originalDamage = originalDamage;
+ 						projectile.knockBack = knockBack;
+ 						projectile.owner = num122;
++
++						projectile.originalPosition = origPos;
++
++
+ 						for (int num129 = 0; num129 < Projectile.maxAI; num129++) {
+ 							projectile.ai[num129] = array2[num129];
+ 						}
+ 
++						for (int aiIndex = 0; aiIndex < Projectile.maxModdedAI; aiIndex++) {
++							projectile.moddedAI[aiIndex] = moddedAIArray[aiIndex];
++						}
++
+ 						if (num125 >= 0) {
+ 							projectile.projUUID = num125;
  							Main.projectileIdentity[num122, num125] = num126;
  						}
  

@@ -1531,6 +1531,14 @@
  				for (int i = 0; i < num2; i++) {
  					WorldGen.KillTile_MakeTileDust(point.X, point.Y, tile);
  				}
+@@ -14081,6 +_,7 @@
+ 				damage += npc.checkArmorPenetration(armorPenetration);
+ 
+ 			int dmg = (int)npc.StrikeNPC(damage, knockback, direction, crit);
++
+ 			if (accDreamCatcher)
+ 				addDPS(dmg);
+ 
 @@ -15121,10 +_,8 @@
  				float num5 = 0.1f;
  				if (wingsLogic == 26) {
@@ -2797,11 +2805,10 @@
  							StatusToNPC(sItem.type, i);
  							if (Main.npc[i].life > 5)
  								OnHit(Main.npc[i].Center.X, Main.npc[i].Center.Y, Main.npc[i]);
-@@ -30438,11 +_,6 @@
- 								num4 += Main.npc[i].checkArmorPenetration(armorPenetration);
+@@ -30439,10 +_,6 @@
  
  							int dmgDone = (int)Main.npc[i].StrikeNPC(num4, knockBack, direction, flag);
--
+ 
 -							ItemLoader.OnHitNPC(sItem, this, Main.npc[i], dmgDone, knockBack, flag);
 -							NPCLoader.OnHitByItem(Main.npc[i], this, sItem, dmgDone, knockBack, flag);
 -							PlayerHooks.OnHitNPC(this, sItem, Main.npc[i], dmgDone, knockBack, flag);

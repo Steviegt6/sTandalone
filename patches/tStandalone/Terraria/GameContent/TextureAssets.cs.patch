@@ -7,6 +7,25 @@
  
  namespace Terraria.GameContent
  {
+@@ -68,12 +_,12 @@
+ 		public static Asset<Texture2D>[] CuteFishronMount = new Asset<Texture2D>[2];
+ 		public static Asset<Texture2D> MinecartWoodMount;
+ 		public static Asset<Texture2D>[] Wings = new Asset<Texture2D>[47];
+-		public static Asset<Texture2D>[] ArmorHead = new Asset<Texture2D>[266];
++		public static Asset<Texture2D>[] ArmorHead = new Asset<Texture2D>[ArmorIDs.Head.Count];
+-		public static Asset<Texture2D>[] ArmorBody = new Asset<Texture2D>[235];
++		public static Asset<Texture2D>[] ArmorBody = new Asset<Texture2D>[ArmorIDs.Body.Count];
+-		public static Asset<Texture2D>[] ArmorBodyComposite = new Asset<Texture2D>[235];
++		public static Asset<Texture2D>[] ArmorBodyComposite = new Asset<Texture2D>[ArmorIDs.Body.Count];
+-		public static Asset<Texture2D>[] FemaleBody = new Asset<Texture2D>[235];
++		public static Asset<Texture2D>[] FemaleBody = new Asset<Texture2D>[ArmorIDs.Body.Count];
+-		public static Asset<Texture2D>[] ArmorArm = new Asset<Texture2D>[235];
++		public static Asset<Texture2D>[] ArmorArm = new Asset<Texture2D>[ArmorIDs.Body.Count];
+-		public static Asset<Texture2D>[] ArmorLeg = new Asset<Texture2D>[218];
++		public static Asset<Texture2D>[] ArmorLeg = new Asset<Texture2D>[ArmorIDs.Legs.Count];
+ 		public static Asset<Texture2D>[] AccHandsOn = new Asset<Texture2D>[22];
+ 		public static Asset<Texture2D>[] AccHandsOnComposite = new Asset<Texture2D>[22];
+ 		public static Asset<Texture2D>[] AccHandsOff = new Asset<Texture2D>[14];
 @@ -177,11 +_,11 @@
  		public static Asset<Texture2D>[] NpcToggle = new Asset<Texture2D>[2];
  		public static Asset<Texture2D>[] HbLock = new Asset<Texture2D>[2];

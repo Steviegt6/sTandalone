@@ -1361,6 +1361,17 @@
  			if (!dead) {
  				Point point2 = base.Center.ToTileCoordinates();
  				if (WorldGen.InWorld(point2.X, point2.Y, 1)) {
+@@ -11741,6 +_,10 @@
+ 				case 265:
+ 					hatHair = true;
+ 					break;
++				case ArmorIDs.Head.MutantDevHat:
++				case ArmorIDs.Head.StevieDevHat:
++					hatHair = true;
++					break;
+ 			}
+ 
+ 			if (face > -1 && ArmorIDs.Face.Sets.PreventHairDraw[face])
 @@ -11797,9 +_,8 @@
  			hasFloatingTube = false;
  			hasUnicornHorn = false;

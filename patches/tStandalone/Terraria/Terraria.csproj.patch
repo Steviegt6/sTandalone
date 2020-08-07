@@ -5,15 +5,17 @@
      <Copyright>Copyright © 2020 Re-Logic</Copyright>
      <RootNamespace>Terraria</RootNamespace>
 -	<OutputName>tModLoader</OutputName>
-+	<OutputName>Terraria</OutputName>
++	<OutputName>tStandalone</OutputName>
 -	<LangVersion>8.0</LangVersion>
    </PropertyGroup>
    <PropertyGroup Condition="$(Configuration.Contains('Server'))">
      <OutputType>Exe</OutputType>
-@@ -20,14 +_,13 @@
+@@ -19,15 +_,14 @@
+   </PropertyGroup>
    <PropertyGroup>
      <PdbFile>bin\$(OutputName)</PdbFile>
-     <ApplicationIcon>tModLoader.ico</ApplicationIcon>
+-    <ApplicationIcon>tModLoader.ico</ApplicationIcon>
++    <ApplicationIcon>tStandalone.ico</ApplicationIcon>
 +    <TargetFramework>net45</TargetFramework>
    </PropertyGroup>
    <ItemGroup>

@@ -38,12 +38,15 @@
  #endif
  	{
  		public delegate void OnPlayerSelected(PlayerFileData player);
-@@ -182,6 +_,42 @@
+@@ -182,6 +_,45 @@
  			public bool LanternNightActive;
  		}
  
 +		//tStandalone VARIABLES
 +		#region tStandalone
++
++		public static readonly bool debugMode = true;
++
 +		public static string tStandaloneVersion = "v1.0.0.0";
 +
 +		public static bool _showWelcomeMessage = true;
@@ -122,7 +125,7 @@
  		public static Ref<Effect> ScreenShaderRef = new Ref<Effect>();
  		public static Ref<Effect> PixelShaderRef = new Ref<Effect>();
  		public static Ref<Effect> TileShaderRef = new Ref<Effect>();
-@@ -300,16 +_,14 @@
+@@ -300,20 +_,18 @@
  		public static int dedServCount2;
  		public static bool superFast = false;
  		public const int offLimitBorderTiles = 40;
@@ -139,8 +142,15 @@
  		public const int maxGoreTypes = 1269;
 -		public const int maxMusic = 89;
  		public const int MaxBannerTypes = 289;
- 		public const int numArmorHead = 266;
- 		public const int numArmorBody = 235;
+-		public const int numArmorHead = 266;
+-		public const int numArmorBody = 235;
+-		public const int numArmorLegs = 218;
++		public const int numArmorHead = ArmorIDs.Head.Count;
++		public const int numArmorBody = ArmorIDs.Body.Count;
++		public const int numArmorLegs = ArmorIDs.Legs.Count;
+ 		public const int numAccHandsOn = 22;
+ 		public const int numAccHandsOff = 14;
+ 		public const int numAccNeck = 11;
 @@ -523,17 +_,17 @@
  		public static int buffScanAreaWidth = (maxScreenW + 800) / 16 - 1;
  		public static int buffScanAreaHeight = (maxScreenH + 800) / 16 - 1;
@@ -613,7 +623,7 @@
  			}
  			else {
 -				Console.Title = "Terraria Server " + versionNumber2 + " - " + ModLoader.ModLoader.versionedName;
-+				Console.Title = "Terraria Server " + versionNumber2;
++				Console.Title = "tStandalone Server " + versionNumber2;
  			}
  
  			dedServ = true;
@@ -685,7 +695,8 @@
 +			Console.WriteLine(Language.GetTextValue("CLI.ListeningOnPort", Netplay.ListenPort));
  			Console.WriteLine(Language.GetTextValue("CLI.HelpHint"));
  			Console.WriteLine("");
- 			Console.Title = "Terraria Server: " + worldName;
+-			Console.Title = "Terraria Server: " + worldName;
++			Console.Title = "tStandaloneServer: " + worldName;
  			Stopwatch stopwatch = new Stopwatch();
 -			if (!autoShutdown || showServerConsole)
 +			if (!autoShutdown)
@@ -3180,7 +3191,7 @@
  				num5 = 2;
  				array9[0] = statusText;
  				array[0] = true;
-@@ -36560,15 +_,11 @@
+@@ -36560,15 +_,17 @@
  #endif
  					str = ((!ActiveWorldFileData.IsCloudSave) ? (str + " -world \"" + worldPathName + "\"") : (str + " -cloudworld \"" + worldPathName + "\""));
  					str = str + " -worldrollbackstokeep " + WorldRollingBackupsCountToKeep;
@@ -3190,11 +3201,17 @@
 -
  					tServer = new Process();
  #if WINDOWS
++					if (debugMode)
 -					tServer.StartInfo.FileName = "tModLoaderServer.exe";
-+					tServer.StartInfo.FileName = "TerrariaServer.exe";
++						tServer.StartInfo.FileName = "tStandaloneServerDebug.exe";
++					else
++						tServer.StartInfo.FileName = "tStandaloneServer.exe";
  #else
++					if (debugMode)
 -					tServer.StartInfo.FileName = "tModLoaderServer";
-+					tServer.StartInfo.FileName = "TerrariaServer";
++						tServer.StartInfo.FileName = "tStandaloneServerDebug";
++					else
++						tServer.StartInfo.FileName = "tStandaloneServer";
  #endif
  					tServer.StartInfo.Arguments = str;
  					if (libPath != "") {

@@ -169,7 +169,7 @@
  						}
  
 +						for (int aiIndex = 0; aiIndex < NPC.maxAI; aiIndex++) {
-+							nPC3.ai[aiIndex] = moddedAIArray[aiIndex];
++							nPC3.moddedAI[aiIndex] = moddedAIArray[aiIndex];
 +						}
 +
  						if (num85 > -1 && num85 != nPC3.type)

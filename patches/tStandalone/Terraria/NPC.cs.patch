@@ -550,14 +550,14 @@
 +				int spazbudIndex = FindFirstNPC(NPCID.Spazmatism);
 +
 +				//Twins share health pool in MMR
-+				if (!Main.player[target].dead && Main.MMRChangesEnabled) {
-+					if (Main.netMode != 1 && spazbudIndex != -1 && this.life > Main.npc[spazbudIndex].life) {
++				if (!Main.player[target].dead && Main.netMode != 1 && Main.MMRChangesEnabled) {
++					if (spazbudIndex != -1 && this.life > Main.npc[spazbudIndex].life) {
 +						NPC spazmatism = Main.npc[spazbudIndex];
 +						int damage = this.life - spazmatism.life;
 +						this.StrikeNPCNoInteraction(damage, 0, 0);
 +						netUpdate = true;
 +					}
-+					else if (Main.netMode != 1 && spazbudIndex == -1) {
++					else if (spazbudIndex == -1) {
 +						this.StrikeNPCNoInteraction(this.life, 0, 0);
 +						netUpdate = true;
 +					}
@@ -617,7 +617,7 @@
  
  				if (Main.rand.Next(5) == 0) {
  					int num401 = Dust.NewDust(new Vector2(base.position.X, base.position.Y + (float)height * 0.25f), width, (int)((float)height * 0.5f), 5, base.velocity.X, 2f);
-@@ -17641,7 +_,17 @@
+@@ -17641,7 +_,9 @@
  						}
  					}
  
@@ -625,14 +625,6 @@
 +					//Twins will always enter second phase at same time
 -					if ((double)life < (double)lifeMax * 0.4) {
 +					if ((double)life < (double)lifeMax * secondPhasePercent) {
-+						if (Main.MMRChangesEnabled && spazbudIndex != -1) {
-+							NPC spazmatism = Main.npc[spazbudIndex];
-+							spazmatism.ai[0] = 1f;
-+							spazmatism.ai[1] = 0f;
-+							spazmatism.ai[2] = 0f;
-+							spazmatism.ai[3] = 0f;
-+							spazmatism.netUpdate = true;
-+						}
  						this.ai[0] = 1f;
  						this.ai[1] = 0f;
  						this.ai[2] = 0f;
@@ -800,7 +792,7 @@
 -				}
 -
 -				this.ai[2] += 1f;
-+					//While Spaz circles, Retinazer will aim at the player, 
++					//While Spaz circles, Retinazer will aim at the player, charge, and then fire a laser barrage
 -				if (this.ai[2] >= 180f) {
 +					else if (this.ai[1] == 2f) {
 -					this.ai[1] = 0f;
@@ -871,14 +863,14 @@
 +				int retbudIndex = FindFirstNPC(NPCID.Retinazer);
 +
 +				//Twins share health pool in MMR
-+				if (!Main.player[target].dead && Main.MMRChangesEnabled) {
-+					if (Main.netMode != 1 && retbudIndex != -1 && this.life > Main.npc[retbudIndex].life) {
++				if (!Main.player[target].dead && Main.netMode != 1 && Main.MMRChangesEnabled) {
++					if (retbudIndex != -1 && this.life > Main.npc[retbudIndex].life) {
 +						NPC retinazer = Main.npc[retbudIndex];
 +						int damage = this.life - retinazer.life;
 +						this.StrikeNPCNoInteraction(damage, 0, 0);
 +						netUpdate = true;
 +					}
-+					else if (Main.netMode != 1 && retbudIndex == -1) {
++					else if (retbudIndex == -1) {
 +						this.StrikeNPCNoInteraction(this.life, 0, 0);
 +						netUpdate = true;
 +					}
@@ -992,7 +984,7 @@
  							if ((double)base.velocity.X > -0.1 && (double)base.velocity.X < 0.1)
  								base.velocity.X = 0f;
  
-@@ -18090,7 +_,17 @@
+@@ -18090,7 +_,9 @@
  						}
  					}
  
@@ -1000,14 +992,6 @@
 +					//Twins will always enter second phase at same time
 -					if ((double)life < (double)lifeMax * 0.4) {
 +					if ((double)life < (double)lifeMax * secondPhasePercent) {
-+						if (Main.MMRChangesEnabled && retbudIndex != -1) {
-+							NPC retinazer = Main.npc[retbudIndex];
-+							retinazer.ai[0] = 1f;
-+							retinazer.ai[1] = 0f;
-+							retinazer.ai[2] = 0f;
-+							retinazer.ai[3] = 0f;
-+							retinazer.netUpdate = true;
-+						}
  						this.ai[0] = 1f;
  						this.ai[1] = 0f;
  						this.ai[2] = 0f;
@@ -1070,7 +1054,7 @@
  						}
 +					}
 +				}
-+				else if (Main.MMRChangesEnabled && this.ai[1] == 3f) {
++				else if (Main.MMRChangesEnabled && Main.netMode != 1 && this.ai[1] == 3f) {
 +					/* Run over of each of the AI values in here so we don't lose track:
 +					ai[0] = Vanilla's way of telling if Spazmatism is in Second Phase. Should not be changed
 +					ai[1] = Vanilla again. Used for subphases of Phase 1 and Phase 2. Implemented here as a 3rd subphase in Phase 2.
@@ -1107,7 +1091,7 @@
 +							velocity = ai[3].ToRotationVector2() * 32f;
 +							rotation = velocity.RotatedBy(MathHelper.ToRadians(-90)).ToRotation();
 +
-+							if (Main.netMode != 1 && ++this.moddedAI[2] >= 2 && rotationPlaceholder < fullRotation) {
++							if (++this.moddedAI[2] >= 2 && rotationPlaceholder < fullRotation) {
 +								int cursedRing = Projectile.NewProjectile(Center, Vector2.Zero, ProjectileID.SmarterCursedFlames, 50, 0f);
 +								Projectile cursedProj = Main.projectile[cursedRing];
 +								cursedProj.ai[0] = this.moddedAI[0] + circleRadius;
@@ -1184,7 +1168,7 @@
 +							}
 +						}
 +
-+						if ((this.ai[2] == 3f && Main.netMode != 1 && Main.player[target].Distance(new Vector2(moddedAI[0] + circleRadius, moddedAI[1])) >= circleRadius) || Main.player[target].dead) { //Prevent target player from exiting the cursed flame circle without heavy repercussions
++						if ((this.ai[2] == 3f && Main.player[target].Distance(new Vector2(moddedAI[0] + circleRadius, moddedAI[1])) >= circleRadius) || Main.player[target].dead) { //Prevent target player from exiting the cursed flame circle without heavy repercussions
 +							SoundEngine.PlaySound(SoundID.ForceRoar, (int)Center.X, (int)Center.Y, -1);
 +							for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++) {
 +								Projectile projectile = Main.projectile[projIndex];

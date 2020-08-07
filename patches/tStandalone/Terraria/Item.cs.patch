@@ -39,10 +39,16 @@
  		private string _nameOverride;
  		public const int luckPotionDuration1 = 10800;
  		public const int luckPotionDuration2 = 18000;
-@@ -58,8 +_,8 @@
- 		public static int[] headType = new int[266];
- 		public static int[] bodyType = new int[235];
- 		public static int[] legType = new int[218];
+@@ -55,11 +_,11 @@
+ 		public static int potionDelay = 3600;
+ 		public static int restorationDelay = 2700;
+ 		public bool questItem;
+-		public static int[] headType = new int[266];
++		public static int[] headType = new int[ArmorIDs.Head.Count];
+-		public static int[] bodyType = new int[235];
++		public static int[] bodyType = new int[ArmorIDs.Body.Count];
+-		public static int[] legType = new int[218];
++		public static int[] legType = new int[ArmorIDs.Legs.Count];
 -		public static bool[] staff = new bool[5045];
 +		public static bool[] staff = new bool[ItemID.Count];
 -		public static bool[] claw = new bool[5045];
@@ -296,6 +302,69 @@
  		}
  
  		public bool FitsAmmoSlot() {
+@@ -43746,6 +_,62 @@
+ 				case 5044:
+ 					DefaultToMusicBox(85);
+ 					break;
++				default:
++					ModdedSetDefaults(type);
++					break;
++			}
++		}
++
++		private void ModdedSetDefaults(int type) {
++			switch (type) {
++				case ItemID.MutantDevHeadItem:
++					width = 20;
++					height = 10;
++					vanity = true;
++					rare = (int)ItemRarityColor.Cyan9;
++					headSlot = ArmorIDs.Head.MutantDevHat;
++					value = sellPrice(gold: 1);
++					break;
++				case ItemID.MutantDevBodyItem:
++					width = 30;
++					height = 22;
++					vanity = true;
++					rare = (int)ItemRarityColor.Cyan9;
++					bodySlot = ArmorIDs.Body.MutantDevBody;
++					value = sellPrice(gold: 1);
++					break;
++				case ItemID.MutantDevLegsItem:
++					width = 22;
++					height = 18;
++					vanity = true;
++					rare = (int)ItemRarityColor.Cyan9;
++					legSlot = ArmorIDs.Legs.MutantDevLegs;
++					value = sellPrice(gold: 1);
++					break;
++				case ItemID.StevieDevHeadItem:
++					width = 22;
++					height = 18;
++					vanity = true;
++					rare = (int)ItemRarityColor.Cyan9;
++					headSlot = ArmorIDs.Head.StevieDevHat;
++					value = sellPrice(gold: 1);
++					break;
++				case ItemID.StevieDevBodyItem:
++					width = 30;
++					height = 20;
++					vanity = true;
++					rare = (int)ItemRarityColor.Cyan9;
++					bodySlot = ArmorIDs.Body.StevieDevBody;
++					value = sellPrice(gold: 1);
++					break;
++				case ItemID.StevieDevLegsItem:
++					width = 22;
++					height = 14;
++					vanity = true;
++					rare = (int)ItemRarityColor.Cyan9;
++					legSlot = ArmorIDs.Legs.StevieDevLegs;
++					value = sellPrice(gold: 1);
++					break;
+ 			}
+ 		}
+ 
 @@ -44414,16 +_,6 @@
  			SetDefaults(Type, noMatCheck: false);
  		}

@@ -15,9 +15,13 @@ Want to contribute? Great!
 
 If you would like to contact myself, it's best to join my [Discord server](https://discord.com/invite/qrZ4Bpz) or contact me through Discord directly (convicted tomatophile (Stevie)#9616). To use Discord you will need to register a new account on [their website](https://discordapp.com/).
 
-## Contributors
+## tStandalone Contributors
 ### Core team
 Main tStandalone dev: **Steviegt6 (convicted tomatophile (Stevie))**
+tStandalone Programmer & Main MMR dev: **MutantWafflez**
+tStandalone Programmer: **pbone**
+tStandalone Artist: **RiverOaken**
+tStandalone Artist & Concept Creator: **Terra (the real otp?!!?)*
 
 #### TML
 TML is largely created and maintained by a core team of contributors: **Blushiemagic, Chicken-Bones, Jopojelly and Jofairden**

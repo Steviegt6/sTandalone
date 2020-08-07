@@ -14,6 +14,7 @@ TODO List:
 *Master Mode Reloaded:
 	-Additional AI for all of the Vanilla Bosses (Mutant)
 		^Especially Golem, huge pushover, even in Expert
+	-Fix Twins multiplayer compatability
 	-Additional Weapons from each boss
 	-Non-boss enemy AI changes (Mutant)
 	-New debuffs from enemies/bosses/biomes (Mutant)
@@ -25,7 +26,6 @@ TODO List:
 	-New MenuMode when you are reinitializing your client (Stevie)
 	-QoL changes that haven't already been implemented (if any, don't have any on mind atm)
 	-Resource pack support (not sure if possible due to tmod patcher)
-	-Make "Host & Play" button run the modded TerrariaServer.exe, not the vanilla one
-		^Either that, or prevent modded players from joining vanilla servers (or both)
+	-Prevent modded players from joining vanilla servers (or both)
 	-Localization for modded text
 	-Discord Rich Presence compatability

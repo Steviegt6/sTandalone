@@ -43,7 +43,7 @@
  			public static short[] Workbenches = new short[41] {
  				36,
  				635,
-@@ -6035,7 +_,14 @@
+@@ -6035,7 +_,15 @@
  		public const short CoffeeCup = 5042;
  		public const short TorchGodsFavor = 5043;
  		public const short MusicBoxCredits = 5044;
@@ -54,7 +54,8 @@
 +		public const short StevieDevHeadItem = 5048;
 +		public const short StevieDevBodyItem = 5049;
 +		public const short StevieDevLegsItem = 5050;
-+		public const short Count = 5051;
++		public const short TwinsGun = 5051;
++		public const short Count = 5052;
 +		//Vanilla Count of 5045
  
  		private static Dictionary<string, short> GenerateLegacyItemDictionary() {

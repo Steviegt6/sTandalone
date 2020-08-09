@@ -19,7 +19,7 @@
 -		internal static LocalizedText[] _projectileNameCache = new LocalizedText[950];
 +		private static LocalizedText[] _projectileNameCache = new LocalizedText[ProjectileID.Count];
 -		internal static LocalizedText[] _npcNameCache = new LocalizedText[663];
-+		private static LocalizedText[] _npcNameCache = new LocalizedText[663];
++		private static LocalizedText[] _npcNameCache = new LocalizedText[NPCID.Count];
  		private static LocalizedText[] _negativeNpcNameCache = new LocalizedText[65];
 -		internal static LocalizedText[] _buffNameCache = new LocalizedText[323];
 +		private static LocalizedText[] _buffNameCache = new LocalizedText[BuffID.Count];
@@ -35,7 +35,7 @@
  
  		public static LocalizedText GetNPCName(int netID) {
 -			if (netID > 0 && netID < _npcNameCache.Length)
-+			if (netID > 0 && netID < 663)
++			if (netID > 0 && netID < NPCID.Count)
  				return _npcNameCache[netID];
  
  			if (netID < 0 && -netID - 1 < _negativeNpcNameCache.Length)

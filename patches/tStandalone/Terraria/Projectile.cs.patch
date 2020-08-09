@@ -123,7 +123,7 @@
  			ownerHitCheckDistance = 1000f;
  			counterweight = false;
  			sentry = false;
-@@ -7867,14 +_,57 @@
+@@ -7867,14 +_,68 @@
  				hostile = true;
  				tileCollide = false;
  			}
@@ -164,7 +164,7 @@
 +				timeLeft = 60 * 8;
 +				aiStyle = 185;
 +			}
-+			if (type == ProjectileID.SmarterCursedFlames) {
++			else if (type == ProjectileID.SmarterCursedFlames) {
 +				width = 16;
 +				height = 16;
 +				aiStyle = 186;
@@ -177,6 +177,17 @@
 +				scale = 0.9f;
 +				scale = 1.3f;
 +				tileCollide = false;
++			}
++			else if (type == ProjectileID.FriendlyEyeFire) {
++				localNPCHitCooldown = -2;
++				width = 16;
++				height = 16;
++				aiStyle = 23;
++				alpha = 255;
++				penetrate = -1;
++				extraUpdates = 3;
++				magic = true;
++				friendly = true;
 +			}
 +		}
 +
@@ -208,6 +219,46 @@
  				if (ProjectileID.Sets.NeedsUUID[Type])
  					projectile.projUUID = projectile.identity;
  
+@@ -8148,6 +_,7 @@
+ 
+ 		public void StatusNPC(int i) {
+ 			NPC nPC = Main.npc[i];
++			ModdedOnHitNPC(nPC);
+ 			if (melee && Main.player[owner].meleeEnchant > 0 && !noEnchantments) {
+ 				byte meleeEnchant = Main.player[owner].meleeEnchant;
+ 				if (meleeEnchant == 1)
+@@ -8409,7 +_,16 @@
+ 			}
+ 		}
+ 
++		private void ModdedOnHitNPC(NPC target) {
++			switch (type) {
++				case ProjectileID.FriendlyEyeFire:
++					target.AddBuff(BuffID.CursedInferno, tUtils.SecondsToTicks(8), false);
++					break;
++			}
++		}
++
+ 		public void StatusPvP(int i) {
++			ModdedOnHitPVP(Main.player[i]);
+ 			if (melee && Main.player[owner].meleeEnchant > 0 && !noEnchantments) {
+ 				byte meleeEnchant = Main.player[owner].meleeEnchant;
+ 				if (meleeEnchant == 1)
+@@ -8524,6 +_,14 @@
+ 			}
+ 		}
+ 
++		private void ModdedOnHitPVP(Player target) {
++			switch (type) {
++				case ProjectileID.FriendlyEyeFire:
++					target.AddBuff(BuffID.CursedInferno, tUtils.SecondsToTicks(8), false);
++					break;
++			}
++		}
++
+ 		public void ghostHurt(int dmg, Vector2 Position) {
+ 			if (!magic || damage <= 0)
+ 				return;
 @@ -8796,10 +_,7 @@
  		}
  
@@ -228,7 +279,7 @@
  			if (friendly && owner == Main.myPlayer && !npcProj) {
  				if ((aiStyle == 16 && !ProjectileID.Sets.RocketsSkipDamageForPlayers[type] && (timeLeft <= 1 || type == 108 || type == 164)) || (type == 286 && localAI[1] == -1f)) {
  					int myPlayer = Main.myPlayer;
-@@ -8891,27 +_,8 @@
+@@ -8891,30 +_,11 @@
  					}
  
  					for (int i = 0; i < 200; i++) {
@@ -252,12 +303,16 @@
 -							continue;
 -
 -						bool canHitFlag = modCanHit==true || modCanBeHit==true || modCanHit2==true;
--						if (!canHitFlag && (!this.friendly || Main.npc[i].friendly && this.type != 318 && (Main.npc[i].type != 22 || this.owner >= 255 || !Main.player[this.owner].killGuide) && (Main.npc[i].type != 54 || this.owner >= 255 || !Main.player[this.owner].killClothier)) && (!this.hostile || !Main.npc[i].friendly || Main.npc[i].dontTakeDamageFromHostiles) || this.owner >= 0 && Main.npc[i].immune[this.owner] != 0 && this.maxPenetrate != 1)
 +						bool flag = (!usesLocalNPCImmunity && !usesIDStaticNPCImmunity) || (usesLocalNPCImmunity && array[i] == 0) || (usesIDStaticNPCImmunity && IsNPCIndexImmuneToProjectileType(type, i));
+-						if (!canHitFlag && (!this.friendly || Main.npc[i].friendly && this.type != 318 && (Main.npc[i].type != 22 || this.owner >= 255 || !Main.player[this.owner].killGuide) && (Main.npc[i].type != 54 || this.owner >= 255 || !Main.player[this.owner].killClothier)) && (!this.hostile || !Main.npc[i].friendly || Main.npc[i].dontTakeDamageFromHostiles) || this.owner >= 0 && Main.npc[i].immune[this.owner] != 0 && this.maxPenetrate != 1)
 +						if (!(Main.npc[i].active && !Main.npc[i].dontTakeDamage && flag) || (Main.npc[i].aiStyle == 112 && Main.npc[i].ai[2] > 1f))
  							continue;
  
- 						Main.npc[i].position += Main.npc[i].netOffset;
+-						Main.npc[i].position += Main.npc[i].netOffset;
++						 Main.npc[i].position += Main.npc[i].netOffset;
+ 						bool flag2 = !Main.npc[i].friendly;
+ 						flag2 |= (type == 318);
+ 						flag2 |= (Main.npc[i].type == 22 && owner < 255 && Main.player[owner].killGuide);
 @@ -8929,9 +_,6 @@
  								flag4 = true;
  							else if (type == 31 && Main.npc[i].type == 69)
@@ -360,6 +415,14 @@
  									}
  
  									if (type == 916)
+@@ -9620,6 +_,7 @@
+ 										nPC.immune[owner] = 0;
+ 										perIDStaticNPCImmunity[type][i] = (uint)((int)Main.GameUpdateCount + idStaticNPCHitCooldown);
+ 									}
++
+ 									else if (type == 434) {
+ 										numUpdates = 0;
+ 									}
 @@ -9772,9 +_,6 @@
  									if (type == 710)
  										BetsySharpnel(i);
@@ -557,6 +620,15 @@
  			if (aiStyle == 1) {
  				AI_001();
  			}
+@@ -16348,7 +_,7 @@
+ 
+ 					this.ai[0] += 1f;
+ 					int num197 = 6;
+-					if (type == 101)
++					if (type == 101 || type == ProjectileID.FriendlyEyeFire)
+ 						num197 = 75;
+ 
+ 					if (num197 == 6 || Main.rand.Next(2) == 0) {
 @@ -25519,6 +_,37 @@
  			else if (aiStyle == 184) {
  				AI_184_BadTorchLuck();

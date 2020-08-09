@@ -79,6 +79,19 @@
  						NetMessage.TrySendData(6);
  						if (Netplay.Connection.State == 2)
  							Netplay.Connection.State = 3;
+@@ -305,10 +_,10 @@
+ 						else if (player16.name == "") {
+ 							NetMessage.TrySendData(2, whoAmI, -1, NetworkText.FromKey("Net.EmptyName"));
+ 						}
+-						else if (player16.difficulty == 3 && !Main.GameModeInfo.IsJourneyMode) {
++						else if (player16.difficulty == 3 && !Main.GameModeInfo.IsJourneyMode && !Main.debugMode) {
+ 							NetMessage.TrySendData(2, whoAmI, -1, NetworkText.FromKey("Net.PlayerIsCreativeAndWorldIsNotCreative"));
+ 						}
+-						else if (player16.difficulty != 3 && Main.GameModeInfo.IsJourneyMode) {
++						else if (player16.difficulty != 3 && Main.GameModeInfo.IsJourneyMode && !Main.debugMode) {
+ 							NetMessage.TrySendData(2, whoAmI, -1, NetworkText.FromKey("Net.PlayerIsNotCreativeAndWorldIsCreative"));
+ 						}
+ 						else {
 @@ -393,7 +_,6 @@
  								player13.trashItem.Prefix(num241);
  								if (num239 == Main.myPlayer && !Main.ServerSideCharacter)
@@ -180,7 +193,7 @@
  							NPC.golemBoss = num80;
  
 -						if (nPC3.type >= 0 && nPC3.type < NPCLoader.NPCCount && Main.npcCatchable[nPC3.type])
-+						if (nPC3.type >= 0 && nPC3.type < 663 && Main.npcCatchable[nPC3.type])
++						if (nPC3.type >= 0 && nPC3.type < NPCID.Count && Main.npcCatchable[nPC3.type])
  							nPC3.releaseOwner = reader.ReadByte();
  
 -						NPCLoader.ReceiveExtraAI(nPC3, reader);
@@ -403,6 +416,15 @@
  							player5.buffType[num52] = reader.ReadUInt16();
  							if (player5.buffType[num52] > 0)
  								player5.buffTime[num52] = 60;
+@@ -2219,7 +_,7 @@
+ 						if (Main.netMode != 2)
+ 							break;
+ 
+-						if (num179 >= 0 && num179 < 663 && NPCID.Sets.MPAllowedEnemies[num179]) {
++						if (num179 >= 0 && num179 < NPCID.Count && NPCID.Sets.MPAllowedEnemies[num179]) {
+ 							if (!NPC.AnyNPCs(num179))
+ 								NPC.SpawnOnPlayer(plr, num179);
+ 						}
 @@ -2507,7 +_,6 @@
  					break;
  				case 74:

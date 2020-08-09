@@ -29,6 +29,15 @@
  		private const int NPC_TARGETS_START = 300;
  		public bool IsABestiaryIconDummy;
  		public bool ForcePartyHatOn;
+@@ -58,7 +_,7 @@
+ 		public static int maxAI = 4;
+ 		public int netSpam;
+ 		public static int goldCritterChance = 400;
+-		public static int[] killCount = new int[663];
++		public static int[] killCount = new int[NPCID.Count];
+ 		public static float waveKills = 0f;
+ 		public static int waveNumber = 0;
+ 		public const float nameOverIncrement = 0.025f;
 @@ -118,14 +_,14 @@
  		private static int townRangeY = sHeight;
  		public float npcSlots = 1f;
@@ -46,6 +55,15 @@
  		public bool midas;
  		public bool ichor;
  		public bool onFire;
+@@ -212,7 +_,7 @@
+ 		public static bool downedMechBoss1 = false;
+ 		public static bool downedMechBoss2 = false;
+ 		public static bool downedMechBoss3 = false;
+-		public static bool[] npcsFoundForCheckActive = new bool[663];
++		public static bool[] npcsFoundForCheckActive = new bool[NPCID.Count];
+ 		public static int[] lazyNPCOwnedProjectileSearchArray = new int[200];
+ 		private static int spawnRate = defaultSpawnRate;
+ 		private static int maxSpawns = defaultMaxSpawns;
 @@ -222,6 +_,9 @@
  		public int directionY = 1;
  		public int type;
@@ -61,7 +79,7 @@
  			for (int i = 0; i < 200; i++) {
  				NPC nPC = Main.npc[i];
 -				if (nPC.active && nPC.type >= 0 && nPC.type < NPCLoader.NPCCount)
-+				if (nPC.active && nPC.type >= 0 && nPC.type < 663)
++				if (nPC.active && nPC.type >= 0 && nPC.type < NPCID.Count)
  					npcsFoundForCheckActive[nPC.type] = true;
  			}
  
@@ -179,9 +197,13 @@
  					buffImmune[num2] = true;
  				}
  			}
-@@ -11643,9 +_,8 @@
+@@ -11642,10 +_,12 @@
+ 				trapImmune = true;
  				noGravity = true;
  			}
++			else {
++				ModdedSetDefaults();
++			}
  
 -			NPCLoader.SetDefaults(this);
  			if (flag) {
@@ -190,6 +212,90 @@
  					buffImmune[num4] = true;
  				}
  			}
+@@ -11693,6 +_,43 @@
+ 			life = lifeMax;
+ 		}
+ 
++		private void ModdedSetDefaults() {
++			switch (type) {
++				case NPCID.PrimeCoil:
++					width = 52;
++					height = 52;
++					aiStyle = 34;
++					damage = 52;
++					defense = 34;
++					lifeMax = 9000;
++					HitSound = SoundID.NPCHit4;
++					DeathSound = SoundID.NPCDeath14;
++					noGravity = true;
++					noTileCollide = true;
++					knockBackResist = 0f;
++					buffImmune[20] = true;
++					buffImmune[24] = true;
++					netAlways = true;
++					break;
++				case NPCID.PrimeMace:
++					width = 52;
++					height = 52;
++					aiStyle = 33;
++					damage = 56;
++					defense = 38;
++					lifeMax = 9000;
++					HitSound = SoundID.NPCHit4;
++					DeathSound = SoundID.NPCDeath14;
++					noGravity = true;
++					noTileCollide = true;
++					knockBackResist = 0f;
++					buffImmune[20] = true;
++					buffImmune[24] = true;
++					netAlways = true;
++					break;
++			}
++		}
++
+ 		private void getGoodAdjustments() {
+ 			if (type == 13) {
+ 				scale *= 1.4f;
+@@ -11855,6 +_,8 @@
+ 				float bossAdjustment = 1f;
+ 				if (nPCStrengthHelper.IsMasterMode)
+ 					bossAdjustment = 0.85f;
++				if (nPCStrengthHelper.IsMasterMode && Main.masterModeReloaded && !gameModeData.IsJourneyMode)
++					bossAdjustment = 1f;
+ 
+ 				ScaleStats_ApplyMultiplayerStats(num, balance, boost, bossAdjustment);
+ 			}
+@@ -11953,12 +_,26 @@
+ 				num2++;
+ 
+ 			if (!num) {
++				if (!gameModeData.IsJourneyMode && gameModeData.IsMasterMode && Main.masterModeReloaded) {
++					value = (int)(value * (GameModeData.MMR.EnemyMoneyDropMultiplier + (float)num2));
++					lifeMax = (int)((float)lifeMax * (GameModeData.MMR.EnemyMaxLifeMultiplier + (float)num2));
++				}
++				else {
+-				value = (int)(value * (gameModeData.EnemyMoneyDropMultiplier + (float)num2));
++					value = (int)(value * (gameModeData.EnemyMoneyDropMultiplier + (float)num2));
+-				lifeMax = (int)((float)lifeMax * (gameModeData.EnemyMaxLifeMultiplier + (float)num2));
++					lifeMax = (int)((float)lifeMax * (gameModeData.EnemyMaxLifeMultiplier + (float)num2));
++				}
+ 			}
+ 
++			if (!gameModeData.IsJourneyMode && gameModeData.IsMasterMode && Main.masterModeReloaded) {
++				damage = (int)((float)damage * (GameModeData.MMR.EnemyDamageMultiplier + (float)num2));
++				knockBackResist *= GameModeData.MMR.KnockbackToEnemiesMultiplier;
++				defense = (int)((float)defense * (GameModeData.MMR.EnemyDefenseMultiplier));
++			}
++			else {
+-			damage = (int)((float)damage * (gameModeData.EnemyDamageMultiplier + (float)num2));
++				damage = (int)((float)damage * (gameModeData.EnemyDamageMultiplier + (float)num2));
+-			knockBackResist *= gameModeData.KnockbackToEnemiesMultiplier;
++				knockBackResist *= gameModeData.KnockbackToEnemiesMultiplier;
++				defense = (int)((float)defense * (gameModeData.EnemyDefenseMultiplier));
++			}
+ 			if (Main.getGoodWorld)
+ 				damage += damage / 3;
+ 		}
 @@ -12188,7 +_,6 @@
  					break;
  			}
@@ -828,7 +934,7 @@
 +						}
 +						else if (moddedAI[0] <= tUtils.SecondsToTicks(5) && moddedAI[0] % 5f == 0f && moddedAI[1] == 2f) {
 +							Vector2 targetLocation = new Vector2(moddedAI[2], moddedAI[3]);
-+							int laserBarrage = Projectile.NewProjectile(Center, DirectionTo(targetLocation) * 15f, ProjectileID.DeathLaser, 50, 0.5f);
++							int laserBarrage = Projectile.NewProjectile(Center, DirectionTo(targetLocation) * 15f, ProjectileID.DeathLaser, GetAttackDamage_ForProjectiles(22f, 20f), 0.5f);
 +							Main.projectile[laserBarrage].tileCollide = false;
 +							Main.projectile[laserBarrage].alpha = 310; //This is done so that the laser looks like it properly comes out of the eye barrel
 +							Main.projectile[laserBarrage].timeLeft = tUtils.SecondsToTicks(3);
@@ -1092,7 +1198,7 @@
 +							rotation = velocity.RotatedBy(MathHelper.ToRadians(-90)).ToRotation();
 +
 +							if (++this.moddedAI[2] >= 2 && rotationPlaceholder < fullRotation) {
-+								int cursedRing = Projectile.NewProjectile(Center, Vector2.Zero, ProjectileID.SmarterCursedFlames, 50, 0f);
++								int cursedRing = Projectile.NewProjectile(Center, Vector2.Zero, ProjectileID.SmarterCursedFlames, GetAttackDamage_ForProjectiles(30f, 27f), 0f);
 +								Projectile cursedProj = Main.projectile[cursedRing];
 +								cursedProj.ai[0] = this.moddedAI[0] + circleRadius;
 +								cursedProj.ai[1] = this.moddedAI[1];
@@ -1134,7 +1240,7 @@
 +							velocity = ai[3].ToRotationVector2() * (4f * speedMultiplier);
 +
 +							if (Main.netMode != 1 && ++this.moddedAI[2] >= 6f) {
-+								int eyeFire = Projectile.NewProjectile(Center, DirectionTo(centerOfCircle) * 12f, ProjectileID.EyeFire, 30, 1f);
++								int eyeFire = Projectile.NewProjectile(Center, DirectionTo(centerOfCircle) * 12f, ProjectileID.EyeFire, GetAttackDamage_ForProjectiles(30f, 27f), 1f);
 +								Main.projectile[eyeFire].tileCollide = false;
 +								this.moddedAI[2] = 0f;
 +							}
@@ -1201,6 +1307,21 @@
  					}
  				}
  			}
+@@ -18330,12 +_,12 @@
+ 					Main.npc[num471].ai[1] = whoAmI;
+ 					Main.npc[num471].target = target;
+ 					Main.npc[num471].netUpdate = true;
+-					num471 = NewNPC((int)(base.position.X + (float)(width / 2)), (int)base.position.Y + height / 2, 129, whoAmI);
++					num471 = NewNPC((int)(base.position.X + (float)(width / 2)), (int)base.position.Y + height / 2, NPCID.PrimeCoil, whoAmI);
+ 					Main.npc[num471].ai[0] = 1f;
+ 					Main.npc[num471].ai[1] = whoAmI;
+ 					Main.npc[num471].target = target;
+ 					Main.npc[num471].netUpdate = true;
+-					num471 = NewNPC((int)(base.position.X + (float)(width / 2)), (int)base.position.Y + height / 2, 130, whoAmI);
++					num471 = NewNPC((int)(base.position.X + (float)(width / 2)), (int)base.position.Y + height / 2, NPCID.PrimeMace, whoAmI);
+ 					Main.npc[num471].ai[0] = -1f;
+ 					Main.npc[num471].ai[1] = whoAmI;
+ 					Main.npc[num471].target = target;
 @@ -22518,6 +_,8 @@
  			}
  			else if (aiStyle == 54) {
@@ -1312,7 +1433,7 @@
  			}
  
 -			if (type >= 0 && NPCID.Sets.TownCritter[type] && target == 255) {
-+			if (type >= 0 && type < 663 && NPCID.Sets.TownCritter[type] && target == 255) {
++			if (type >= 0 && type < NPCID.Count && NPCID.Sets.TownCritter[type] && target == 255) {
  				TargetClosest();
  				if (position.X < Main.player[target].position.X) {
  					base.direction = 1;
@@ -1687,10 +1808,19 @@
  
  		public static void ResetKillCount() {
 -			for (int i = 0; i < killCount.Length; i++) {
-+			for (int i = 0; i < 663; i++) {
++			for (int i = 0; i < NPCID.Count; i++) {
  				killCount[i] = 0;
  			}
  		}
+@@ -56681,7 +_,7 @@
+ 		}
+ 
+ 		public void NPCLootOld() {
+-			if (Main.netMode == 1 || type >= 663)
++			if (Main.netMode == 1 || type >= NPCID.Count)
+ 				return;
+ 
+ 			bool flag = false;
 @@ -56741,7 +_,7 @@
  
  			if (type == 1 && ai[1] > 0f) {
@@ -1705,7 +1835,7 @@
  
  		public void NPCLoot() {
 -			if (Main.netMode == 1)
-+			if (Main.netMode == 1 || type >= 663)
++			if (Main.netMode == 1 || type >= NPCID.Count)
  				return;
  
  			Player closestPlayer = Main.player[Player.FindClosest(position, width, height)];
@@ -1801,7 +1931,7 @@
  			}
  			else {
 -				if (Type < 0 || !Main.npcCatchable[Type] || !CanReleaseNPCs(who))
-+				if (Type < 0 || Type >= 663 || !Main.npcCatchable[Type] || !CanReleaseNPCs(who))
++				if (Type < 0 || Type >= NPCID.Count || !Main.npcCatchable[Type] || !CanReleaseNPCs(who))
  					return;
  
  				switch (Type) {

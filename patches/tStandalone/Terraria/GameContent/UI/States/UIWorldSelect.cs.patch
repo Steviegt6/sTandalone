@@ -29,7 +29,7 @@
  			IOrderedEnumerable<WorldFileData> orderedEnumerable = new List<WorldFileData>(Main.WorldList).OrderByDescending(CanWorldBePlayed).ThenByDescending((WorldFileData x) => x.IsFavorite).ThenBy((WorldFileData x) => x.Name)
  				.ThenBy((WorldFileData x) => x.GetFileName());
  
-@@ -135,46 +_,47 @@
+@@ -135,54 +_,57 @@
  				_worldList.Add(new UIWorldListItem(item, num++, CanWorldBePlayed(item)));
  			}
  
@@ -105,3 +105,16 @@
  				}
  			}
  		}
+ 
+ 		private bool CanWorldBePlayed(WorldFileData file) {
+-			bool num = Main.ActivePlayerFileData.Player.difficulty == 3;
+-			bool flag = file.GameMode == 3;
+-			return num == flag;
++			if (Main.ActivePlayerFileData.Player.difficulty != file.GameMode)
++				return Main.debugMode;
++			else {
++				return true;
++			}
+ 		}
+ 
+ 		public override void Draw(SpriteBatch spriteBatch) {

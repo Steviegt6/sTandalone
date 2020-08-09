@@ -108,15 +108,17 @@
  		public static int defaultItemGrabRange = 42;
  		private static float itemGrabSpeed = 0.45f;
  		private static float itemGrabSpeedMax = 4f;
-@@ -1301,7 +_,7 @@
+@@ -1301,8 +_,8 @@
  		public int cUnicornHorn;
  		public int cMinion;
  		public int cLeinShampoo;
 -		public int[] ownedProjectileCounts = new int[950];
 +		public int[] ownedProjectileCounts = new int[ProjectileID.Count];
- 		public bool[] npcTypeNoAggro = new bool[663];
+-		public bool[] npcTypeNoAggro = new bool[663];
++		public bool[] npcTypeNoAggro = new bool[NPCID.Count];
  		public int lastPortalColorIndex;
  		public int _portalPhysicsTime;
+ 		public bool portalPhysicsFlag;
 @@ -2031,13 +_,11 @@
  		}
  
@@ -256,15 +258,21 @@
  					buffTime[i] += time;
  					if (buffTime[i] > manaSickTimeMax)
  						buffTime[i] = manaSickTimeMax;
-@@ -2560,7 +_,7 @@
+@@ -2560,8 +_,12 @@
  
  		private int AddBuff_DetermineBuffTimeToAdd(int type, int time1) {
  			int num = time1;
 -			if (Main.expertMode && whoAmI == Main.myPlayer && BuffLoader.LongerExpertDebuff(type))
-+			if (Main.expertMode && whoAmI == Main.myPlayer && (type == 20 || type == 22 || type == 23 || type == 24 || type == 30 || type == 31 || type == 32 || type == 33 || type == 35 || type == 36 || type == 39 || type == 44 || type == 46 || type == 47 || type == 69 || type == 70 || type == 80))
- 				num = (int)(Main.GameModeInfo.DebuffTimeMultiplier * (float)num);
+-				num = (int)(Main.GameModeInfo.DebuffTimeMultiplier * (float)num);
++			if (Main.expertMode && whoAmI == Main.myPlayer && (type == 20 || type == 22 || type == 23 || type == 24 || type == 30 || type == 31 || type == 32 || type == 33 || type == 35 || type == 36 || type == 39 || type == 44 || type == 46 || type == 47 || type == 69 || type == 70 || type == 80)) {
++				if (Main.MMRChangesEnabled)
++					num = (int)(GameModeData.MMR.DebuffTimeMultiplier * (float)num);
++				else
++					num = (int)(Main.GameModeInfo.DebuffTimeMultiplier * (float)num);
++			}
  
  			return num;
+ 		}
 @@ -2569,28 +_,24 @@
  		public void DelBuff(int b) {
  			buffTime[b] = 0;
@@ -2954,16 +2962,94 @@
  						num162 = 4956;
  
  					Vector2 value14 = Main.MouseWorld - MountedCenter;
-@@ -33644,8 +_,7 @@
+@@ -33644,36 +_,37 @@
  					Main.projectile[num180].originalDamage = damage;
  					UpdateMaxTurrets();
  				}
 -				else if (PlayerHooks.Shoot(this, sItem, ref vector, ref num2, ref num3, ref projToShoot, ref Damage, ref KnockBack)
--					&& ItemLoader.Shoot(sItem, this, ref vector, ref num2, ref num3, ref projToShoot, ref Damage, ref KnockBack)) {
 +				else {
- 					int num181 = Projectile.NewProjectile(vector.X, vector.Y, num2, num3, projToShoot, Damage, KnockBack, i);
- 					if (sItem.type == 726)
- 						Main.projectile[num181].magic = true;
+-					&& ItemLoader.Shoot(sItem, this, ref vector, ref num2, ref num3, ref projToShoot, ref Damage, ref KnockBack)) {
++					if (ModdedShoot(sItem.type, vector, new Vector2(num2, num3), Damage, KnockBack, i)) {
+-					int num181 = Projectile.NewProjectile(vector.X, vector.Y, num2, num3, projToShoot, Damage, KnockBack, i);
++						int num181 = Projectile.NewProjectile(vector.X, vector.Y, num2, num3, projToShoot, Damage, KnockBack, i);
+-					if (sItem.type == 726)
++						if (sItem.type == 726)
+-						Main.projectile[num181].magic = true;
++							Main.projectile[num181].magic = true;
+ 
+-					if (sItem.type == 724 || sItem.type == 676)
++						if (sItem.type == 724 || sItem.type == 676)
+-						Main.projectile[num181].melee = true;
++							Main.projectile[num181].melee = true;
+ 
+-					if (projToShoot == 80) {
++						if (projToShoot == 80) {
+-						Main.projectile[num181].ai[0] = tileTargetX;
++							Main.projectile[num181].ai[0] = tileTargetX;
+-						Main.projectile[num181].ai[1] = tileTargetY;
++							Main.projectile[num181].ai[1] = tileTargetY;
+-					}
++						}
+ 
+-					if (sItem.type == 760)
++						if (sItem.type == 760)
+-						DestroyOldestProximityMinesOverMinesCap(20);
++							DestroyOldestProximityMinesOverMinesCap(20);
+ 
+-					if (projToShoot == 442) {
++						if (projToShoot == 442) {
+-						Main.projectile[num181].ai[0] = tileTargetX;
++							Main.projectile[num181].ai[0] = tileTargetX;
+-						Main.projectile[num181].ai[1] = tileTargetY;
++							Main.projectile[num181].ai[1] = tileTargetY;
+-					}
++						}
+ 
+-					if (projToShoot == 826)
++						if (projToShoot == 826)
+-						Main.projectile[num181].ai[1] = Main.rand.Next(3);
++							Main.projectile[num181].ai[1] = Main.rand.Next(3);
+ 
+-					if (sItem.type == 949)
++						if (sItem.type == 949)
+-						Main.projectile[num181].ai[1] = 1f;
++							Main.projectile[num181].ai[1] = 1f;
+ 
+-					if (Main.projectile[num181].aiStyle == 99)
++						if (Main.projectile[num181].aiStyle == 99)
+-						AchievementsHelper.HandleSpecialEvent(this, 7);
++							AchievementsHelper.HandleSpecialEvent(this, 7);
++					}
+ 				}
+ 			}
+ 			else if (sItem.useStyle == 5 || sItem.useStyle == 13) {
+@@ -33682,6 +_,26 @@
+ 			}
+ 		}
+ 
++		/// <summary>
++		/// Mimic's tML's Shoot hook in ModItem/GlobalItem. Returning false stops vanilla shoot code. Returns true by default.
++		/// </summary>
++		/// <param name="itemType">Item type that is shooting.</param>
++		/// <param name="position">Projectile spawn position.</param>
++		/// <param name="velocity">Projectile velocity.</param>
++		/// <param name="damage">Projectile damage.</param>
++		/// <param name="knockback">Knockback value.</param>
++		/// <param name="owner">Projectile Owner. (Player)</param>
++		/// <returns></returns>
++		private bool ModdedShoot(int itemType, Vector2 position, Vector2 velocity, int damage, float knockback, int owner) {
++			switch (itemType) {
++				case ItemID.TwinsGun:
++					Projectile.NewProjectile(position, velocity, ProjectileID.FriendlyEyeFire, damage, knockback, owner);
++					SoundEngine.PlaySound(SoundID.Item34, position);
++					break;
++			}
++			return true;
++		}
++
+ 		private static int SpawnMinionOnCursor(int ownerIndex, int minionProjectileId, int originalDamageNotScaledByMinionDamage, float KnockBack, Vector2 offsetFromCursor = default(Vector2), Vector2 velocityOnSpawn = default(Vector2)) {
+ 			int num = Projectile.NewProjectile(Main.MouseWorld + offsetFromCursor, velocityOnSpawn, minionProjectileId, originalDamageNotScaledByMinionDamage, KnockBack, ownerIndex);
+ 			Main.projectile[num].originalDamage = originalDamageNotScaledByMinionDamage;
 @@ -34161,8 +_,6 @@
  		}
  

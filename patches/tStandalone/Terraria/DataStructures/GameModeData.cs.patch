@@ -1,28 +1,42 @@
 --- src/tModLoader/Terraria/DataStructures/GameModeData.cs
 +++ src/tStandalone/Terraria/DataStructures/GameModeData.cs
-@@ -30,10 +_,22 @@
- 			EnemyMaxLifeMultiplier = 3f,
+@@ -2,6 +_,7 @@
+ {
+ 	public class GameModeData
+ 	{
++
+ 		public static readonly GameModeData NormalMode = new GameModeData {
+ 			Id = 0,
+ 			EnemyMaxLifeMultiplier = 1f,
+@@ -31,9 +_,9 @@
  			EnemyDamageMultiplier = 3f,
  			DebuffTimeMultiplier = 2.5f,
--			KnockbackToEnemiesMultiplier = 0.8f,
-+			KnockbackToEnemiesMultiplier =  0.8f,
+ 			KnockbackToEnemiesMultiplier = 0.8f,
 -			TownNPCDamageMultiplier = 1.75f,
 +			TownNPCDamageMultiplier = 2f,
  			EnemyDefenseMultiplier = 1f,
-+			EnemyMoneyDropMultiplier = 3f
-+		};
-+		public static readonly GameModeData MasterModeReloaded = new GameModeData {
-+			Id = 2,
-+			IsExpertMode = true,
-+			IsMasterMode = true,
-+			EnemyMaxLifeMultiplier = ExpertMode.EnemyMaxLifeMultiplier * 1.1f,
-+			EnemyDamageMultiplier = ExpertMode.EnemyDamageMultiplier * 1.1f,
-+			DebuffTimeMultiplier = ExpertMode.DebuffTimeMultiplier * 1.1f,
-+			KnockbackToEnemiesMultiplier = 0.7f,
 -			EnemyMoneyDropMultiplier = 2.5f
-+			TownNPCDamageMultiplier = 2.5f,
-+			EnemyDefenseMultiplier = 1.2f, //I mean, we want *something*, right?
-+			EnemyMoneyDropMultiplier = 3f
++			EnemyMoneyDropMultiplier = 2f
  		};
  		public static readonly GameModeData CreativeMode = new GameModeData {
  			Id = 3,
+@@ -45,6 +_,19 @@
+ 			TownNPCDamageMultiplier = 2f,
+ 			EnemyDefenseMultiplier = 1f,
+ 			EnemyMoneyDropMultiplier = 1f
++		};
++
++		public static readonly GameModeData MMR = new GameModeData {
++			Id = -1,
++			IsExpertMode = true,
++			IsMasterMode = true,
++			EnemyMaxLifeMultiplier = ExpertMode.EnemyMaxLifeMultiplier * 1.05f,
++			EnemyDamageMultiplier = ExpertMode.EnemyDamageMultiplier * 1.05f,
++			DebuffTimeMultiplier = ExpertMode.DebuffTimeMultiplier * 1.05f,
++			KnockbackToEnemiesMultiplier = 0.8f,
++			TownNPCDamageMultiplier = 2.5f,
++			EnemyDefenseMultiplier = 1.1f,
++			EnemyMoneyDropMultiplier = 3f
+ 		};
+ 
+ 		public int Id {

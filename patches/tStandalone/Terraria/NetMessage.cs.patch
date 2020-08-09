@@ -107,7 +107,7 @@
  							}
  
 -							if (nPC2.type >= 0 && Main.npcCatchable[nPC2.type])
-+							if (nPC2.type >= 0 && nPC2.type < 663 && Main.npcCatchable[nPC2.type])
++							if (nPC2.type >= 0 && nPC2.type < NPCID.Count && Main.npcCatchable[nPC2.type])
  								writer.Write((byte)nPC2.releaseOwner);
  
 -							NPCLoader.SendExtraAI(nPC2, writer);

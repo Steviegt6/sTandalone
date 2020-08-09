@@ -16,16 +16,54 @@
  			}
  
 -			public static SetFactory Factory = new SetFactory(NPCLoader.NPCCount);
-+			public static SetFactory Factory = new SetFactory(663);
++			public static SetFactory Factory = new SetFactory(NPCID.Count);
  			public static Dictionary<int, int> SpecialSpawningRules = new Dictionary<int, int> {
  				{ 259, 0 },
  				{ 260, 0 },
-@@ -5656,6 +_,8 @@
+@@ -208,7 +_,7 @@
+ 				448,
+ 				539
+ 			};
+-			public static bool[] CantTakeLunchMoney = Factory.CreateBoolSet(394, 393, 392, 492, 491, 662, 384, 478, 658, 659, 660, 128, 131, 129, 130, 139, 267, 247, 248, 246, 249, 245, 397, 396, 401, 400, 440, 68);
++			public static bool[] CantTakeLunchMoney = Factory.CreateBoolSet(394, 393, 392, 492, 491, 662, 384, 478, 658, 659, 660, 128, 131, 129, 130, 139, 267, 247, 248, 246, 249, 245, 397, 396, 401, 400, 440, 68, NPCID.PrimeCoil, NPCID.PrimeMace);
+ 			public static Dictionary<int, int> RespawnEnemyID = new Dictionary<int, int> {
+ 				{ 492, 0 },
+ 				{ 491, 0 },
+@@ -270,7 +_,7 @@
+ 			public static int[] TrailCacheLength = Factory.CreateIntSet(10, 402, 36, 519, 20, 522, 20, 620, 20);
+ 			public static bool[] NoMultiplayerSmoothingByType = Factory.CreateBoolSet(113, 114, 50, 657, 120, 245, 247, 248, 246, 370, 222);
+ 			public static bool[] NoMultiplayerSmoothingByAI = Factory.CreateBoolSet(6, 8, 37);
+-			public static bool[] MPAllowedEnemies = Factory.CreateBoolSet(4, 13, 50, 126, 125, 134, 127, 128, 131, 129, 130, 222, 245, 266, 370, 657);
++			public static bool[] MPAllowedEnemies = Factory.CreateBoolSet(4, 13, 50, 126, 125, 134, 127, 128, 131, 129, 130, 222, 245, 266, 370, 657, NPCID.PrimeMace, NPCID.PrimeCoil);
+ 			public static bool[] TownCritter = Factory.CreateBoolSet(46, 148, 149, 230, 299, 300, 303, 337, 361, 362, 364, 366, 367, 443, 445, 447, 538, 539, 540, 583, 584, 585, 592, 593, 602, 607, 608, 610, 616, 617, 625, 626, 627, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652);
+ 			public static bool[] CountsAsCritter = Factory.CreateBoolSet(46, 303, 337, 540, 443, 74, 297, 298, 442, 611, 377, 446, 612, 613, 356, 444, 595, 596, 597, 598, 599, 600, 601, 604, 605, 357, 448, 374, 484, 355, 358, 606, 359, 360, 485, 486, 487, 148, 149, 55, 230, 592, 593, 299, 538, 539, 300, 447, 361, 445, 362, 363, 364, 365, 367, 366, 583, 584, 585, 602, 603, 607, 608, 609, 610, 616, 617, 625, 626, 627, 615, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 661);
+ 			public static bool[] HasNoPartyText = Factory.CreateBoolSet(441, 453);
+@@ -4374,6 +_,16 @@
+ 					Hide = true
+ 				};
+ 
++				dictionary.Add(NPCID.PrimeCoil, value);
++				value = new NPCBestiaryDrawModifiers(0) {
++					Hide = true
++				};
++
++				dictionary.Add(NPCID.PrimeMace, value);
++				value = new NPCBestiaryDrawModifiers(0) {
++					Hide = true
++				};
++
+ 				dictionary.Add(0, value);
+ 				value = new NPCBestiaryDrawModifiers(0) {
+ 					Hide = true
+@@ -5655,7 +_,10 @@
+ 		public const short QueenSlimeMinionPurple = 660;
  		public const short EmpressButterfly = 661;
  		public const short PirateGhost = 662;
- 		public const short Count = 663;
-+		public const short VanillaCount = 663;
-+		//TODO: Count
+-		public const short Count = 663;
++		public const short PrimeCoil = 663;
++		public const short PrimeMace = 664;
++		public const short Count = 665;
++		//Vanilla count of 663
  
  		public static int FromLegacyName(string name) {
  			if (LegacyNameToIdMap.TryGetValue(name, out int value))

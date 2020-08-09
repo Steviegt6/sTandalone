@@ -113,6 +113,23 @@
  		}
  
  		private bool TryMovingToRejectionMenuIfNeeded(int worldGameMode) {
+@@ -294,14 +_,14 @@
+ 
+ 			bool flag = Main.ActivePlayerFileData.Player.difficulty == 3;
+ 			bool isJourneyMode = value.IsJourneyMode;
+-			if (flag && !isJourneyMode) {
++			if (flag && !isJourneyMode && !Main.debugMode) {
+ 				SoundEngine.PlaySound(10);
+ 				Main.statusText = Language.GetTextValue("UI.PlayerIsCreativeAndWorldIsNotCreative");
+ 				Main.menuMode = 1000000;
+ 				return true;
+ 			}
+ 
+-			if (!flag && isJourneyMode) {
++			if (!flag && isJourneyMode && !Main.debugMode) {
+ 				SoundEngine.PlaySound(10);
+ 				Main.statusText = Language.GetTextValue("UI.PlayerIsNotCreativeAndWorldIsCreative");
+ 				Main.menuMode = 1000000;
 @@ -330,9 +_,6 @@
  		private void SeedButtonClick(UIMouseEvent evt, UIElement listeningElement) {
  			Platform.Get<IClipboard>().Value = _data.GetFullSeedText();

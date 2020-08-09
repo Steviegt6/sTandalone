@@ -26,7 +26,7 @@
  using Terraria.UI;
  using Terraria.UI.Chat;
  using Terraria.UI.Gamepad;
-@@ -88,9 +_,9 @@
+@@ -88,31 +_,28 @@
  namespace Terraria
  {
  #if CLIENT
@@ -38,6 +38,70 @@
  #endif
  	{
  		public delegate void OnPlayerSelected(PlayerFileData player);
+ 
+-		public static class CurrentFrameFlags
++		public static class CurrentFrameFlags {
+-		{
+ 			public static int ActivePlayersCount;
+ 			public static int SleepingPlayersCount;
+ 			public static bool AnyActiveBossNPC;
+ 			public static bool HadAnActiveInteractibleProjectile;
+ 		}
+ 
+-		public enum WorldPreparationState
+-		{
++		public enum WorldPreparationState {
+ 			AwaitingData,
+ 			ProcessingData,
+ 			Ready
+ 		}
+ 
+ #if WINDOWS
+-		internal static class NativeMethods
++		internal static class NativeMethods {
+-		{
+ 			public const uint ES_CONTINUOUS = 2147483648u;
+ 			public const uint ES_SYSTEM_REQUIRED = 1u;
+ 
+@@ -121,8 +_,7 @@
+ 		}
+ #endif
+ 
+-		private struct MouseTextCache
+-		{
++		private struct MouseTextCache {
+ 			public bool noOverride;
+ 			public bool isValid;
+ 			public string cursorText;
+@@ -135,8 +_,7 @@
+ 			public string buffTooltip;
+ 		}
+ 
+-		protected class TextDisplayCache
+-		{
++		protected class TextDisplayCache {
+ 			private string _originalText;
+ 			private int _lastScreenWidth;
+ 			private int _lastScreenHeight;
+@@ -162,16 +_,14 @@
+ 			}
+ 		}
+ 
+-		public struct SceneArea
+-		{
++		public struct SceneArea {
+ 			public Vector2 SceneLocalScreenPositionOffset;
+ 			public float totalWidth;
+ 			public float totalHeight;
+ 			public int bgTopY;
+ 		}
+ 
+-		public struct InfoToSetBackColor
+-		{
++		public struct InfoToSetBackColor {
+ 			public bool isInGameMenuOrIsServer;
+ 			public float CorruptionBiomeInfluence;
+ 			public float CrimsonBiomeInfluence;
 @@ -182,6 +_,45 @@
  			public bool LanternNightActive;
  		}
@@ -75,7 +139,7 @@
 +
 +		#region MASTER_MODE_RELOADED
 +		public static bool MMRChangesEnabled {
-+			get { return masterModeReloaded && masterMode;  }
++			get { return masterModeReloaded && masterMode; }
 +		}
 +
 +		#endregion
@@ -93,16 +157,15 @@
  		public static bool AnnouncementBoxDisabled;
  		public static int AnnouncementBoxRange = -1;
  		public static string AutogenSeedName;
-@@ -249,7 +_,7 @@
- 		public static Dictionary<int, GameModeData> RegisterdGameModes = new Dictionary<int, GameModeData> {
+@@ -250,14 +_,18 @@
  			{ 0, GameModeData.NormalMode },
  			{ 1, GameModeData.ExpertMode },
--			{ 2, GameModeData.MasterMode },
-+			{ 2, masterModeReloaded ? GameModeData.MasterModeReloaded : GameModeData.MasterMode },
- 			{ 3, GameModeData.CreativeMode }		};
+ 			{ 2, GameModeData.MasterMode },
+-			{ 3, GameModeData.CreativeMode }		};
++			{ 3, GameModeData.CreativeMode } };
  		private static bool? _overrideForExpertMode = null;
  		private static bool? _overrideForMasterMode = null;
-@@ -257,7 +_,11 @@
+ 		public static bool drunkWorld = false;
  		public static bool getGoodWorld = false;
  		public static Vector2 destroyerHB = new Vector2(0f, 0f);
  		public static FavoritesFile LocalFavoriteData = new FavoritesFile(SavePath + "/favorites.json", isCloud: false);
@@ -132,12 +195,14 @@
 -		public const int maxItemTypes = 5045;
 -		public const int maxProjectileTypes = 950;
 +		public const int maxProjectileTypes = ProjectileID.Count;
- 		public const int maxNPCTypes = 663;
+-		public const int maxNPCTypes = 663;
++		public const int maxNPCTypes = NPCID.Count;
  		public const int maxTileSets = 623;
  		public const int maxWallTypes = 316;
 -		public const int maxBuffTypes = 323;
 +		public const int maxBuffTypes = BuffID.Count;
- 		public const int maxGlowMasks = 301;
+-		public const int maxGlowMasks = 301;
++		public const int maxGlowMasks = GlowMaskID.Count;
  		public const int maxExtras = 212;
  		public const int maxGoreTypes = 1269;
 -		public const int maxMusic = 89;
@@ -151,6 +216,15 @@
  		public const int numAccHandsOn = 22;
  		public const int numAccHandsOff = 14;
  		public const int numAccNeck = 11;
+@@ -417,7 +_,7 @@
+ 		public static bool stopTimeOuts = false;
+ 		public static bool showSpam = false;
+ 		public static bool showItemOwner = false;
+-		public static bool[] townNPCCanSpawn = new bool[663];
++		public static bool[] townNPCCanSpawn = new bool[NPCID.Count];
+ 		public static int musicBox2 = -1;
+ 		public static byte HealthBarDrawSettings = 1;
+ 		public static bool runningCollectorsEdition;
 @@ -523,17 +_,17 @@
  		public static int buffScanAreaWidth = (maxScreenW + 800) / 16 - 1;
  		public static int buffScanAreaHeight = (maxScreenH + 800) / 16 - 1;
@@ -255,6 +329,15 @@
  		private static UIWorldSelect _worldSelectMenu = new UIWorldSelect();
  		public static UIManageControls ManageControlsMenu = new UIManageControls();
  		public static UIAchievementsMenu AchievementsMenu = new UIAchievementsMenu();
+@@ -714,7 +_,7 @@
+ 		public static int slimeWarningTime;
+ 		public static int slimeWarningDelay = 420;
+ 		public static float slimeRainNPCSlots = 0.65f;
+-		public static bool[] slimeRainNPC = new bool[663];
++		public static bool[] slimeRainNPC = new bool[NPCID.Count];
+ 		public static double slimeRainTime;
+ 		public static bool slimeRain;
+ 		public static int slimeRainKillCount;
 @@ -761,15 +_,7 @@
  		public static int LogoA = 255;
  		public static int LogoB;
@@ -296,6 +379,15 @@
  		public static float musicVolume = 1f;
  		public static float ambientVolume = 1f;
  		public static float soundVolume = 1f;
+@@ -970,7 +_,7 @@
+ 		public static int[] grasshopperCageFrameCounter = new int[cageFrames];
+ 		public static bool[] tileSand = new bool[623];
+ 		public static bool[] tileFlame = new bool[623];
+-		public static bool[] npcCatchable = new bool[663];
++		public static bool[] npcCatchable = new bool[NPCID.Count];
+ 		public static int[] tileFrame = new int[623];
+ 		public static int[] tileFrameCounter = new int[623];
+ 		public static byte[] wallFrame = new byte[316];
 @@ -996,7 +_,7 @@
  		public static Sign[] sign = new Sign[1000];
  		public static int[] itemFrame = new int[401];
@@ -320,7 +412,26 @@
  		public static Preferences Configuration = new Preferences(SavePath + Path.DirectorySeparatorChar + "config.json");
  		public static Preferences InputProfiles = new Preferences(SavePath + Path.DirectorySeparatorChar + "input profiles.json");
  		public static KeyboardState inputText;
-@@ -1864,7 +_,7 @@
+@@ -1194,7 +_,7 @@
+ 		public static float invasionProgressAlpha;
+ 		public static bool HasInteractibleObjectThatIsNotATile = false;
+ 		public int currentNPCShowingChatBubble = -1;
+-		public static int[] npcFrameCount = new int[663] {
++		public static int[] npcFrameCount = new int[NPCID.Count] {
+ 			1,
+ 			2,
+ 			2,
+@@ -1857,14 +_,16 @@
+ 			2,
+ 			4,
+ 			3,
+-			4
++			4,
++			1,
++			1
+ 		};
+ 		public static Dictionary<int, byte> npcLifeBytes = new Dictionary<int, byte>();
+ 		public static bool mouseExit;
  		public static float exitScale = 0.8f;
  		public static bool mouseReforge;
  		public static float reforgeScale = 0.8f;
@@ -397,14 +508,26 @@
  		}
  
  		public static string playerPathName => ActivePlayerFileData.Path;
-@@ -2735,7 +_,6 @@
+@@ -2734,9 +_,18 @@
+ 					break;
  			}
  
++			ModdedOffsetDefaults(gravdir, itemtype, ref result, ref num);
++
  			result.X = num;
 -			ItemLoader.HoldoutOffset(gravdir, itemtype, ref result);
  			return result;
++		}
++
++		private static void ModdedOffsetDefaults(float gravdir, int itemtype, ref Vector2 offset, ref float offsetX) {
++			switch (itemtype) {
++				case ItemID.TwinsGun:
++					offsetX -= 18f;
++					break;
++			}
  		}
  
+ 		public static void SetupTileMerge() {
 @@ -2752,8 +_,6 @@
  				itemAnimationsRegistered.Add(index);
  
@@ -598,6 +721,15 @@
  						if (text.Length >= 5 && text.Substring(0, 5).ToLower() == "seed=")
  							AutogenSeedName = text.Substring(5);
  
+@@ -3881,7 +_,7 @@
+ 									GameMode = 1;
+ 									break;
+ 								case "2":
+-									GameMode = 2;
++										GameMode = 2;
+ 									break;
+ 								case "3":
+ 									GameMode = 3;
 @@ -3991,10 +_,6 @@
  		}
  
@@ -919,9 +1051,9 @@
 +			RegisterdGameModes = new Dictionary<int, GameModeData> {
 +			{ 0, GameModeData.NormalMode },
 +			{ 1, GameModeData.ExpertMode },
-+			{ 2, masterModeReloaded ? GameModeData.MasterModeReloaded : GameModeData.MasterMode },
-+			{ 3, GameModeData.CreativeMode }        };
-+			TilePaintSystem = new TilePaintSystemV2();
++			{ 2, GameModeData.MasterMode },
++			{ 3, GameModeData.CreativeMode } };
++		TilePaintSystem = new TilePaintSystemV2();
 +			TilesRenderer = new TileDrawing(TilePaintSystem);
 +			WallsRenderer = new WallDrawing(TilePaintSystem);
 +			CreativePowerManager.Initialize();
@@ -1083,6 +1215,15 @@
  			tileFlame[4] = true;
  			tileFlame[33] = true;
  			tileFlame[34] = true;
+@@ -7306,7 +_,7 @@
+ 			tilePile[331] = true;
+ 			tilePile[332] = true;
+ 			tilePile[333] = true;
+-			for (int m = 0; m < 663; m++) {
++			for (int m = 0; m < NPCID.Count; m++) {
+ 				npcCatchable[m] = false;
+ 			}
+ 
 @@ -8253,6 +_,13 @@
  			wallDungeon[99] = true;
  		}
@@ -1686,17 +1827,15 @@
  			if (hackedScreenHeight != -1 && hackedScreenWidth != -1) {
  				if ((float)X + vector.X + 4f > (float)hackedScreenWidth)
  					X = (int)((float)hackedScreenWidth - vector.X - 4f);
-@@ -14917,6 +_,9 @@
+@@ -14917,6 +_,7 @@
  
  			float num2 = (float)(int)mouseTextColor / 255f;
  			Microsoft.Xna.Framework.Color baseColor = new Microsoft.Xna.Framework.Color(mouseTextColor, mouseTextColor, mouseTextColor, mouseTextColor);
-+			if (num == -13)
-+				baseColor = new Microsoft.Xna.Framework.Color((byte)(255f * num2), (byte)(masterColor * 200f * num2), 0, mouseTextColor);
 +
  			if (num == -11)
  				baseColor = new Microsoft.Xna.Framework.Color((byte)(255f * num2), (byte)(175f * num2), (byte)(0f * num2), mouseTextColor);
  
-@@ -14959,12 +_,9 @@
+@@ -14959,18 +_,18 @@
  			if (num >= 11)
  				baseColor = new Microsoft.Xna.Framework.Color((byte)(180f * num2), (byte)(40f * num2), (byte)(255f * num2), mouseTextColor);
  
@@ -1709,6 +1848,15 @@
 -
  			if (diff == 1)
  				baseColor = new Microsoft.Xna.Framework.Color((byte)((float)(int)mcColor.R * num2), (byte)((float)(int)mcColor.G * num2), (byte)((float)(int)mcColor.B * num2), mouseTextColor);
+ 
+ 			if (diff == 2)
+ 				baseColor = new Microsoft.Xna.Framework.Color((byte)((float)(int)hcColor.R * num2), (byte)((float)(int)hcColor.G * num2), (byte)((float)(int)hcColor.B * num2), mouseTextColor);
+ 
++			if (num == -13 || HoverItem.master)
++				baseColor = new Microsoft.Xna.Framework.Color((byte)(255f * num2), (byte)(masterColor * 200f * num2), 0, mouseTextColor);
++
+ 			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.MouseText.Value, cursorText, new Vector2(X, Y), baseColor, 0f, Vector2.Zero, Vector2.One);
+ 		}
  
 @@ -15004,9 +_,8 @@
  				array2[i] = false;
@@ -1756,26 +1904,23 @@
  			int num12 = 0;
  			for (int j = 0; j < numLines; j++) {
  				Vector2 stringSize = ChatManager.GetStringSize(FontAssets.MouseText.Value, array[j], Vector2.One);
-@@ -15169,6 +_,9 @@
+@@ -15169,6 +_,7 @@
  					Microsoft.Xna.Framework.Color black = Microsoft.Xna.Framework.Color.Black;
  					black = new Microsoft.Xna.Framework.Color(num4, num4, num4, num4);
  					if (k == 0) {
-+						if (rare == -13)
-+							black = new Microsoft.Xna.Framework.Color((byte)(255f * num4), (byte)(masterColor * 200f * num4), 0, a);
 +
  						if (rare == -11)
  							black = new Microsoft.Xna.Framework.Color((byte)(255f * num4), (byte)(175f * num4), (byte)(0f * num4), a);
  
-@@ -15216,9 +_,6 @@
- 
+@@ -15217,7 +_,7 @@
  						if (hoverItem.expert || rare == -12)
  							black = new Microsoft.Xna.Framework.Color((byte)((float)DiscoR * num4), (byte)((float)DiscoG * num4), (byte)((float)DiscoB * num4), a);
--
+ 
 -						if (hoverItem.master || rare == -13)
--							black = new Microsoft.Xna.Framework.Color((byte)(255f * num4), (byte)(masterColor * 200f * num4), 0, a);
++						if (rare == -13 || hoverItem.master)
+ 							black = new Microsoft.Xna.Framework.Color((byte)(255f * num4), (byte)(masterColor * 200f * num4), 0, a);
  					}
  					else if (array2[k]) {
- 						black = (array3[k] ? new Microsoft.Xna.Framework.Color((byte)(190f * num4), (byte)(120f * num4), (byte)(120f * num4), a) : new Microsoft.Xna.Framework.Color((byte)(120f * num4), (byte)(190f * num4), (byte)(120f * num4), a));
 @@ -15237,72 +_,77 @@
  			}
  		}
@@ -2290,7 +2435,7 @@
  			}
  
 -			if (item.master) {
-+			if (item.rare == -13) {
++			if (item.rare == -13 || item.master) {
  				toolTipLine[numLines] = Language.GetTextValue("GameUI.Master");
 -				toolTipNames[numLines] = "Master";
  				numLines++;
@@ -2417,7 +2562,7 @@
  			for (int num = 199; num >= 0; num--) {
  				try {
 -					if (npc[num].active && npc[num].type > 0 && !npc[num].hide) {
-+					if (npc[num].active && npc[num].type > 0 && npc[num].type < 663 && !npc[num].hide) {
++					if (npc[num].active && npc[num].type > 0 && npc[num].type < NPCID.Count && !npc[num].hide) {
  						npc[num].position += npc[num].netOffset;
  						if (npc[num].behindTiles == behindTiles) {
  							if (npc[num].type == 125 || npc[num].type == 126) {
@@ -3012,15 +3157,14 @@
  		}
  
  		private static void DrawPVPIcons() {
-@@ -31753,8 +_,6 @@
+@@ -31753,6 +_,7 @@
  						rare = item[i].rare;
  						if (item[i].expert)
  							rare = -12;
--						if (item[i].master)
--							rare = -13;
++
+ 						if (item[i].master)
+ 							rare = -13;
  
- 						MouseTextHackZoom(text, rare, 0);
- 						mouseText = true;
 @@ -31800,7 +_,7 @@
  					bool flag2 = flag || (SmartInteractShowingGenuine && SmartInteractNPC == k);
  					if (flag2 && ((npc[k].type != 85 && npc[k].type != 341 && npc[k].type != 629 && npc[k].aiStyle != 87) || npc[k].ai[0] != 0f) && npc[k].type != 488) {
@@ -3401,6 +3545,15 @@
  
  				num11++;
  			}
+@@ -37286,7 +_,7 @@
+ 							menuMode = -71;
+ 					}
+ 					else if (selectedMenu == 4) {
+-						GameMode = 2;
++							GameMode = 2;
+ 						SoundEngine.PlaySound(10);
+ 						menuMode = 7;
+ 						if (SettingsUnlock_WorldEvil)
 @@ -37434,9 +_,8 @@
  				else if (menuMode == 11) {
  					num2 = 210;
@@ -3639,7 +3792,7 @@
 +					Vector2 origin1 = FontAssets.MouseText.Value.MeasureString("Terraria " + versionNumber);
 +					spriteBatch.DrawString(FontAssets.MouseText.Value, "Terraria " + versionNumber, new Vector2(origin1.X + (float)num108 + 10f, (float)screenHeight - origin1.Y + (float)num109 - 2f), color12, 0f, origin1, 1f, SpriteEffects.None, 0f);
 +
-+					Vector2 origin2 = FontAssets.MouseText.Value.MeasureString("tStandalone " + tStandaloneVersion);
++					Vector2 origin2 = FontAssets.MouseText.Value.MeasureString("tStandalone " + tStandaloneVersion + (debugMode ? " DEBUG" : ""));
  					origin2.X *= 0.5f;
  					origin2.Y *= 0.5f;
 -
@@ -3676,7 +3829,7 @@
 -							Process.Start("https://www.patreon.com/tModLoader");
 -						}
 -					}
-+					spriteBatch.DrawString(FontAssets.MouseText.Value, "tStandalone " + tStandaloneVersion, new Vector2(origin2.X + (float)num108 + 10f, (float)screenHeight - origin2.Y + (float)num109 - 2f), color12, 0f, origin2, 1f, SpriteEffects.None, 0f);
++					spriteBatch.DrawString(FontAssets.MouseText.Value, "tStandalone " + tStandaloneVersion + (debugMode ? " DEBUG" : ""), new Vector2(origin2.X + (float)num108 + 10f, (float)screenHeight - origin2.Y + (float)num109 - 2f), color12, 0f, origin2, 1f, SpriteEffects.None, 0f);
 +
 +					Vector2 origin3 = FontAssets.MouseText.Value.MeasureString("Terraria+ v1.0.0.0 - " + (terrariaPlus ? "Enabled" : "Disabled") + "\n" +
 +						"Master Mode Reloaded v1.0.0.0 - " + (masterModeReloaded ? "Enabled" : "Disabled") + "\n");
@@ -4074,7 +4227,7 @@
  			}
  
 -			for (int j = 0; j < townNPCCanSpawn.Length; j++) {
-+			for (int j = 0; j < 663; j++) {
++			for (int j = 0; j < NPCID.Count; j++) {
  				townNPCCanSpawn[j] = false;
  			}
  

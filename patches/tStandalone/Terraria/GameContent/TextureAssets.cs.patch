@@ -26,7 +26,7 @@
  		public static Asset<Texture2D>[] AccHandsOn = new Asset<Texture2D>[22];
  		public static Asset<Texture2D>[] AccHandsOnComposite = new Asset<Texture2D>[22];
  		public static Asset<Texture2D>[] AccHandsOff = new Asset<Texture2D>[14];
-@@ -177,11 +_,11 @@
+@@ -177,15 +_,15 @@
  		public static Asset<Texture2D>[] NpcToggle = new Asset<Texture2D>[2];
  		public static Asset<Texture2D>[] HbLock = new Asset<Texture2D>[2];
  		public static Asset<Texture2D>[] blockReplaceIcon = new Asset<Texture2D>[2];
@@ -36,12 +36,18 @@
 +		public static Asset<Texture2D>[] Item = new Asset<Texture2D>[ItemID.Count];
 -		public static Asset<Texture2D>[] ItemFlame = new Asset<Texture2D>[5045];
 +		public static Asset<Texture2D>[] ItemFlame = new Asset<Texture2D>[ItemID.Count];
- 		public static Asset<Texture2D>[] Npc = new Asset<Texture2D>[663];
+-		public static Asset<Texture2D>[] Npc = new Asset<Texture2D>[663];
++		public static Asset<Texture2D>[] Npc = new Asset<Texture2D>[NPCID.Count];
 -		public static Asset<Texture2D>[] Projectile = new Asset<Texture2D>[950];
 +		public static Asset<Texture2D>[] Projectile = new Asset<Texture2D>[Terraria.ID.ProjectileID.Count];
  		public static Asset<Texture2D>[] Gore = new Asset<Texture2D>[1269];
  		public static Asset<Texture2D>[] BackPack = new Asset<Texture2D>[9];
  		public static Asset<Texture2D> Rain;
+-		public static Asset<Texture2D>[] GlowMask = new Asset<Texture2D>[301];
++		public static Asset<Texture2D>[] GlowMask = new Asset<Texture2D>[GlowMaskID.Count];
+ 		public static Asset<Texture2D>[] Extra = new Asset<Texture2D>[212];
+ 		public static Asset<Texture2D>[] HighlightMask = new Asset<Texture2D>[623];
+ 		public static Asset<Texture2D>[] Coin = new Asset<Texture2D>[4];
 @@ -249,6 +_,12 @@
  		public static Asset<Texture2D> Logo2;
  		public static Asset<Texture2D> Logo3;

@@ -3023,7 +3023,7 @@
  				}
  			}
  			else if (sItem.useStyle == 5 || sItem.useStyle == 13) {
-@@ -33682,6 +_,26 @@
+@@ -33682,6 +_,27 @@
  			}
  		}
  
@@ -3040,7 +3040,8 @@
 +		private bool ModdedShoot(int itemType, Vector2 position, Vector2 velocity, int damage, float knockback, int owner) {
 +			switch (itemType) {
 +				case ItemID.TwinsGun:
-+					Projectile.NewProjectile(position, velocity, ProjectileID.FriendlyEyeFire, damage, knockback, owner);
++					Projectile.NewProjectile(position, velocity.RotatedBy(MathHelper.ToRadians(6)), ProjectileID.FriendlyEyeFire, (int)(damage * 1.25f), knockback, owner);
++					Projectile.NewProjectile(position, velocity.RotatedBy(MathHelper.ToRadians(-6)), ProjectileID.FriendlyEyeFire, (int)(damage * 1.25f), knockback, owner);
 +					SoundEngine.PlaySound(SoundID.Item34, position);
 +					break;
 +			}

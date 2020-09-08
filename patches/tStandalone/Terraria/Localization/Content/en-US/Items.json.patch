@@ -376,6 +376,6 @@
 +		"StevieDevHeadItem": "{$CommonItemTooltip.DevItem}",
 +		"StevieDevBodyItem": "{$CommonItemTooltip.DevItem}",
 +		"StevieDevLegsItem": "{$CommonItemTooltip.DevItem}",
-+		"TwinsGun": "Fires Cursed Flames and Lasers simulataneously\n'Always watching Wazowski, always watching...'",
++		"TwinsGun": "Fires Cursed Flames and Lasers simultaneously\n'Always watching {PlayerName}, always watching...'",
  	}
  }

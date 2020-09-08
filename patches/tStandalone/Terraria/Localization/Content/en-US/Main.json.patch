@@ -206,7 +206,7 @@
  	},
  	"RandomWorldName_Location": {
  		"Abode": "Abode",
-@@ -2646,8 +_,37 @@
+@@ -2646,8 +_,41 @@
  		"PlayingMulti": "Playing Multi-Player"
  	},
  
@@ -243,5 +243,9 @@
 +		"TerrariaPlusShort": "Terraria+",
 +		"MMRShort": "MM Reloaded",
 +		"HoverOverMe": "Hover over me for more!"
++	},
++	"ModdedStatusText": {
++	 "QueenSlimeApproaches": "The slimes of the Hallow are culminating...",
++		"EmpressOfLightApproaches": "The night burns as bright as day..."
  	}
  }

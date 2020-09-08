@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria.ID;
+using Microsoft.Xna.Framework;
 
 namespace Terraria.tStandalone
 {
@@ -57,6 +58,41 @@ namespace Terraria.tStandalone
 						Main.projectile[projIndex].Kill();
 				}
 			}
+		}
+
+
+		/// <summary>
+		/// Modified SolidCollision from the Collision class to include platform collision
+		/// </summary>
+		/// <returns></returns>
+		public static bool SolidCollisionExtension(Vector2 Position, int Width, int Height, bool includePlatforms = false) {
+			int value = (int)(Position.X / 16f) - 1;
+			int value2 = (int)((Position.X + (float)Width) / 16f) + 2;
+			int value3 = (int)(Position.Y / 16f) - 1;
+			int value4 = (int)((Position.Y + (float)Height) / 16f) + 2;
+			int num = Utils.Clamp(value, 0, Main.maxTilesX - 1);
+			value2 = Utils.Clamp(value2, 0, Main.maxTilesX - 1);
+			value3 = Utils.Clamp(value3, 0, Main.maxTilesY - 1);
+			value4 = Utils.Clamp(value4, 0, Main.maxTilesY - 1);
+			Vector2 vector = default(Vector2);
+			for (int i = num; i < value2; i++) {
+				for (int j = value3; j < value4; j++) {
+					if (Main.tile[i, j] != null && !Main.tile[i, j].inActive() && Main.tile[i, j].active() && Main.tileSolid[Main.tile[i, j].type] && (!Main.tileSolidTop[Main.tile[i, j].type] || includePlatforms)) {
+						vector.X = i * 16;
+						vector.Y = j * 16;
+						int num2 = 16;
+						if (Main.tile[i, j].halfBrick()) {
+							vector.Y += 8f;
+							num2 -= 8;
+						}
+
+						if (Position.X + (float)Width > vector.X && Position.X < vector.X + 16f && Position.Y + (float)Height > vector.Y && Position.Y < vector.Y + (float)num2)
+							return true;
+					}
+				}
+			}
+
+			return false;
 		}
 	}
 }

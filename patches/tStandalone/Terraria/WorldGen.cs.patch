@@ -23,6 +23,18 @@
  		public static int tLeft;
  		public static int tRight;
  		public static int tTop;
+@@ -903,6 +_,11 @@
+ 		private const bool BUBBLES_SOLID_STATE_FOR_HOUSING = true;
+ 		private static bool skipFramingDuringGen = false;
+ 
++		#region tStandalone
++		public static bool spawnQS;
++		public static bool spawnEOL;
++		#endregion
++
+ 		public static UnifiedRandom genRand {
+ 			get {
+ 				if (_lastSeed != _genRandSeed) {
 @@ -1185,7 +_,7 @@
  				}
  			}
@@ -191,6 +203,17 @@
  			Main.rand = new UnifiedRandom((int)DateTime.Now.Ticks);
  			WorldFile.LoadWorld(Main.ActiveWorldFileData.IsCloudSave);
  			if (loadFailed || !loadSuccess) {
+@@ -2637,6 +_,10 @@
+ 			tBlood = 0;
+ 			tGood = 0;
+ 			spawnEye = false;
++
++			spawnQS = false;
++			spawnEOL = false;
++
+ 			prioritizedTownNPCType = 0;
+ 			shadowOrbCount = 0;
+ 			altarCount = 0;
 @@ -2792,7 +_,6 @@
  
  			setWorldSize();

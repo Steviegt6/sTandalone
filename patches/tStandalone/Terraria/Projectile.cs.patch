@@ -123,6 +123,17 @@
  			ownerHitCheckDistance = 1000f;
  			counterweight = false;
  			sentry = false;
+@@ -298,6 +_,10 @@
+ 				localAI[j] = 0f;
+ 			}
+ 
++			for (int m = 0; m < maxModdedAI; m++) {
++				moddedAI[m] = 0f;
++			}
++
+ 			for (int k = 0; k < 255; k++) {
+ 				playerImmune[k] = 0;
+ 			}
 @@ -7867,14 +_,68 @@
  				hostile = true;
  				tileCollide = false;
@@ -629,6 +640,78 @@
  						num197 = 75;
  
  					if (num197 == 6 || Main.rand.Next(2) == 0) {
+@@ -21396,26 +_,30 @@
+ 			}
+ 			else if (aiStyle == 88) {
+ 				if (type == 465) {
+-					if (localAI[1] == 0f) {
++					if (localAI[1] == 0f && moddedAI[0] != 1) {
+ 						SoundEngine.PlaySound(SoundID.Item121, base.position);
+ 						localAI[1] = 1f;
+ 					}
+ 
++					if (moddedAI[0] != 1f) {
+-					if (this.ai[0] < 180f) {
++						if (this.ai[0] < 180f) {
+-						alpha -= 5;
++							alpha -= 5;
+-						if (alpha < 0)
++							if (alpha < 0)
+-							alpha = 0;
++								alpha = 0;
+-					}
++						}
+-					else {
++						else {
+-						alpha += 5;
++							alpha += 5;
+-						if (alpha > 255) {
++							if (alpha > 255) {
+-							alpha = 255;
++								alpha = 255;
+-							Kill();
++								Kill();
+-							return;
++								return;
++							}
+ 						}
+ 					}
++					
++					if (moddedAI[0] != 1f)
++						this.ai[0]++;
+ 
+-					this.ai[0]++;
+ 					if (this.ai[0] % 30f == 0f && this.ai[0] < 180f && Main.netMode != 1) {
+ 						int[] array4 = new int[5];
+ 						Vector2[] array5 = new Vector2[5];
+@@ -21427,7 +_,7 @@
+ 
+ 							Vector2 center9 = Main.player[num732].Center;
+ 							float num733 = Vector2.Distance(center9, base.Center);
+-							if (num733 < num731 && Collision.CanHit(base.Center, 1, 1, center9, 1, 1)) {
++							if (num733 < num731 && (Collision.CanHit(base.Center, 1, 1, center9, 1, 1) || moddedAI[0] == 1f)) {
+ 								array4[num730] = num732;
+ 								array5[num730] = center9;
+ 								int num33 = num730 + 1;
+@@ -21445,6 +_,9 @@
+ 						}
+ 					}
+ 
++					if (moddedAI[0] == 1f)
++						this.ai[0]++;
++
+ 					Lighting.AddLight(base.Center, 0.4f, 0.85f, 0.9f);
+ 					if (++frameCounter >= 4) {
+ 						frameCounter = 0;
+@@ -21452,7 +_,7 @@
+ 							frame = 0;
+ 					}
+ 
+-					if (alpha >= 150 || !(this.ai[0] < 180f))
++					if (moddedAI[0] == 1f || alpha >= 150 || !(this.ai[0] < 180f))
+ 						return;
+ 
+ 					for (int num735 = 0; num735 < 1; num735++) {
 @@ -25519,6 +_,37 @@
  			else if (aiStyle == 184) {
  				AI_184_BadTorchLuck();

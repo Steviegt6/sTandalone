@@ -1,9 +1,9 @@
 # tStandalone, a standalone mod for Terraria 1.4.0.5!
 
-tStandalone is an open-source, heavily modified fork of tModLoader's 1.4 beta branch. tStandalone is **not** a mod loader and never will be a mod loader.
+tStandalone is an open-source, heavily modified fork of tModLoader's 1.4 beta branch. tStandalone is **not** and **never** will be a mod loader.
 tStandalone is a combination of different modifications for Terraria 1.4.0.5 by myself (Stevie) and other contributors.
 
-**Note**: tStandalone is currently unreleased and likely won't be released for a while.
+**Note**: tStandalone is currently unreleased and will not be released any time soon.
 
 ## Contributing
 
@@ -13,7 +13,7 @@ Want to contribute? Great!
 
 ## Get in touch
 
-If you would like to contact myself, it's best to join my [Discord server](https://discord.com/invite/qrZ4Bpz) or contact me through Discord directly (convicted tomatophile (Stevie)#9616). To use Discord you will need to register a new account on [their website](https://discordapp.com/).
+If you would like to contact myself or other devs, it's best to join the [Discord server](https://discord.com/invite/qrZ4Bpz) or contact me through Discord directly (convicted tomatophile (Stevie)#9616). To use Discord you will need to register a new account on [their website](https://discordapp.com/).
 
 ## tStandalone Contributors
 ### Core team

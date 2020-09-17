@@ -30,3 +30,4 @@ TODO List:
 	-Localization for modded text
 	-Discord Rich Presence compatability
 	-Update vanilla patches to be even with tModLoader/1.4
+	-Refactor a majority of existing tStandalone code to cut down on patch sizes

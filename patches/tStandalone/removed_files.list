@@ -1,5 +1,4 @@
 Configuration.targets
-ReLogic\ReLogic.csproj
 ReLogic\tModLoader.xml
 Terraria\Icon.ico
 Terraria\Lang.cs
@@ -11,7 +10,6 @@ Terraria\NetMessage.cs
 Terraria\Netplay.cs
 Terraria\NPC.cs
 Terraria\Program.cs
-Terraria\Terraria.csproj
 Terraria\Tile.cs
 Terraria\tModLoader.ico
 Terraria\Utils.cs

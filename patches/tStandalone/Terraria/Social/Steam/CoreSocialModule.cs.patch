@@ -1,38 +1,42 @@
---- src/tModLoader/Terraria/Social/Steam/CoreSocialModule.cs
-+++ src/tStandalone/Terraria/Social/Steam/CoreSocialModule.cs
-@@ -1,7 +_,6 @@
- using ReLogic.OS;
- using Steamworks;
- using System;
--using System.IO;
- using System.Threading;
- using System.Windows.Forms;
- using Terraria.Localization;
-@@ -11,7 +_,7 @@
- 	public class CoreSocialModule : ISocialModule
- 	{
- 		private static CoreSocialModule _instance;
--		public const uint SteamAppId = ModLoader.Engine.Steam.TMLAppID; // No references to this?
-+		public const int SteamAppId = 105600;
- 		private bool IsSteamValid;
- 		private object _steamTickLock = new object();
- 		private object _steamCallbackLock = new object();
-@@ -22,16 +_,14 @@
+--- src/decompiled/Terraria/Social/Steam/CoreSocialModule.cs
++++ src/Terraria/Terraria/Social/Steam/CoreSocialModule.cs
+@@ -20,10 +_,12 @@
+ 
  		public void Initialize() {
  			_instance = this;
- #if CLIENT
--			if (System.Diagnostics.Debugger.IsAttached && !File.Exists("steam_appid.txt"))
--				ModLoader.Engine.Steam.EnsureSteamAppIdTMLFile();
--			if (SteamAPI.RestartAppIfNecessary(ModLoader.Engine.Steam.TMLAppID_t) && !System.Diagnostics.Debugger.IsAttached) {
-+			if (SteamAPI.RestartAppIfNecessary(new AppId_t(105600u))) {
++#if CLIENT
+ 			if (SteamAPI.RestartAppIfNecessary(new AppId_t(105600u))) {
  				Environment.Exit(1);
  				return;
  			}
- #endif
++#endif
  
  			if (!SteamAPI.Init()) {
--				ModLoader.UI.Interface.MessageBoxShow(Language.GetTextValue("Error.LaunchFromSteam"), Language.GetTextValue("Error.Error"));
-+				MessageBox.Show(Language.GetTextValue("Error.LaunchFromSteam"), Language.GetTextValue("Error.Error"));
- 				Environment.Exit(1);
- 			}
+ 				MessageBox.Show(Language.GetTextValue("Error.LaunchFromSteam"), Language.GetTextValue("Error.Error"));
+@@ -39,8 +_,13 @@
+ 			thread2.Start();
+ 			Main.OnTickForThirdPartySoftwareOnly += PulseSteamTick;
+ 			Main.OnTickForThirdPartySoftwareOnly += PulseSteamCallback;
++#if CLIENT
+ 			if (Platform.IsOSX)
+ 				_onOverlayActivated = Callback<GameOverlayActivated_t>.Create(OnOverlayActivated);
++#if MAC
++			this._onOverlayActivated = Callback<GameOverlayActivated_t>.Create(new Callback<GameOverlayActivated_t>.DispatchDelegate(this.OnOverlayActivated));
++#endif
++#endif
+ 		}
  
+ 		public void PulseSteamTick() {
+@@ -86,7 +_,12 @@
+ 		}
+ 
+ 		public void Shutdown() {
++#if WINDOWS
+ 			Application.ApplicationExit += delegate {
++#else
++			IsSteamValid = false;
++			AppDomain.CurrentDomain.ProcessExit += delegate {
++#endif
+ 				IsSteamValid = false;
+ 			};
+ 		}

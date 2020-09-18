@@ -1,45 +1,11 @@
---- src/tModLoader/Terraria/Localization/LanguageManager.cs
-+++ src/tStandalone/Terraria/Localization/LanguageManager.cs
-@@ -9,7 +_,6 @@
- using System.Text.RegularExpressions;
- using System.Threading;
- using Terraria.GameContent;
--using Terraria.ModLoader;
- using Terraria.Utilities;
+--- src/decompiled/Terraria/Localization/LanguageManager.cs
++++ src/Terraria/Terraria/Localization/LanguageManager.cs
+@@ -57,7 +_,7 @@
  
- namespace Terraria.Localization
-@@ -17,7 +_,7 @@
- 	public class LanguageManager
- 	{
- 		public static LanguageManager Instance = new LanguageManager();
--		internal readonly Dictionary<string, LocalizedText> _localizedTexts = new Dictionary<string, LocalizedText>();
-+		private readonly Dictionary<string, LocalizedText> _localizedTexts = new Dictionary<string, LocalizedText>();
- 		private readonly Dictionary<string, List<string>> _categoryGroupedKeys = new Dictionary<string, List<string>>();
- 		private GameCulture _fallbackCulture = GameCulture.DefaultCulture;
- 
-@@ -69,9 +_,6 @@
- 				}
- 
- 				LoadLanguage(culture);
--				if (ActiveCulture != null)
--					ModContent.RefreshModLanguage(culture);
--
- 				ActiveCulture = culture;
- 				Thread.CurrentThread.CurrentCulture = culture.CultureInfo;
- 				Thread.CurrentThread.CurrentUICulture = culture.CultureInfo;
-@@ -110,13 +_,10 @@
- 			}
+ 		private string[] GetLanguageFilesForCulture(GameCulture culture) {
+ 			Assembly.GetExecutingAssembly();
+-			return Array.FindAll(typeof(Program).Assembly.GetManifestResourceNames(), (string element) => element.StartsWith("Terraria.Localization.Content." + culture.CultureInfo.Name) && element.EndsWith(".json"));
++			return Array.FindAll(typeof(Program).Assembly.GetManifestResourceNames(), (string element) => element.StartsWith("Terraria.Localization.Content." + culture.CultureInfo.Name.Replace('-', '_')) && element.EndsWith(".json"));
  		}
  
--		internal void ProcessCopyCommandsInTexts() {
-+		private void ProcessCopyCommandsInTexts() {
--			Regex regex = new Regex(@"{\$([\w\.]+)}", RegexOptions.Compiled);
-+			Regex regex = new Regex("{\\$(\\w+\\.\\w+)}", RegexOptions.Compiled);
- 			foreach (KeyValuePair<string, LocalizedText> localizedText in _localizedTexts) {
- 				LocalizedText value = localizedText.Value;
--				if (value.Value == null)
--					continue;
--
- 				for (int i = 0; i < 100; i++) {
- 					string text = regex.Replace(value.Value, (Match match) => GetTextValue(match.Groups[1].ToString()));
- 					if (text == value.Value)
+ 		public void SetLanguage(GameCulture culture) {

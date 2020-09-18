@@ -1,0 +1,64 @@
+--- src/tModLoader/Terraria/GameInput/KeyConfiguration.cs
++++ src/tStandalone/Terraria/GameInput/KeyConfiguration.cs
+@@ -1,14 +_,11 @@
+ using System.Collections.Generic;
+ using System.Linq;
+-using Terraria.ModLoader;
+ 
+ namespace Terraria.GameInput
+ {
+ 	public class KeyConfiguration
+ 	{
+-		// Make readonly so dicts aren't set to null or whatever, .Clear() is allowed
+-		public readonly Dictionary<string, List<string>> KeyStatus = new Dictionary<string, List<string>>();
++		public Dictionary<string, List<string>> KeyStatus = new Dictionary<string, List<string>>();
+-		public readonly Dictionary<string, List<string>> UnloadedModKeyStatus = new Dictionary<string, List<string>>();
+ 
+ 		public bool DoGrappleAndInteractShareTheSameKey {
+ 			get {
+@@ -24,10 +_,6 @@
+ 			foreach (string knownTrigger in PlayerInput.KnownTriggers) {
+ 				KeyStatus.Add(knownTrigger, new List<string>());
+ 			}
+-
+-			foreach (var current in HotKeyLoader.HotKeys) {
+-				KeyStatus.Add(current.uniqueName, new List<string>());
+-			}
+ 		}
+ 
+ 		public void Processkey(TriggersSet set, string newKey) {
+@@ -48,24 +_,22 @@
+ 		}
+ 
+ 		public void ReadPreferences(Dictionary<string, List<string>> dict) {
+-			UnloadedModKeyStatus.Clear();
+ 			foreach (KeyValuePair<string, List<string>> item in dict) {
+-				if (KeyStatus.ContainsKey(item.Key))
+-					KeyStatus[item.Key] = new List<string>(item.Value);
+-				else if (item.Key.Contains(":")) // This preserves unloaded mod hotkey values
+-					UnloadedModKeyStatus[item.Key] = new List<string>(item.Value);
++				if (!KeyStatus.ContainsKey(item.Key))
++					continue;
++
++				KeyStatus[item.Key].Clear();
++				foreach (string item2 in item.Value) {
++					KeyStatus[item.Key].Add(item2);
++				}
+ 			}
+ 		}
+ 
+ 		public Dictionary<string, List<string>> WritePreferences() {
+ 			Dictionary<string, List<string>> dictionary = new Dictionary<string, List<string>>();
+-			// Make sure to use indexer and not dict.Add, as some keys are sometimes already added (Vanilla bug, problem for modded)
+-			foreach (KeyValuePair<string, List<string>> item in KeyStatus.Where(x => x.Value.Count > 0)) {
+-				dictionary[item.Key] = item.Value.ToList();
+-			}
+-
+-			foreach (KeyValuePair<string, List<string>> item in UnloadedModKeyStatus.Where(x => x.Value.Count > 0)) {
+-				dictionary[item.Key] = item.Value.ToList();
++			foreach (KeyValuePair<string, List<string>> item in KeyStatus) {
++				if (item.Value.Count > 0)
++					dictionary.Add(item.Key, item.Value.ToList());
+ 			}
+ 
+ 			if (!dictionary.ContainsKey("MouseLeft") || dictionary["MouseLeft"].Count == 0) {

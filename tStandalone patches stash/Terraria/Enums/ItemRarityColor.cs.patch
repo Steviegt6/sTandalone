@@ -1,0 +1,10 @@
+--- src/tModLoader/Terraria/Enums/ItemRarityColor.cs
++++ src/tStandalone/Terraria/Enums/ItemRarityColor.cs
+@@ -2,6 +_,7 @@
+ {
+ 	public enum ItemRarityColor
+ 	{
++		MasterMinus13 = -13,
+ 		AmberMinus11 = -11,
+ 		TrashMinus1 = -1,
+ 		White0 = 0,

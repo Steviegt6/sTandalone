@@ -1,0 +1,26 @@
+--- src/tModLoader/Terraria/Map/WorldMap.cs
++++ src/tStandalone/Terraria/Map/WorldMap.cs
+@@ -1,7 +_,6 @@
+ using System;
+ using System.IO;
+ using Terraria.IO;
+-using Terraria.ModLoader.IO;
+ using Terraria.Social;
+ using Terraria.Utilities;
+ 
+@@ -80,7 +_,6 @@
+ 
+ 			if (!FileUtilities.Exists(text, isCloudSave)) {
+ 				Main.MapFileMetadata = FileMetadata.FromCurrentSettings(FileType.Map);
+-				//patch file: text
+ 				return;
+ 			}
+ 
+@@ -95,7 +_,6 @@
+ 								MapHelper.LoadMapVersion2(binaryReader, num);
+ 
+ 							ClearEdges();
+-							MapIO.ReadModFile(text, isCloudSave);
+ 							Main.clearMap = true;
+ 							Main.loadMap = true;
+ 							Main.loadMapLock = true;

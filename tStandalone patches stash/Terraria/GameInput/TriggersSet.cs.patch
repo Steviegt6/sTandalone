@@ -1,0 +1,65 @@
+--- src/tModLoader/Terraria/GameInput/TriggersSet.cs
++++ src/tStandalone/Terraria/GameInput/TriggersSet.cs
+@@ -1,7 +_,6 @@
+ using Microsoft.Xna.Framework;
+ using System.Collections.Generic;
+ using System.Linq;
+-using Terraria.ModLoader;
+ 
+ namespace Terraria.GameInput
+ {
+@@ -30,33 +_,6 @@
+ 			}
+ 		}
+ 
+-		public bool MouseMiddle {
+-			get {
+-				return KeyStatus["MouseMiddle"];
+-			}
+-			set {
+-				KeyStatus["MouseMiddle"] = value;
+-			}
+-		}
+-
+-		public bool MouseXButton1 {
+-			get {
+-				return KeyStatus["MouseXButton1"];
+-			}
+-			set {
+-				KeyStatus["MouseXButton1"] = value;
+-			}
+-		}
+-
+-		public bool MouseXButton2 {
+-			get {
+-				return KeyStatus["MouseXButton2"];
+-			}
+-			set {
+-				KeyStatus["MouseXButton2"] = value;
+-			}
+-		}
+-
+ 		public bool Up {
+ 			get {
+ 				return KeyStatus["Up"];
+@@ -533,10 +_,6 @@
+ 			foreach (string knownTrigger in PlayerInput.KnownTriggers) {
+ 				KeyStatus.Add(knownTrigger, value: false);
+ 			}
+-
+-			foreach (var hotkey in HotKeyLoader.HotKeys) {
+-				KeyStatus.Add(hotkey.uniqueName, false);
+-			}
+ 		}
+ 
+ 		public Vector2 GetNavigatorDirections() {
+@@ -599,9 +_,6 @@
+ 
+ 			if (HotbarScrollCD > 0 && (!(HotbarScrollCD == 1 && flag) || PlayerInput.CurrentProfile.HotbarRadialHoldTimeRequired <= 0))
+ 				HotbarScrollCD--;
+-
+-			ModHooks.HotKeyPressed();
+-			PlayerHooks.ProcessTriggers(p, this);
+ 		}
+ 
+ 		public void CopyIntoDuringChat(Player p) {

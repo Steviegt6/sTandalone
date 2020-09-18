@@ -1,0 +1,19 @@
+--- src/tModLoader/Terraria/ID/DustID.cs
++++ src/tStandalone/Terraria/ID/DustID.cs
+@@ -126,7 +_,6 @@
+ 		public const short ArgonMoss = 301;
+ 		public const short Terragrim = 302;
+ 		public const short SteampunkSteam = 303;
+-		public const short Count = 304;
+ 		public const short t_BorealWood = 214;
+ 		public const short t_Slime = 4;
+ 		public const short t_SteampunkMetal = 8;
+@@ -150,5 +_,8 @@
+ 		public const short GemRuby = 90;
+ 		public const short GemDiamond = 91;
+ 		public const short GemAmber = 138;
++		public const short Count = 304;
++		public const short VanillaCount = 304;
++		//TODO: Count
+ 	}
+ }

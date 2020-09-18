@@ -1,0 +1,18 @@
+--- src/tModLoader/Terraria/RemoteServer.cs
++++ src/tStandalone/Terraria/RemoteServer.cs
+@@ -1,7 +_,6 @@
+ using System;
+ using System.IO;
+ using Terraria.Localization;
+-using Terraria.ModLoader;
+ using Terraria.Net.Sockets;
+ 
+ namespace Terraria
+@@ -50,7 +_,6 @@
+ 			}
+ 			catch (Exception value) {
+ 				try {
+-					Logging.Terraria.Error("Client Read Thread", value);
+ 					using (StreamWriter streamWriter = new StreamWriter("client-crashlog.txt", append: true)) {
+ 						streamWriter.WriteLine(DateTime.Now);
+ 						streamWriter.WriteLine(value);

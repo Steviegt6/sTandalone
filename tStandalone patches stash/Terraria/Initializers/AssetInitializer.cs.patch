@@ -1,0 +1,61 @@
+--- src/tModLoader/Terraria/Initializers/AssetInitializer.cs
++++ src/tStandalone/Terraria/Initializers/AssetInitializer.cs
+@@ -14,17 +_,14 @@
+ using Terraria.GameContent.UI;
+ using Terraria.ID;
+ using Terraria.IO;
+-using Terraria.ModLoader.UI;
+ using Terraria.Utilities;
+ 
+ namespace Terraria.Initializers
+ {
+ 	public static class AssetInitializer
+ 	{
+-		internal static AssetReaderCollection assetReaderCollection;
+-
+ 		public static void CreateAssetServices(GameServiceContainer services) {
+-			assetReaderCollection = new AssetReaderCollection();
++			AssetReaderCollection assetReaderCollection = new AssetReaderCollection();
+ 			assetReaderCollection.RegisterReader(new PngReader(services.Get<IGraphicsDeviceService>().GraphicsDevice), ".png");
+ 			assetReaderCollection.RegisterReader(new XnbReader(services), ".xnb");
+ 			AsyncAssetLoader asyncAssetLoader = new AsyncAssetLoader(assetReaderCollection, 20);
+@@ -309,7 +_,7 @@
+ 			TextureAssets.ColorHighlight = LoadAsset<Texture2D>("Images\\UI\\Slider_Highlight", mode);
+ 			TextureAssets.LockOnCursor = LoadAsset<Texture2D>("Images\\UI\\LockOn_Cursor", mode);
+ 			TextureAssets.Rain = LoadAsset<Texture2D>("Images\\Rain", mode);
+-			for (int num37 = 0; num37 < 301; num37++) {
++			for (int num37 = 0; num37 < GlowMaskID.Count; num37++) {
+ 				TextureAssets.GlowMask[num37] = LoadAsset<Texture2D>("Images\\Glow_" + num37, mode);
+ 			}
+ 
+@@ -373,7 +_,7 @@
+ 				TextureAssets.BackPack[num48] = LoadAsset<Texture2D>("Images\\BackPack_" + num48, mode);
+ 			}
+ 
+-			for (int num49 = 1; num49 < 323; num49++) {
++			for (int num49 = 1; num49 < BuffID.Count; num49++) {
+ 				TextureAssets.Buff[num49] = LoadAsset<Texture2D>("Images\\Buff_" + num49, mode);
+ 			}
+ 
+@@ -441,6 +_,12 @@
+ 			TextureAssets.Logo2 = LoadAsset<Texture2D>("Images\\Logo2", mode);
+ 			TextureAssets.Logo3 = LoadAsset<Texture2D>("Images\\Logo3", mode);
+ 			TextureAssets.Logo4 = LoadAsset<Texture2D>("Images\\Logo4", mode);
++			#region tStandalone
++			TextureAssets.MMRLogo = LoadAsset<Texture2D>("Images\\MMRLogo", mode);
++			TextureAssets.MMRLogo2 = LoadAsset<Texture2D>("Images\\MMRLogo2", mode);
++			TextureAssets.MMRLogo3 = LoadAsset<Texture2D>("Images\\MMRLogo3", mode);
++			TextureAssets.MMRLogo4 = LoadAsset<Texture2D>("Images\\MMRLogo4", mode);
++			#endregion tStandalone
+ 			TextureAssets.Dust = LoadAsset<Texture2D>("Images\\Dust", mode);
+ 			TextureAssets.Sun = LoadAsset<Texture2D>("Images\\Sun", mode);
+ 			TextureAssets.Sun2 = LoadAsset<Texture2D>("Images\\Sun2", mode);
+@@ -594,8 +_,6 @@
+ 			LoadMinimapFrames(mode);
+ 			LoadPlayerResourceSets(mode);
+ 			Main.AchievementAdvisor.LoadContent();
+-
+-			UICommon.LoadTextures();
+ 		}
+ 
+ 		private static void LoadMinimapFrames(AssetRequestMode mode) {

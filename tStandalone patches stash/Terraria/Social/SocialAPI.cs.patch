@@ -1,0 +1,90 @@
+--- src/tModLoader/Terraria/Social/SocialAPI.cs
++++ src/tStandalone/Terraria/Social/SocialAPI.cs
+@@ -1,5 +_,4 @@
+ using System.Collections.Generic;
+-using Terraria.ModLoader.Engine;
+ using Terraria.Social.Base;
+ using Terraria.Social.Steam;
+ using Terraria.Social.WeGame;
+@@ -20,15 +_,10 @@
+ 		public static SocialMode Mode => _mode;
+ 
+ 		public static void Initialize(SocialMode? mode = null) {
+-			_modules = new List<ISocialModule>();
+ 			if (!mode.HasValue) {
+ 				mode = SocialMode.None;
+ #if CLIENT
+-#if DEBUG
+-				if (!Program.LaunchParameters.ContainsKey("-nosteam"))
+-#endif
+-				if (!GoGVerifier.IsGoG)
+-					mode = SocialMode.Steam;
++				mode = SocialMode.Steam;
+ #else
+ 				if (Program.LaunchParameters.ContainsKey("-steam"))
+ 					mode = SocialMode.Steam;
+@@ -36,6 +_,7 @@
+ 			}
+ 
+ 			_mode = mode.Value;
++			_modules = new List<ISocialModule>();
+ 			JoinRequests = new ServerJoinRequestsManager();
+ 			Main.OnTickForInternalCodeOnly += JoinRequests.Update;
+ 			switch (Mode) {
+@@ -46,7 +_,10 @@
+ 					LoadWeGame();
+ 					break;
+ 			}
+-			//TODO: Allow both APIs to be used at once. Currently, it would reinitiallize some of them.
++
++			foreach (ISocialModule module in _modules) {
++				module.Initialize();
++			}
+ 		}
+ 
+ 		public static void Shutdown() {
+@@ -70,15 +_,10 @@
+ 		private static void LoadDiscord() {
+ 		}
+ 
+-		private static bool _steamAPILoaded = false;
+-		internal static void LoadSteam() {
++		private static void LoadSteam() {
+-			if (_steamAPILoaded) return;
+ 			LoadModule<Terraria.Social.Steam.CoreSocialModule>();
+ 			Friends = LoadModule<Terraria.Social.Steam.FriendsSocialModule>();
+-			// This seems to freeze the game when steam_appid.txt not present, and steam_appid.txt isn't supposed to be used in release
+-			//if (!ModLoader.Engine.Steam.IsSteamApp) {
+-				//Achievements = LoadModule<Terraria.Social.Steam.AchievementsSocialModule>();
++			Achievements = LoadModule<Terraria.Social.Steam.AchievementsSocialModule>();
+-			//}
+ 			Cloud = LoadModule<Terraria.Social.Steam.CloudSocialModule>();
+ 			Overlay = LoadModule<Terraria.Social.Steam.OverlaySocialModule>();
+ #if CLIENT
+@@ -87,15 +_,9 @@
+ #else
+ 			Network = LoadModule<Terraria.Social.Steam.NetServerSocialModule>();
+ #endif
+-			foreach (ISocialModule module in _modules) {
+-				module.Initialize();
+-			}
+-			_steamAPILoaded = true;
+ 		}
+ 
+-		private static bool _wegameAPILoaded = false;
+ 		private static void LoadWeGame() {
+-			if(_wegameAPILoaded) return;
+ 			LoadModule<Terraria.Social.WeGame.CoreSocialModule>();
+ 			Cloud = LoadModule<Terraria.Social.WeGame.CloudSocialModule>();
+ 			Friends = LoadModule<Terraria.Social.WeGame.FriendsSocialModule>();
+@@ -106,10 +_,6 @@
+ #else
+ 			Network = LoadModule<Terraria.Social.WeGame.NetServerSocialModule>();
+ #endif
+-			foreach (ISocialModule module in _modules) {
+-				module.Initialize();
+-			}
+-			_wegameAPILoaded = true;
+ 		}
+ 	}
+ }

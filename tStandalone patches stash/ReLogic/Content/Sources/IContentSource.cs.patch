@@ -1,0 +1,12 @@
+--- src/tModLoader/ReLogic/Content/Sources/IContentSource.cs
++++ src/tStandalone/ReLogic/Content/Sources/IContentSource.cs
+@@ -21,9 +_,5 @@
+ 		void ClearRejections();
+ 
+ 		bool TryGetRejections(List<string> rejectionReasons);
+-
+-		//tML Additions:
+-
+-		IEnumerable<string> EnumerateFiles();
+ 	}
+ }

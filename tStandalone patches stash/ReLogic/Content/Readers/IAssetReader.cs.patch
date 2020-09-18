@@ -1,0 +1,18 @@
+--- src/tModLoader/ReLogic/Content/Readers/IAssetReader.cs
++++ src/tStandalone/ReLogic/Content/Readers/IAssetReader.cs
+@@ -1,4 +_,3 @@
+-using System;
+ using System.IO;
+ 
+ namespace ReLogic.Content.Readers
+@@ -6,10 +_,5 @@
+ 	public interface IAssetReader
+ 	{
+ 		T FromStream<T>(Stream stream) where T : class;
+-
+-		//Added by tML:
+-
+-		/// <summary> Returns an array of types that should be associated with this reader's supported formats. It's okay to return null here, if the reader's possibilities are too ambiguous. </summary>
+-		Type[] GetAssociatedTypes();
+ 	}
+ }

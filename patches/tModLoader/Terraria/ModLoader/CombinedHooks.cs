@@ -9,12 +9,6 @@ namespace Terraria.ModLoader
 			PlayerHooks.ModifyWeaponDamage(player, item, ref add, ref mult, ref flat);
 		}
 
-		[Obsolete]
-		public static void GetWeaponDamage(Player player, Item item, ref int damage) {
-			ItemLoader.GetWeaponDamage(item, player, ref damage);
-			PlayerHooks.GetWeaponDamage(player, item, ref damage);
-		}
-
 		public static void ModifyManaCost(Player player, Item item, ref float reduce, ref float mult) {
 			ItemLoader.ModifyManaCost(item, player, ref reduce, ref mult);
 			PlayerHooks.ModifyManaCost(player, item, ref reduce, ref mult);
@@ -28,6 +22,11 @@ namespace Terraria.ModLoader
 		public static void OnMissingMana(Player player, Item item, int neededMana) {
 			ItemLoader.OnMissingMana(item, player, neededMana);
 			PlayerHooks.OnMissingMana(player, item, neededMana);
+		}
+
+		//TODO: Fix various inconsistencies with calls of UseItem, and then make this and its inner methods use short-circuiting.
+		public static bool CanUseItem(Player player, Item item) {
+			return PlayerHooks.CanUseItem(player, item) & ItemLoader.CanUseItem(item, player);
 		}
 	}
 }

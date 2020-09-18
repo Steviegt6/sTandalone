@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/Player.cs
 +++ src/tModLoader/Terraria/Player.cs
-@@ -34,6 +_,10 @@
+@@ -34,10 +_,15 @@
  using Terraria.UI.Gamepad;
  using Terraria.Utilities;
  using Terraria.WorldBuilding;
@@ -8,9 +8,15 @@
 +using Terraria.ModLoader.Exceptions;
 +using Terraria.ModLoader.IO;
 +using Terraria.ModLoader.UI;
++using System.Linq;
  
  namespace Terraria
  {
+-	public class Player : Entity
++	public partial class Player : Entity
+ 	{
+ 		public static class BuilderAccToggleIDs
+ 		{
 @@ -184,15 +_,21 @@
  
  			public static void PlayerConnect(int playerIndex) {
@@ -189,6 +195,15 @@
  				if (buffTime[i] >= 1 && buffType[i] == type)
  					return i;
  			}
+@@ -2417,7 +_,7 @@
+ 				return;
+ 
+ 			if (BuffID.Sets.IsWellFed[type]) {
+-				for (int i = 0; i < 22; i++) {
++				for (int i = 0; i < MaxBuffs; i++) {
+ 					if (BuffID.Sets.IsWellFed[buffType[i]])
+ 						DelBuff(i);
+ 				}
 @@ -2438,7 +_,7 @@
  			int num = -1;
  			while (num == -1) {
@@ -207,6 +222,24 @@
  					if (buffType[j] == 0) {
  						num = j;
  						break;
+@@ -2468,7 +_,7 @@
+ 			if (!Main.meleeBuff[type])
+ 				return;
+ 
+-			for (int i = 0; i < 22; i++) {
++			for (int i = 0; i < MaxBuffs; i++) {
+ 				if (buffType[i] != type && Main.meleeBuff[buffType[i]]) {
+ 					DelBuff(i);
+ 					i--;
+@@ -2478,7 +_,7 @@
+ 
+ 		private void AddBuff_RemoveOldPetBuffsOfMatchingType(int type) {
+ 			if (Main.lightPet[type]) {
+-				for (int i = 0; i < 22; i++) {
++				for (int i = 0; i < MaxBuffs; i++) {
+ 					if (Main.lightPet[buffType[i]])
+ 						DelBuff(i);
+ 				}
 @@ -2487,7 +_,7 @@
  			if (!Main.vanityPet[type])
  				return;
@@ -354,7 +387,7 @@
  				if (item.stack <= 0 || item.type <= 0 || !item.potion || item.healLife <= 0)
 +					continue;				
 +				
-+				if(!ItemLoader.CanUseItem(item, this))
++				if(!CombinedHooks.CanUseItem(this, item))
  					continue;
  
 -				int num3 = item.healLife - num;
@@ -367,7 +400,7 @@
  			while (true) {
  				if (num < 58) {
 -					if (inventory[num].stack > 0 && inventory[num].type > 0 && inventory[num].healMana > 0 && (potionDelay == 0 || !inventory[num].potion))
-+					if (inventory[num].stack > 0 && inventory[num].type > 0 && inventory[num].healMana > 0 && (potionDelay == 0 || !inventory[num].potion) && ItemLoader.CanUseItem(inventory[num], this))
++					if (inventory[num].stack > 0 && inventory[num].type > 0 && inventory[num].healMana > 0 && (potionDelay == 0 || !inventory[num].potion) && CombinedHooks.CanUseItem(this, inventory[num]))
  						break;
  
  					num++;
@@ -413,10 +446,19 @@
  		public Item QuickMana_GetItemToUse() {
  			for (int i = 0; i < 58; i++) {
 -				if (inventory[i].stack > 0 && inventory[i].type > 0 && inventory[i].healMana > 0 && (potionDelay == 0 || !inventory[i].potion))
-+				if (inventory[i].stack > 0 && inventory[i].type > 0 && inventory[i].healMana > 0 && (potionDelay == 0 || !inventory[i].potion) && ItemLoader.CanUseItem(inventory[i], this))
++				if (inventory[i].stack > 0 && inventory[i].type > 0 && inventory[i].healMana > 0 && (potionDelay == 0 || !inventory[i].potion) && CombinedHooks.CanUseItem(this, inventory[i]))
  					return inventory[i];
  			}
  
+@@ -2701,7 +_,7 @@
+ 				return;
+ 
+ 			LegacySoundStyle legacySoundStyle = null;
+-			if (CountBuffs() == 22)
++			if (CountBuffs() == MaxBuffs)
+ 				return;
+ 
+ 			Item item = QuickBuff_PickBestFoodItem();
 @@ -2719,15 +_,19 @@
  				}
  			}
@@ -430,7 +472,7 @@
  
  					int num2 = item2.buffType;
 -					bool flag = QuickBuff_ShouldBotherUsingThisBuff(num2);
-+					bool flag = ItemLoader.CanUseItem(item2, this) && QuickBuff_ShouldBotherUsingThisBuff(num2);
++					bool flag = CombinedHooks.CanUseItem(this, item2) && QuickBuff_ShouldBotherUsingThisBuff(num2);
  					if (item2.mana > 0 && flag) {
 +						if (CheckMana(item2, -1, true, true))
 +							manaRegenDelay = (int)maxRegenDelay;
@@ -455,7 +497,7 @@
  					legacySoundStyle = item2.UseSound;
  					int num3 = item2.buffTime;
  					if (num3 == 0)
-@@ -2762,7 +_,9 @@
+@@ -2762,12 +_,14 @@
  
  					AddBuff(num2, num3);
  					if (item2.consumable) {
@@ -466,6 +508,39 @@
  						if (item2.stack <= 0)
  							item2.TurnToAir();
  					}
+ 
+-					if (CountBuffs() == 22)
++					if (CountBuffs() == MaxBuffs)
+ 						break;
+ 				}
+ 			}
+@@ -2781,7 +_,7 @@
+ 		private Item QuickBuff_PickBestFoodItem() {
+ 			int num = 0;
+ 			Item item = null;
+-			for (int i = 0; i < 22; i++) {
++			for (int i = 0; i < MaxBuffs; i++) {
+ 				if (buffTime[i] >= 1) {
+ 					int num2 = QuickBuff_FindFoodPriority(buffType[i]);
+ 					if (num <= num2)
+@@ -2818,7 +_,7 @@
+ 
+ 		private bool QuickBuff_ShouldBotherUsingThisBuff(int attemptedType) {
+ 			bool result = true;
+-			for (int i = 0; i < 22; i++) {
++			for (int i = 0; i < MaxBuffs; i++) {
+ 				if (attemptedType == 27 && (buffType[i] == 27 || buffType[i] == 101 || buffType[i] == 102)) {
+ 					result = false;
+ 					break;
+@@ -2841,7 +_,7 @@
+ 			}
+ 
+ 			if (Main.lightPet[attemptedType] || Main.vanityPet[attemptedType]) {
+-				for (int j = 0; j < 22; j++) {
++				for (int j = 0; j < MaxBuffs; j++) {
+ 					if (Main.lightPet[buffType[j]] && Main.lightPet[attemptedType])
+ 						result = false;
+ 
 @@ -2865,6 +_,7 @@
  				if (item != null && item.mountType != -1 && mount.CanMount(item.mountType, this)) {
  					if (!QuickMinecartSnap()) {
@@ -479,13 +554,13 @@
  		public Item QuickMount_GetItemToUse() {
  			Item item = null;
 -			if (item == null && miscEquips[3].mountType != -1 && !MountID.Sets.Cart[miscEquips[3].mountType])
-+			if (item == null && miscEquips[3].mountType != -1 && !MountID.Sets.Cart[miscEquips[3].mountType] && ItemLoader.CanUseItem(miscEquips[3], this))
++			if (item == null && miscEquips[3].mountType != -1 && !MountID.Sets.Cart[miscEquips[3].mountType] && CombinedHooks.CanUseItem(this, miscEquips[3]))
  				item = miscEquips[3];
  
  			if (item == null) {
  				for (int i = 0; i < 58; i++) {
 -					if (inventory[i].mountType != -1 && !MountID.Sets.Cart[inventory[i].mountType]) {
-+					if (inventory[i].mountType != -1 && !MountID.Sets.Cart[inventory[i].mountType] && ItemLoader.CanUseItem(inventory[i], this)) {
++					if (inventory[i].mountType != -1 && !MountID.Sets.Cart[inventory[i].mountType] && CombinedHooks.CanUseItem(this, inventory[i])) {
  						item = inventory[i];
  						break;
  					}
@@ -1049,7 +1124,7 @@
 +			//equippedAnyTileRangeAcc = false;
 +		}
 +		public void VanillaUpdateAccessory(int i, Item item, bool hideVisual, ref bool flag, ref bool flag2, ref bool flag3) {
-+			// for (int l = 3; l < 8 + this.extraAccessorySlots; l++)
++			// for (int l = 3; l < 10 + extraAccessorySlots; l++)
 +			// fake array and loop to keep patches small
 +			var armor = new[] { item }; int l = 0;
 +			{
@@ -1107,14 +1182,14 @@
 +				VanillaUpdateInventory(inventory[j]);
 +			}
 +
-+			for (int k = 0; k < 8 + extraAccessorySlots; k++) {
++			for (int k = 0; k < 10 + extraAccessorySlots; k++) {
 +				VanillaUpdateEquip(armor[k]);
 +			}
 +
 +			bool flag = false;
 +			bool flag2 = false;
 +			bool flag3 = false;
-+			for (int l = 3; l < 8 + extraAccessorySlots; l++) {
++			for (int l = 3; l < 10 + extraAccessorySlots; l++) {
 +				VanillaUpdateAccessory(i, armor[l], hideVisibleAccessory[l], ref flag, ref flag2, ref flag3);
  			}
  
@@ -1849,7 +1924,7 @@
  					GamepadEnableGrappleCooldown();
  				}
 -				else if (Main.tile[myX, myY].type == 4 || Main.tile[myX, myY].type == 13 || (Main.tile[myX, myY].type == 50 && Main.tile[myX, myY].frameX == 90)) {
-+				else if (TileLoader.IsTorch(Main.tile[myX, myY].type) || Main.tile[myX, myY].type == 13 || (Main.tile[myX, myY].type == 50 && Main.tile[myX, myY].frameX == 90)) {
++				else if (TileLoader.IsTorch(Main.tile[myX, myY].type) || Main.tile[myX, myY].type == 13 || (Main.tile[myX, myY].type == 50 && Main.tile[myX, myY].frameX == 90) || TileID.Sets.CanDropFromRightClick[Main.tile[myX, myY].type]) {
  					WorldGen.KillTile(myX, myY);
  					if (Main.netMode == 1)
  						NetMessage.SendData(17, -1, -1, null, 0, myX, myY);
@@ -1926,7 +2001,7 @@
  												if (inventory[num76].stack <= 0)
  													inventory[num76] = new Item();
  											}
-@@ -22204,6 +_,10 @@
+@@ -22204,13 +_,17 @@
  					if (flag14)
  						LaunchMinecartHook(myX, myY);
  				}
@@ -1937,6 +2012,14 @@
  			}
  
  			if (flag2)
+ 				tileInteractionHappened = true;
+ 		}
+ 
+-		private static bool IsHoveringOverABottomSideOfABed(int myX, int myY) {
++		public static bool IsHoveringOverABottomSideOfABed(int myX, int myY) {
+ 			short frameX = Main.tile[myX, myY].frameX;
+ 			bool flag = frameX / 72 == 1;
+ 			bool flag2 = frameX % 72 < 36;
 @@ -23149,7 +_,7 @@
  				cursorItemIconID = 3747;
  			}
@@ -2391,19 +2474,18 @@
  			if (num5 > 0) {
  				Vector2 vector = Main.ReverseGravitySupport(Main.MouseScreen) + Main.screenPosition;
  				if (Main.SmartCursorEnabled || PlayerInput.UsingGamepad)
-@@ -28740,21 +_,21 @@
+@@ -28740,8 +_,8 @@
  
  		public PlayerFishingConditions GetFishingConditions() {
  			PlayerFishingConditions result = default(PlayerFishingConditions);
 -			Fishing_GetBestFishingPole(out result.PolePower, out result.PoleItemType);
 -			Fishing_GetBait(out result.BaitPower, out result.BaitItemType);
--			if (result.BaitItemType == 2673)
 +			Fishing_GetBestFishingPole(out result.Pole);
 +			Fishing_GetBait(out result.Bait);
-+			if (result.Bait?.type == ItemID.TruffleWorm)
+ 			if (result.BaitItemType == 2673)
  				return result;
  
- 			if (result.BaitPower == 0 || result.PolePower == 0)
+@@ -28749,12 +_,12 @@
  				return result;
  
  			int num = result.BaitPower + result.PolePower + fishingSkill;
@@ -2856,8 +2938,8 @@
  				SetCompositeArmBack(enabled: true, stretch6, (float)Math.PI * -3f / 5f * (float)direction);
  				FlipItemLocationAndRotationForGravity();
  			}
-+			else if(!Main.dedServ)
-+				ItemLoader.UseStyle(sItem, this);
++			// else if(!Main.dedServ)
++				// ItemLoader.UseStyle(sItem, this);
  		}
  
  		private void ItemCheck_ApplyManaRegenDelay(Item sItem) {
@@ -2879,7 +2961,7 @@
  		}
  
  		private bool ItemCheck_CheckCanUse(Item sItem) {
-+			if(!ItemLoader.CanUseItem(sItem, this))
++			if(!CombinedHooks.CanUseItem(this, sItem))
 +				return false;
  			int whoAmI = base.whoAmI;
  			bool flag = true;
@@ -2912,7 +2994,7 @@
  					if (buffType[i] == 27 || buffType[i] == 101 || buffType[i] == 102) {
  						DelBuff(i);
  						i--;
-@@ -35546,48 +_,69 @@
+@@ -35546,48 +_,68 @@
  			if (sItem.ranged && setVortex)
  				KnockBack *= 1f + (1f - stealth) * 0.5f;
  
@@ -3006,7 +3088,6 @@
 +			float flat = 0f;
 +			CombinedHooks.ModifyWeaponDamage(this, sItem, ref add, ref mult, ref flat);
 +			int damage = (int)(sItem.damage * add * mult + 5E-06f + flat);
-+			CombinedHooks.GetWeaponDamage(this, sItem, ref damage);
 +			return Math.Max(0, damage);
  		}
  
@@ -3144,12 +3225,13 @@
  
  			if (tileTarget.type == 147 || tileTarget.type == 0 || tileTarget.type == 40 || tileTarget.type == 53 || tileTarget.type == 57 || tileTarget.type == 59 || tileTarget.type == 123 || tileTarget.type == 224 || tileTarget.type == 397)
  				num += pickPower;
-@@ -36245,24 +_,46 @@
+@@ -36245,24 +_,47 @@
  		}
  
  		public void DropItems() {
-+			IList<Item> startInventory = PlayerHooks.SetupStartInventory(this, true);
++			List<Item> startInventory = PlayerHooks.GetStartingItems(this, DropItems_GetDefaults().Where(item => !item.IsAir), true);
 +			IDictionary<int, int> startCounts = new Dictionary<int, int>();
++
 +			foreach (Item item in startInventory) {
 +				if (!startCounts.ContainsKey(item.netID))
 +					startCounts[item.netID] = 0;
@@ -3229,16 +3311,29 @@
  					if (Main.netMode == 1)
  						NetMessage.SendData(21, -1, -1, null, num5);
  				}
-@@ -36336,12 +_,7 @@
+@@ -36336,12 +_,26 @@
  				miscDyes[i].TurnToAir();
  			}
  
--			inventory[0].SetDefaults(3507);
--			inventory[0].Prefix(-1);
--			inventory[1].SetDefaults(3509);
--			inventory[1].Prefix(-1);
--			inventory[2].SetDefaults(3506);
--			inventory[2].Prefix(-1);
++			DropItems_End(startInventory);
++		}
++		private IEnumerable<Item> DropItems_GetDefaults() { //Split by tML.
++			var inventory = new Item[this.inventory.Length];
++
++			for (int i = 0; i < inventory.Length; i++) {
++				inventory[i] = new Item();
++			}
++
+ 			inventory[0].SetDefaults(3507);
+ 			inventory[0].Prefix(-1);
+ 			inventory[1].SetDefaults(3509);
+ 			inventory[1].Prefix(-1);
+ 			inventory[2].SetDefaults(3506);
+ 			inventory[2].Prefix(-1);
++
++			return inventory;
++		}
++		private void DropItems_End(IList<Item> startInventory) { //Split by tML.
 +			PlayerHooks.SetStartInventory(this, startInventory);
  			Main.mouseItem.TurnToAir();
  		}
@@ -3466,23 +3561,11 @@
  				}
  
  				return playerFileData;
-@@ -37381,7 +_,31 @@
+@@ -37381,7 +_,19 @@
  			return -1;
  		}
  
 -		public Player() {
-+		internal IList<string> usedMods;
-+		internal ModPlayer[] modPlayers = new ModPlayer[0];
-+
-+		private ModPlayer GetModPlayer(int? index) => index.HasValue ? modPlayers[index.Value] : null;
-+
-+		public ModPlayer GetModPlayer(Mod mod, string name) => GetModPlayer(mod.GetPlayer(name)?.index);
-+
-+		[Obsolete("Use GetModPlayer<T>() instead", true)]
-+		public T GetModPlayer<T>(Mod mod) where T : ModPlayer => (T)GetModPlayer(mod, typeof(T).Name);
-+
-+		public T GetModPlayer<T>() where T : ModPlayer => (T)GetModPlayer(ModContent.GetInstance<T>()?.index);
-+
 +		public Player(bool startupInventory = true) {
 +			buffType = new int[MaxBuffs];
 +			buffTime = new int[MaxBuffs];

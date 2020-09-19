@@ -1,5 +1,3 @@
-Configuration.targets
-ReLogic\ReLogic.csproj
 Terraria\Lang.cs
 Terraria\Main.cs
 Terraria\Minecart.cs
@@ -8,7 +6,6 @@ Terraria\NetMessage.cs
 Terraria\Netplay.cs
 Terraria\NPC.cs
 Terraria\Program.cs
-Terraria\Terraria.csproj
 Terraria\Tile.cs
 Terraria\Utils.cs
 Terraria\WindowsLaunch.cs

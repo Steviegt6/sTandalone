@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/Social/SocialAPI.cs
++++ src/tStandalone/Terraria/Social/SocialAPI.cs
+@@ -71,7 +_,7 @@
+ 		private static void LoadSteam() {
+ 			LoadModule<Terraria.Social.Steam.CoreSocialModule>();
+ 			Friends = LoadModule<Terraria.Social.Steam.FriendsSocialModule>();
+-			Achievements = LoadModule<Terraria.Social.Steam.AchievementsSocialModule>();
++			//Achievements = LoadModule<Terraria.Social.Steam.AchievementsSocialModule>();
+ 			Cloud = LoadModule<Terraria.Social.Steam.CloudSocialModule>();
+ 			Overlay = LoadModule<Terraria.Social.Steam.OverlaySocialModule>();
+ #if CLIENT

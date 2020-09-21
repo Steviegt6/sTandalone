@@ -62,6 +62,15 @@
  						int num83 = reader.ReadInt16();
  						int? playerCountForMultiplayerDifficultyOverride = 1;
  						if (bitsByte7[0])
+@@ -1319,7 +_,7 @@
+ 						if (num83 == 245)
+ 							NPC.golemBoss = num80;
+ 
+-						if (nPC3.type >= 0 && nPC3.type < 663 && Main.npcCatchable[nPC3.type])
++						if (nPC3.type >= 0 && nPC3.type < NPCID.Count && Main.npcCatchable[nPC3.type])
+ 							nPC3.releaseOwner = reader.ReadByte();
+ 
+ 						break;
 @@ -1345,6 +_,7 @@
  						Vector2 velocity4 = reader.ReadVector2();
  						int num122 = reader.ReadByte();
@@ -88,17 +97,28 @@
  						int damage = bitsByte8[4] ? reader.ReadInt16() : 0;
  						float knockBack = bitsByte8[5] ? reader.ReadSingle() : 0f;
  						int originalDamage = bitsByte8[6] ? reader.ReadInt16() : 0;
-@@ -1407,8 +_,13 @@
+@@ -1407,10 +_,15 @@
  						projectile.originalDamage = originalDamage;
  						projectile.knockBack = knockBack;
  						projectile.owner = num122;
 +						projectile.originalPosition = origPos;
  						for (int num129 = 0; num129 < Projectile.maxAI; num129++) {
  							projectile.ai[num129] = array2[num129];
-+						}
-+
-+						for (int aiIndex = 0; aiIndex < Projectile.maxModdedAI; aiIndex++) {
-+							projectile.moddedAI[aiIndex] = moddedAIArray[aiIndex];
  						}
  
++						for (int aiIndex = 0; aiIndex < Projectile.maxModdedAI; aiIndex++) {
++							projectile.moddedAI[aiIndex] = moddedAIArray[aiIndex];
++						}
++
  						if (num125 >= 0) {
+ 							projectile.projUUID = num125;
+ 							Main.projectileIdentity[num122, num125] = num126;
+@@ -2163,7 +_,7 @@
+ 						if (Main.netMode != 2)
+ 							break;
+ 
+-						if (num179 >= 0 && num179 < 663 && NPCID.Sets.MPAllowedEnemies[num179]) {
++						if (num179 >= 0 && num179 < NPCID.Count && NPCID.Sets.MPAllowedEnemies[num179]) {
+ 							if (!NPC.AnyNPCs(num179))
+ 								NPC.SpawnOnPlayer(plr, num179);
+ 						}

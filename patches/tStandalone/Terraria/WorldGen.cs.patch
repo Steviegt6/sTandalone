@@ -1,0 +1,32 @@
+--- src/Terraria/Terraria/WorldGen.cs
++++ src/tStandalone/Terraria/WorldGen.cs
+@@ -1177,7 +_,7 @@
+ 				}
+ 			}
+ 
+-			for (int j = 0; j < 663; j++) {
++			for (int j = 0; j < NPCID.Count; j++) {
+ 				if (!Main.townNPCCanSpawn[j] || !CheckSpecialTownNPCSpawningConditions(j))
+ 					continue;
+ 
+@@ -1217,7 +_,7 @@
+ 			}
+ 
+ 			int num2 = -1;
+-			for (int j = 0; j < 663; j++) {
++			for (int j = 0; j < NPCID.Count; j++) {
+ 				if (!Main.townNPCCanSpawn[j] || !CheckSpecialTownNPCSpawningConditions(j))
+ 					continue;
+ 
+@@ -1599,9 +_,9 @@
+ 		}
+ 
+ 		public static void CheckAchievement_RealEstate() {
+-			bool[] array = new bool[663];
++			bool[] array = new bool[NPCID.Count];
+ 			for (int i = 0; i < 200; i++) {
+-				if (Main.npc[i].active && Main.npc[i].type >= 0 && Main.npc[i].type < 663)
++				if (Main.npc[i].active && Main.npc[i].type >= 0 && Main.npc[i].type < NPCID.Count)
+ 					array[Main.npc[i].type] = true;
+ 			}
+ 

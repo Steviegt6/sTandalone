@@ -12,7 +12,7 @@
  	{
  		public static class RenderTargets
  		{
-@@ -177,9 +_,9 @@
+@@ -177,10 +_,10 @@
  		public static Asset<Texture2D>[] NpcToggle = new Asset<Texture2D>[2];
  		public static Asset<Texture2D>[] HbLock = new Asset<Texture2D>[2];
  		public static Asset<Texture2D>[] blockReplaceIcon = new Asset<Texture2D>[2];
@@ -22,6 +22,8 @@
 +		public static Asset<Texture2D>[] Item = new Asset<Texture2D>[ItemID.Count];
 -		public static Asset<Texture2D>[] ItemFlame = new Asset<Texture2D>[5045];
 +		public static Asset<Texture2D>[] ItemFlame = new Asset<Texture2D>[ItemID.Count];
- 		public static Asset<Texture2D>[] Npc = new Asset<Texture2D>[663];
+-		public static Asset<Texture2D>[] Npc = new Asset<Texture2D>[663];
++		public static Asset<Texture2D>[] Npc = new Asset<Texture2D>[NPCID.Count];
  		public static Asset<Texture2D>[] Projectile = new Asset<Texture2D>[950];
  		public static Asset<Texture2D>[] Gore = new Asset<Texture2D>[1269];
+ 		public static Asset<Texture2D>[] BackPack = new Asset<Texture2D>[9];

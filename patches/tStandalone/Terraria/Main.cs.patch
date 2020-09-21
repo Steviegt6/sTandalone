@@ -28,7 +28,8 @@
 -		public const int maxItemTypes = 5045;
 +		public const int maxItemTypes = ItemID.Count;
  		public const int maxProjectileTypes = 950;
- 		public const int maxNPCTypes = 663;
+-		public const int maxNPCTypes = 663;
++		public const int maxNPCTypes = NPCID.Count;
  		public const int maxTileSets = 623;
  		public const int maxWallTypes = 316;
 -		public const int maxBuffTypes = 323;
@@ -36,6 +37,15 @@
  		public const int maxGlowMasks = 301;
  		public const int maxExtras = 212;
  		public const int maxGoreTypes = 1269;
+@@ -410,7 +_,7 @@
+ 		public static bool stopTimeOuts = false;
+ 		public static bool showSpam = false;
+ 		public static bool showItemOwner = false;
+-		public static bool[] townNPCCanSpawn = new bool[663];
++		public static bool[] townNPCCanSpawn = new bool[NPCID.Count];
+ 		public static int musicBox2 = -1;
+ 		public static byte HealthBarDrawSettings = 1;
+ 		public static bool runningCollectorsEdition;
 @@ -518,15 +_,15 @@
  		public static float musicPitch = 0f;
  		public static bool[] projHostile = new bool[950];
@@ -70,6 +80,24 @@
  		public static bool hardMode;
  		public float chestLootScale = 1f;
  		public bool chestLootHover;
+@@ -707,7 +_,7 @@
+ 		public static int slimeWarningTime;
+ 		public static int slimeWarningDelay = 420;
+ 		public static float slimeRainNPCSlots = 0.65f;
+-		public static bool[] slimeRainNPC = new bool[663];
++		public static bool[] slimeRainNPC = new bool[NPCID.Count];
+ 		public static double slimeRainTime;
+ 		public static bool slimeRain;
+ 		public static int slimeRainKillCount;
+@@ -955,7 +_,7 @@
+ 		public static int[] grasshopperCageFrameCounter = new int[cageFrames];
+ 		public static bool[] tileSand = new bool[623];
+ 		public static bool[] tileFlame = new bool[623];
+-		public static bool[] npcCatchable = new bool[663];
++		public static bool[] npcCatchable = new bool[NPCID.Count];
+ 		public static int[] tileFrame = new int[623];
+ 		public static int[] tileFrameCounter = new int[623];
+ 		public static byte[] wallFrame = new byte[316];
 @@ -981,7 +_,7 @@
  		public static Sign[] sign = new Sign[1000];
  		public static int[] itemFrame = new int[401];
@@ -151,6 +179,15 @@
  			tileFlame[4] = true;
  			tileFlame[33] = true;
  			tileFlame[34] = true;
+@@ -7194,7 +_,7 @@
+ 			tilePile[331] = true;
+ 			tilePile[332] = true;
+ 			tilePile[333] = true;
+-			for (int m = 0; m < 663; m++) {
++			for (int m = 0; m < NPCID.Count; m++) {
+ 				npcCatchable[m] = false;
+ 			}
+ 
 @@ -8179,6 +_,10 @@
  			if (_needsLanguageSelect)
  				menuMode = 1212;
@@ -410,11 +447,20 @@
  				if (!WorldGen.spawnEye && moonPhase != 4 && rand.Next(9) == 0 && netMode != 1) {
  					for (int m = 0; m < 255; m++) {
  						if (player[m].active && player[m].statLifeMax > 120) {
-@@ -49525,6 +_,7 @@
- 			else {
+@@ -49526,6 +_,7 @@
  				if (snowMoon || pumpkinMoon || DD2Event.Ongoing)
  					return;
-+
  
++
  				if (WorldGen.shadowOrbSmashed) {
  					if (!NPC.downedGoblins) {
+ 						if (rand.Next(3) == 0)
+@@ -49618,7 +_,7 @@
+ 					num++;
+ 			}
+ 
+-			for (int j = 0; j < 663; j++) {
++			for (int j = 0; j < NPCID.Count; j++) {
+ 				townNPCCanSpawn[j] = false;
+ 			}
+ 

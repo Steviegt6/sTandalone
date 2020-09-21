@@ -9,6 +9,15 @@
  	{
  		public static class Sets
  		{
+@@ -42,7 +_,7 @@
+ 				}
+ 			}
+ 
+-			public static SetFactory Factory = new SetFactory(663);
++			public static SetFactory Factory = new SetFactory(NPCID.Count);
+ 			public static Dictionary<int, int> SpecialSpawningRules = new Dictionary<int, int> {
+ 				{ 259, 0 },
+ 				{ 260, 0 },
 @@ -4371,6 +_,16 @@
  					Hide = true
  				};

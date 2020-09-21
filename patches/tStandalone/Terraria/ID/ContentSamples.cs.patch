@@ -9,6 +9,15 @@
  					Item item = new Item();
  					item.SetDefaults(i);
  					list.Add(item);
+@@ -680,7 +_,7 @@
+ 			NpcNetIdsByPersistentIds.Clear();
+ 			NpcPersistentIdsByNetIds.Clear();
+ 			NpcBestiarySortingId.Clear();
+-			for (int i = -65; i < 663; i++) {
++			for (int i = -65; i < NPCID.Count; i++) {
+ 				NPC nPC = new NPC();
+ 				nPC.SetDefaults(i);
+ 				NpcsByNetId[i] = nPC;
 @@ -699,7 +_,7 @@
  			}
  
@@ -18,3 +27,12 @@
  				Item item = new Item();
  				item.SetDefaults(k);
  				ItemsByType[k] = item;
+@@ -858,7 +_,7 @@
+ 			NPCSpawnParams nPCSpawnParams = default(NPCSpawnParams);
+ 			nPCSpawnParams.gameModeData = Main.RegisterdGameModes[0];
+ 			NPCSpawnParams spawnparams = nPCSpawnParams;
+-			for (int i = -65; i < 663; i++) {
++			for (int i = -65; i < NPCID.Count; i++) {
+ 				NPC nPC = new NPC();
+ 				nPC.SetDefaults(i, spawnparams);
+ 				NpcBestiaryRarityStars[i] = GetNPCBestiaryRarityStarsCount(nPC);

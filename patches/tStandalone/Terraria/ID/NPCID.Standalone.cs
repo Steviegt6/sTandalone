@@ -6,6 +6,5 @@
 		public const short PrimeMace = 664;
 		
 		public const short Count = 665; // Vanilla: 663
-		// TODO: 663 -> NPCID
 	}
 }

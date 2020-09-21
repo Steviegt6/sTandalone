@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/GameContent/ShopHelper.cs
++++ src/tStandalone/Terraria/GameContent/ShopHelper.cs
+@@ -106,7 +_,7 @@
+ 					_currentPriceAdjustment *= 0.9f;
+ 				}
+ 
+-				bool[] array = new bool[663];
++				bool[] array = new bool[NPCID.Count];
+ 				foreach (NPC item in nearbyResidentNPCs) {
+ 					array[item.type] = true;
+ 				}

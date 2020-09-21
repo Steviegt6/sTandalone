@@ -17,3 +17,12 @@
  						break;
  					case 2:
  						text.Serialize(writer);
+@@ -579,7 +_,7 @@
+ 								}
+ 							}
+ 
+-							if (nPC2.type >= 0 && nPC2.type < 663 && Main.npcCatchable[nPC2.type])
++							if (nPC2.type >= 0 && nPC2.type < NPCID.Count && Main.npcCatchable[nPC2.type])
+ 								writer.Write((byte)nPC2.releaseOwner);
+ 
+ 							break;

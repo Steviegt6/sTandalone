@@ -18,6 +18,15 @@
  		public int heldProj = -1;
  		public int breathCD;
  		public int breathMax = 200;
+@@ -1268,7 +_,7 @@
+ 		public int cMinion;
+ 		public int cLeinShampoo;
+ 		public int[] ownedProjectileCounts = new int[950];
+-		public bool[] npcTypeNoAggro = new bool[663];
++		public bool[] npcTypeNoAggro = new bool[NPCID.Count];
+ 		public int lastPortalColorIndex;
+ 		public int _portalPhysicsTime;
+ 		public bool portalPhysicsFlag;
 @@ -2518,7 +_,12 @@
  		private int AddBuff_DetermineBuffTimeToAdd(int type, int time1) {
  			int num = time1;

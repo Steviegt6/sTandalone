@@ -1,0 +1,22 @@
+--- src/Terraria/Terraria/IO/WorldFile.cs
++++ src/tStandalone/Terraria/IO/WorldFile.cs
+@@ -875,8 +_,8 @@
+ 			writer.Write(NPC.savedGolfer);
+ 			writer.Write(Main.invasionSizeStart);
+ 			writer.Write(_tempCultistDelay);
+-			writer.Write((short)663);
++			writer.Write((short)NPCID.Count);
+-			for (int j = 0; j < 663; j++) {
++			for (int j = 0; j < NPCID.Count; j++) {
+ 				writer.Write(NPC.killCount[j]);
+ 			}
+ 
+@@ -1481,7 +_,7 @@
+ 
+ 			int num2 = reader.ReadInt16();
+ 			for (int i = 0; i < num2; i++) {
+-				if (i < 663)
++				if (i < NPCID.Count)
+ 					NPC.killCount[i] = reader.ReadInt32();
+ 				else
+ 					reader.ReadInt32();

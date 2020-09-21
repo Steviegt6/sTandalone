@@ -9,8 +9,10 @@
  		private static LocalizedText[] _projectileNameCache = new LocalizedText[950];
  		private static LocalizedText[] _npcNameCache = new LocalizedText[663];
  		private static LocalizedText[] _negativeNpcNameCache = new LocalizedText[65];
- 		private static LocalizedText[] _buffNameCache = new LocalizedText[323];
- 		private static LocalizedText[] _buffDescriptionCache = new LocalizedText[323];
+-		private static LocalizedText[] _buffNameCache = new LocalizedText[323];
++		private static LocalizedText[] _buffNameCache = new LocalizedText[BuffID.Count];
+-		private static LocalizedText[] _buffDescriptionCache = new LocalizedText[323];
++		private static LocalizedText[] _buffDescriptionCache = new LocalizedText[BuffID.Count];
 -		private static ItemTooltip[] _itemTooltipCache = new ItemTooltip[5045];
 +		private static ItemTooltip[] _itemTooltipCache = new ItemTooltip[ItemID.Count];
  		private static LocalizedText[] _emojiNameCache = new LocalizedText[145];

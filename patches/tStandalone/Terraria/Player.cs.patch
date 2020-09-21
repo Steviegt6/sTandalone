@@ -9,6 +9,15 @@
  	{
  		public static class BuilderAccToggleIDs
  		{
+@@ -686,7 +_,7 @@
+ 		public const int maxBuffs = 22;
+ 		public int[] buffType = new int[22];
+ 		public int[] buffTime = new int[22];
+-		public bool[] buffImmune = new bool[323];
++		public bool[] buffImmune = new bool[BuffID.Count];
+ 		public int heldProj = -1;
+ 		public int breathCD;
+ 		public int breathMax = 200;
 @@ -2518,7 +_,12 @@
  		private int AddBuff_DetermineBuffTimeToAdd(int type, int time1) {
  			int num = time1;
@@ -57,6 +66,15 @@
 +			ResettStandaloneEffects();
  			if (phantasmTime > 0)
  				phantasmTime--;
+ 
+@@ -17379,7 +_,7 @@
+ 					AddBuff(194, 2, quiet: false);
+ 			}
+ 
+-			for (int num26 = 0; num26 < 323; num26++) {
++			for (int num26 = 0; num26 < BuffID.Count; num26++) {
+ 				buffImmune[num26] = false;
+ 			}
  
 @@ -32980,10 +_,29 @@
  					Projectile.NewProjectile(vector.X, vector.Y, vector32.X, vector32.Y, projToShoot, Damage, KnockBack, i, 0f, ai4);

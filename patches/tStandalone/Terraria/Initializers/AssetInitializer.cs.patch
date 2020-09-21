@@ -9,6 +9,15 @@
  	{
  		public static void CreateAssetServices(GameServiceContainer services) {
  			AssetReaderCollection assetReaderCollection = new AssetReaderCollection();
+@@ -370,7 +_,7 @@
+ 				TextureAssets.BackPack[num48] = LoadAsset<Texture2D>("Images\\BackPack_" + num48, mode);
+ 			}
+ 
+-			for (int num49 = 1; num49 < 323; num49++) {
++			for (int num49 = 1; num49 < BuffID.Count; num49++) {
+ 				TextureAssets.Buff[num49] = LoadAsset<Texture2D>("Images\\Buff_" + num49, mode);
+ 			}
+ 
 @@ -591,6 +_,7 @@
  			LoadMinimapFrames(mode);
  			LoadPlayerResourceSets(mode);

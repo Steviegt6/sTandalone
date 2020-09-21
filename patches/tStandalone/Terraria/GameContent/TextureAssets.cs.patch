@@ -12,10 +12,12 @@
  	{
  		public static class RenderTargets
  		{
-@@ -178,8 +_,8 @@
+@@ -177,9 +_,9 @@
+ 		public static Asset<Texture2D>[] NpcToggle = new Asset<Texture2D>[2];
  		public static Asset<Texture2D>[] HbLock = new Asset<Texture2D>[2];
  		public static Asset<Texture2D>[] blockReplaceIcon = new Asset<Texture2D>[2];
- 		public static Asset<Texture2D>[] Buff = new Asset<Texture2D>[323];
+-		public static Asset<Texture2D>[] Buff = new Asset<Texture2D>[323];
++		public static Asset<Texture2D>[] Buff = new Asset<Texture2D>[BuffID.Count];
 -		public static Asset<Texture2D>[] Item = new Asset<Texture2D>[5045];
 +		public static Asset<Texture2D>[] Item = new Asset<Texture2D>[ItemID.Count];
 -		public static Asset<Texture2D>[] ItemFlame = new Asset<Texture2D>[5045];

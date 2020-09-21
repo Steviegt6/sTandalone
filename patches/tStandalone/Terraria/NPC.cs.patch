@@ -8,6 +8,42 @@
  	public class NPC : Entity
  	{
  		private const int NPC_TARGETS_START = 300;
+@@ -110,7 +_,7 @@
+ 		public const int maxBuffs = 5;
+ 		public int[] buffType = new int[5];
+ 		public int[] buffTime = new int[5];
+-		public bool[] buffImmune = new bool[323];
++		public bool[] buffImmune = new bool[BuffID.Count];
+ 		public bool midas;
+ 		public bool ichor;
+ 		public bool onFire;
+@@ -2837,7 +_,7 @@
+ 				buffType[k] = 0;
+ 			}
+ 
+-			for (int l = 0; l < 323; l++) {
++			for (int l = 0; l < BuffID.Count; l++) {
+ 				buffImmune[l] = false;
+ 			}
+ 
+@@ -10878,7 +_,7 @@
+ 
+ 				noGravity = true;
+ 				rarity = 2;
+-				for (int num2 = 0; num2 < 323; num2++) {
++				for (int num2 = 0; num2 < BuffID.Count; num2++) {
+ 					buffImmune[num2] = true;
+ 				}
+ 			}
+@@ -11612,7 +_,7 @@
+ 			}
+ 
+ 			if (flag) {
+-				for (int num4 = 0; num4 < 323; num4++) {
++				for (int num4 = 0; num4 < BuffID.Count; num4++) {
+ 					buffImmune[num4] = true;
+ 				}
+ 			}
 @@ -56648,7 +_,7 @@
  
  			if (type == 1 && ai[1] > 0f) {
@@ -17,3 +53,12 @@
  					int stackForSlimeItemDrop = GetStackForSlimeItemDrop(num3);
  					Item.NewItem((int)position.X, (int)position.Y, width, height, num3, stackForSlimeItemDrop);
  				}
+@@ -71263,7 +_,7 @@
+ 		}
+ 
+ 		public void RequestBuffRemoval(int buffTypeToRemove) {
+-			if (buffTypeToRemove < 0 || buffTypeToRemove >= 323 || !BuffID.Sets.CanBeRemovedByNetMessage[buffTypeToRemove])
++			if (buffTypeToRemove < 0 || buffTypeToRemove >= BuffID.Count || !BuffID.Sets.CanBeRemovedByNetMessage[buffTypeToRemove])
+ 				return;
+ 
+ 			int num = FindBuffIndex(buffTypeToRemove);

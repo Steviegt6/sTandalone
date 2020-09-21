@@ -21,7 +21,7 @@
  		public static bool AnnouncementBoxDisabled;
  		public static int AnnouncementBoxRange = -1;
  		public static string AutogenSeedName;
-@@ -293,7 +_,7 @@
+@@ -293,12 +_,12 @@
  		public static int dedServCount2;
  		public static bool superFast = false;
  		public const int offLimitBorderTiles = 40;
@@ -30,6 +30,46 @@
  		public const int maxProjectileTypes = 950;
  		public const int maxNPCTypes = 663;
  		public const int maxTileSets = 623;
+ 		public const int maxWallTypes = 316;
+-		public const int maxBuffTypes = 323;
++		public const int maxBuffTypes = BuffID.Count;
+ 		public const int maxGlowMasks = 301;
+ 		public const int maxExtras = 212;
+ 		public const int maxGoreTypes = 1269;
+@@ -518,15 +_,15 @@
+ 		public static float musicPitch = 0f;
+ 		public static bool[] projHostile = new bool[950];
+ 		public static bool[] projHook = new bool[950];
+-		public static bool[] pvpBuff = new bool[323];
++		public static bool[] pvpBuff = new bool[maxBuffTypes];
+-		public static bool[] persistentBuff = new bool[323];
++		public static bool[] persistentBuff = new bool[maxBuffTypes];
+-		public static bool[] vanityPet = new bool[323];
++		public static bool[] vanityPet = new bool[maxBuffTypes];
+-		public static bool[] lightPet = new bool[323];
++		public static bool[] lightPet = new bool[maxBuffTypes];
+-		public static bool[] meleeBuff = new bool[323];
++		public static bool[] meleeBuff = new bool[maxBuffTypes];
+-		public static bool[] debuff = new bool[323];
++		public static bool[] debuff = new bool[maxBuffTypes];
+-		public static bool[] buffNoSave = new bool[323];
++		public static bool[] buffNoSave = new bool[maxBuffTypes];
+-		public static bool[] buffNoTimeDisplay = new bool[323];
++		public static bool[] buffNoTimeDisplay = new bool[maxBuffTypes];
+-		public static bool[] buffDoubleApply = new bool[323];
++		public static bool[] buffDoubleApply = new bool[maxBuffTypes];
+ 		public static int maxMP = 10;
+ 		public static string[] recentWorld = new string[maxMP];
+ 		public static string[] recentIP = new string[maxMP];
+@@ -636,7 +_,7 @@
+ 		public static bool armorHide;
+ 		public static float craftingAlpha = 1f;
+ 		public static float armorAlpha = 1f;
+-		public static float[] buffAlpha = new float[323];
++		public static float[] buffAlpha = new float[maxBuffTypes];
+ 		public static bool hardMode;
+ 		public float chestLootScale = 1f;
+ 		public bool chestLootHover;
 @@ -981,7 +_,7 @@
  		public static Sign[] sign = new Sign[1000];
  		public static int[] itemFrame = new int[401];

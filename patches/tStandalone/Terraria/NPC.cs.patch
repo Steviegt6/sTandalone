@@ -8,3 +8,12 @@
  	public class NPC : Entity
  	{
  		private const int NPC_TARGETS_START = 300;
+@@ -56648,7 +_,7 @@
+ 
+ 			if (type == 1 && ai[1] > 0f) {
+ 				int num3 = (int)ai[1];
+-				if (num3 > 0 && num3 < 5045) {
++				if (num3 > 0 && num3 < ItemID.Count) {
+ 					int stackForSlimeItemDrop = GetStackForSlimeItemDrop(num3);
+ 					Item.NewItem((int)position.X, (int)position.Y, width, height, num3, stackForSlimeItemDrop);
+ 				}

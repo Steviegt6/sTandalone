@@ -11,6 +11,5 @@
 		public const short TwinsGun = 5051;
 
 		public const short Count = 5052; // Vanilla: 5045
-		// TODO: 5045 -> ItemID
 	}
 }

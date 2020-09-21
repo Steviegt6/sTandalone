@@ -111,3 +111,57 @@
  				}
  			}
  			else if (sItem.useStyle == 5 || sItem.useStyle == 13) {
+@@ -36982,7 +_,7 @@
+ 								if (num >= 58) {
+ 									for (int num7 = 0; num7 < 58; num7++) {
+ 										int num8 = binaryReader.ReadInt32();
+-										if (num8 >= 5045) {
++										if (num8 >= ItemID.Count) {
+ 											player.inventory[num7].netDefaults(0);
+ 											binaryReader.ReadInt32();
+ 											binaryReader.ReadByte();
+@@ -37001,7 +_,7 @@
+ 								else {
+ 									for (int num9 = 0; num9 < 48; num9++) {
+ 										int num10 = binaryReader.ReadInt32();
+-										if (num10 >= 5045) {
++										if (num10 >= ItemID.Count) {
+ 											player.inventory[num9].netDefaults(0);
+ 											binaryReader.ReadInt32();
+ 											binaryReader.ReadByte();
+@@ -37019,7 +_,7 @@
+ 										for (int num11 = 0; num11 < 5; num11++) {
+ 											if (num11 != 1) {
+ 												int num12 = binaryReader.ReadInt32();
+-												if (num12 >= 5045) {
++												if (num12 >= ItemID.Count) {
+ 													player.miscEquips[num11].netDefaults(0);
+ 													binaryReader.ReadByte();
+ 												}
+@@ -37029,7 +_,7 @@
+ 												}
+ 
+ 												num12 = binaryReader.ReadInt32();
+-												if (num12 >= 5045) {
++												if (num12 >= ItemID.Count) {
+ 													player.miscDyes[num11].netDefaults(0);
+ 													binaryReader.ReadByte();
+ 												}
+@@ -37043,7 +_,7 @@
+ 									else {
+ 										for (int num13 = 0; num13 < 5; num13++) {
+ 											int num14 = binaryReader.ReadInt32();
+-											if (num14 >= 5045) {
++											if (num14 >= ItemID.Count) {
+ 												player.miscEquips[num13].netDefaults(0);
+ 												binaryReader.ReadByte();
+ 											}
+@@ -37053,7 +_,7 @@
+ 											}
+ 
+ 											num14 = binaryReader.ReadInt32();
+-											if (num14 >= 5045) {
++											if (num14 >= ItemID.Count) {
+ 												player.miscDyes[num13].netDefaults(0);
+ 												binaryReader.ReadByte();
+ 											}

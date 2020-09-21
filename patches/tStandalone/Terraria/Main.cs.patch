@@ -1,0 +1,411 @@
+--- src/Terraria/Terraria/Main.cs
++++ src/tStandalone/Terraria/Main.cs
+@@ -81,9 +_,9 @@
+ namespace Terraria
+ {
+ #if CLIENT
+-	public class Main : Game
++	public partial class Main : Game
+ #else
+-	public class Main : Terraria.Server.Game
++	public partial class Main : Terraria.Server.Game
+ #endif
+ 	{
+ 		public delegate void OnPlayerSelected(PlayerFileData player);
+@@ -234,7 +_,7 @@
+ 		public static NPCHeadRenderer BossNPCHeadRenderer = null;
+ 		public static string versionNumber = "v1.4.0.5";
+ 		public static string versionNumber2 = "v1.4.0.5";
+-		public static string SavePath = Program.LaunchParameters.ContainsKey("-savedirectory") ? Program.LaunchParameters["-savedirectory"] : Platform.Get<IPathService>().GetStoragePath("Terraria");
++		public static string SavePath = Program.LaunchParameters.ContainsKey("-savedirectory") ? Program.LaunchParameters["-savedirectory"] + Path.PathSeparator + "Standalone" : Platform.Get<IPathService>().GetStoragePath("Terraria") + Path.PathSeparator + "Standalone";
+ 		public static bool AnnouncementBoxDisabled;
+ 		public static int AnnouncementBoxRange = -1;
+ 		public static string AutogenSeedName;
+@@ -1842,7 +_,9 @@
+ 			2,
+ 			4,
+ 			3,
+-			4
++			4,
++			1,
++			1
+ 		};
+ 		public static Dictionary<int, byte> npcLifeBytes = new Dictionary<int, byte>();
+ 		public static bool mouseExit;
+@@ -2719,6 +_,8 @@
+ 					break;
+ 			}
+ 
++			ModdedOffsetDefaults(gravdir, itemtype, ref result, ref num);
++
+ 			result.X = num;
+ 			return result;
+ 		}
+@@ -3031,6 +_,7 @@
+ 
+ 		public static bool SaveSettings() {
+ 			Configuration.Clear();
++			tStandaloneConfigPut();
+ 			Configuration.Put("ResetDefaultUIScale", false);
+ 			Configuration.Put("SmartCursorToggle", cSmartCursorModeIsToggleAndNotHold);
+ 			Configuration.Put("MapEnabled", mapEnabled);
+@@ -3145,6 +_,7 @@
+ 
+ 			Configuration.Load();
+ 			int currentValue = 0;
++			tStandaloneConfigGet();
+ 			Configuration.Get("LastLaunchedVersion", ref currentValue);
+ 			bool flag = false;
+ 			if (currentValue < 219)
+@@ -4860,6 +_,7 @@
+ 			TileEntity.InitializeAll();
+ 			Projectile.InitializeStaticThings();
+ 			TorchID.Initialize();
++			FinalFractalHelper.InitializeEveryItemFinalFractalProfile();
+ 			InitializeItemAnimations();
+ 			BestiaryDatabase bestiaryDatabase = new BestiaryDatabase();
+ 			new BestiaryDatabaseNPCsPopulator().Populate(bestiaryDatabase);
+@@ -7169,6 +_,9 @@
+ 			lightPet[294] = true;
+ 			lightPet[298] = true;
+ 			lightPet[299] = true;
++
++			InitializeModdedBuffs();
++
+ 			tileFlame[4] = true;
+ 			tileFlame[33] = true;
+ 			tileFlame[34] = true;
+@@ -8179,6 +_,10 @@
+ 			if (_needsLanguageSelect)
+ 				menuMode = 1212;
+ 
++			if (!_needsLanguageSelect && showWelcomeMessage) {
++				menuMode = MenuID.WelcomeMessageScreen;
++			}
++
+ 			_achievements = new AchievementManager();
+ 			_achievementAdvisor = new AchievementAdvisor();
+ 			OpenRecent();
+@@ -8238,6 +_,9 @@
+ 			VertexPixelShaderRef.Value = ShaderContentManager.Load<Effect>("PixelShader");
+ 			TileShaderRef.Value = ShaderContentManager.Load<Effect>("TileShader");
+ 			ScreenShaderRef.Value = ShaderContentManager.Load<Effect>("ScreenShader");
++
++			InitializetStandaloneShaders();
++
+ 			spriteBatch = new SpriteBatch(base.GraphicsDevice);
+ 			tileBatch = new TileBatch(base.GraphicsDevice);
+ 			DebugDrawer = new BasicDebugDrawer(base.GraphicsDevice);
+@@ -14811,6 +_,10 @@
+ 			if (diff == 2)
+ 				baseColor = new Microsoft.Xna.Framework.Color((byte)((float)(int)hcColor.R * num2), (byte)((float)(int)hcColor.G * num2), (byte)((float)(int)hcColor.B * num2), mouseTextColor);
+ 
++			if (num == -13 || HoverItem.master) {
++				baseColor = new Color((byte)(255f * num2), (byte)(masterColor * 200f * num2), 0, mouseTextColor);
++			}
++
+ 			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.MouseText.Value, cursorText, new Vector2(X, Y), baseColor, 0f, Vector2.Zero, Vector2.One);
+ 		}
+ 
+@@ -15002,7 +_,7 @@
+ 					Microsoft.Xna.Framework.Color black = Microsoft.Xna.Framework.Color.Black;
+ 					black = new Microsoft.Xna.Framework.Color(num4, num4, num4, num4);
+ 					if (k == 0) {
+-						if (rare == -13)
++						if (rare == -13 || hoverItem.master)
+ 							black = new Microsoft.Xna.Framework.Color((byte)(255f * num4), (byte)(masterColor * 200f * num4), 0, a);
+ 
+ 						if (rare == -11)
+@@ -15309,6 +_,12 @@
+ 							toolTipLine[numLines] = Lang.tip[59].Value;
+ 							numLines++;
+ 						}
++						else if (item.ToolTip.GetLine(i).Contains("{PlayerName}")) {
++							string modifiedText = item.ToolTip.GetLine(i);
++							modifiedText = modifiedText.Replace("{PlayerName}", LocalPlayer.name);
++							toolTipLine[numLines] = modifiedText;
++							numLines++;
++						}
+ 						else {
+ 							toolTipLine[numLines] = item.ToolTip.GetLine(i);
+ 							numLines++;
+@@ -15582,7 +_,7 @@
+ 				numLines++;
+ 			}
+ 
+-			if (item.rare == -13) {
++			if (item.rare == -13 || item.master) {
+ 				toolTipLine[numLines] = Language.GetTextValue("GameUI.Master");
+ 				numLines++;
+ 			}
+@@ -16696,7 +_,7 @@
+ 				}
+ 			}
+ 
+-			if (rCurrentNPC.aiStyle >= 33 && rCurrentNPC.aiStyle <= 36) {
++			if (rCurrentNPC.aiStyle >= 33 && rCurrentNPC.aiStyle <= 36 || rCurrentNPC.type == NPCID.PrimeCoil || rCurrentNPC.type == NPCID.PrimeMace) {
+ 				Vector2 vector7 = new Vector2(rCurrentNPC.position.X + (float)rCurrentNPC.width * 0.5f - 5f * rCurrentNPC.ai[0], rCurrentNPC.position.Y + 20f);
+ 				for (int k = 0; k < 2; k++) {
+ 					float num22 = npc[(int)rCurrentNPC.ai[1]].position.X + (float)(npc[(int)rCurrentNPC.ai[1]].width / 2) - vector7.X;
+@@ -18323,7 +_,7 @@
+ 											}
+ 									}
+ 
+-									if (type == 125 || type == 126 || type == 127 || type == 128 || type == 129 || type == 130 || type == 131 || type == 139 || type == 140) {
++									if (type == 125 || type == 126 || type == 127 || type == 128 || type == 129 || type == 130 || type == 131 || type == 139 || type == 140 || type == NPCID.PrimeMace || type == NPCID.PrimeCoil) {
+ 										for (int num93 = 9; num93 >= 0; num93 -= 2) {
+ 											_ = ref rCurrentNPC.oldPos[num93];
+ 											Microsoft.Xna.Framework.Color alpha9 = rCurrentNPC.GetAlpha(npcColor);
+@@ -18511,6 +_,10 @@
+ 										num115 *= num115;
+ 										if (getGoodWorld)
+ 											num115 = 1f;
++										else if (masterMode) {
++											num115 *= 2;
++										}
++
+ 
+ 										alpha11.R = (byte)((float)(int)alpha11.R * num115);
+ 										alpha11.G = (byte)((float)(int)alpha11.G * num115);
+@@ -18877,7 +_,7 @@
+ 									else if (type == 389) {
+ 										mySpriteBatch.Draw(TextureAssets.GlowMask[34].Value, new Vector2(rCurrentNPC.position.X - screenPos.X + (float)(rCurrentNPC.width / 2) - (float)TextureAssets.Npc[type].Width() * rCurrentNPC.scale / 2f + halfSize.X * rCurrentNPC.scale, rCurrentNPC.position.Y - screenPos.Y + (float)rCurrentNPC.height - (float)TextureAssets.Npc[type].Height() * rCurrentNPC.scale / (float)npcFrameCount[type] + 4f + halfSize.Y * rCurrentNPC.scale + num37 + num36 + rCurrentNPC.gfxOffY), frame5, new Microsoft.Xna.Framework.Color(255, 255, 255, 0), rCurrentNPC.rotation, halfSize, rCurrentNPC.scale, spriteEffects, 0f);
+ 									}
+-									else if (type == 4 && rCurrentNPC.ai[1] >= 4f && rCurrentNPC.ai[0] == 3f) {
++									else if (type == 4 && ((rCurrentNPC.ai[1] >= 4f && rCurrentNPC.ai[0] == 3f) || (rCurrentNPC.ai[0] == 5f && rCurrentNPC.ai[1] == 1f))) {
+ 										for (int num135 = 1; num135 < rCurrentNPC.oldPos.Length; num135++) {
+ 											_ = ref rCurrentNPC.oldPos[num135];
+ 											Microsoft.Xna.Framework.Color color35 = npcColor;
+@@ -22657,10 +_,30 @@
+ 				}
+ 
+ 				if (projectile.type == 933) {
++					FinalFractalHelper.FinalFractalProfile finalFractalProfile;
++
++					switch (Main.player[Main.myPlayer].name) {
++						case "Stevie":
++							finalFractalProfile = FinalFractalHelper.GetFinalFractalProfileFunny((int)projectile.ai[1]);
++							break;
++
++						case "Scalie":
++						case "Terra":
++							finalFractalProfile = FinalFractalHelper.GetFinalFractalProfileTerra((int)projectile.ai[1]);
++							break;
++
++						case "pbone":
++							finalFractalProfile = FinalFractalHelper.GetFinalFractalProfileCactus((int)projectile.ai[1]);
++							break;
++
++						default:
++							finalFractalProfile = FinalFractalHelper.GetFinalFractalProfile((int)projectile.ai[1]);
++							break;
++					}
++
+ 					float t3 = projectile.localAI[0];
+ 					float scale5 = Utils.GetLerpValue(0f, 20f, t3, clamped: true) * Utils.GetLerpValue(68f, 60f, t3, clamped: true);
+ 					EntitySpriteDraw(value13, projectile.Center + zero - screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle3, new Microsoft.Xna.Framework.Color(255, 255, 255, 127) * projectile.Opacity * scale5, rotation23, origin4, num169 * 1.25f, spriteEffects, 0);
+-					FinalFractalHelper.FinalFractalProfile finalFractalProfile = FinalFractalHelper.GetFinalFractalProfile((int)projectile.ai[1]);
+ 					Microsoft.Xna.Framework.Color trailColor = finalFractalProfile.trailColor;
+ 					trailColor.A /= 2;
+ 					DrawPrettyStarSparkle(projectile, spriteEffects, projectile.Center + zero - screenPosition + new Vector2(0f, projectile.gfxOffY) + (projectile.rotation - (float)Math.PI / 2f).ToRotationVector2() * finalFractalProfile.trailWidth, Microsoft.Xna.Framework.Color.White * scale5, trailColor * scale5);
+@@ -27320,6 +_,8 @@
+ 				if (projectile[i].type == 673 || projectile[i].type == 674 || projectile[i].type == 691 || projectile[i].type == 692 || projectile[i].type == 693 || projectile[i].type == 923)
+ 					DrawCacheProjsBehindNPCs.Add(i);
+ 
++				AddModdedProjectilesBehindNPCs(i);
++
+ 				if (projectile[i].type != 636 && projectile[i].type != 598)
+ 					continue;
+ 
+@@ -27934,6 +_,11 @@
+ 		}
+ 
+ 		private static void HelpText() {
++			if (masterMode && Utils.NextBool()) {
++				MMRHelpText();
++				return;
++			}
++
+ 			bool flag = false;
+ 			if (player[myPlayer].statLifeMax > 100)
+ 				flag = true;
+@@ -35864,12 +_,12 @@
+ 			Microsoft.Xna.Framework.Color color2 = new Microsoft.Xna.Framework.Color((byte)((float)(int)color.R * ((float)LogoA / 255f)), (byte)((float)(int)color.G * ((float)LogoA / 255f)), (byte)((float)(int)color.B * ((float)LogoA / 255f)), (byte)((float)(int)color.A * ((float)LogoA / 255f)));
+ 			Microsoft.Xna.Framework.Color color3 = new Microsoft.Xna.Framework.Color((byte)((float)(int)color.R * ((float)LogoB / 255f)), (byte)((float)(int)color.G * ((float)LogoB / 255f)), (byte)((float)(int)color.B * ((float)LogoB / 255f)), (byte)((float)(int)color.A * ((float)LogoB / 255f)));
+ 			if (playOldTile) {
+-				spriteBatch.Draw(TextureAssets.Logo3.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color2, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
++				spriteBatch.Draw(TextureAssets.MMRLogo3.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.MMRLogo.Width(), TextureAssets.MMRLogo.Height()), color2, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
+-				spriteBatch.Draw(TextureAssets.Logo4.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color3, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
++				spriteBatch.Draw(TextureAssets.MMRLogo4.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.MMRLogo.Width(), TextureAssets.MMRLogo.Height()), color3, logoRotation, new Vector2(TextureAssets.MMRLogo.Width() / 2, TextureAssets.MMRLogo.Height() / 2), logoScale, SpriteEffects.None, 0f);
+ 			}
+ 			else {
+-				spriteBatch.Draw(TextureAssets.Logo.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color2, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
++				spriteBatch.Draw(TextureAssets.MMRLogo.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.MMRLogo.Width(), TextureAssets.MMRLogo.Height()), color2, logoRotation, new Vector2(TextureAssets.MMRLogo.Width() / 2, TextureAssets.MMRLogo.Height() / 2), logoScale, SpriteEffects.None, 0f);
+-				spriteBatch.Draw(TextureAssets.Logo2.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.Logo.Width(), TextureAssets.Logo.Height()), color3, logoRotation, new Vector2(TextureAssets.Logo.Width() / 2, TextureAssets.Logo.Height() / 2), logoScale, SpriteEffects.None, 0f);
++				spriteBatch.Draw(TextureAssets.MMRLogo2.Value, new Vector2(screenWidth / 2, 100f), new Microsoft.Xna.Framework.Rectangle(0, 0, TextureAssets.MMRLogo.Width(), TextureAssets.MMRLogo.Height()), color3, logoRotation, new Vector2(TextureAssets.MMRLogo.Width() / 2, TextureAssets.MMRLogo.Height() / 2), logoScale, SpriteEffects.None, 0f);
+ 			}
+ 
+ 			if (dayTime) {
+@@ -35964,7 +_,12 @@
+ 				if (selectedMenu >= 1) {
+ 					changeTheTitle = true;
+ 					LanguageManager.Instance.SetLanguage(selectedMenu);
++					if (showWelcomeMessage) {
++						menuMode = MenuID.WelcomeMessageScreen;
++					}
++					else {
+-					menuMode = 0;
++						menuMode = 0;
++					}
+ 					SoundEngine.PlaySound(10);
+ 					SaveSettings();
+ 				}
+@@ -36206,9 +_,9 @@
+ 					str = str + " -worldrollbackstokeep " + WorldRollingBackupsCountToKeep;
+ 					tServer = new Process();
+ #if WINDOWS
+-					tServer.StartInfo.FileName = "TerrariaServer.exe";
++					tServer.StartInfo.FileName = "tStandaloneServer.exe";
+ #else
+-					tServer.StartInfo.FileName = "TerrariaServer";
++					tServer.StartInfo.FileName = "tStandaloneServer";
+ #endif
+ 					tServer.StartInfo.Arguments = str;
+ 					if (libPath != "") {
+@@ -36382,8 +_,8 @@
+ 				_blockFancyUIWhileLoading = false;
+ 				_pendingCharacterSelect = null;
+ 				DD2Event.Ongoing = false;
+-				eclipse = false;
++				eclipse = true;
+-				pumpkinMoon = false;
++				pumpkinMoon = true;
+ 				snowMoon = false;
+ 				ServerSideCharacter = false;
+ 				menuMultiplayer = false;
+@@ -37032,8 +_,8 @@
+ 				else if (menuMode == 11) {
+ 					num2 = 210;
+ 					num4 = 37;
+-					num5 = 8;
++					num5 = 9;
+-					array4[num5 - 1] = 8;
++					array4[num5 - 1] = 9;
+ 					for (int num19 = 0; num19 < num5; num19++) {
+ 						array7[num19] = 0.75f;
+ 					}
+@@ -38121,6 +_,9 @@
+ 						netMode = 0;
+ 					}
+ 				}
++				else {
++					DrawModdedMenus();
++				}
+ 			}
+ 
+ 			if (menuMode == 888) {
+@@ -38854,8 +_,12 @@
+ 
+ 					Vector2 origin2 = FontAssets.MouseText.Value.MeasureString(versionNumber);
+ 					origin2.X *= 0.5f;
+-					origin2.Y *= 0.5f;
+ 					spriteBatch.DrawString(FontAssets.MouseText.Value, versionNumber, new Vector2(origin2.X + (float)num108 + 10f, (float)screenHeight - origin2.Y + (float)num109 - 2f), color12, 0f, origin2, 1f, SpriteEffects.None, 0f);
++
++					Vector2 origin3 = FontAssets.MouseText.Value.MeasureString("tStandalone v1.0.0");
++					origin3.X *= 0.5f;
++					origin3.Y *= 0.5f;
++					spriteBatch.DrawString(FontAssets.MouseText.Value, "tStandalone v1.0.0", new Vector2(origin2.X + (float)num108 + 10f, (float)screenHeight - origin2.Y + (float)num109 - 2f), color12, 0f, origin2, 1f, SpriteEffects.None, 0f);
+ 				}
+ 			}
+ 
+@@ -49277,6 +_,16 @@
+ 						}
+ 					}
+ 
++					if (WorldGen.spawnEOL && netMode != 1 && time > 4860.0) {
++						for (int k = 0; k < 255; k++) {
++							if (player[k].active && !player[k].dead && (double)player[k].position.Y < worldSurface & 16.0) {
++								NPC.SpawnOnPlayer(k, NPCID.HallowBoss);
++								WorldGen.spawnEOL = false;
++								break;
++							}
++						}
++					}
++
+ 					if (WorldGen.spawnHardBoss > 0 && netMode != 1 && time > 4860.0) {
+ 						bool flag2 = false;
+ 						for (int l = 0; l < 200; l++) {
+@@ -49313,7 +_,18 @@
+ 				HandleMeteorFall();
+ 			}
+ 			else {
++				if (!fastForwardTime && !stopEvents) {
++					if (WorldGen.spawnQS && netMode != 1 && time > 4860.0) {
++						for (int k = 0; k < 255; k++) {
++							if (player[k].active && !player[k].dead && (double)player[k].position.Y < worldSurface * 16.0) {
++								NPC.SpawnOnPlayer(k, NPCID.QueenSlimeBoss);
++								WorldGen.spawnQS = false;
++								break;
++							}
++						}
++					}
++				}
+-				WorldGen.spawnHardBoss = 0;
++								WorldGen.spawnHardBoss = 0;
+ 				WorldGen.spawnEye = false;
+ 				bloodMoon = false;
+ 				stopMoonEvent();
+@@ -49440,6 +_,25 @@
+ 					}
+ 				}
+ 
++				if (masterMode && netMode != 1 && !pumpkinMoon && !DD2Event.Ongoing && !snowMoon && hardMode && WorldGen.spawnHardBoss == 0 && !WorldGen.spawnEye && NPC.downedPlantBoss && !NPC.downedEmpressOfLight && rand.NextBool(10)) {
++					bool isBossAlive = false;
++					for (int k = 0; k < 200; k++) {
++						if (npc[k].active && npc[k].boss) {
++							isBossAlive = true;
++						}
++					}
++
++					if (!isBossAlive) {
++						WorldGen.spawnEOL = true;
++						if (netMode == 0) {
++							NewText(Language.GetTextValue("Standalone.StatusText.EmpressOfLightApproaches"), 50, 255, 130);
++						}
++						else if (netMode == 2) {
++							ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral(Language.GetTextValue("Standalone.StatusText.EmpressOfLightApproaches")), new Color(50, 255, 130));
++						}
++					}
++				}
++
+ 				if (!WorldGen.spawnEye && moonPhase != 4 && rand.Next(9) == 0 && netMode != 1) {
+ 					for (int m = 0; m < 255; m++) {
+ 						if (player[m].active && player[m].statLifeMax > 120) {
+@@ -49526,7 +_,26 @@
+ 				if (snowMoon || pumpkinMoon || DD2Event.Ongoing)
+ 					return;
+ 
++				if (masterMode && netMode != 1 && hardMode && !NPC.downedQueenSlime && rand.NextBool(10)) {
++					bool isBossAlive = false;
++					for (int k = 0; k < 200; k++) {
++						if (npc[k].active && npc[k].boss) {
++							isBossAlive = true;
++						}
++					}
++
++					if (!isBossAlive) {
++						WorldGen.spawnQS = true;
++						if (netMode == 0) {
++							NewText(Language.GetTextValue("Standalone.StatusText.QueenSlimeApproaches"), 50, 255, 130);
++						}
++						else if (netMode == 2) {
++							ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral(Language.GetTextValue("Standalone.StatusText.QueenSlimeApproaches")), new Microsoft.Xna.Framework.Color(50, 255, 130));
++						}
++					}
++				}
++
+-				if (WorldGen.shadowOrbSmashed) {
++					if (WorldGen.shadowOrbSmashed) {
+ 					if (!NPC.downedGoblins) {
+ 						if (rand.Next(3) == 0)
+ 							StartInvasion();

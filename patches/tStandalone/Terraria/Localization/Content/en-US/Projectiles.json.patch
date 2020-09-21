@@ -1,0 +1,40 @@
+--- src/Terraria/Terraria/Localization/Content/en-US/Projectiles.json
++++ src/tStandalone/Terraria/Localization/Content/en-US/Projectiles.json
+@@ -852,7 +_,7 @@
+ 		"MaceWhip": "Morning Star",
+ 		"ScytheWhip": "Dark Harvest",
+ 		"CoolWhip": "Cool Whip",
+-		"FireWhip": "Firecracker",	
++		"FireWhip": "Firecracker",
+ 		"ThornWhip": "Snapthorn",
+ 		"ScytheWhipProj": "Reaping",
+ 		"CoolWhipProj": "Cool Flake",
+@@ -864,13 +_,13 @@
+ 		"FairyQueenRangedItemShot": "Twilight Lance",
+ 		"VolatileGelatinBall": "Volatile Gelatin",
+ 		"CopperShortswordStab": "Copper Shortsword",
+-        "TinShortswordStab": "Tin Shortsword",
++		"TinShortswordStab": "Tin Shortsword",
+-        "IronShortswordStab": "Iron Shortsword",
++		"IronShortswordStab": "Iron Shortsword",
+-        "LeadShortswordStab": "Lead Shortsword",
++		"LeadShortswordStab": "Lead Shortsword",
+-        "SilverShortswordStab": "Silver Shortsword",
++		"SilverShortswordStab": "Silver Shortsword",
+-        "TungstenShortswordStab": "Tungsten Shortsword",
++		"TungstenShortswordStab": "Tungsten Shortsword",
+-        "GoldShortswordStab": "Gold Shortsword",
++		"GoldShortswordStab": "Gold Shortsword",
+-        "PlatinumShortswordStab": "Platinum Shortsword",
++		"PlatinumShortswordStab": "Platinum Shortsword",
+ 		"FinalFractal": "Zenith",
+ 		"ZapinatorLaser": "Zapinator",
+ 		"GelBalloon": "Sparkle Slime Balloon",
+@@ -878,6 +_,6 @@
+ 		"Mace": "Mace",
+ 		"FlamingMace": "Flaming Mace",
+ 		"StardustPunch": "Stardust Guardian",
+-		"TorchGod": "The Torch God",
++		"TorchGod": "The Torch God"
+ 	}
+ }

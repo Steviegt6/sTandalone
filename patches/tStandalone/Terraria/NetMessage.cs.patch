@@ -1,0 +1,19 @@
+--- src/Terraria/Terraria/NetMessage.cs
++++ src/tStandalone/Terraria/NetMessage.cs
+@@ -15,6 +_,7 @@
+ 
+ namespace Terraria
+ {
++	// TODO: moddedAIArray :shrug:
+ 	public class NetMessage
+ 	{
+ 		public struct NetSoundInfo
+@@ -89,7 +_,7 @@
+ 				writer.Write((byte)msgType);
+ 				switch (msgType) {
+ 					case 1:
+-						writer.Write("Terraria" + 230);
++						writer.Write("tStandalone");
+ 						break;
+ 					case 2:
+ 						text.Serialize(writer);

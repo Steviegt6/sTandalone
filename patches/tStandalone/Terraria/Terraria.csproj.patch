@@ -1,0 +1,18 @@
+--- src/Terraria/Terraria/Terraria.csproj
++++ src/tStandalone/Terraria/Terraria.csproj
+@@ -62,10 +_,13 @@
+     <EmbeddedResource Remove="Libraries/Mac/**" Condition="!$(DefineConstants.Contains('MAC'))" />
+     <EmbeddedResource Remove="Libraries/Linux/**" Condition="!$(DefineConstants.Contains('LINUX'))" />
+     <EmbeddedResource Remove="Libraries/Mono/**" Condition="!$(DefineConstants.Contains('MONO'))" />
+-    <EmbeddedResource Remove="Libraries/XNA/**"/>
++    <EmbeddedResource Remove="Libraries/XNA/**" />
+-    <EmbeddedResource Remove="Libraries/FNA/**"/>
++    <EmbeddedResource Remove="Libraries/FNA/**" />
+     <EmbeddedResource Include="Localization/Content/**" />
+     <EmbeddedResource Include="Microsoft/**" />
++  </ItemGroup>
++  <ItemGroup>
++    <None Remove="Localization\Content\en-US\Standalone.json" />
+   </ItemGroup>
+   <Target Name="EditBin" AfterTargets="Build">
+     <PropertyGroup>

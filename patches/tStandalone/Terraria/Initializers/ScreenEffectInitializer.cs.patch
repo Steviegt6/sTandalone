@@ -1,0 +1,19 @@
+--- src/Terraria/Terraria/Initializers/ScreenEffectInitializer.cs
++++ src/tStandalone/Terraria/Initializers/ScreenEffectInitializer.cs
+@@ -6,7 +_,7 @@
+ 
+ namespace Terraria.Initializers
+ {
+-	public static class ScreenEffectInitializer
++	public static partial class ScreenEffectInitializer
+ 	{
+ 		public static void Load() {
+ 			Filters.Scene["Nebula"] = new Filter(new ScreenShaderData("FilterTower").UseColor(1f, 0f, 0.9f).UseOpacity(0.35f), EffectPriority.High);
+@@ -48,6 +_,7 @@
+ 			Overlays.Scene.Load();
+ 			Filters.Scene.Load();
+ 			LoadSkies();
++			LoadtStandaloneScreenEffects();
+ 		}
+ 
+ 		private static void LoadSkies() {

@@ -1,0 +1,48 @@
+--- src/Terraria/Terraria/Recipe.cs
++++ src/tStandalone/Terraria/Recipe.cs
+@@ -6,10 +_,10 @@
+ 
+ namespace Terraria
+ {
+-	public class Recipe
++	public partial class Recipe
+ 	{
+ 		public static int maxRequirements = 15;
+-		public static int maxRecipes = 3000;
++		public static int maxRecipes = 4000;
+ 		public static int numRecipes;
+ 		private static Recipe currentRecipe = new Recipe();
+ 		public Item createItem = new Item();
+@@ -9763,16 +_,14 @@
+ 			currentRecipe.requiredTile[0] = 134;
+ 			AddRecipe();
+ 			currentRecipe.createItem.SetDefaults(4956);
+-			currentRecipe.requiredItem[0].SetDefaults(757);
++			currentRecipe.requiredItem[0].SetDefaults(ItemID.FirstFractal);
+-			currentRecipe.requiredItem[1].SetDefaults(3063);
++			currentRecipe.requiredItem[1].SetDefaults(2880);
+-			currentRecipe.requiredItem[2].SetDefaults(3065);
++			currentRecipe.requiredItem[2].SetDefaults(1826);
+-			currentRecipe.requiredItem[3].SetDefaults(2880);
++			currentRecipe.requiredItem[3].SetDefaults(3018);
+-			currentRecipe.requiredItem[4].SetDefaults(1826);
++			currentRecipe.requiredItem[4].SetDefaults(65);
+-			currentRecipe.requiredItem[5].SetDefaults(3018);
++			currentRecipe.requiredItem[5].SetDefaults(1123);
+-			currentRecipe.requiredItem[6].SetDefaults(65);
++			currentRecipe.requiredItem[6].SetDefaults(989);
+-			currentRecipe.requiredItem[7].SetDefaults(1123);
++			currentRecipe.requiredItem[7].SetDefaults(3507);
+-			currentRecipe.requiredItem[8].SetDefaults(989);
+-			currentRecipe.requiredItem[9].SetDefaults(3507);
+ 			currentRecipe.requiredTile[0] = 134;
+ 			AddRecipe();
+ 			currentRecipe.createItem.SetDefaults(389);
+@@ -13050,6 +_,7 @@
+ 			currentRecipe.requiredItem[0].SetDefaults(73);
+ 			currentRecipe.requiredItem[0].stack = 100;
+ 			AddRecipe();
++			AddModdedRecipes()
+ 			CreateReverseWallRecipes();
+ 			CreateReversePlatformRecipes();
+ 			UpdateWhichItemsAreMaterials();

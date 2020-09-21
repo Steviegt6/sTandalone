@@ -1,0 +1,106 @@
+--- src/Terraria/Terraria/MessageBuffer.cs
++++ src/tStandalone/Terraria/MessageBuffer.cs
+@@ -135,7 +_,7 @@
+ 						if (Netplay.Clients[whoAmI].State != 0)
+ 							break;
+ 
+-						if (reader.ReadString() == "Terraria" + 230) {
++						if (reader.ReadString() == "tStandalone") {
+ 							if (string.IsNullOrEmpty(Netplay.ServerPassword)) {
+ 								Netplay.Clients[whoAmI].State = 1;
+ 								NetMessage.TrySendData(3, whoAmI);
+@@ -145,6 +_,9 @@
+ 								NetMessage.TrySendData(37, whoAmI);
+ 							}
+ 						}
++						else if (reader.ReadString().StartsWith("Terraria")) {
++							NetMessage.SendData(2, whoAmI, -1, NetworkText.FromLiteral(Lang.mp[4].Value + "\n(You are on {clientVersion}, server is on {ModLoader.ModLoader.versionedName})"));
++						}
+ 						else {
+ 							NetMessage.TrySendData(2, whoAmI, -1, Lang.mp[4].ToNetworkText());
+ 						}
+@@ -291,12 +_,14 @@
+ 						else if (player16.name == "") {
+ 							NetMessage.TrySendData(2, whoAmI, -1, NetworkText.FromKey("Net.EmptyName"));
+ 						}
++#if !DEBUG
+ 						else if (player16.difficulty == 3 && !Main.GameModeInfo.IsJourneyMode) {
+ 							NetMessage.TrySendData(2, whoAmI, -1, NetworkText.FromKey("Net.PlayerIsCreativeAndWorldIsNotCreative"));
+ 						}
+ 						else if (player16.difficulty != 3 && Main.GameModeInfo.IsJourneyMode) {
+ 							NetMessage.TrySendData(2, whoAmI, -1, NetworkText.FromKey("Net.PlayerIsNotCreativeAndWorldIsCreative"));
+ 						}
++#endif
+ 						else {
+ 							Netplay.Clients[whoAmI].Name = player16.name;
+ 							Netplay.Clients[whoAmI].Name = player16.name;
+@@ -1245,6 +_,18 @@
+ 								array[num82] = 0f;
+ 						}
+ 
++						BitsByte moddedAIByte = reader.ReadByte();
++						float[] moddedAIArray = new float[NPC.maxAI];
++
++						for (int aiIndex = 0; aiIndex < NPC.maxAI; aiIndex++) {
++							if (moddedAIByte[aiIndex + 2]) {
++								moddedAIArray[aiIndex] = reader.ReadSingle();
++							}
++							else {
++								moddedAIArray[aiIndex] = 0f;
++							}
++						}
++
+ 						int num83 = reader.ReadInt16();
+ 						int? playerCountForMultiplayerDifficultyOverride = 1;
+ 						if (bitsByte7[0])
+@@ -1310,6 +_,10 @@
+ 							nPC3.ai[num86] = array[num86];
+ 						}
+ 
++						for (int aiIndex = 0; aiIndex < NPC.maxAI; aiIndex++) {
++							nPC3.moddedAI[aiIndex] = moddedAIArray[aiIndex];
++						}
++
+ 						if (num85 > -1 && num85 != nPC3.type)
+ 							nPC3.TransformVisuals(num85, nPC3.type);
+ 
+@@ -1345,6 +_,7 @@
+ 						Vector2 velocity4 = reader.ReadVector2();
+ 						int num122 = reader.ReadByte();
+ 						int num123 = reader.ReadInt16();
++						Vector2 origPos = reader.ReadVector2();
+ 						BitsByte bitsByte8 = reader.ReadByte();
+ 						float[] array2 = new float[Projectile.maxAI];
+ 						for (int num124 = 0; num124 < Projectile.maxAI; num124++) {
+@@ -1354,6 +_,17 @@
+ 								array2[num124] = 0f;
+ 						}
+ 
++						BitsByte moddedAIByte = reader.ReadByte();
++						float[] moddedAIArray = new float[Projectile.maxModdedAI];
++						for (int aiIndex = 0; aiIndex < Projectile.maxModdedAI; aiIndex++) {
++							if (moddedAIByte[aiIndex]) {
++								moddedAIArray[aiIndex] = reader.ReadSingle();
++							}
++							else {
++								moddedAIArray[aiIndex] = 0f;
++							}
++						}
++
+ 						int damage = bitsByte8[4] ? reader.ReadInt16() : 0;
+ 						float knockBack = bitsByte8[5] ? reader.ReadSingle() : 0f;
+ 						int originalDamage = bitsByte8[6] ? reader.ReadInt16() : 0;
+@@ -1407,8 +_,13 @@
+ 						projectile.originalDamage = originalDamage;
+ 						projectile.knockBack = knockBack;
+ 						projectile.owner = num122;
++						projectile.originalPosition = origPos;
+ 						for (int num129 = 0; num129 < Projectile.maxAI; num129++) {
+ 							projectile.ai[num129] = array2[num129];
++						}
++
++						for (int aiIndex = 0; aiIndex < Projectile.maxModdedAI; aiIndex++) {
++							projectile.moddedAI[aiIndex] = moddedAIArray[aiIndex];
+ 						}
+ 
+ 						if (num125 >= 0) {

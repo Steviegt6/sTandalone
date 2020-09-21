@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/GameContent/UI/States/UIWorldSelect.cs
++++ src/tStandalone/Terraria/GameContent/UI/States/UIWorldSelect.cs
+@@ -14,6 +_,7 @@
+ 
+ namespace Terraria.GameContent.UI.States
+ {
++	// TODO: Reimplement world migration.
+ 	public class UIWorldSelect : UIState
+ 	{
+ 		private UIList _worldList;

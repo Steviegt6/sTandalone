@@ -1,0 +1,21 @@
+--- src/Terraria/Terraria/Initializers/ChatInitializer.cs
++++ src/tStandalone/Terraria/Initializers/ChatInitializer.cs
+@@ -34,12 +_,18 @@
+ 				"glyph"
+ 			});
+ 
++			ChatManager.Commands.ClearCommands(); // Added by tStandalone.
++
+ 			ChatManager.Commands.AddCommand<PartyChatCommand>().AddCommand<RollCommand>().AddCommand<EmoteCommand>()
+ 				.AddCommand<ListPlayersCommand>()
+ 				.AddCommand<RockPaperScissorsCommand>()
+ 				.AddCommand<EmojiCommand>()
+ 				.AddCommand<HelpCommand>()
+ 				.AddDefaultCommand<SayChatCommand>();
++
++#if DEBUG
++			ChatManager.Commands.AddCommand<SpawnItemCommand>().AddCommand<SpawnNPCCommand>(); // Added by tStandalone.
++#endif
+ 
+ 			for (int i = 0; i < 145; i++) {
+ 				string name = EmoteID.Search.GetName(i);

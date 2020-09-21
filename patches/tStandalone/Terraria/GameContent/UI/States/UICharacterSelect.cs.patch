@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/GameContent/UI/States/UICharacterSelect.cs
++++ src/tStandalone/Terraria/GameContent/UI/States/UICharacterSelect.cs
+@@ -14,6 +_,7 @@
+ 
+ namespace Terraria.GameContent.UI.States
+ {
++	// TODO: Reimplement player migration.
+ 	public class UICharacterSelect : UIState
+ 	{
+ 		private UIList _playerList;

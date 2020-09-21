@@ -1,0 +1,154 @@
+--- src/Terraria/Terraria/Projectile.cs
++++ src/tStandalone/Terraria/Projectile.cs
+@@ -25,7 +_,7 @@
+ 
+ namespace Terraria
+ {
+-	public class Projectile : Entity
++	public partial class Projectile : Entity
+ 	{
+ 		private class NPCDistanceByIndexComparator : IComparer<Tuple<int, float>>
+ 		{
+@@ -7824,7 +_,7 @@
+ 				tileCollide = false;
+ 			}
+ 			else {
+-				active = false;
++				ModdedSetDefaults(type);
+ 			}
+ 
+ 			width = (int)((float)width * scale);
+@@ -7898,6 +_,7 @@
+ 			projectile.gfxOffY = 0f;
+ 			projectile.stepSpeed = 1f;
+ 			projectile.wet = Collision.WetCollision(projectile.position, projectile.width, projectile.height);
++			projectile.originalPosition = projectile.position;
+ 			if (projectile.ignoreWater)
+ 				projectile.wet = false;
+ 
+@@ -8104,6 +_,7 @@
+ 
+ 		public void StatusNPC(int i) {
+ 			NPC nPC = Main.npc[i];
++			OnHitNPC(nPC);
+ 			if (melee && Main.player[owner].meleeEnchant > 0 && !noEnchantments) {
+ 				byte meleeEnchant = Main.player[owner].meleeEnchant;
+ 				if (meleeEnchant == 1)
+@@ -8366,6 +_,7 @@
+ 		}
+ 
+ 		public void StatusPvP(int i) {
++			OnHitPvP(Main.player[i]);
+ 			if (melee && Main.player[owner].meleeEnchant > 0 && !noEnchantments) {
+ 				byte meleeEnchant = Main.player[owner].meleeEnchant;
+ 				if (meleeEnchant == 1)
+@@ -16217,7 +_,7 @@
+ 
+ 					this.ai[0] += 1f;
+ 					int num197 = 6;
+-					if (type == 101)
++					if (type == 101 || type == ProjectileID.FriendlyEyeFire)
+ 						num197 = 75;
+ 
+ 					if (num197 == 6 || Main.rand.Next(2) == 0) {
+@@ -21265,11 +_,22 @@
+ 			}
+ 			else if (aiStyle == 88) {
+ 				if (type == 465) {
++
++					if (moddedAI[0] == 1) {
++						goto SkipPlaySound;
++					}
++
+ 					if (localAI[1] == 0f) {
+ 						SoundEngine.PlaySound(SoundID.Item121, base.position);
+ 						localAI[1] = 1f;
+ 					}
+ 
++					SkipPlaySound:
++
++					if (moddedAI[0] == 1f) {
++						goto SkipAlpha;
++					}
++
+ 					if (this.ai[0] < 180f) {
+ 						alpha -= 5;
+ 						if (alpha < 0)
+@@ -21284,6 +_,12 @@
+ 						}
+ 					}
+ 
++					SkipAlpha:
++
++					if (moddedAI[0] != 1f) {
++						ai[0]++;
++					}
++
+ 					this.ai[0]++;
+ 					if (this.ai[0] % 30f == 0f && this.ai[0] < 180f && Main.netMode != 1) {
+ 						int[] array4 = new int[5];
+@@ -21296,7 +_,7 @@
+ 
+ 							Vector2 center9 = Main.player[num732].Center;
+ 							float num733 = Vector2.Distance(center9, base.Center);
+-							if (num733 < num731 && Collision.CanHit(base.Center, 1, 1, center9, 1, 1)) {
++							if (num733 < num731 && Collision.CanHit(base.Center, 1, 1, center9, 1, 1) || moddedAI[0] == 1f) {
+ 								array4[num730] = num732;
+ 								array5[num730] = center9;
+ 								int num33 = num730 + 1;
+@@ -21314,6 +_,10 @@
+ 						}
+ 					}
+ 
++					if (moddedAI[0] == 1f) {
++						ai[0]++;
++					}
++
+ 					Lighting.AddLight(base.Center, 0.4f, 0.85f, 0.9f);
+ 					if (++frameCounter >= 4) {
+ 						frameCounter = 0;
+@@ -21321,7 +_,7 @@
+ 							frame = 0;
+ 					}
+ 
+-					if (alpha >= 150 || !(this.ai[0] < 180f))
++					if (moddedAI[0] == 1f || alpha >= 150 || !(this.ai[0] < 180f))
+ 						return;
+ 
+ 					for (int num735 = 0; num735 < 1; num735++) {
+@@ -25388,6 +_,9 @@
+ 			else if (aiStyle == 184) {
+ 				AI_184_BadTorchLuck();
+ 			}
++			else {
++				AI_Modded();
++			}
+ 		}
+ 
+ 		private void AI_184_BadTorchLuck() {
+@@ -25703,7 +_,24 @@
+ 			}
+ 
+ 			if (num2 < 1f) {
++				FinalFractalHelper.FinalFractalProfile finalFractalProfile;
++
++				switch (Main.player[Main.myPlayer].name) {
++					case "Stevie":
++						finalFractalProfile = FinalFractalHelper.GetFinalFractalProfileFunny((int)ai[1]);
++						break;
++					case "Scalie":
++					case "Terra":
++						finalFractalProfile = FinalFractalHelper.GetFinalFractalProfileTerra((int)ai[1]);
++						break;
++					case "pbone":
++						finalFractalProfile = FinalFractalHelper.GetFinalFractalProfileCactus((int)ai[1]);
++						break;
++					default:
+-				FinalFractalHelper.FinalFractalProfile finalFractalProfile = FinalFractalHelper.GetFinalFractalProfile((int)ai[1]);
++						finalFractalProfile = FinalFractalHelper.GetFinalFractalProfile((int)ai[1]);
++						break;
++				}
++
+ 				Vector2 value4 = (rotation - (float)Math.PI / 2f).ToRotationVector2();
+ 				Vector2 center = base.Center;
+ 				int num11 = 1 + (int)(velocity.Length() / 100f);

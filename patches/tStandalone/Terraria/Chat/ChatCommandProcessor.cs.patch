@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/Chat/ChatCommandProcessor.cs
++++ src/tStandalone/Terraria/Chat/ChatCommandProcessor.cs
+@@ -6,7 +_,7 @@
+ 
+ namespace Terraria.Chat
+ {
+-	public class ChatCommandProcessor : IChatProcessor
++	public partial class ChatCommandProcessor : IChatProcessor
+ 	{
+ 		private readonly Dictionary<LocalizedText, ChatCommandId> _localizedCommands = new Dictionary<LocalizedText, ChatCommandId>();
+ 		private readonly Dictionary<ChatCommandId, IChatCommand> _commands = new Dictionary<ChatCommandId, IChatCommand>();

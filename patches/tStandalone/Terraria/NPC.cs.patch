@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/NPC.cs
++++ src/tStandalone/Terraria/NPC.cs
+@@ -24,6 +_,7 @@
+ 
+ namespace Terraria
+ {
++	// TODO: Literally all of the old NPC.cs patch
+ 	public class NPC : Entity
+ 	{
+ 		private const int NPC_TARGETS_START = 300;

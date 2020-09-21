@@ -1,0 +1,19 @@
+--- src/Terraria/Terraria/ID/ItemID.cs
++++ src/tStandalone/Terraria/ID/ItemID.cs
+@@ -5,7 +_,7 @@
+ 
+ namespace Terraria.ID
+ {
+-	public class ItemID
++	public partial class ItemID
+ 	{
+ 		public struct BannerEffect
+ 		{
+@@ -6031,7 +_,6 @@
+ 		public const short CoffeeCup = 5042;
+ 		public const short TorchGodsFavor = 5043;
+ 		public const short MusicBoxCredits = 5044;
+-		public const short Count = 5045;
+ 
+ 		private static Dictionary<string, short> GenerateLegacyItemDictionary() {
+ 			return new Dictionary<string, short> {

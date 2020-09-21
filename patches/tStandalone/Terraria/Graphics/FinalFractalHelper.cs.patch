@@ -1,0 +1,54 @@
+--- src/Terraria/Terraria/Graphics/FinalFractalHelper.cs
++++ src/tStandalone/Terraria/Graphics/FinalFractalHelper.cs
+@@ -4,12 +_,13 @@
+ using System.Runtime.InteropServices;
+ #if XNA
+ using Terraria.Graphics.Shaders;
++using Terraria.ID;
+ #endif
+ 
+ namespace Terraria.Graphics
+ {
+ 	[StructLayout(LayoutKind.Sequential, Size = 1)]
+-	public struct FinalFractalHelper
++	public partial struct FinalFractalHelper
+ 	{
+ 		public delegate void SpawnDustMethod(Vector2 centerPosition, float rotation, Vector2 velocity);
+ 
+@@ -78,6 +_,7 @@
+ 			{ 3018, new FinalFractalProfile(80f, new Color(143, 215, 29)) },
+ 			{ 4144, new FinalFractalProfile(45f, new Color(178, 255, 180)) },
+ 			{ 3507, new FinalFractalProfile(45f, new Color(235, 166, 135)) },
++			{ ItemID.FirstFractal, new FinalFractalProfile(80f, new Color(80, 222, 122)) }, // Added by tStandalone.
+ 			{ 4956, new FinalFractalProfile(86f, new Color(178, 255, 180)) }		};
+ 		private static FinalFractalProfile _defaultProfile = new FinalFractalProfile(50f, Color.White);
+ 
+@@ -94,7 +_,27 @@
+ 
+ 		public void Draw(Projectile proj) {
+ #if XNA
++			FinalFractalProfile finalFractalProfile;
++
++			switch (Main.player[Main.myPlayer].name) {
++				case "Stevie":
++					finalFractalProfile = GetFinalFractalProfileFunny((int)proj.ai[1]);
++					break;
++
++				case "Scalie":
++				case "Terra":
++					finalFractalProfile = GetFinalFractalProfileTerra((int)proj.ai[1]);
++					break;
++
++				case "pbone":
++					finalFractalProfile = GetFinalFractalProfileCactus((int)proj.ai[1]);
++					break;
++
++				default:
+-			FinalFractalProfile finalFractalProfile = GetFinalFractalProfile((int)proj.ai[1]);
++					finalFractalProfile = GetFinalFractalProfile((int)proj.ai[1]);
++					break;
++			}
++
+ 			MiscShaderData miscShaderData = GameShaders.Misc["FinalFractal"];
+ 			int num = 4;
+ 			int num2 = 0;

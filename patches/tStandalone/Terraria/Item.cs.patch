@@ -1,0 +1,83 @@
+--- src/Terraria/Terraria/Item.cs
++++ src/tStandalone/Terraria/Item.cs
+@@ -13,7 +_,7 @@
+ 
+ namespace Terraria
+ {
+-	public class Item : Entity
++	public partial class Item : Entity
+ 	{
+ 		private string _nameOverride;
+ 		public const int luckPotionDuration1 = 10800;
+@@ -170,10 +_,7 @@
+ 
+ 		public bool FitsAccessoryVanitySlot {
+ 			get {
+-				if (!canBePlacedInVanityRegardlessOfConditions && handOnSlot == -1 && handOffSlot == -1 && backSlot == -1 && frontSlot == -1 && shoeSlot == -1 && waistSlot == -1 && wingSlot == -1 && shieldSlot == -1 && neckSlot == -1 && faceSlot == -1)
+-					return balloonSlot != -1;
++				return balloonSlot != -1;
+-
+-				return true;
+ 			}
+ 		}
+ 
+@@ -42601,6 +_,7 @@
+ 					useAnimation = 20;
+ 					useTime = 20;
+ 					rare = -13;
++					master = true;
+ 					noMelee = true;
+ 					noUseGraphic = true;
+ 					mountType = 44 + type - 4792;
+@@ -42630,6 +_,7 @@
+ 					DefaultToVanitypet(881 + type - 4797, 284 + type - 4797);
+ 					value = buyPrice(0, 25);
+ 					rare = -13;
++					master = true;
+ 					break;
+ 				case 4818:
+ 					noMelee = true;
+@@ -43160,6 +_,7 @@
+ 					DefaultToPlacableTile((ushort)617, type - 4924);
+ 					SetShopValues(ItemRarityColor.Blue1, buyPrice(0, 5));
+ 					rare = -13;
++					material = true;
+ 					maxStack = 99;
+ 					break;
+ 				case 4951:
+@@ -43277,6 +_,7 @@
+ 					DefaultToVanitypet(934, 317);
+ 					value = buyPrice(0, 25);
+ 					rare = -13;
++					master = true;
+ 					break;
+ 				case 4961:
+ 					DefaultToCapturedCritter(661);
+@@ -43681,6 +_,14 @@
+ 				case 5044:
+ 					DefaultToMusicBox(85);
+ 					break;
++				default:
++					ModdedSetDefaults(type);
++					break;
++			}
++
++			// Ensure all Master Mode items have the Master Mode rarity
++			if (master) {
++				rare = (int)ItemRarityColor.MasterMinus13;
+ 			}
+ 		}
+ 
+@@ -44385,6 +_,12 @@
+ 			}
+ 			else {
+ 				SetDefaults5(type);
++			}
++
++
++			// Ensure that items with the Master Mode rarity are marked as master.
++			if (rare == (int)ItemRarityColor.MasterMinus13) {
++				master = true;
+ 			}
+ 
+ 			dye = (byte)GameShaders.Armor.GetShaderIdFromItemId(type);

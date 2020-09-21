@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/GameContent/TextureAssets.cs
++++ src/tStandalone/Terraria/GameContent/TextureAssets.cs
+@@ -3,7 +_,7 @@
+ 
+ namespace Terraria.GameContent
+ {
+-	public static class TextureAssets
++	public static partial class TextureAssets
+ 	{
+ 		public static class RenderTargets
+ 		{

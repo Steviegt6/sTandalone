@@ -1,0 +1,113 @@
+--- src/Terraria/Terraria/Player.cs
++++ src/tStandalone/Terraria/Player.cs
+@@ -37,7 +_,7 @@
+ 
+ namespace Terraria
+ {
+-	public class Player : Entity
++	public partial class Player : Entity
+ 	{
+ 		public static class BuilderAccToggleIDs
+ 		{
+@@ -2518,7 +_,12 @@
+ 		private int AddBuff_DetermineBuffTimeToAdd(int type, int time1) {
+ 			int num = time1;
+ 			if (Main.expertMode && whoAmI == Main.myPlayer && (type == 20 || type == 22 || type == 23 || type == 24 || type == 30 || type == 31 || type == 32 || type == 33 || type == 35 || type == 36 || type == 39 || type == 44 || type == 46 || type == 47 || type == 69 || type == 70 || type == 80))
++				if (Main.masterMode) {
++					num = (int)(GameModeData.MasterModeReloaded.DebuffTimeMultiplier * (float)num);
++				}
++				else {
+-				num = (int)(Main.GameModeInfo.DebuffTimeMultiplier * (float)num);
++					num = (int)(Main.GameModeInfo.DebuffTimeMultiplier * (float)num);
++				}
+ 
+ 			return num;
+ 		}
+@@ -7780,12 +_,17 @@
+ 				else if (buffType[j] == 79) {
+ 					meleeEnchant = 8;
+ 				}
++				else {
++					UpdatetStandaloneBuffs(j);
++				}
+ 			}
+ 
+ 			if (whoAmI == Main.myPlayer && luckPotion != oldLuckPotion) {
+ 				luckNeedsSync = true;
+ 				oldLuckPotion = luckPotion;
+ 			}
++
++			PostUpdateBuffs();
+ 		}
+ 
+ 		private void UpdateProjectileCaches(int i) {
+@@ -11476,6 +_,8 @@
+ 				case 263:
+ 				case 264:
+ 				case 265:
++				case ArmorIDs.Head.MutantDevHat:
++				case ArmorIDs.Head.StevieDevHat:
+ 					hatHair = true;
+ 					break;
+ 			}
+@@ -12679,6 +_,7 @@
+ 			jumpSpeedBoost = 0f;
+ 			extraFall = 0;
+ 			creativeGodMode = false;
++			ResettStandaloneEffects();
+ 			if (phantasmTime > 0)
+ 				phantasmTime--;
+ 
+@@ -32980,10 +_,29 @@
+ 					Projectile.NewProjectile(vector.X, vector.Y, vector32.X, vector32.Y, projToShoot, Damage, KnockBack, i, 0f, ai4);
+ 				}
+ 				else if (sItem.type == 4956) {
++					bool specialStyle = true;
+ 					int num161 = (itemAnimationMax - itemAnimation) / itemTime;
+ 					Vector2 vector33 = new Vector2(num2, num3);
+-					int num162 = FinalFractalHelper.GetRandomProfileIndex();
+-					if (num161 == 0)
++					int num162;
++
++					switch (Main.player[Main.myPlayer].name) {
++						case "Stevie":
++							num162 = FinalFractalHelper.GetRandomProfileIndexFunny();
++							break;
++						case "Scalie":
++						case "Terra":
++							num162 = FinalFractalHelper.GetRandomProfileIndexTerra();
++							break;
++						case "pbone":
++							num162 = FinalFractalHelper.GetRandomProfileIndexCactus();
++							break;
++						default:
++							num162 = FinalFractalHelper.GetRandomProfileIndex();
++							specialStyle = false;
++							break;
++					}
++
++					if (num161 == 0 && !specialStyle)
+ 						num162 = 4956;
+ 
+ 					Vector2 value14 = Main.MouseWorld - MountedCenter;
+@@ -33147,6 +_,10 @@
+ 					UpdateMaxTurrets();
+ 				}
+ 				else {
++					if (!ModdedShoot(sItem.type, vector, new Vector2(num2, num3), Damage, KnockBack, i)) {
++						goto SkipShoot;
++					}
++
+ 					int num181 = Projectile.NewProjectile(vector.X, vector.Y, num2, num3, projToShoot, Damage, KnockBack, i);
+ 					if (sItem.type == 726)
+ 						Main.projectile[num181].magic = true;
+@@ -33175,6 +_,9 @@
+ 
+ 					if (Main.projectile[num181].aiStyle == 99)
+ 						AchievementsHelper.HandleSpecialEvent(this, 7);
++
++					SkipShoot:
++					;
+ 				}
+ 			}
+ 			else if (sItem.useStyle == 5 || sItem.useStyle == 13) {

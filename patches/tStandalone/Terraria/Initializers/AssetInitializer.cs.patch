@@ -1,0 +1,19 @@
+--- src/Terraria/Terraria/Initializers/AssetInitializer.cs
++++ src/tStandalone/Terraria/Initializers/AssetInitializer.cs
+@@ -18,7 +_,7 @@
+ 
+ namespace Terraria.Initializers
+ {
+-	public static class AssetInitializer
++	public static partial class AssetInitializer
+ 	{
+ 		public static void CreateAssetServices(GameServiceContainer services) {
+ 			AssetReaderCollection assetReaderCollection = new AssetReaderCollection();
+@@ -591,6 +_,7 @@
+ 			LoadMinimapFrames(mode);
+ 			LoadPlayerResourceSets(mode);
+ 			Main.AchievementAdvisor.LoadContent();
++			InitializetStandaloneAssets(mode);
+ 		}
+ 
+ 		private static void LoadMinimapFrames(AssetRequestMode mode) {

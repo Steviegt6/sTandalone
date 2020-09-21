@@ -1,0 +1,127 @@
+--- src/Terraria/Terraria/Localization/Content/en-US/Game.json
++++ src/tStandalone/Terraria/Localization/Content/en-US/Game.json
+@@ -1,6 +_,6 @@
+ {
+ 	"WorldGeneration": {
+-		"OceanSand":  "Generating ocean sand"
++		"OceanSand": "Generating ocean sand"
+ 	},
+ 	"LoadingTips_Default": {
+ 		"1": "Other players can loot your chests! If you don't trust them, use a Safe or Piggy Bank; those items have storage that is exclusive to each player.",
+@@ -537,7 +_,7 @@
+ 		"Toilet": "Toilet",
+ 		"TeleportationPylon": "Teleportation Pylon",
+ 		"Relic": "Relic"
+-		
++
+ 	},
+ 	"BuffName": {
+ 		"ObsidianSkin": "Obsidian Skin",
+@@ -854,8 +_,8 @@
+ 		"SugarRush": "Sugar Rush",
+ 		"DiggingMoleMinecartRight": "Digging Molecart",
+ 		"DiggingMoleMinecartLeft": "Digging Molecart",
+-		"EmpressBlade": "Terraprisma",
+-		
++		"EmpressBlade": "Terraprisma"
++
+ 
+ 	},
+ 	"BuffDescription": {
+@@ -1173,7 +_,7 @@
+ 		"DiggingMoleMinecartRight": "The Molecart will dig for you",
+ 		"DiggingMoleMinecartLeft": "The Molecart will dig for you",
+ 		"StormTiger": "The desert tiger will fight beside you",
+-		"EmpressBlade": "The Blades of the Empress will fight for you",
++		"EmpressBlade": "The Blades of the Empress will fight for you"
+ 
+ 	},
+ 	"ArmorSetBonus": {
+@@ -1236,7 +_,7 @@
+ 		"Ninja": "20% increased movement speed",
+ 		"Fossil": "20% chance to not consume ammo",
+ 		"HallowedSummoner": "Become immune after striking an enemy,\nand increases your max number of minions by 2",
+-		"CrystalNinja": "10% increased damage and crit chance,\n15% increased movement speed",
++		"CrystalNinja": "10% increased damage and crit chance,\n15% increased movement speed"
+ 	},
+ 	"Bestiary_Biomes": {
+ 		"Surface": "Surface",
+@@ -1280,7 +_,7 @@
+ 		"HallowIce": "Hallow Ice",
+ 		"CrimsonIce": "Crimson Ice",
+ 		"Sky": "Sky",
+-		"CrimsonDesert": "Crimson Desert",
++		"CrimsonDesert": "Crimson Desert"
+ 	},
+ 	"Bestiary_Invasions": {
+ 		"Goblins": "Goblin Invasion",
+@@ -1293,7 +_,7 @@
+ 	},
+ 	"Bestiary_Times": {
+ 		"DayTime": "Daytime",
+-		"NightTime": "Nighttime",
++		"NightTime": "Nighttime"
+ 	},
+ 	"Bestiary_Events": {
+ 		"SlimeRain": "Slime Rain",
+@@ -1333,10 +_,10 @@
+ 		"Sort_Defense": "Defense",
+ 		"Sort_Coins": "Coins",
+ 		"Sort_HitPoints": "HP",
+-		"PercentCollected": "{Percent} Collected",
++		"PercentCollected": "{Percent} Collected"
+ 	},
+ 	"Bestiary_ItemDropConditions": {
+-        "PirateMap": "Drops in the Hardmode Ocean",
++		"PirateMap": "Drops in the Hardmode Ocean",
+ 		"IsChristmas": "Drops during Christmas",
+ 		"NotExpert": "",
+ 		"NotMasterMode": "",
+@@ -1372,7 +_,7 @@
+ 		"KOCannon": "Drops during a Hardmode Bloodmoon",
+ 		"IsItAHappyWindyDay": "Drops on Windy Days",
+ 		"EmpressOfLightOnlyTookDamageWhileEnraged": "Drops if the Empress of Light is only attacked during daytime"
+-    },
++	},
+ 	"Bestiary_BiomeText": {
+ 		"biome_Goblins": "A ragtag army of crude, barbaric goblins set out to conquer and destroy. Some wield dark, evil magic.",
+ 		"biome_Pirates": "A seafaring horde of armed bandits that lust after the riches of the land, collecting treasures and taking no prisoners.",
+@@ -1433,7 +_,7 @@
+ 		"biome_CrimsonIce": "These bitterly cold caverns of ice, saturated with the blood of Crimson, host a new variety of menacing frozen fiends.",
+ 		"biome_Sky": "It is rumored that there is a land far above the clouds, where ancient treasures are guarded by powerful winged creatures.",
+ 		"biome_DayTime": "After 4:30am, the sun rises in the sky and the most dangerous of beings flee from the light. It's a great time to explore!",
+-		"biome_NightTime": "After 7:30pm, the moon rises in the sky. All manner of evil things, living and dead, roam the lands in the dark.",
++		"biome_NightTime": "After 7:30pm, the moon rises in the sky. All manner of evil things, living and dead, roam the lands in the dark."
+ 
+ 	},
+ 	"CommonBestiaryFlavor": {
+@@ -1472,7 +_,7 @@
+ 		"Sandshark": "In ancient times, a saltwater river once ran through the desert. These powerful creatures evolved to survive in the now dry sand.",
+ 		"Lamia": "By the time glowing red eyes appear in the darkness of the desert caves, it is already too late. The lamias have found their prey.",
+ 		"GemSquirrel": "Glistening squirrels who strayed too deep become ensorcelled with residual cursed energy retained in gemstones.",
+-		"GemBunny": "These colorful rabbits made their way so deep, their reaction to magicked gems resulted in a coveted sparkling appearance.",
++		"GemBunny": "These colorful rabbits made their way so deep, their reaction to magicked gems resulted in a coveted sparkling appearance."
+ 
+ 	},
+ 	"Bestiary_FlavorText": {
+@@ -1766,7 +_,7 @@
+ 		"npc_Hellhound": "Most certainly not a good boy, this vicious demon dog is more than eager to guide living beings to the underworld with every bite.",
+ 		"npc_Poltergeist": "The intense hateful energies emanating from these spirits grant them the ability to move objects, truly for the purpose of killing.",
+ 		"npc_ZombieXmas": "{$CommonBestiaryFlavor.ZombieXmas}",
+-		"npc_ZombieSweater": "{$CommonBestiaryFlavor.ZombieXmas}",	
++		"npc_ZombieSweater": "{$CommonBestiaryFlavor.ZombieXmas}",
+ 		"npc_SlimeRibbonWhite": "{$CommonBestiaryFlavor.RibbonSlime}",
+ 		"npc_SlimeRibbonYellow": "{$CommonBestiaryFlavor.RibbonSlime}",
+ 		"npc_SlimeRibbonGreen": "{$CommonBestiaryFlavor.RibbonSlime}",
+@@ -2017,9 +_,9 @@
+ 		"npc_QueenSlimeMinionBlue": "The blue-spectrumed crystal slimes specialize in growing and ejecting pointed crystal shards from their gelatinous bodies.",
+ 		"npc_QueenSlimeMinionPink": "On the pink side of the crystal spectrum, these crystal slimes pop off tumor-like gel growths to assault their enemies.",
+ 		"npc_QueenSlimeMinionPurple": "Crystal slimes on the purple spectrum grow wings much like their royal creator, becoming aerial threats.",
+-		"npc_EmpressButterfly": "Should one of these luminescent beings perish in the chaos of night, a sleeping tyrant is rumored to violently awaken.",
++		"npc_EmpressButterfly": "Should one of these luminescent beings perish in the chaos of night, a sleeping tyrant is rumored to violently awaken."
+ 	},
+-		"CreativePowers": {
++	"CreativePowers": {
+ 		"InfiniteItemSacrificeShortDescription": "Researching <item name> will consume it",
+ 		"ConfirmInfiniteItemSacrifice": "Research",
+ 		"ItemWasJustUnlockedInfinitely": "Once enough of <item name> is researched, it will be available infinitely!",

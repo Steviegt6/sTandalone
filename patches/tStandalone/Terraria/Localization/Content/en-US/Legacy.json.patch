@@ -1,0 +1,26 @@
+--- src/Terraria/Terraria/Localization/Content/en-US/Legacy.json
++++ src/tStandalone/Terraria/Localization/Content/en-US/Legacy.json
+@@ -90,7 +_,7 @@
+ 		"87": "Finalizing world",
+ 		"88": "Growing water plants",
+ 		"89": "Placing objects",
+-		"90": "Forming the depths",
++		"90": "Forming the depths"
+ 	},
+ 	"LegacyDialog": {
+ 		"1": "I hope a scrawny kid like you isn't all that is standing between us and Cthulhu's Eye.",
+@@ -1162,10 +_,10 @@
+ 		"1": "{$ItemName.GoldenChest}",
+ 		"2": "{$ItemName.SpiderChest}",
+ 		"3": "{$ItemName.LesionChest}",
+-		"4": "{$ItemName.GoldChest}",		
++		"4": "{$ItemName.GoldChest}",
+-		"5": "{$ItemName.SolarChest}",		
++		"5": "{$ItemName.SolarChest}",
+-		"6": "{$ItemName.VortexChest}",		
++		"6": "{$ItemName.VortexChest}",
+-		"7": "{$ItemName.NebulaChest}",		
++		"7": "{$ItemName.NebulaChest}",
+ 		"8": "{$ItemName.StardustChest}",
+ 		"9": "{$ItemName.GolfChest}",
+ 		"10": "{$ItemName.DesertChest}",

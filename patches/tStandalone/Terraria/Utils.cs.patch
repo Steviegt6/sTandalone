@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/Utils.cs
++++ src/tStandalone/Terraria/Utils.cs
+@@ -22,7 +_,7 @@
+ 
+ namespace Terraria
+ {
+-	public static class Utils
++	public static partial class Utils
+ 	{
+ 		public delegate bool TileActionAttempt(int x, int y);
+ 

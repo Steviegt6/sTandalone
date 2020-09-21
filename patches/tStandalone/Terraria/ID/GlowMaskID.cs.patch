@@ -1,0 +1,17 @@
+--- src/Terraria/Terraria/ID/GlowMaskID.cs
++++ src/tStandalone/Terraria/ID/GlowMaskID.cs
+@@ -1,6 +_,6 @@
+ namespace Terraria.ID
+ {
+-	public static class GlowMaskID
++	public static partial class GlowMaskID
+ 	{
+ 		public const short FakeUser = -2;
+ 		public const short None = -1;
+@@ -305,6 +_,5 @@
+ 		public const short PottedLavaPlants = 298;
+ 		public const short PottedLavaPlantTendrils = 299;
+ 		public const short TruffleWormCage = 300;
+-		public const short Count = 301;
+ 	}
+ }

@@ -1,0 +1,93 @@
+﻿{
+	"tStandalone": {
+		"Main": {
+			"Continue": "Continue",
+			"WelcomeMessage": "Hey! Thanks for using tStandalone. Hope you enjoy! :D",
+			"CloudSave": "Cloud saving is disabled with tStandalone!",
+			"MigratePlayersMessage": "You have no tStandalone players!\nIf you'd like you migrate your existing vanilla players (this will not delete your vanilla players), \nplease copy them from \"/Terraria/Players\" to  \"/Terraria/tStandalone/Players\"\nClick me to open them!",
+			"MigratePlayersText": "...or click here to migrate your players automatically.",
+			"MigrateWorldsMessage": "You have no tStandalone worlds!\nIf you'd like you migrate your existing vanilla worlds (this will not delete your vanilla worlds), \nplease copy them from \"/Terraria/Worlds\" to  \"/Terraria/tStandalone/Worlds\"\nClick me to open them!",
+			"MigrateWorldsText": "...or click here to migrate your worlds automatically.",
+			"MigratingText": "Migrating...",
+			"AttemtpedToConnectToVanillaClient": "You are attempting to connect to a vanilla server!\nYou cannot connect to a vanilla server with a tStandalone client."
+		},
+
+		"StatusText": {
+			"QueenSlimeApproaches": "The slimes of the Hallow are culminating",
+			"EmpressOfLightApproaches": "The night burns as bright as day"
+		},
+
+		"GuideMMRHelp": {
+			"KingSlimeTip": "The ruler of the slimes has learned how to use his teleportation ability more effectively. Beware if he teleports above you!",
+			"EyeOfCthulhuTip": "Cthulhu's Eye has learned how to harness the ability of teleportation in fits of rage. Beware when it comes close to death!",
+			"BrainOfCthulhuTip": "Cthulhu's brain has enhanced its confusing effects. Prepare to have your world flipped upside down!",
+			"EaterOfWorldsTip": "That massive worm creature has figured out how to release a new type of flame. Beware of purple fire!",
+			"QueenBeeTip": "That giant bee has more than just stingers and bees to shoot at you. Stay vigilant!",
+			"SkeletronTip": "The Old Man's curse at the dungeon will use its hands for more than just smacking you now. Don't get grabbed!",
+			"WallOfFleshTip": "The demon of my curse has harnessed the spirits in which it guards. Heed my words, it shall use them to strike you down!",
+			"QueenSlimeTip": "The female monarch of slimes has more than just wings to grow now. Watch out for her slimy tendrils!",
+			"TheTwinsTip": "The mechanical eyes have learned synchronized dance. Watch out for their tag team attacks!",
+			"TheDestroyerTip": "That mechanical worm behemoth hates all that is holy. Don't hit it with anything pure, or it may become angrier!",
+			"SkeletronPrimeTip": "{ClothierName}'s demon has gotten an upgrade or two. When you hear the mechanical bell, prepare to run!",
+			"SkeletronPrimeTip2": "The Clothier's demon has gotten an upgrade or two. When you hear the mechanical bell, prepare to run!",
+			"PlanteraTip": "Apparently that giant pink plant in the jungle is locked and loaded with seeds. When you see it glow green, prepare for a barrage!",
+			"GolemTip1": "{WitchDoctorName} told me that before he left the Lihzahrd Temple, the giant golem within has been equipped with powerful heat ray technology. Don't get vaporized!",
+			"GolemTip2": "The Witch Doctor told me that before he left the Lihzahrd Temple, the giant golem within has been equipped with powerful heat ray technology. Don't get vaporized!",
+			"EmpressOfLightTip": "The ruler of the hallow is more angry than ever recorded before. Beware for a whole new wave of attacks if you hurt her enough!",
+			"LunaticCultistTip": "The cultist leader at the dungeon has been endowed with forbidden knowledge. When he stares you down, don't stare back!",
+			"PillarTip": "Those celestial pillars seem to be a bit more conscious than before. They may just attack you themselves!",
+			"MoonLordTip": "The guardian of the cosmos is tired of your creative freedom, and will strip it away from you. Prepare to fight on his terms!"
+		}
+	},
+
+	// Yes, these are meant to be outside of tStandalone!
+	"ProjectileName": {
+		"KingSlimeShockwave": "Shockwave",
+		"CorruptedFlames": "Corrupted Flames",
+		"SmarterCursedFlames": "Cursed Flames"
+	},
+
+	"NPCName": {
+		"PrimeCoil": "Prime Coil",
+		"PrimeMace": "Prime Mace"
+	},
+
+	"ItemName": {
+		"FirstFractal": "First Fractal",
+		"MutantDevHeadItem": "Mutant's Hat",
+		"MutantDevBodyItem": "Mutant's Vest & Gloves",
+		"MutantDevLegsItem": "Mutant's Jeans",
+		"StevieDevHeadItem": "Stevie's Cap",
+		"SteviesDevBodyItem": "Stevie's Sweater",
+		"SteviesDevLegsItem": "Stevie's Socks",
+		"TwinsGun": "The Amalgam"
+	},
+
+	"ItemTooltip": {
+		"MutantDevHeadItem": "Are you okayer?\n{$CommonItemTooltip.DevItem}",
+		"MutantDevBodyItem": "{$CommonItemTooltip.DevItem}",
+		"MutantDevLegsItem": "{$CommonItemTooltip.DevItem}",
+		"StevieDevHeadItem": ":steviepat:\n{$CommonItemTooltip.DevItem}",
+		"SteviesDevBodyItem": "{$CommonItemTooltip.DevItem}",
+		"SteviesDevLegsItem": "{$CommonItemTooltip.DevItem}",
+		"TwinsGun": "Fires Cursed Flames and Lasers simultaneously\n'Always watching, {PlayerName}, always watching..."
+	},
+
+	"ChatCommand": {
+		"SpawnItem": "/item",
+		"SpawnNPC": "/npc"
+	},
+
+	"ChatCommandDescription": {
+		"SpawnItem": "{$ChatCommand.SpawnItem}: Spawns an item with the given ID. Debug Mode only.",
+		"SpawnNPC": "{$ChatCommand.SpawnNPC}: Spawns an NPC with the given ID. Debug Mode only."
+	},
+
+	"BuffName": {
+		"TrueConfusion": "True Confusion"
+	},
+
+	"BuffDescription": {
+		"TrueConfusion": "Your mind throbs..."
+	}
+}

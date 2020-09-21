@@ -1,0 +1,36 @@
+--- src/Terraria/Terraria/ID/NPCID.cs
++++ src/tStandalone/Terraria/ID/NPCID.cs
+@@ -5,7 +_,7 @@
+ 
+ namespace Terraria.ID
+ {
+-	public class NPCID
++	public partial class NPCID
+ 	{
+ 		public static class Sets
+ 		{
+@@ -4371,6 +_,16 @@
+ 					Hide = true
+ 				};
+ 
++				dictionary.Add(PrimeCoil, value);
++				value = new NPCBestiaryDrawModifiers(0) {
++					Hide = true
++				};
++
++				dictionary.Add(PrimeMace, value);
++				value = new NPCBestiaryDrawModifiers(0) {
++					Hide = true
++				};
++
+ 				dictionary.Add(0, value);
+ 				value = new NPCBestiaryDrawModifiers(0) {
+ 					Hide = true
+@@ -5652,7 +_,6 @@
+ 		public const short QueenSlimeMinionPurple = 660;
+ 		public const short EmpressButterfly = 661;
+ 		public const short PirateGhost = 662;
+-		public const short Count = 663;
+ 
+ 		public static int FromLegacyName(string name) {
+ 			if (LegacyNameToIdMap.TryGetValue(name, out int value))

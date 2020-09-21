@@ -1,0 +1,226 @@
+--- src/Terraria/Terraria/ID/ArmorIDs.cs
++++ src/tStandalone/Terraria/ID/ArmorIDs.cs
+@@ -4,13 +_,13 @@
+ 
+ namespace Terraria.ID
+ {
+-	public class ArmorIDs
++	public partial class ArmorIDs
+ 	{
+-		public class Head
++		public partial class Head
+ 		{
+ 			public class Sets
+ 			{
+-				public static SetFactory Factory = new SetFactory(266);
++				public static SetFactory Factory = new SetFactory(Count);
+ 				public static int[] FrontToBackID = Factory.CreateIntSet(-1, 242, 246, 243, 247, 244, 248, 245, 249, 133, 252, 224, 253);
+ 			}
+ 
+@@ -280,10 +_,9 @@
+ 			public const int GraduationCapMaroon = 263;
+ 			public const int GraduationCapBlack = 264;
+ 			public const int BadgersHat = 265;
+-			public const int Count = 266;
+ 		}
+ 
+-		public class Body
++		public partial class Body
+ 		{
+ 			public class Sets
+ 			{
+@@ -302,8 +_,8 @@
+ 					}
+ 				}
+ 
+-				public static SetFactory Factory = new SetFactory(235);
++				public static SetFactory Factory = new SetFactory(Count);
+-				public static bool[] NeedsToDrawArm = Factory.CreateBoolSet(false, 200, 202, 201, 203, 195, 205, 207, 206, 228);
++				public static bool[] NeedsToDrawArm = Factory.CreateBoolSet(false, 200, 202, 201, 203, 195, 205, 207, 206, 228, MutantDevBody);
+ 				public static int[] IncludedCapeBack = Factory.CreateIntSet(-1, 207, 13, 206, 12, 205, 11, 185, 17, 96, 18, 94, 19, 80, 21, 217, 22, 24, 29);
+ 				public static int[] IncludedCapeBackFemale = Factory.CreateIntSet(-1, 207, 13, 206, 12, 205, 11, 185, 17, 96, 18, 94, 19, 80, 21, 217, 23, 24, 29);
+ 				public static int[] IncludedCapeFront = Factory.CreateIntSet(-1, 184, 6);
+@@ -515,14 +_,13 @@
+ 			public const int GraduationGownMaroon = 232;
+ 			public const int GraduationGownBlack = 233;
+ 			public const int DeadMansSweater = 234;
+-			public const int Count = 235;
+ 		}
+ 
+-		public class Legs
++		public partial class Legs
+ 		{
+ 			public class Sets
+ 			{
+-				public static SetFactory Factory = new SetFactory(218);
++				public static SetFactory Factory = new SetFactory(Count);
+ 				public static List<int> MannequinIncompatible = new List<int>();
+ 			}
+ 
+@@ -716,14 +_,13 @@
+ 			public const int GraduationGownMaroonExtension = 215;
+ 			public const int GraduationGownBlackExtension = 216;
+ 			public const int MoonLordLegs = 217;
+-			public const int Count = 218;
+ 		}
+ 
+ 		public class HandOn
+ 		{
+ 			public class Sets
+ 			{
+-				public static SetFactory Factory = new SetFactory(22);
++				public static SetFactory Factory = new SetFactory(Count);
+ 				public static bool[] UsesNewFramingCode = Factory.CreateBoolSet(false, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 16, 17, 18, 19, 20, 21);
+ 				public static bool[] UsesOldFramingTexturesForWalking = Factory.CreateBoolSet(false, 12, 8, 17);
+ 			}
+@@ -751,14 +_,15 @@
+ 			public const sbyte HuntressBuckler = 19;
+ 			public const sbyte BersekerGlove = 20;
+ 			public const sbyte FrogWebbing = 21;
+-			public const int Count = 22;
++			public const int Count = 22; // Vanilla: 22
++			// TODO: Replace 22 with ArmorIDs.HandOn where applicable.
+ 		}
+ 
+ 		public class HandOff
+ 		{
+ 			public class Sets
+ 			{
+-				public static SetFactory Factory = new SetFactory(14);
++				public static SetFactory Factory = new SetFactory(Count);
+ 				public static bool[] UsesNewFramingCode = Factory.CreateBoolSet(false, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13);
+ 			}
+ 
+@@ -777,7 +_,8 @@
+ 			public const sbyte YoyoGlove = 11;
+ 			public const sbyte BersekerGlove = 12;
+ 			public const sbyte FrogWebbing = 13;
+-			public const int Count = 14;
++			public const int Count = 14; // Vanilla: 14
++			// TODO: Replace 14 with ArmorIDs.HandOff where applicable.
+ 		}
+ 
+ 		public class Back
+@@ -811,14 +_,15 @@
+ 			public const sbyte LizardTail = 27;
+ 			public const sbyte BunnyTail = 28;
+ 			public const sbyte HallowedCape = 29;
+-			public const int Count = 30;
++			public const int Count = 30; // Vanilla: 30
++			// TODO: Replace 30 with ArmorIDs.Back where applicable.
+ 		}
+ 
+ 		public class Front
+ 		{
+ 			public class Sets
+ 			{
+-				public static SetFactory Factory = new SetFactory(9);
++				public static SetFactory Factory = new SetFactory(Count);
+ 				public static bool[] DrawsInNeckLayer = Factory.CreateBoolSet(false, 6);
+ 			}
+ 
+@@ -830,7 +_,8 @@
+ 			public const sbyte TaxCollectorsSuit = 6;
+ 			public const sbyte VampireShirt = 7;
+ 			public const sbyte HunterCloak = 8;
+-			public const int Count = 9;
++			public const int Count = 9; // Vanillla: 9
++			// TODO: Replace 9 with ArmorIDs.Front
+ 		}
+ 
+ 		public class Shoe
+@@ -860,14 +_,15 @@
+ 			public const sbyte FlameWakerBoots = 22;
+ 			public const sbyte HellfireTreads = 23;
+ 			public const sbyte TerrasparkBoots = 24;
+-			public const int Count = 25;
++			public const int Count = 25; // Vanilla: 25
++			// TODO: Replace 25 with ArmorIDs.Shoe.Count
+ 		}
+ 
+ 		public class Waist
+ 		{
+ 			public class Sets
+ 			{
+-				public static SetFactory Factory = new SetFactory(17);
++				public static SetFactory Factory = new SetFactory(Count);
+ 				public static bool[] UsesTorsoFraming = Factory.CreateBoolSet(false, 5, 10, 10, 12);
+ 			}
+ 
+@@ -888,7 +_,8 @@
+ 			public const sbyte FartinaJar = 14;
+ 			public const sbyte SandstorminaBottle = 15;
+ 			public const sbyte TreasureMagnet = 16;
+-			public const int Count = 17;
++			public const int Count = 17; // Vanilla: 17
++			// TODO: Replace 17 with ArmorIDs.Waist.Count
+ 		}
+ 
+ 		public class Wing
+@@ -944,7 +_,8 @@
+ 			public const sbyte RainbowWings = 44;
+ 			public const sbyte LongTrailRainbowWings = 45;
+ 			public const sbyte CreativeWings = 46;
+-			public const int Count = 47;
++			public const int Count = 47; // Vanilla: 47
++			// TODO: Replace 47 with ArmorIDs.Wing.Count
+ 		}
+ 
+ 		public class Shield
+@@ -958,7 +_,8 @@
+ 			public const sbyte Frozen = 7;
+ 			public const sbyte Hero = 8;
+ 			public const sbyte BouncingShield = 9;
+-			public const int Count = 10;
++			public const int Count = 10; // Vanilla: 10
++			// Replace 10 with ArmorIDs.Shield.Count
+ 		}
+ 
+ 		public class Neck
+@@ -973,14 +_,15 @@
+ 			public const sbyte WormScarf = 8;
+ 			public const sbyte ApprenticeScarf = 9;
+ 			public const sbyte Stinger = 10;
+-			public const int Count = 11;
++			public const int Count = 11; // Vanilla: 11
++			// Replace 11 with ArmorIDs.Neck.Count
+ 		}
+ 
+ 		public class Face
+ 		{
+ 			public class Sets
+ 			{
+-				public static SetFactory Factory = new SetFactory(16);
++				public static SetFactory Factory = new SetFactory(Count);
+ 				public static bool[] PreventHairDraw = Factory.CreateBoolSet(false, 2, 3, 4, 10, 11, 12, 13);
+ 			}
+ 
+@@ -1000,7 +_,8 @@
+ 			public const sbyte SpectreGoggles = 14;
+ 			[Obsolete("Deprecated.")]
+ 			public const sbyte UnusedID = 15;
+-			public const sbyte Count = 16;
++			public const sbyte Count = 16; // Vanilla: 16
++			// TODO: Replace 16 with ArmorIDs.Face.Count
+ 		}
+ 
+ 		public class Balloon
+@@ -1022,7 +_,8 @@
+ 			public const sbyte PinkHorseshoeBalloon = 15;
+ 			public const sbyte BundledPartyBalloons = 16;
+ 			public const sbyte BalloonAnimal = 17;
+-			public const int Count = 18;
++			public const int Count = 18; // Vanilla: 18
++			// TODO: Replace 18 with ArmorIDs.Balloon.Count
+ 		}
+ 
+ 		public class RocketBoots
+@@ -1032,6 +_,8 @@
+ 			public const int SpectreBoots = 2;
+ 			public const int FrostsparkBoots = 3;
+ 			public const int TerrasparkBoots = 4;
++			public const int Count = 5; // Vanilla: 5
++			// TODO: Replace 5 with ArmorIDs.RocketBoots.Count
+ 		}
+ 	}
+ }

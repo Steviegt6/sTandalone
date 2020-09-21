@@ -4,7 +4,7 @@
  			leadingConditionRule2.OnSuccess(ItemDropRule.Common(1225, 1, 15, 30));
  			leadingConditionRule2.OnSuccess(ItemDropRule.Common(549, 1, 25, 40));
  			leadingConditionRule.OnSuccess(ItemDropRule.MasterModeCommonDrop(4931));
-+			// TODO: leadingConditionRule.OnSuccess(ItemDropRule.MasterModeCommonDrop(ItemID.TwinsGun));
++			leadingConditionRule.OnSuccess(ItemDropRule.MasterModeCommonDrop(ItemID.TwinsGun));
  			leadingConditionRule.OnSuccess(ItemDropRule.MasterModeDropOnAllPlayers(4804, _masterModeDropRng));
  			RegisterToMultipleNPCs(leadingConditionRule, 126, 125);
  		}

@@ -1,0 +1,20 @@
+--- src/Terraria/Terraria/UI/ItemSlot.cs
++++ src/tStandalone/Terraria/UI/ItemSlot.cs
+@@ -1013,7 +_,7 @@
+ 							Recipe.FindRecipes();
+ 						}
+ 					}
+-					else if (Main.mouseRight && inv[slot].type > 0 && inv[slot].type < 5045 && ItemID.Sets.IsFishingCrate[inv[slot].type]) {
++					else if (Main.mouseRight && inv[slot].type > 0 && inv[slot].type < ItemID.Count && ItemID.Sets.IsFishingCrate[inv[slot].type]) {
+ 						if (Main.mouseRightRelease) {
+ 							player.OpenFishingCrate(inv[slot].type);
+ 							inv[slot].stack--;
+@@ -2062,7 +_,7 @@
+ 		}
+ 
+ 		public static Color GetItemLight(ref Color currentColor, ref float scale, int type, bool outInTheWorld = false) {
+-			if (type < 0 || type > 5045)
++			if (type < 0 || type > ItemID.Count)
+ 				return currentColor;
+ 
+ 			if (type == 662 || type == 663) {

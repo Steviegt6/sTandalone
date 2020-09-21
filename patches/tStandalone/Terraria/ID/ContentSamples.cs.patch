@@ -1,0 +1,20 @@
+--- src/Terraria/Terraria/ID/ContentSamples.cs
++++ src/tStandalone/Terraria/ID/ContentSamples.cs
+@@ -588,7 +_,7 @@
+ 
+ 			public static void SetCreativeMenuOrder() {
+ 				List<Item> list = new List<Item>();
+-				for (int i = 1; i < 5045; i++) {
++				for (int i = 1; i < ItemID.Count; i++) {
+ 					Item item = new Item();
+ 					item.SetDefaults(i);
+ 					list.Add(item);
+@@ -699,7 +_,7 @@
+ 			}
+ 
+ 			ItemsByType.Clear();
+-			for (int k = 0; k < 5045; k++) {
++			for (int k = 0; k < ItemID.Count; k++) {
+ 				Item item = new Item();
+ 				item.SetDefaults(k);
+ 				ItemsByType[k] = item;

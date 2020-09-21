@@ -9,6 +9,17 @@
  	{
  		private string _nameOverride;
  		public const int luckPotionDuration1 = 10800;
+@@ -39,8 +_,8 @@
+ 		public static int[] headType = new int[266];
+ 		public static int[] bodyType = new int[235];
+ 		public static int[] legType = new int[218];
+-		public static bool[] staff = new bool[5045];
++		public static bool[] staff = new bool[ItemID.Count];
+-		public static bool[] claw = new bool[5045];
++		public static bool[] claw = new bool[ItemID.Count];
+ 		public bool flame;
+ 		public bool mech;
+ 		public int noGrabDelay;
 @@ -170,10 +_,7 @@
  
  		public bool FitsAccessoryVanitySlot {
@@ -68,16 +79,48 @@
  			}
  		}
  
-@@ -44385,6 +_,12 @@
- 			}
- 			else {
+@@ -44361,7 +_,7 @@
+ 				playerIndexTheItemIsReservedFor = Main.myPlayer;
+ 
+ 			ResetStats(Type);
+-			if (type >= 5045)
++			if (type >= ItemID.Count)
+ 				type = 0;
+ 
+ 			if (type == 0) {
+@@ -44387,6 +_,12 @@
  				SetDefaults5(type);
-+			}
-+
+ 			}
+ 
 +
 +			// Ensure that items with the Master Mode rarity are marked as master.
 +			if (rare == (int)ItemRarityColor.MasterMinus13) {
 +				master = true;
++			}
++
+ 			dye = (byte)GameShaders.Armor.GetShaderIdFromItemId(type);
+ 			if (hairDye != 0)
+ 				hairDye = GameShaders.Hair.GetShaderIdFromItemId(type);
+@@ -44540,11 +_,11 @@
+ 				material = ItemID.Sets.IsAMaterial[type];
+ 
+ 			RebuildTooltip();
+-			if (type > 0 && type < 5045 && ItemID.Sets.Deprecated[type]) {
++			/*if (type > 0 && type < ItemID.Count && ItemID.Sets.Deprecated[type]) {
+ 				netID = 0;
+ 				type = 0;
+ 				stack = 0;
+-			}
++			}*/
+ 		}
+ 
+ 		public void ResetStats(int Type) {
+@@ -45840,7 +_,7 @@
+ 				Prefix(reader.ReadByte());
  			}
  
- 			dye = (byte)GameShaders.Armor.GetShaderIdFromItemId(type);
+-			if (type >= 5045)
++			if (type >= ItemID.Count)
+ 				TurnToAir();
+ 		}
+ 

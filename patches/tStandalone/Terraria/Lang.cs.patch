@@ -1,0 +1,27 @@
+--- src/Terraria/Terraria/Lang.cs
++++ src/tStandalone/Terraria/Lang.cs
+@@ -35,13 +_,13 @@
+ 		public static LocalizedText[] chestType2 = new LocalizedText[14];
+ 		public static LocalizedText[] prefix = new LocalizedText[85];
+ 		public static LocalizedText[] _mapLegendCache;
+-		private static LocalizedText[] _itemNameCache = new LocalizedText[5045];
++		private static LocalizedText[] _itemNameCache = new LocalizedText[ItemID.Count];
+ 		private static LocalizedText[] _projectileNameCache = new LocalizedText[950];
+ 		private static LocalizedText[] _npcNameCache = new LocalizedText[663];
+ 		private static LocalizedText[] _negativeNpcNameCache = new LocalizedText[65];
+ 		private static LocalizedText[] _buffNameCache = new LocalizedText[323];
+ 		private static LocalizedText[] _buffDescriptionCache = new LocalizedText[323];
+-		private static ItemTooltip[] _itemTooltipCache = new ItemTooltip[5045];
++		private static ItemTooltip[] _itemTooltipCache = new ItemTooltip[ItemID.Count];
+ 		private static LocalizedText[] _emojiNameCache = new LocalizedText[145];
+ 
+ 		public static string GetMapObjectName(int id) {
+@@ -122,7 +_,7 @@
+ 
+ 		public static LocalizedText GetItemName(int id) {
+ 			id = ItemID.FromNetId((short)id);
+-			if (id > 0 && id < 5045 && _itemNameCache[id] != null)
++			if (id > 0 && id < ItemID.Count && _itemNameCache[id] != null)
+ 				return _itemNameCache[id];
+ 
+ 			return LocalizedText.Empty;

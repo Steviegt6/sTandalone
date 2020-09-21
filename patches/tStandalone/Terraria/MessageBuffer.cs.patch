@@ -34,6 +34,15 @@
  						else {
  							Netplay.Clients[whoAmI].Name = player16.name;
  							Netplay.Clients[whoAmI].Name = player16.name;
+@@ -1141,7 +_,7 @@
+ 							Item item2 = Main.item[num72];
+ 							ItemSyncPersistentStats itemSyncPersistentStats = default(ItemSyncPersistentStats);
+ 							itemSyncPersistentStats.CopyFrom(item2);
+-							bool newAndShiny = (item2.newAndShiny || item2.netID != num71) && ItemSlot.Options.HighlightNewItems && (num71 < 0 || num71 >= 5045 || !ItemID.Sets.NeverAppearsAsNewInInventory[num71]);
++							bool newAndShiny = (item2.newAndShiny || item2.netID != num71) && ItemSlot.Options.HighlightNewItems && (num71 < 0 || num71 >= ItemID.Count || !ItemID.Sets.NeverAppearsAsNewInInventory[num71]);
+ 							item2.netDefaults(num71);
+ 							item2.newAndShiny = newAndShiny;
+ 							item2.Prefix(pre2);
 @@ -1245,6 +_,18 @@
  								array[num82] = 0f;
  						}

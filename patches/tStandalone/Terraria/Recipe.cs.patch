@@ -46,3 +46,12 @@
  			CreateReverseWallRecipes();
  			CreateReversePlatformRecipes();
  			UpdateWhichItemsAreMaterials();
+@@ -13067,7 +_,7 @@
+ 		}
+ 
+ 		public static void UpdateWhichItemsAreMaterials() {
+-			for (int i = 0; i < 5045; i++) {
++			for (int i = 0; i < ItemID.Count; i++) {
+ 				Item item = new Item();
+ 				item.SetDefaults(i, noMatCheck: true);
+ 				item.checkMat();

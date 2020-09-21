@@ -9,6 +9,15 @@
  	{
  		public struct BannerEffect
  		{
+@@ -35,7 +_,7 @@
+ 
+ 		public class Sets
+ 		{
+-			public static SetFactory Factory = new SetFactory(5045);
++			public static SetFactory Factory = new SetFactory(ItemID.Count);
+ 			public static List<int> ItemsThatAreProcessedAfterNormalContentSample = new List<int> {
+ 				1533,
+ 				1534,
 @@ -6031,7 +_,6 @@
  		public const short CoffeeCup = 5042;
  		public const short TorchGodsFavor = 5043;

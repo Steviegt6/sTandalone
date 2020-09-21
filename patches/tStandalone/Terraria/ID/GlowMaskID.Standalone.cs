@@ -5,6 +5,5 @@
 		public const short TwinsGunMask = 301;
 
 		public const short Count = 302; // Vanilla: 301
-		// TODO: 301 -> GlowMaskID
 	}
 }

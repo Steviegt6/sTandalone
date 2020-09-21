@@ -21,7 +21,7 @@
  		public static bool AnnouncementBoxDisabled;
  		public static int AnnouncementBoxRange = -1;
  		public static string AutogenSeedName;
-@@ -293,12 +_,12 @@
+@@ -293,13 +_,13 @@
  		public static int dedServCount2;
  		public static bool superFast = false;
  		public const int offLimitBorderTiles = 40;
@@ -34,9 +34,11 @@
  		public const int maxWallTypes = 316;
 -		public const int maxBuffTypes = 323;
 +		public const int maxBuffTypes = BuffID.Count;
- 		public const int maxGlowMasks = 301;
+-		public const int maxGlowMasks = 301;
++		public const int maxGlowMasks = GlowMaskID.Count;
  		public const int maxExtras = 212;
  		public const int maxGoreTypes = 1269;
+ 		public const int maxMusic = 89;
 @@ -410,7 +_,7 @@
  		public static bool stopTimeOuts = false;
  		public static bool showSpam = false;

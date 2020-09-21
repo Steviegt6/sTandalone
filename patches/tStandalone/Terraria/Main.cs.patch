@@ -39,6 +39,15 @@
  		private static DrawAnimation _coinOnWorldAnimation = new DrawAnimationVertical(6, 8);
  		private static DrawAnimation _monkStaffT3OnWorldAnimation = new DrawAnimationVertical(5, 3);
  		public static List<int> itemAnimationsRegistered = new List<int>();
+@@ -1179,7 +_,7 @@
+ 		public static float invasionProgressAlpha;
+ 		public static bool HasInteractibleObjectThatIsNotATile = false;
+ 		public int currentNPCShowingChatBubble = -1;
+-		public static int[] npcFrameCount = new int[663] {
++		public static int[] npcFrameCount = new int[NPCID.Count] {
+ 			1,
+ 			2,
+ 			2,
 @@ -1842,7 +_,9 @@
  			2,
  			4,
@@ -248,7 +257,7 @@
  		}
  
  		private static void HelpText() {
-+			if (masterMode && Utils.NextBool()) {
++			if (masterMode && Main.rand.NextBool()) {
 +				MMRHelpText();
 +				return;
 +			}
@@ -326,7 +335,7 @@
  					}
  				}
 +				else {
-+					DrawModdedMenus();
++					DrawModdedMenus(ref num2, ref num4, ref num5, ref array, ref array9);
 +				}
  			}
  
@@ -345,44 +354,7 @@
  				}
  			}
  
-@@ -49277,6 +_,16 @@
- 						}
- 					}
- 
-+					if (WorldGen.spawnEOL && netMode != 1 && time > 4860.0) {
-+						for (int k = 0; k < 255; k++) {
-+							if (player[k].active && !player[k].dead && (double)player[k].position.Y < worldSurface & 16.0) {
-+								NPC.SpawnOnPlayer(k, NPCID.HallowBoss);
-+								WorldGen.spawnEOL = false;
-+								break;
-+							}
-+						}
-+					}
-+
- 					if (WorldGen.spawnHardBoss > 0 && netMode != 1 && time > 4860.0) {
- 						bool flag2 = false;
- 						for (int l = 0; l < 200; l++) {
-@@ -49313,7 +_,18 @@
- 				HandleMeteorFall();
- 			}
- 			else {
-+				if (!fastForwardTime && !stopEvents) {
-+					if (WorldGen.spawnQS && netMode != 1 && time > 4860.0) {
-+						for (int k = 0; k < 255; k++) {
-+							if (player[k].active && !player[k].dead && (double)player[k].position.Y < worldSurface * 16.0) {
-+								NPC.SpawnOnPlayer(k, NPCID.QueenSlimeBoss);
-+								WorldGen.spawnQS = false;
-+								break;
-+							}
-+						}
-+					}
-+				}
--				WorldGen.spawnHardBoss = 0;
-+								WorldGen.spawnHardBoss = 0;
- 				WorldGen.spawnEye = false;
- 				bloodMoon = false;
- 				stopMoonEvent();
-@@ -49440,6 +_,25 @@
+@@ -49440,6 +_,15 @@
  					}
  				}
  
@@ -393,46 +365,16 @@
 +							isBossAlive = true;
 +						}
 +					}
-+
-+					if (!isBossAlive) {
-+						WorldGen.spawnEOL = true;
-+						if (netMode == 0) {
-+							NewText(Language.GetTextValue("Standalone.StatusText.EmpressOfLightApproaches"), 50, 255, 130);
-+						}
-+						else if (netMode == 2) {
-+							ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral(Language.GetTextValue("Standalone.StatusText.EmpressOfLightApproaches")), new Color(50, 255, 130));
-+						}
-+					}
 +				}
 +
  				if (!WorldGen.spawnEye && moonPhase != 4 && rand.Next(9) == 0 && netMode != 1) {
  					for (int m = 0; m < 255; m++) {
  						if (player[m].active && player[m].statLifeMax > 120) {
-@@ -49526,7 +_,26 @@
+@@ -49525,6 +_,7 @@
+ 			else {
  				if (snowMoon || pumpkinMoon || DD2Event.Ongoing)
  					return;
++
  
-+				if (masterMode && netMode != 1 && hardMode && !NPC.downedQueenSlime && rand.NextBool(10)) {
-+					bool isBossAlive = false;
-+					for (int k = 0; k < 200; k++) {
-+						if (npc[k].active && npc[k].boss) {
-+							isBossAlive = true;
-+						}
-+					}
-+
-+					if (!isBossAlive) {
-+						WorldGen.spawnQS = true;
-+						if (netMode == 0) {
-+							NewText(Language.GetTextValue("Standalone.StatusText.QueenSlimeApproaches"), 50, 255, 130);
-+						}
-+						else if (netMode == 2) {
-+							ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral(Language.GetTextValue("Standalone.StatusText.QueenSlimeApproaches")), new Microsoft.Xna.Framework.Color(50, 255, 130));
-+						}
-+					}
-+				}
-+
--				if (WorldGen.shadowOrbSmashed) {
-+					if (WorldGen.shadowOrbSmashed) {
+ 				if (WorldGen.shadowOrbSmashed) {
  					if (!NPC.downedGoblins) {
- 						if (rand.Next(3) == 0)
- 							StartInvasion();

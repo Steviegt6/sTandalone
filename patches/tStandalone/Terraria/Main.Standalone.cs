@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.Localization;
 
@@ -41,19 +42,21 @@ namespace Terraria
 			}
 		}
 
-		private void DrawModdedMenus() {
-			num5 = 2;
-			array9[0] = Language.GetTextValue("Standalone.WelcomeMessage");
-			array[0] = true;
-			num2 = 220;
-			+num4 = 250;
-			array9[1] = Language.GetTextValue("Standalone.Continue");
-			if (selectedMenu == 1) {
-				_showWelcomeMessage = false;
-				SaveSettings();
-				SoundEngine.PlaySound(11);
-				menuMode = 0;
-				netMode = 0;
+		private void DrawModdedMenus(ref int num2, ref int num4, ref int num5, ref bool[] array, ref string[] array9) {
+			if (menuMode == MenuID.WelcomeMessageScreen) {
+				num5 = 2;
+				array9[0] = Language.GetTextValue("Standalone.WelcomeMessage");
+				array[0] = true;
+				num2 = 220;
+				num4 = 250;
+				array9[1] = Language.GetTextValue("Standalone.Continue");
+				if (selectedMenu == 1) {
+					showWelcomeMessage = false;
+					SaveSettings();
+					SoundEngine.PlaySound(11);
+					menuMode = 0;
+					netMode = 0;
+				}
 			}
 		}
 

@@ -39,7 +39,7 @@ namespace Terraria
 					width = 16;
 					height = 16;
 					aiStyle = 186;
-					timeLeft = tUtils.SecondsToTicks(20);
+					timeLeft = Utils.SecondsToTicks(20);
 					hostile = true;
 					light = 0.8f;
 					alpha = 100;
@@ -105,7 +105,7 @@ namespace Terraria
 			Lighting.AddLight(base.Center, new Vector3(0.5f, 0f, 1f)); // Dark purple light
 		}
 
-		public void AI_196_SmarterCursedFlames() {
+		public void AI_186_SmarterCursedFlames() {
 			int cursedDust = Dust.NewDust(new Vector2(base.position.X + base.velocity.X, base.position.Y + base.velocity.Y), base.width, base.height, 75, base.velocity.X, base.velocity.Y, 100, default, 3f * scale);
 			Main.dust[cursedDust].noGravity = true;
 

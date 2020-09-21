@@ -62,17 +62,6 @@
  						int num83 = reader.ReadInt16();
  						int? playerCountForMultiplayerDifficultyOverride = 1;
  						if (bitsByte7[0])
-@@ -1310,6 +_,10 @@
- 							nPC3.ai[num86] = array[num86];
- 						}
- 
-+						for (int aiIndex = 0; aiIndex < NPC.maxAI; aiIndex++) {
-+							nPC3.moddedAI[aiIndex] = moddedAIArray[aiIndex];
-+						}
-+
- 						if (num85 > -1 && num85 != nPC3.type)
- 							nPC3.TransformVisuals(num85, nPC3.type);
- 
 @@ -1345,6 +_,7 @@
  						Vector2 velocity4 = reader.ReadVector2();
  						int num122 = reader.ReadByte();

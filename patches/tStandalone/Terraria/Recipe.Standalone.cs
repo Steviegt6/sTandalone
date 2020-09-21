@@ -4,7 +4,7 @@ namespace Terraria
 {
 	partial class Recipe
 	{
-		public void AddModdedRecipes() {
+		public static void AddModdedRecipes() {
 			currentRecipe.createItem.SetDefaults(ItemID.FirstFractal);
 			currentRecipe.requiredItem[0].SetDefaults(ItemID.TerraBlade);
 			currentRecipe.requiredItem[1].SetDefaults(ItemID.Meowmere);

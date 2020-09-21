@@ -42,7 +42,7 @@
  			currentRecipe.requiredItem[0].SetDefaults(73);
  			currentRecipe.requiredItem[0].stack = 100;
  			AddRecipe();
-+			AddModdedRecipes()
++			AddModdedRecipes();
  			CreateReverseWallRecipes();
  			CreateReversePlatformRecipes();
  			UpdateWhichItemsAreMaterials();

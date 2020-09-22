@@ -81,83 +81,83 @@ namespace Terraria
 				}
 			}
 			if (!NPC.downedSlimeKing) {
-				npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.KingSlimeTip");
+				npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.KingSlimeTip");
 				return;
 			}
 			if (!NPC.downedBoss1) {
-				npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.EyeOfCthulhuTip");
+				npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.EyeOfCthulhuTip");
 				return;
 			}
 			if (!NPC.downedBoss2 && WorldGen.crimson) {
-				npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.BrainOfCthulhuTip");
+				npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.BrainOfCthulhuTip");
 				return;
 			}
 			else if (!NPC.downedBoss2) {
-				npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.EaterOfWorldsTip");
+				npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.EaterOfWorldsTip");
 				return;
 			}
 			if (!NPC.downedQueenBee) {
-				npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.QueenBeeTip");
+				npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.QueenBeeTip");
 				return;
 			}
 			if (!NPC.downedBoss3) {
-				npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.SkeletronTip");
+				npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.SkeletronTip");
 				return;
 			}
 			if (!Main.hardMode) {
-				npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.WallOfFleshTip");
+				npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.WallOfFleshTip");
 				return;
 			}
 			if (!NPC.downedQueenSlime) {
-				npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.QueenSlimeTip");
+				npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.QueenSlimeTip");
 				return;
 			}
 			if (!NPC.downedMechBoss2) {
-				npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.TheTwinsTip");
+				npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.TheTwinsTip");
 				return;
 			}
 			if (!NPC.downedMechBoss1) {
-				npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.TheDestroyerTip");
+				npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.TheDestroyerTip");
 				return;
 			}
 			if (!NPC.downedMechBoss3) {
 				if (isClothierAlive) {
-					npcChatText = Language.GetTextValueWith("Standalone.GuideMMRHelp.SkeletronPrimeTip1", npc[clotherIndex].GivenOrTypeName);
+					npcChatText = Language.GetTextValueWith("Standalone.StatusText.GuideMMRHelp.SkeletronPrimeTip1", npc[clotherIndex].GivenOrTypeName);
 				}
 				else {
-					npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.SkeletronPrimeTip2");
+					npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.SkeletronPrimeTip2");
 				}
 
 				return;
 			}
 			if (!NPC.downedPlantBoss) {
-				npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.PlanteraTip");
+				npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.PlanteraTip");
 				return;
 			}
 			if (!NPC.downedGolemBoss) {
 				if (isWitchDoctorAlive) {
-					npcChatText = Language.GetTextValueWith("Standalone.GuideMMRHelp.GolemTip1", npc[witchDoctorIndex].GivenOrTypeName);
+					npcChatText = Language.GetTextValueWith("Standalone.StatusText.GuideMMRHelp.GolemTip1", npc[witchDoctorIndex].GivenOrTypeName);
 				}
 				else {
-					npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.GolemTip2");
+					npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.GolemTip2");
 				}
 
 				return;
 			}
 			if (!NPC.downedEmpressOfLight) {
-				npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.EmpressOfLightTip");
+				npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.EmpressOfLightTip");
 				return;
 			}
 			if (!NPC.downedAncientCultist) {
-				npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.LunaticCultistTip");
+				npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.LunaticCultistTip");
 				return;
 			}
 			if (!NPC.downedTowers) {
-				npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.PillarTip");
+				npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.PillarTip");
 				return;
 			}
 			if (!NPC.downedMoonlord) {
-				npcChatText = Language.GetTextValue("Standalone.GuideMMRHelp.MoonLordTip");
+				npcChatText = Language.GetTextValue("Standalone.StatusText.GuideMMRHelp.MoonLordTip");
 				return;
 			}
 		}

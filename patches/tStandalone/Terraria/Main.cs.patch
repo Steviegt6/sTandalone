@@ -21,7 +21,7 @@
  		public static bool AnnouncementBoxDisabled;
  		public static int AnnouncementBoxRange = -1;
  		public static string AutogenSeedName;
-@@ -293,13 +_,13 @@
+@@ -293,20 +_,20 @@
  		public static int dedServCount2;
  		public static bool superFast = false;
  		public const int offLimitBorderTiles = 40;
@@ -39,6 +39,16 @@
  		public const int maxExtras = 212;
  		public const int maxGoreTypes = 1269;
  		public const int maxMusic = 89;
+ 		public const int MaxBannerTypes = 289;
+-		public const int numArmorHead = 266;
+-		public const int numArmorBody = 235;
+-		public const int numArmorLegs = 218;
++		public const int numArmorHead = ArmorIDs.Head.Count;
++		public const int numArmorBody = ArmorIDs.Body.Count;
++		public const int numArmorLegs = ArmorIDs.Legs.Count;
+ 		public const int numAccHandsOn = 22;
+ 		public const int numAccHandsOff = 14;
+ 		public const int numAccNeck = 11;
 @@ -410,7 +_,7 @@
  		public static bool stopTimeOuts = false;
  		public static bool showSpam = false;

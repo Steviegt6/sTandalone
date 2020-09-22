@@ -3,9 +3,9 @@
 		"Continue": "Continue",
 		"WelcomeMessage": "Hey! Thanks for using tStandalone. Hope you enjoy! :D",
 		"CloudSave": "Cloud saving is disabled with tStandalone!",
-		"MigratePlayersMessage": "You have no tStandalone players!\nIf you'd like you migrate your existing vanilla players (this will not delete your vanilla players), \nplease copy them from \"/Terraria/Players\" to  \"/Terraria/tStandalone/Players\"\nClick me to open them!",
+		"MigratePlayersMessage": "You have no tStandalone players!\nIf you'd like you migrate your existing vanilla players (this will not delete your vanilla players), \nplease copy them from \"/Terraria/Players\" to  \"/Terraria/Standalone/Players\"\nClick me to open them!",
 		"MigratePlayersText": "...or click here to migrate your players automatically.",
-		"MigrateWorldsMessage": "You have no tStandalone worlds!\nIf you'd like you migrate your existing vanilla worlds (this will not delete your vanilla worlds), \nplease copy them from \"/Terraria/Worlds\" to  \"/Terraria/tStandalone/Worlds\"\nClick me to open them!",
+		"MigrateWorldsMessage": "You have no tStandalone worlds!\nIf you'd like you migrate your existing vanilla worlds (this will not delete your vanilla worlds), \nplease copy them from \"/Terraria/Worlds\" to  \"/Terraria/Standalone/Worlds\"\nClick me to open them!",
 		"MigrateWorldsText": "...or click here to migrate your worlds automatically.",
 		"MigratingText": "Migrating...",
 		"AttemtpedToConnectToVanillaClient": "You are attempting to connect to a vanilla server!\nYou cannot connect to a vanilla server with a tStandalone client."
@@ -55,18 +55,18 @@
 		"MutantDevBodyItem": "Mutant's Vest & Gloves",
 		"MutantDevLegsItem": "Mutant's Jeans",
 		"StevieDevHeadItem": "Stevie's Cap",
-		"SteviesDevBodyItem": "Stevie's Sweater",
-		"SteviesDevLegsItem": "Stevie's Socks",
+		"StevieDevBodyItem": "Stevie's Sweater",
+		"StevieDevLegsItem": "Stevie's Socks",
 		"TwinsGun": "The Amalgam"
 	},
 
 	"ItemTooltip": {
-		"MutantDevHeadItem": "Are you okayer?\n{$CommonItemTooltip.DevItem}",
+		"MutantDevHeadItem": "Are you okay?\n{$CommonItemTooltip.DevItem}",
 		"MutantDevBodyItem": "{$CommonItemTooltip.DevItem}",
 		"MutantDevLegsItem": "{$CommonItemTooltip.DevItem}",
 		"StevieDevHeadItem": ":steviepat:\n{$CommonItemTooltip.DevItem}",
-		"SteviesDevBodyItem": "{$CommonItemTooltip.DevItem}",
-		"SteviesDevLegsItem": "{$CommonItemTooltip.DevItem}",
+		"StevieDevBodyItem": "{$CommonItemTooltip.DevItem}",
+		"StevieDevLegsItem": "{$CommonItemTooltip.DevItem}",
 		"TwinsGun": "Fires Cursed Flames and Lasers simultaneously\n'Always watching, {PlayerName}, always watching..."
 	},
 

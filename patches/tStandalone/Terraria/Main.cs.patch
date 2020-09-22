@@ -17,7 +17,7 @@
  		public static string versionNumber = "v1.4.0.5";
  		public static string versionNumber2 = "v1.4.0.5";
 -		public static string SavePath = Program.LaunchParameters.ContainsKey("-savedirectory") ? Program.LaunchParameters["-savedirectory"] : Platform.Get<IPathService>().GetStoragePath("Terraria");
-+		public static string SavePath = Program.LaunchParameters.ContainsKey("-savedirectory") ? Program.LaunchParameters["-savedirectory"] + Path.PathSeparator + "Standalone" : Platform.Get<IPathService>().GetStoragePath("Terraria") + Path.PathSeparator + "Standalone";
++		public static string SavePath = Program.LaunchParameters.ContainsKey("-savedirectory") ? Program.LaunchParameters["-savedirectory"] + Path.DirectorySeparatorChar + "Standalone" : Platform.Get<IPathService>().GetStoragePath("Terraria") + Path.DirectorySeparatorChar + "Standalone";
  		public static bool AnnouncementBoxDisabled;
  		public static int AnnouncementBoxRange = -1;
  		public static string AutogenSeedName;
@@ -439,7 +439,7 @@
 +					Vector2 origin3 = FontAssets.MouseText.Value.MeasureString("tStandalone v1.0.0");
 +					origin3.X *= 0.5f;
 +					origin3.Y *= 0.5f;
-+					spriteBatch.DrawString(FontAssets.MouseText.Value, "tStandalone v1.0.0", new Vector2(origin2.X + (float)num108 + 10f, (float)screenHeight - origin2.Y + (float)num109 - 2f), color12, 0f, origin2, 1f, SpriteEffects.None, 0f);
++					spriteBatch.DrawString(FontAssets.MouseText.Value, "tStandalone v1.0.0", new Vector2(origin3.X + (float)num108 + 10f, (float)screenHeight - origin3.Y + (float)num109 - 2f), color12, 0f, origin3, 1f, SpriteEffects.None, 0f);
  				}
  			}
  

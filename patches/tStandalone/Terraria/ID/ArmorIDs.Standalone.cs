@@ -22,7 +22,7 @@
 			public const int MutantDevLegs = 218;
 			public const int StevieDevLegs = 219;
 
-			public const int Count = 218; // Vanilla: 218
+			public const int Count = 219; // Vanilla: 218
 		}
 	}
 }
